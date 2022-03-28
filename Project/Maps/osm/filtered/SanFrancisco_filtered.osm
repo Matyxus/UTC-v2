@@ -1,0 +1,1676 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="osmfilter 1.4.6">
+	<bounds minlat="37.48658" minlon="-122.22871" maxlat="37.49069" maxlon="-122.21921"/>
+	<node id="65356808" lat="37.4911978" lon="-122.2272138" version="6" timestamp="2021-11-13T17:21:10Z" changeset="113738824" uid="7572965" user="lasagna"/>
+	<node id="65376794" lat="37.4902506" lon="-122.2282013" version="9" timestamp="2011-05-20T08:19:32Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="65384239" lat="37.4901471" lon="-122.2277909" version="11" timestamp="2011-05-20T08:19:32Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="65391024" lat="37.4860804" lon="-122.225246" version="8" timestamp="2009-11-22T06:34:33Z" changeset="3182727" uid="147510" user="woodpeck_fixbot"/>
+	<node id="65391030" lat="37.4853297" lon="-122.223578" version="5" timestamp="2014-08-30T23:45:51Z" changeset="25128784" uid="28775" user="StellanL"/>
+	<node id="65391035" lat="37.4846355" lon="-122.2220091" version="6" timestamp="2014-08-30T23:45:51Z" changeset="25128784" uid="28775" user="StellanL"/>
+	<node id="65400972" lat="37.4844626" lon="-122.2241888" version="5" timestamp="2014-08-30T23:45:52Z" changeset="25128784" uid="28775" user="StellanL"/>
+	<node id="65409272" lat="37.4868703" lon="-122.2211538" version="7" timestamp="2018-10-25T20:43:50Z" changeset="63881690" uid="8905348" user="avelex_lyft"/>
+	<node id="65409276" lat="37.4867853" lon="-122.2225754" version="7" timestamp="2014-07-23T17:29:16Z" changeset="24316202" uid="153669" user="dchiles"/>
+	<node id="65409278" lat="37.4867804" lon="-122.2235815" version="8" timestamp="2014-11-16T01:39:26Z" changeset="26813174" uid="202256" user="Telecas">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="65409281" lat="37.4867208" lon="-122.2242078" version="10" timestamp="2014-11-16T01:39:26Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="65409284" lat="37.4866783" lon="-122.2252851" version="8" timestamp="2015-01-17T10:42:38Z" changeset="28204704" uid="202256" user="Telecas"/>
+	<node id="65409287" lat="37.4866366" lon="-122.2263225" version="8" timestamp="2020-03-18T19:04:26Z" changeset="82360519" uid="10430344" user="CSanders0">
+		<tag k="highway" v="traffic_signals"/>
+		<tag k="traffic_signals" v="signal"/>
+		<tag k="traffic_signals:direction" v="both"/>
+	</node>
+	<node id="65409290" lat="37.4865495" lon="-122.2281738" version="13" timestamp="2019-02-09T17:26:44Z" changeset="67054896" uid="153669" user="dchiles">
+		<tag k="highway" v="traffic_signals"/>
+		<tag k="traffic_signals" v="signal"/>
+		<tag k="traffic_signals:direction" v="both"/>
+	</node>
+	<node id="65421525" lat="37.4897138" lon="-122.2248047" version="11" timestamp="2018-02-11T00:11:53Z" changeset="56252806" uid="153669" user="dchiles">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="65421526" lat="37.4892423" lon="-122.2251614" version="5" timestamp="2018-02-11T00:11:53Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="65421531" lat="37.4877501" lon="-122.2253989" version="5" timestamp="2018-02-11T00:23:35Z" changeset="56252933" uid="153669" user="dchiles"/>
+	<node id="65421534" lat="37.4872327" lon="-122.225337" version="14" timestamp="2014-07-02T12:14:30Z" changeset="23551277" uid="18744" user="STA"/>
+	<node id="65424578" lat="37.4903974" lon="-122.221563" version="6" timestamp="2011-05-20T08:19:32Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="65434196" lat="37.4875675" lon="-122.2282374" version="12" timestamp="2018-05-06T06:28:03Z" changeset="58721875" uid="7572965" user="lasagna">
+		<tag k="highway" v="traffic_signals"/>
+		<tag k="traffic_signals:direction" v="both"/>
+	</node>
+	<node id="65434199" lat="37.4876637" lon="-122.2263998" version="17" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike">
+		<tag k="highway" v="traffic_signals"/>
+		<tag k="traffic_signals:direction" v="both"/>
+	</node>
+	<node id="65434201" lat="37.4876429" lon="-122.224085" version="5" timestamp="2019-10-28T22:36:25Z" changeset="76317786" uid="7572965" user="lasagna"/>
+	<node id="65434204" lat="37.487581" lon="-122.2230197" version="6" timestamp="2011-07-30T03:13:16Z" changeset="8868646" uid="169004" user="oldtopos"/>
+	<node id="65434205" lat="37.487653" lon="-122.221214" version="6" timestamp="2014-02-02T17:33:24Z" changeset="20338466" uid="169004" user="oldtopos"/>
+	<node id="65445268" lat="37.4854982" lon="-122.2214112" version="7" timestamp="2009-08-14T17:21:53Z" changeset="2144684" uid="147510" user="woodpeck_fixbot"/>
+	<node id="65445269" lat="37.4860533" lon="-122.2210806" version="7" timestamp="2014-02-02T17:33:24Z" changeset="20338466" uid="169004" user="oldtopos"/>
+	<node id="65448673" lat="37.486526" lon="-122.2237638" version="4" timestamp="2009-12-18T05:44:01Z" changeset="3398407" uid="147510" user="woodpeck_fixbot"/>
+	<node id="65448676" lat="37.4893425" lon="-122.2218248" version="10" timestamp="2011-07-30T04:41:30Z" changeset="8868920" uid="169004" user="oldtopos">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="65467195" lat="37.4885829" lon="-122.2292985" version="5" timestamp="2010-06-23T08:17:17Z" changeset="5056725" uid="28775" user="StellanL"/>
+	<node id="65467202" lat="37.4836014" lon="-122.2248194" version="5" timestamp="2018-02-25T00:07:47Z" changeset="56649057" uid="153669" user="dchiles"/>
+	<node id="65472506" lat="37.4886207" lon="-122.2283273" version="8" timestamp="2009-07-22T05:45:57Z" changeset="1901015" uid="25510" user="Apo42"/>
+	<node id="65472513" lat="37.4887113" lon="-122.2264881" version="6" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="65477557" lat="37.4899353" lon="-122.2266351" version="11" timestamp="2017-01-03T15:37:09Z" changeset="44874352" uid="2226712" user="DannyAiquipa">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="65479579" lat="37.482751" lon="-122.2254401" version="5" timestamp="2018-02-25T00:07:47Z" changeset="56649057" uid="153669" user="dchiles"/>
+	<node id="65479580" lat="37.486188" lon="-122.2229828" version="5" timestamp="2014-08-30T23:45:51Z" changeset="25128784" uid="28775" user="StellanL"/>
+	<node id="65496306" lat="37.4903219" lon="-122.2284549" version="14" timestamp="2011-05-20T08:19:31Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="65502444" lat="37.4889856" lon="-122.2189609" version="8" timestamp="2011-05-20T08:19:32Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="65506578" lat="37.4904705" lon="-122.2288894" version="8" timestamp="2011-05-20T08:19:32Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="257120575" lat="37.4859273" lon="-122.2211163" version="4" timestamp="2014-02-02T17:33:24Z" changeset="20338466" uid="169004" user="oldtopos"/>
+	<node id="257140103" lat="37.4849021" lon="-122.225203" version="6" timestamp="2008-10-19T11:22:12Z" changeset="449129" uid="28775" user="StellanL"/>
+	<node id="271286081" lat="37.4914329" lon="-122.221176" version="5" timestamp="2011-08-22T02:40:11Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="271286082" lat="37.4918665" lon="-122.2208406" version="7" timestamp="2011-01-19T20:06:19Z" changeset="7024206" uid="201724" user="mk408"/>
+	<node id="272948592" lat="37.491166" lon="-122.2213276" version="7" timestamp="2011-08-22T02:40:13Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="272948693" lat="37.4909177" lon="-122.221438" version="6" timestamp="2011-08-22T02:40:07Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="272950283" lat="37.4908551" lon="-122.2269759" version="7" timestamp="2014-07-21T23:57:13Z" changeset="24284414" uid="595221" user="matthieun"/>
+	<node id="272950284" lat="37.4903426" lon="-122.226678" version="6" timestamp="2013-03-14T06:44:37Z" changeset="15359052" uid="202256" user="Telecas"/>
+	<node id="305591739" lat="37.4825062" lon="-122.2256132" version="6" timestamp="2018-02-25T00:07:47Z" changeset="56649057" uid="153669" user="dchiles"/>
+	<node id="305592090" lat="37.4875991" lon="-122.2261472" version="1" timestamp="2008-10-19T11:21:42Z" changeset="449129" uid="28775" user="StellanL"/>
+	<node id="449081417" lat="37.4891275" lon="-122.2189332" version="2" timestamp="2011-05-20T08:19:34Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="449081423" lat="37.4902807" lon="-122.2277531" version="4" timestamp="2016-08-04T10:28:33Z" changeset="41234234" uid="933797" user="oba510"/>
+	<node id="449081429" lat="37.4903947" lon="-122.2281924" version="4" timestamp="2016-08-04T10:28:33Z" changeset="41234234" uid="933797" user="oba510"/>
+	<node id="449081430" lat="37.4894763" lon="-122.2217552" version="4" timestamp="2011-07-30T04:41:29Z" changeset="8868920" uid="169004" user="oldtopos">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="449081439" lat="37.4898424" lon="-122.2247167" version="4" timestamp="2018-02-11T00:11:53Z" changeset="56252806" uid="153669" user="dchiles">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="449081445" lat="37.4900842" lon="-122.2266351" version="4" timestamp="2017-01-03T15:37:09Z" changeset="44874352" uid="2226712" user="DannyAiquipa">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="449081516" lat="37.4899475" lon="-122.2255668" version="2" timestamp="2011-05-20T08:19:36Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="449081518" lat="37.4900099" lon="-122.2260599" version="3" timestamp="2016-05-11T16:20:40Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="449081520" lat="37.4905213" lon="-122.2285818" version="3" timestamp="2011-05-20T08:19:39Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="449081523" lat="37.4905928" lon="-122.2287888" version="3" timestamp="2011-05-20T08:19:39Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="661813003" lat="37.4893355" lon="-122.2265277" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="661813006" lat="37.4898722" lon="-122.2260771" version="2" timestamp="2011-05-20T08:19:37Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="661813007" lat="37.4895843" lon="-122.226546" version="2" timestamp="2016-05-11T16:56:07Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="661813009" lat="37.4898148" lon="-122.2256153" version="2" timestamp="2011-05-20T08:19:38Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="809530560" lat="37.4866339" lon="-122.2246843" version="3" timestamp="2014-11-16T01:39:26Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="809530569" lat="37.4866772" lon="-122.2239583" version="2" timestamp="2014-11-16T01:39:26Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="809530571" lat="37.486701" lon="-122.2247377" version="1" timestamp="2010-07-10T06:51:32Z" changeset="5179709" uid="201724" user="mk408"/>
+	<node id="809530572" lat="37.486695" lon="-122.2249767" version="3" timestamp="2014-11-16T01:39:27Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="809530575" lat="37.4867257" lon="-122.222915" version="1" timestamp="2010-07-10T06:51:32Z" changeset="5179709" uid="201724" user="mk408"/>
+	<node id="809530576" lat="37.4869555" lon="-122.2246847" version="4" timestamp="2017-04-20T04:47:04Z" changeset="47958823" uid="153669" user="dchiles"/>
+	<node id="809530577" lat="37.4866985" lon="-122.2236405" version="3" timestamp="2014-11-16T01:39:26Z" changeset="26813174" uid="202256" user="Telecas">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="1110862002" lat="37.4898055" lon="-122.2263769" version="2" timestamp="2011-05-20T08:19:35Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1110862019" lat="37.4896878" lon="-122.2266148" version="3" timestamp="2016-05-11T16:56:06Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="1110862036" lat="37.490443" lon="-122.2283476" version="3" timestamp="2016-08-04T10:28:32Z" changeset="41234234" uid="933797" user="oba510"/>
+	<node id="1110862040" lat="37.4901955" lon="-122.2267524" version="2" timestamp="2011-05-20T08:19:39Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1110862057" lat="37.4902384" lon="-122.2267087" version="2" timestamp="2011-05-20T08:19:33Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1110862075" lat="37.4901503" lon="-122.2264243" version="2" timestamp="2011-05-20T08:19:39Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1110862106" lat="37.4901408" lon="-122.2270242" version="2" timestamp="2011-05-20T08:19:36Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976904" lat="37.4903885" lon="-122.2286539" version="1" timestamp="2011-05-20T08:19:25Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976920" lat="37.4902019" lon="-122.2280144" version="1" timestamp="2011-05-20T08:19:25Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976932" lat="37.4901847" lon="-122.2272688" version="1" timestamp="2011-05-20T08:19:26Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976948" lat="37.4901684" lon="-122.2268074" version="1" timestamp="2011-05-20T08:19:26Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976953" lat="37.4898487" lon="-122.2262785" version="1" timestamp="2011-05-20T08:19:26Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976955" lat="37.4899685" lon="-122.2268355" version="1" timestamp="2011-05-20T08:19:26Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976960" lat="37.4900498" lon="-122.2273256" version="1" timestamp="2011-05-20T08:19:27Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976962" lat="37.4901064" lon="-122.2268001" version="1" timestamp="2011-05-20T08:19:27Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976969" lat="37.4903269" lon="-122.2279462" version="2" timestamp="2016-08-04T10:28:32Z" changeset="41234234" uid="933797" user="oba510"/>
+	<node id="1292976975" lat="37.4901535" lon="-122.2268724" version="1" timestamp="2011-05-20T08:19:27Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976979" lat="37.4902322" lon="-122.2275052" version="1" timestamp="2011-05-20T08:19:27Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292976983" lat="37.4901186" lon="-122.2263702" version="1" timestamp="2011-05-20T08:19:27Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292977001" lat="37.4900916" lon="-122.2263096" version="1" timestamp="2011-05-20T08:19:28Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292977014" lat="37.4900043" lon="-122.227069" version="1" timestamp="2011-05-20T08:19:28Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292977027" lat="37.4898617" lon="-122.2262139" version="1" timestamp="2011-05-20T08:19:29Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1292977043" lat="37.4898314" lon="-122.2263323" version="1" timestamp="2011-05-20T08:19:29Z" changeset="8196336" uid="14293" user="KindredCoda"/>
+	<node id="1356089182" lat="37.4905514" lon="-122.2215429" version="2" timestamp="2011-08-22T02:40:13Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="1356089219" lat="37.4896345" lon="-122.2230315" version="2" timestamp="2020-02-15T08:22:47Z" changeset="81037160" uid="10430344" user="CSanders0"/>
+	<node id="1357865429" lat="37.4895622" lon="-122.2249071" version="2" timestamp="2018-02-11T00:11:53Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="1357865454" lat="37.4897581" lon="-122.2240262" version="3" timestamp="2020-02-15T08:22:47Z" changeset="81037160" uid="10430344" user="CSanders0"/>
+	<node id="1378229446" lat="37.4894978" lon="-122.2230619" version="2" timestamp="2018-02-11T00:11:54Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="1378229508" lat="37.4895214" lon="-122.2232876" version="2" timestamp="2018-02-11T00:11:54Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="1378229549" lat="37.4885546" lon="-122.2223612" version="1" timestamp="2011-07-30T03:12:21Z" changeset="8868646" uid="169004" user="oldtopos"/>
+	<node id="1378229689" lat="37.4892842" lon="-122.2213892" version="2" timestamp="2016-02-08T09:20:22Z" changeset="37075364" uid="3029661" user="saikabhi"/>
+	<node id="1378229829" lat="37.4876374" lon="-122.2216145" version="1" timestamp="2011-07-30T03:12:31Z" changeset="8868646" uid="169004" user="oldtopos"/>
+	<node id="1378229873" lat="37.4883942" lon="-122.2224704" version="1" timestamp="2011-07-30T03:12:33Z" changeset="8868646" uid="169004" user="oldtopos"/>
+	<node id="1407955607" lat="37.4915785" lon="-122.2210704" version="1" timestamp="2011-08-22T02:39:52Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="1407955680" lat="37.4917205" lon="-122.2209596" version="1" timestamp="2011-08-22T02:39:54Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="1407955837" lat="37.4907903" lon="-122.2214865" version="1" timestamp="2011-08-22T02:39:58Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="1407955903" lat="37.4906681" lon="-122.2215218" version="1" timestamp="2011-08-22T02:40:00Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="1407955931" lat="37.4913018" lon="-122.2212558" version="1" timestamp="2011-08-22T02:40:01Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="1407955982" lat="37.4910454" lon="-122.2213841" version="1" timestamp="2011-08-22T02:40:02Z" changeset="9090412" uid="14293" user="KindredCoda"/>
+	<node id="1723381151" lat="37.4865905" lon="-122.2273932" version="3" timestamp="2020-03-18T19:04:26Z" changeset="82360519" uid="10430344" user="CSanders0"/>
+	<node id="2201133741" lat="37.4905596" lon="-122.2267684" version="2" timestamp="2014-07-21T23:57:13Z" changeset="24284414" uid="595221" user="matthieun"/>
+	<node id="2201133742" lat="37.4905567" lon="-122.2266123" version="1" timestamp="2013-03-14T06:44:36Z" changeset="15359052" uid="202256" user="Telecas"/>
+	<node id="2201133743" lat="37.4900659" lon="-122.2264993" version="2" timestamp="2017-01-03T15:37:09Z" changeset="44874352" uid="2226712" user="DannyAiquipa">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="2201133744" lat="37.4899175" lon="-122.226502" version="3" timestamp="2018-02-11T00:23:36Z" changeset="56252933" uid="153669" user="dchiles">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="2201133745" lat="37.4909315" lon="-122.2268995" version="2" timestamp="2017-06-12T21:31:41Z" changeset="49482332" uid="2748195" user="karitotp"/>
+	<node id="2201133746" lat="37.4903183" lon="-122.2265386" version="1" timestamp="2013-03-14T06:44:36Z" changeset="15359052" uid="202256" user="Telecas"/>
+	<node id="2201133747" lat="37.4897314" lon="-122.2265057" version="2" timestamp="2018-02-11T00:23:36Z" changeset="56252933" uid="153669" user="dchiles"/>
+	<node id="2650152975" lat="37.4869851" lon="-122.2211638" version="1" timestamp="2014-02-02T17:33:15Z" changeset="20338466" uid="169004" user="oldtopos">
+		<tag k="highway" v="stop"/>
+	</node>
+	<node id="2650153015" lat="37.4875568" lon="-122.2212068" version="1" timestamp="2014-02-02T17:33:16Z" changeset="20338466" uid="169004" user="oldtopos">
+		<tag k="highway" v="stop"/>
+	</node>
+	<node id="2973858334" lat="37.4907287" lon="-122.2268836" version="1" timestamp="2014-07-21T23:57:11Z" changeset="24284414" uid="595221" user="matthieun"/>
+	<node id="2976045590" lat="37.4866413" lon="-122.2247762" version="2" timestamp="2014-11-16T01:39:27Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="2976045591" lat="37.4866567" lon="-122.2248413" version="2" timestamp="2014-11-16T01:39:27Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="2976045594" lat="37.4868056" lon="-122.222892" version="1" timestamp="2014-07-23T17:29:15Z" changeset="24316202" uid="153669" user="dchiles"/>
+	<node id="3189465264" lat="37.4868315" lon="-122.2244009" version="1" timestamp="2014-11-16T01:39:26Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="3189465265" lat="37.4867389" lon="-122.2240522" version="2" timestamp="2016-05-11T16:56:06Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="3189465268" lat="37.486657" lon="-122.2240958" version="1" timestamp="2014-11-16T01:39:26Z" changeset="26813174" uid="202256" user="Telecas"/>
+	<node id="3994971201" lat="37.4890578" lon="-122.2194317" version="2" timestamp="2016-05-11T16:20:40Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="3994971203" lat="37.489233" lon="-122.220973" version="1" timestamp="2016-02-08T09:20:15Z" changeset="37075364" uid="3029661" user="saikabhi"/>
+	<node id="3994971204" lat="37.4892716" lon="-122.2212864" version="1" timestamp="2016-02-08T09:20:15Z" changeset="37075364" uid="3029661" user="saikabhi"/>
+	<node id="3994971205" lat="37.4893056" lon="-122.2203776" version="1" timestamp="2016-02-08T09:20:15Z" changeset="37075364" uid="3029661" user="saikabhi"/>
+	<node id="3994971206" lat="37.4893472" lon="-122.220692" version="2" timestamp="2016-05-13T18:48:25Z" changeset="39298470" uid="2748195" user="karitotp"/>
+	<node id="3994971207" lat="37.489399" lon="-122.2211358" version="1" timestamp="2016-02-08T09:20:15Z" changeset="37075364" uid="3029661" user="saikabhi"/>
+	<node id="3994971208" lat="37.4894274" lon="-122.2224675" version="1" timestamp="2016-02-08T09:20:15Z" changeset="37075364" uid="3029661" user="saikabhi"/>
+	<node id="3994971209" lat="37.4899267" lon="-122.2216661" version="1" timestamp="2016-02-08T09:20:15Z" changeset="37075364" uid="3029661" user="saikabhi"/>
+	<node id="3994983497" lat="37.4869485" lon="-122.2192151" version="1" timestamp="2016-02-08T09:30:51Z" changeset="37075532" uid="3029661" user="saikabhi"/>
+	<node id="3994983498" lat="37.4869657" lon="-122.2187492" version="1" timestamp="2016-02-08T09:30:51Z" changeset="37075532" uid="3029661" user="saikabhi"/>
+	<node id="4089736891" lat="37.4894355" lon="-122.2214428" version="1" timestamp="2016-04-01T10:40:23Z" changeset="38223085" uid="2554698" user="ruthmaben"/>
+	<node id="4178869288" lat="37.489677" lon="-122.2233735" version="1" timestamp="2016-05-11T16:18:53Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="4178871189" lat="37.4897799" lon="-122.2242093" version="1" timestamp="2016-05-11T16:18:54Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="4178871190" lat="37.4897877" lon="-122.2253977" version="1" timestamp="2016-05-11T16:18:54Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="4178871191" lat="37.4899807" lon="-122.2258431" version="1" timestamp="2016-05-11T16:18:54Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="4178871192" lat="37.4900189" lon="-122.2271511" version="1" timestamp="2016-05-11T16:18:54Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="4178871193" lat="37.4901027" lon="-122.2275895" version="1" timestamp="2016-05-11T16:18:54Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="4178871194" lat="37.4902996" lon="-122.2278358" version="1" timestamp="2016-05-11T16:18:54Z" changeset="39246267" uid="2512300" user="samely"/>
+	<node id="4178871195" lat="37.4905414" lon="-122.2286403" version="2" timestamp="2017-01-03T15:31:09Z" changeset="44874214" uid="2226712" user="DannyAiquipa">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="4178921638" lat="37.4863867" lon="-122.2263042" version="2" timestamp="2020-03-18T19:04:26Z" changeset="82360519" uid="10430344" user="CSanders0"/>
+	<node id="4178921640" lat="37.4867667" lon="-122.2237374" version="1" timestamp="2016-05-11T16:54:55Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921641" lat="37.4867966" lon="-122.223138" version="1" timestamp="2016-05-11T16:54:55Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921643" lat="37.4868836" lon="-122.2263451" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4178921644" lat="37.4869111" lon="-122.2201298" version="1" timestamp="2016-05-11T16:54:55Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921645" lat="37.4870126" lon="-122.2248145" version="1" timestamp="2016-05-11T16:54:56Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921647" lat="37.4873884" lon="-122.2263812" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4178921651" lat="37.4875442" lon="-122.2289148" version="1" timestamp="2016-05-11T16:54:56Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921652" lat="37.4875561" lon="-122.2285683" version="1" timestamp="2016-05-11T16:54:56Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921653" lat="37.4875821" lon="-122.2279426" version="1" timestamp="2016-05-11T16:54:56Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921654" lat="37.4875902" lon="-122.2277789" version="1" timestamp="2016-05-11T16:54:56Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921655" lat="37.4876421" lon="-122.2267307" version="1" timestamp="2016-05-11T16:54:57Z" changeset="39247073" uid="2512300" user="samely"/>
+	<node id="4178921656" lat="37.4879323" lon="-122.2264248" version="3" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4178921658" lat="37.4884606" lon="-122.2264695" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4178921659" lat="37.4892508" lon="-122.2265234" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4184051517" lat="37.4892266" lon="-122.2209166" version="2" timestamp="2017-07-08T01:52:44Z" changeset="50121491" uid="1557342" user="boeleman81"/>
+	<node id="4184051518" lat="37.4892951" lon="-122.2208303" version="1" timestamp="2016-05-13T18:48:13Z" changeset="39298470" uid="2748195" user="karitotp"/>
+	<node id="4766819076" lat="37.4894086" lon="-122.2212162" version="1" timestamp="2017-03-31T10:32:14Z" changeset="47320819" uid="5495681" user="JoanL"/>
+	<node id="4766819077" lat="37.4892711" lon="-122.2200978" version="1" timestamp="2017-03-31T10:32:14Z" changeset="47320819" uid="5495681" user="JoanL"/>
+	<node id="4766885269" lat="37.4898907" lon="-122.2251073" version="1" timestamp="2017-03-31T10:54:54Z" changeset="47321349" uid="5495681" user="JoanL"/>
+	<node id="4766906216" lat="37.4882827" lon="-122.2254401" version="2" timestamp="2018-02-11T00:11:53Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="4766912025" lat="37.4890825" lon="-122.225279" version="2" timestamp="2018-02-11T00:11:53Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="4766952148" lat="37.4892366" lon="-122.2210019" version="1" timestamp="2017-03-31T11:17:37Z" changeset="47321812" uid="5495681" user="JoanL"/>
+	<node id="4766952152" lat="37.4892195" lon="-122.2208547" version="1" timestamp="2017-03-31T11:17:37Z" changeset="47321812" uid="5495681" user="JoanL"/>
+	<node id="4766960921" lat="37.4890197" lon="-122.2191833" version="1" timestamp="2017-03-31T11:18:53Z" changeset="47321839" uid="5495681" user="JoanL"/>
+	<node id="4766964123" lat="37.4889913" lon="-122.218998" version="1" timestamp="2017-03-31T11:20:45Z" changeset="47321878" uid="5495681" user="JoanL"/>
+	<node id="4767024755" lat="37.4900395" lon="-122.2261504" version="1" timestamp="2017-03-31T11:45:02Z" changeset="47322493" uid="5495681" user="JoanL"/>
+	<node id="4767024758" lat="37.4905225" lon="-122.2266017" version="1" timestamp="2017-03-31T11:45:02Z" changeset="47322493" uid="5495681" user="JoanL"/>
+	<node id="4767032821" lat="37.4866935" lon="-122.2250039" version="1" timestamp="2017-03-31T11:47:13Z" changeset="47322561" uid="5495681" user="JoanL"/>
+	<node id="4767057655" lat="37.4864982" lon="-122.2227713" version="1" timestamp="2017-03-31T11:55:21Z" changeset="47322791" uid="5495681" user="JoanL"/>
+	<node id="4767057657" lat="37.4864443" lon="-122.2211163" version="1" timestamp="2017-03-31T11:55:21Z" changeset="47322791" uid="5495681" user="JoanL"/>
+	<node id="4767057659" lat="37.4868272" lon="-122.2218656" version="1" timestamp="2017-03-31T11:55:21Z" changeset="47322791" uid="5495681" user="JoanL"/>
+	<node id="4767067121" lat="37.4869394" lon="-122.2194379" version="1" timestamp="2017-03-31T11:59:54Z" changeset="47322909" uid="5495681" user="JoanL"/>
+	<node id="4767075511" lat="37.4869619" lon="-122.2188523" version="1" timestamp="2017-03-31T12:02:27Z" changeset="47322981" uid="5495681" user="JoanL"/>
+	<node id="4767075516" lat="37.4877804" lon="-122.2187414" version="1" timestamp="2017-03-31T12:02:27Z" changeset="47322981" uid="5495681" user="JoanL"/>
+	<node id="4767075520" lat="37.4877948" lon="-122.218462" version="1" timestamp="2017-03-31T12:02:27Z" changeset="47322981" uid="5495681" user="JoanL"/>
+	<node id="4767077717" lat="37.4878067" lon="-122.2182306" version="1" timestamp="2017-03-31T12:03:30Z" changeset="47323004" uid="5495681" user="JoanL"/>
+	<node id="4767094921" lat="37.4878083" lon="-122.2182003" version="1" timestamp="2017-03-31T12:05:11Z" changeset="47323051" uid="5495681" user="JoanL"/>
+	<node id="4767110851" lat="37.4877415" lon="-122.2194975" version="1" timestamp="2017-03-31T12:10:18Z" changeset="47323233" uid="5495681" user="JoanL"/>
+	<node id="4767110852" lat="37.4877535" lon="-122.2192643" version="1" timestamp="2017-03-31T12:10:18Z" changeset="47323233" uid="5495681" user="JoanL"/>
+	<node id="4767115428" lat="37.4877717" lon="-122.2189105" version="1" timestamp="2017-03-31T12:08:24Z" changeset="47323157" uid="5495681" user="JoanL"/>
+	<node id="4767119345" lat="37.4876986" lon="-122.2203308" version="1" timestamp="2017-03-31T12:12:05Z" changeset="47323292" uid="5495681" user="JoanL"/>
+	<node id="4767122921" lat="37.4877159" lon="-122.219995" version="1" timestamp="2017-03-31T12:11:12Z" changeset="47323260" uid="5495681" user="JoanL"/>
+	<node id="4767122924" lat="37.4877267" lon="-122.2197845" version="1" timestamp="2017-03-31T12:11:12Z" changeset="47323260" uid="5495681" user="JoanL"/>
+	<node id="4767134092" lat="37.4872569" lon="-122.221183" version="1" timestamp="2017-03-31T12:15:02Z" changeset="47323404" uid="5495681" user="JoanL"/>
+	<node id="4767134094" lat="37.4868809" lon="-122.2208679" version="1" timestamp="2017-03-31T12:15:02Z" changeset="47323404" uid="5495681" user="JoanL"/>
+	<node id="4767137019" lat="37.4875978" lon="-122.222602" version="1" timestamp="2017-03-31T12:18:09Z" changeset="47323528" uid="5495681" user="JoanL"/>
+	<node id="4767137020" lat="37.4867871" lon="-122.2225453" version="1" timestamp="2017-03-31T12:18:09Z" changeset="47323528" uid="5495681" user="JoanL"/>
+	<node id="4767147537" lat="37.4868462" lon="-122.2215444" version="1" timestamp="2017-03-31T12:19:48Z" changeset="47323574" uid="5495681" user="JoanL"/>
+	<node id="4767147541" lat="37.487076" lon="-122.2211702" version="1" timestamp="2017-03-31T12:19:48Z" changeset="47323574" uid="5495681" user="JoanL"/>
+	<node id="4767152752" lat="37.4868308" lon="-122.2218041" version="1" timestamp="2017-03-31T12:22:43Z" changeset="47323669" uid="5495681" user="JoanL"/>
+	<node id="4767185876" lat="37.4866466" lon="-122.2243598" version="1" timestamp="2017-03-31T12:35:28Z" changeset="47324115" uid="5495681" user="JoanL"/>
+	<node id="4767352325" lat="37.4887716" lon="-122.2254739" version="3" timestamp="2018-02-11T00:11:53Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="4772222924" lat="37.4875954" lon="-122.2276733" version="1" timestamp="2017-04-03T06:46:17Z" changeset="47401113" uid="5495681" user="JoanL"/>
+	<node id="4772260322" lat="37.4876512" lon="-122.2212604" version="1" timestamp="2017-04-03T07:22:15Z" changeset="47401855" uid="5495681" user="JoanL"/>
+	<node id="4772260325" lat="37.4876777" lon="-122.2207364" version="1" timestamp="2017-04-03T07:22:15Z" changeset="47401855" uid="5495681" user="JoanL"/>
+	<node id="4772260328" lat="37.487688" lon="-122.2205358" version="1" timestamp="2017-04-03T07:22:15Z" changeset="47401855" uid="5495681" user="JoanL"/>
+	<node id="4772260331" lat="37.4877056" lon="-122.220194" version="1" timestamp="2017-04-03T07:22:15Z" changeset="47401855" uid="5495681" user="JoanL"/>
+	<node id="4772302293" lat="37.4886972" lon="-122.2222641" version="1" timestamp="2017-04-03T07:36:59Z" changeset="47402192" uid="5495681" user="JoanL"/>
+	<node id="4772306623" lat="37.487816" lon="-122.2180503" version="1" timestamp="2017-04-03T07:39:51Z" changeset="47402278" uid="5495681" user="JoanL"/>
+	<node id="4772655144" lat="37.4882872" lon="-122.2225429" version="2" timestamp="2019-10-28T22:36:25Z" changeset="76317786" uid="7572965" user="lasagna"/>
+	<node id="4772666305" lat="37.4876635" lon="-122.2244151" version="1" timestamp="2017-04-03T11:19:00Z" changeset="47408579" uid="5495681" user="JoanL"/>
+	<node id="4772666309" lat="37.4871188" lon="-122.2250667" version="1" timestamp="2017-04-03T11:19:00Z" changeset="47408579" uid="5495681" user="JoanL"/>
+	<node id="4772666310" lat="37.4876717" lon="-122.2245615" version="1" timestamp="2017-04-03T11:19:00Z" changeset="47408579" uid="5495681" user="JoanL"/>
+	<node id="4772675411" lat="37.4869608" lon="-122.2234549" version="1" timestamp="2017-04-03T11:22:19Z" changeset="47408666" uid="5495681" user="JoanL"/>
+	<node id="4772675414" lat="37.4867616" lon="-122.2237956" version="1" timestamp="2017-04-03T11:22:19Z" changeset="47408666" uid="5495681" user="JoanL"/>
+	<node id="4772681304" lat="37.4876282" lon="-122.2238031" version="1" timestamp="2017-04-03T11:25:25Z" changeset="47408725" uid="5495681" user="JoanL"/>
+	<node id="4772681306" lat="37.4871658" lon="-122.2233111" version="1" timestamp="2017-04-03T11:25:25Z" changeset="47408725" uid="5495681" user="JoanL"/>
+	<node id="4772702489" lat="37.4875018" lon="-122.2212024" version="1" timestamp="2017-04-03T11:37:08Z" changeset="47408992" uid="5495681" user="JoanL"/>
+	<node id="4772702491" lat="37.4876334" lon="-122.2217137" version="1" timestamp="2017-04-03T11:37:08Z" changeset="47408992" uid="5495681" user="JoanL"/>
+	<node id="4772719722" lat="37.4880612" lon="-122.2240353" version="3" timestamp="2019-10-28T22:36:25Z" changeset="76317786" uid="7572965" user="lasagna"/>
+	<node id="4772983521" lat="37.4882518" lon="-122.2239977" version="2" timestamp="2018-02-11T00:11:54Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="4772983522" lat="37.4882796" lon="-122.2244942" version="2" timestamp="2018-02-11T00:11:54Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="4774228727" lat="37.4862856" lon="-122.2252594" version="1" timestamp="2017-04-04T07:47:57Z" changeset="47434292" uid="5495681" user="JoanL"/>
+	<node id="4774232283" lat="37.4868323" lon="-122.2263421" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4774232286" lat="37.4874968" lon="-122.2259209" version="1" timestamp="2017-04-04T07:50:52Z" changeset="47434364" uid="5495681" user="JoanL"/>
+	<node id="4774232290" lat="37.4872493" lon="-122.2263728" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4774253489" lat="37.4877626" lon="-122.2190883" version="1" timestamp="2017-04-04T08:11:24Z" changeset="47434887" uid="5495681" user="JoanL"/>
+	<node id="4774300636" lat="37.4907634" lon="-122.2269089" version="1" timestamp="2017-04-04T08:42:52Z" changeset="47435614" uid="5495681" user="JoanL"/>
+	<node id="4774300639" lat="37.490217" lon="-122.2274296" version="1" timestamp="2017-04-04T08:42:52Z" changeset="47435614" uid="5495681" user="JoanL"/>
+	<node id="4774304146" lat="37.490448" lon="-122.2283625" version="1" timestamp="2017-04-04T08:45:27Z" changeset="47435684" uid="5495681" user="JoanL"/>
+	<node id="4774350072" lat="37.4901558" lon="-122.2278264" version="1" timestamp="2017-04-04T09:11:26Z" changeset="47436391" uid="5495681" user="JoanL"/>
+	<node id="4774350303" lat="37.4900331" lon="-122.227231" version="1" timestamp="2017-04-04T09:12:27Z" changeset="47436416" uid="5495681" user="JoanL"/>
+	<node id="4774350309" lat="37.4899881" lon="-122.2269632" version="1" timestamp="2017-04-04T09:12:27Z" changeset="47436416" uid="5495681" user="JoanL"/>
+	<node id="4774381279" lat="37.4859017" lon="-122.2252395" version="1" timestamp="2017-04-04T09:26:20Z" changeset="47436721" uid="5495681" user="JoanL"/>
+	<node id="4774441847" lat="37.4861376" lon="-122.2252497" version="1" timestamp="2017-04-04T09:53:47Z" changeset="47437452" uid="5495681" user="JoanL"/>
+	<node id="4774446170" lat="37.4875895" lon="-122.2277934" version="1" timestamp="2017-04-04T09:56:43Z" changeset="47437518" uid="5495681" user="JoanL"/>
+	<node id="4774452548" lat="37.4876292" lon="-122.226992" version="2" timestamp="2018-02-27T06:32:25Z" changeset="56711706" uid="153669" user="dchiles"/>
+	<node id="4774478469" lat="37.4909306" lon="-122.2270204" version="1" timestamp="2017-04-04T10:22:09Z" changeset="47438244" uid="5495681" user="JoanL"/>
+	<node id="4774511636" lat="37.487069" lon="-122.2249483" version="1" timestamp="2017-04-04T10:41:53Z" changeset="47438737" uid="5495681" user="JoanL"/>
+	<node id="4774529861" lat="37.487558" lon="-122.2285132" version="1" timestamp="2017-04-04T10:51:01Z" changeset="47438944" uid="5495681" user="JoanL"/>
+	<node id="4774529863" lat="37.4875502" lon="-122.228739" version="1" timestamp="2017-04-04T10:51:01Z" changeset="47438944" uid="5495681" user="JoanL"/>
+	<node id="4774579938" lat="37.4881928" lon="-122.2264448" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4774586422" lat="37.4872904" lon="-122.2254645" version="1" timestamp="2017-04-04T11:26:55Z" changeset="47439744" uid="5495681" user="JoanL"/>
+	<node id="4774586423" lat="37.4866724" lon="-122.2254269" version="1" timestamp="2017-04-04T11:26:55Z" changeset="47439744" uid="5495681" user="JoanL"/>
+	<node id="4774592774" lat="37.4860246" lon="-122.225244" version="1" timestamp="2017-04-04T11:31:43Z" changeset="47439850" uid="5495681" user="JoanL"/>
+	<node id="4774598210" lat="37.4871943" lon="-122.2263682" version="2" timestamp="2021-05-23T05:55:16Z" changeset="105153361" uid="11740423" user="m2gbike"/>
+	<node id="4774598212" lat="37.4876387" lon="-122.2267995" version="1" timestamp="2017-04-04T11:32:49Z" changeset="47439874" uid="5495681" user="JoanL"/>
+	<node id="4778865641" lat="37.4859279" lon="-122.2252405" version="1" timestamp="2017-04-06T12:46:35Z" changeset="47506273" uid="5495681" user="JoanL"/>
+	<node id="4778866866" lat="37.4862043" lon="-122.2252541" version="1" timestamp="2017-04-06T12:47:18Z" changeset="47506304" uid="5495681" user="JoanL"/>
+	<node id="4786068140" lat="37.4886813" lon="-122.2270511" version="1" timestamp="2017-04-10T11:41:54Z" changeset="47619672" uid="5495681" user="JoanL"/>
+	<node id="4803294114" lat="37.4830561" lon="-122.2252242" version="2" timestamp="2018-02-25T00:07:47Z" changeset="56649057" uid="153669" user="dchiles"/>
+	<node id="4911604682" lat="37.4886387" lon="-122.2279481" version="1" timestamp="2017-06-12T21:31:37Z" changeset="49482332" uid="2748195" user="karitotp"/>
+	<node id="4952539602" lat="37.4876042" lon="-122.2224425" version="1" timestamp="2017-07-05T12:25:43Z" changeset="50057842" uid="5495681" user="JoanL"/>
+	<node id="4952539604" lat="37.4876111" lon="-122.2222713" version="1" timestamp="2017-07-05T12:25:43Z" changeset="50057842" uid="5495681" user="JoanL"/>
+	<node id="4952574318" lat="37.4857803" lon="-122.2252351" version="1" timestamp="2017-07-05T12:46:05Z" changeset="50058374" uid="5495681" user="JoanL"/>
+	<node id="4952595996" lat="37.4869537" lon="-122.2190735" version="1" timestamp="2017-07-05T13:00:19Z" changeset="50058724" uid="5495681" user="JoanL"/>
+	<node id="4952649772" lat="37.4886913" lon="-122.2268402" version="1" timestamp="2017-07-05T13:34:57Z" changeset="50059503" uid="5495681" user="JoanL"/>
+	<node id="4954715531" lat="37.4867148" lon="-122.2232069" version="1" timestamp="2017-07-06T12:01:56Z" changeset="50083295" uid="5495681" user="JoanL"/>
+	<node id="5404456222" lat="37.4886474" lon="-122.22392" version="1" timestamp="2018-02-11T00:11:52Z" changeset="56252806" uid="153669" user="dchiles"/>
+	<node id="5404462591" lat="37.4890333" lon="-122.2253098" version="1" timestamp="2018-02-11T00:23:35Z" changeset="56252933" uid="153669" user="dchiles">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="5404837101" lat="37.488745" lon="-122.2258533" version="1" timestamp="2018-02-11T07:09:12Z" changeset="56256568" uid="153669" user="dchiles"/>
+	<node id="5434359954" lat="37.4836957" lon="-122.2247243" version="1" timestamp="2018-02-25T00:07:45Z" changeset="56649057" uid="153669" user="dchiles"/>
+	<node id="5434359955" lat="37.4835148" lon="-122.2249067" version="1" timestamp="2018-02-25T00:07:45Z" changeset="56649057" uid="153669" user="dchiles"/>
+	<node id="5457891981" lat="37.4876056" lon="-122.2274673" version="1" timestamp="2018-03-05T22:51:53Z" changeset="56917972" uid="7572965" user="lasagna"/>
+	<node id="5925393055" lat="37.4901106" lon="-122.2265063" version="1" timestamp="2018-09-24T01:59:12Z" changeset="62864883" uid="5605314" user="jollybubbly"/>
+	<node id="6013828360" lat="37.4868728" lon="-122.2210617" version="1" timestamp="2018-10-25T20:34:34Z" changeset="63881470" uid="8905348" user="avelex_lyft">
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="6013828361" lat="37.4868659" lon="-122.2212374" version="1" timestamp="2018-10-25T20:34:34Z" changeset="63881470" uid="8905348" user="avelex_lyft">
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="6013829447" lat="37.4867531" lon="-122.2211435" version="1" timestamp="2018-10-25T20:35:03Z" changeset="63881486" uid="8905348" user="avelex_lyft">
+		<tag k="highway" v="stop"/>
+	</node>
+	<node id="6013850894" lat="37.4859901" lon="-122.2210919" version="1" timestamp="2018-10-25T20:45:04Z" changeset="63881729" uid="8905348" user="avelex_lyft"/>
+	<node id="6624832815" lat="37.4894555" lon="-122.2227051" version="1" timestamp="2019-07-17T19:21:08Z" changeset="72362360" uid="119881" user="clay_c">
+		<tag k="bus" v="yes"/>
+		<tag k="name" v="Veterans Boulevard &#38; Walnut Street"/>
+		<tag k="network" v="SamTrans"/>
+		<tag k="public_transport" v="stop_position"/>
+	</node>
+	<node id="6630188227" lat="37.4890898" lon="-122.2197136" version="1" timestamp="2019-07-19T00:20:26Z" changeset="72409794" uid="119881" user="clay_c">
+		<tag k="bus" v="yes"/>
+		<tag k="name" v="Veterans Boulevard &#38; Hansen Way"/>
+		<tag k="network" v="SamTrans"/>
+		<tag k="public_transport" v="stop_position"/>
+	</node>
+	<node id="6630188232" lat="37.4896182" lon="-122.2228973" version="1" timestamp="2019-07-19T00:20:26Z" changeset="72409794" uid="119881" user="clay_c">
+		<tag k="bus" v="yes"/>
+		<tag k="name" v="Veterans Boulevard &#38; Maple Street"/>
+		<tag k="network" v="SamTrans"/>
+		<tag k="public_transport" v="stop_position"/>
+	</node>
+	<node id="6630188234" lat="37.487636" lon="-122.2268533" version="1" timestamp="2019-07-19T00:20:26Z" changeset="72409794" uid="119881" user="clay_c">
+		<tag k="bus" v="yes"/>
+		<tag k="name" v="Marshall Street &#38; Main Street"/>
+		<tag k="network" v="SamTrans"/>
+		<tag k="public_transport" v="stop_position"/>
+	</node>
+	<node id="6630188235" lat="37.4877058" lon="-122.2261726" version="2" timestamp="2019-12-07T21:11:58Z" changeset="78096625" uid="7572965" user="lasagna"/>
+	<node id="7636529233" lat="37.4896129" lon="-122.2265667" version="2" timestamp="2021-09-18T18:13:42Z" changeset="111385483" uid="7572965" user="lasagna"/>
+	<node id="7874630238" lat="37.4868775" lon="-122.2209484" version="1" timestamp="2020-09-04T06:35:44Z" changeset="90396136" uid="10208972" user="desuman"/>
+	<node id="9103999395" lat="37.4886738" lon="-122.2272204" version="2" timestamp="2021-11-13T17:21:10Z" changeset="113738824" uid="7572965" user="lasagna"/>
+	<way id="8933437" version="12" timestamp="2021-09-18T18:13:42Z" changeset="111385483" uid="7572965" user="lasagna">
+		<nd ref="5404456222"/>
+		<nd ref="4772983521"/>
+		<nd ref="4772719722"/>
+		<nd ref="65434201"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Marshall Court"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="Ct"/>
+		<tag k="tiger:reviewed" v="no"/>
+	</way>
+	<way id="8935401" version="18" timestamp="2021-09-18T18:13:42Z" changeset="111385483" uid="7572965" user="lasagna">
+		<nd ref="65467195"/>
+		<nd ref="65472506"/>
+		<nd ref="4911604682"/>
+		<nd ref="9103999395"/>
+		<nd ref="4786068140"/>
+		<nd ref="4952649772"/>
+		<nd ref="65472513"/>
+		<nd ref="5404837101"/>
+		<nd ref="4767352325"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Bradford Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Bradford"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="8936188" version="10" timestamp="2018-02-25T00:07:47Z" changeset="56649057" uid="153669" user="dchiles">
+		<nd ref="305591739"/>
+		<nd ref="65479579"/>
+		<nd ref="4803294114"/>
+		<nd ref="5434359955"/>
+		<nd ref="65467202"/>
+		<nd ref="5434359954"/>
+		<nd ref="65400972"/>
+		<nd ref="65391030"/>
+		<nd ref="65479580"/>
+		<nd ref="4767057655"/>
+		<nd ref="65409276"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Cassia Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Cassia"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="tiger:reviewed" v="no"/>
+	</way>
+	<way id="23741236" version="11" timestamp="2017-04-04T11:26:55Z" changeset="47439744" uid="5495681" user="JoanL">
+		<nd ref="65434199"/>
+		<nd ref="305592090"/>
+		<nd ref="4774232286"/>
+		<nd ref="4774586422"/>
+		<nd ref="65421534"/>
+		<nd ref="4772666309"/>
+		<nd ref="4774511636"/>
+		<nd ref="4178921645"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Spring Street"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Spring"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="23741893" version="17" timestamp="2019-07-08T21:11:48Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="65409284"/>
+		<nd ref="4774228727"/>
+		<nd ref="4778866866"/>
+		<nd ref="4774441847"/>
+		<nd ref="65391024"/>
+		<nd ref="4774592774"/>
+		<nd ref="4778865641"/>
+		<nd ref="4774381279"/>
+		<nd ref="4952574318"/>
+		<nd ref="257140103"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Walnut Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Walnut"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="tiger:reviewed" v="no"/>
+	</way>
+	<way id="25795025" version="21" timestamp="2018-10-25T20:45:04Z" changeset="63881729" uid="8905348" user="avelex_lyft">
+		<nd ref="65391035"/>
+		<nd ref="65445268"/>
+		<nd ref="257120575"/>
+		<nd ref="6013850894"/>
+		<nd ref="65445269"/>
+		<nd ref="4767057657"/>
+		<nd ref="6013829447"/>
+		<nd ref="65409272"/>
+		<nd ref="2650152975"/>
+		<nd ref="4767147541"/>
+		<nd ref="4767134092"/>
+		<nd ref="4772702489"/>
+		<nd ref="2650153015"/>
+		<nd ref="65434205"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lanes:backward" v="1"/>
+		<tag k="lanes:forward" v="1"/>
+		<tag k="name" v="Beech Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Beech"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="tiger:reviewed" v="no"/>
+	</way>
+	<way id="51864641" version="5" timestamp="2017-08-29T05:00:35Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="661813006"/>
+		<nd ref="661813009"/>
+		<tag k="bridge" v="yes"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="layer" v="1"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="51864642" version="6" timestamp="2017-08-29T05:00:39Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="449081516"/>
+		<nd ref="4178871191"/>
+		<tag k="bridge" v="yes"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="layer" v="1"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="51864643" version="3" timestamp="2017-06-07T02:36:59Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="661813007"/>
+		<nd ref="661813003"/>
+		<tag k="bridge" v="yes"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="sidewalk" v="both"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="63082636" version="5" timestamp="2017-06-07T02:37:20Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="65409281"/>
+		<nd ref="809530571"/>
+		<nd ref="809530572"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="66984531" version="8" timestamp="2018-03-08T17:33:44Z" changeset="57007393" uid="7572965" user="lasagna">
+		<nd ref="809530572"/>
+		<nd ref="2976045591"/>
+		<nd ref="2976045590"/>
+		<nd ref="809530560"/>
+		<nd ref="4767185876"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="66984532" version="4" timestamp="2017-06-07T02:37:20Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="65421534"/>
+		<nd ref="65421531"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Walnut Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Walnut"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="66984534" version="6" timestamp="2017-06-07T02:37:20Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="809530569"/>
+		<nd ref="809530577"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="66984536" version="8" timestamp="2017-06-07T02:37:21Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="65409276"/>
+		<nd ref="2976045594"/>
+		<nd ref="4178921641"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="66984537" version="16" timestamp="2021-07-03T04:38:32Z" changeset="107338772" uid="7572965" user="lasagna">
+		<nd ref="809530572"/>
+		<nd ref="4767032821"/>
+		<nd ref="65409284"/>
+		<nd ref="4774586423"/>
+		<nd ref="65409287"/>
+		<nd ref="1723381151"/>
+		<nd ref="65409290"/>
+		<tag k="cycleway" v="shared_lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="95857256" version="5" timestamp="2017-03-31T11:45:02Z" changeset="47322493" uid="5495681" user="JoanL">
+		<nd ref="449081518"/>
+		<nd ref="4767024755"/>
+		<nd ref="1292977001"/>
+		<nd ref="1292976983"/>
+		<nd ref="1110862075"/>
+		<nd ref="2201133746"/>
+		<tag k="highway" v="primary_link"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="95857265" version="3" timestamp="2013-03-14T06:44:38Z" changeset="15359052" uid="202256" user="Telecas">
+		<nd ref="2201133747"/>
+		<nd ref="1110862002"/>
+		<nd ref="1292977043"/>
+		<nd ref="1292976953"/>
+		<nd ref="1292977027"/>
+		<nd ref="661813006"/>
+		<tag k="highway" v="primary_link"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="95857268" version="3" timestamp="2016-08-04T10:28:31Z" changeset="41234234" uid="933797" user="oba510">
+		<nd ref="272950284"/>
+		<nd ref="1110862057"/>
+		<nd ref="1110862040"/>
+		<nd ref="1292976948"/>
+		<nd ref="1292976975"/>
+		<nd ref="1110862106"/>
+		<tag k="highway" v="primary_link"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="95857270" version="6" timestamp="2021-07-16T07:17:35Z" changeset="108095505" uid="11905428" user="amakarevich_lyft">
+		<nd ref="449081429"/>
+		<nd ref="65496306"/>
+		<tag k="highway" v="primary_link"/>
+		<tag k="lanes" v="1"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="left"/>
+		<tag k="turn:lanes" v="reverse;left"/>
+	</way>
+	<way id="95857274" version="5" timestamp="2018-04-18T08:04:32Z" changeset="58192496" uid="4827171" user="arming_telenav">
+		<nd ref="65496306"/>
+		<nd ref="449081520"/>
+		<tag k="highway" v="primary_link"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="no"/>
+	</way>
+	<way id="121250306" version="10" timestamp="2018-02-11T00:23:37Z" changeset="56252933" uid="153669" user="dchiles">
+		<nd ref="449081439"/>
+		<nd ref="65421525"/>
+		<nd ref="1357865429"/>
+		<nd ref="65421526"/>
+		<nd ref="4766912025"/>
+		<nd ref="5404462591"/>
+		<nd ref="4767352325"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Walnut Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Walnut"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="188177130" version="7" timestamp="2021-09-18T18:13:42Z" changeset="111385483" uid="7572965" user="lasagna">
+		<nd ref="4767352325"/>
+		<nd ref="4766906216"/>
+		<nd ref="65421531"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Walnut Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Walnut"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="209962130" version="6" timestamp="2021-05-20T15:18:51Z" changeset="105037459" uid="12195744" user="pmarkina_lyft">
+		<nd ref="661813007"/>
+		<nd ref="2201133747"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="turn:lanes" v="left||"/>
+	</way>
+	<way id="209962132" version="9" timestamp="2017-08-29T04:50:16Z" changeset="51526936" uid="153669" user="dchiles">
+		<nd ref="65356808"/>
+		<nd ref="4774478469"/>
+		<nd ref="272950283"/>
+		<nd ref="4774300636"/>
+		<nd ref="2973858334"/>
+		<nd ref="2201133741"/>
+		<nd ref="272950284"/>
+		<nd ref="449081445"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="209962133" version="21" timestamp="2019-12-07T21:11:58Z" changeset="78096625" uid="7572965" user="lasagna">
+		<nd ref="65421531"/>
+		<nd ref="6630188235"/>
+		<nd ref="65434199"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="262967785" version="5" timestamp="2021-05-20T15:18:51Z" changeset="105037459" uid="12195744" user="pmarkina_lyft">
+		<nd ref="449081445"/>
+		<nd ref="65477557"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="262967786" version="5" timestamp="2018-09-24T01:59:14Z" changeset="62864883" uid="5605314" user="jollybubbly">
+		<nd ref="2201133743"/>
+		<nd ref="5925393055"/>
+		<nd ref="2201133746"/>
+		<nd ref="4767024758"/>
+		<nd ref="2201133742"/>
+		<nd ref="2201133745"/>
+		<nd ref="65356808"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="313003661" version="5" timestamp="2020-03-11T20:37:29Z" changeset="82078696" uid="10313602" user="claytonvo">
+		<nd ref="809530577"/>
+		<nd ref="4954715531"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="313003662" version="7" timestamp="2020-03-11T20:37:29Z" changeset="82078696" uid="10313602" user="claytonvo">
+		<nd ref="4178921640"/>
+		<nd ref="4772675414"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes" v="left||"/>
+	</way>
+	<way id="313003663" version="2" timestamp="2017-06-07T02:40:28Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="809530577"/>
+		<nd ref="65409278"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Maple Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Maple"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="313003664" version="4" timestamp="2018-08-24T03:57:01Z" changeset="61938661" uid="8107451" user="njtbusfan">
+		<nd ref="271286082"/>
+		<nd ref="1407955680"/>
+		<nd ref="1407955607"/>
+		<nd ref="271286081"/>
+		<nd ref="1407955931"/>
+		<nd ref="272948592"/>
+		<nd ref="1407955982"/>
+		<nd ref="272948693"/>
+		<nd ref="1407955837"/>
+		<nd ref="1407955903"/>
+		<nd ref="1356089182"/>
+		<nd ref="65424578"/>
+		<nd ref="3994971209"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Maple Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Maple"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="396670300" version="10" timestamp="2019-10-28T22:36:25Z" changeset="76317786" uid="7572965" user="lasagna">
+		<nd ref="449081430"/>
+		<nd ref="65448676"/>
+		<nd ref="4772302293"/>
+		<nd ref="1378229549"/>
+		<nd ref="1378229873"/>
+		<nd ref="4772655144"/>
+		<nd ref="65434204"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Maple Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Maple"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="396670301" version="3" timestamp="2017-08-29T05:00:38Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="449081417"/>
+		<nd ref="4766819077"/>
+		<nd ref="3994971205"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="396670302" version="2" timestamp="2017-08-29T05:00:38Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="3994971206"/>
+		<nd ref="3994971207"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="396670304" version="8" timestamp="2019-07-19T00:20:28Z" changeset="72409794" uid="119881" user="clay_c">
+		<nd ref="4184051517"/>
+		<nd ref="4766952152"/>
+		<nd ref="6630188227"/>
+		<nd ref="3994971201"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="396670305" version="4" timestamp="2017-08-29T05:00:36Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="3994971204"/>
+		<nd ref="4766952148"/>
+		<nd ref="3994971203"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="||right"/>
+	</way>
+	<way id="396670307" version="5" timestamp="2017-08-29T05:00:36Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="3994971208"/>
+		<nd ref="65448676"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="left||"/>
+	</way>
+	<way id="396670308" version="5" timestamp="2017-08-29T05:00:37Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="3994971201"/>
+		<nd ref="4766960921"/>
+		<nd ref="4766964123"/>
+		<nd ref="65502444"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="left||"/>
+	</way>
+	<way id="396670309" version="3" timestamp="2020-11-30T09:50:14Z" changeset="95034177" uid="11335781" user="cpligovka_lyft">
+		<nd ref="3994971205"/>
+		<nd ref="3994971206"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="3"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="turn:lanes" v="left|none|none"/>
+	</way>
+	<way id="396670310" version="4" timestamp="2017-08-29T05:00:38Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="3994971207"/>
+		<nd ref="4766819076"/>
+		<nd ref="4089736891"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="turn:lanes" v="left|||"/>
+	</way>
+	<way id="396670311" version="3" timestamp="2017-08-29T05:00:36Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="65448676"/>
+		<nd ref="1378229689"/>
+		<nd ref="3994971204"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="396670313" version="6" timestamp="2019-07-17T19:21:15Z" changeset="72362360" uid="119881" user="clay_c">
+		<nd ref="65421525"/>
+		<nd ref="1378229508"/>
+		<nd ref="1378229446"/>
+		<nd ref="6624832815"/>
+		<nd ref="3994971208"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="396670314" version="3" timestamp="2017-08-29T05:00:39Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="4178869288"/>
+		<nd ref="1357865454"/>
+		<nd ref="4178871189"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="turn:lanes" v="left|||"/>
+	</way>
+	<way id="396671464" version="11" timestamp="2021-06-09T16:48:13Z" changeset="106107712" uid="11740423" user="m2gbike">
+		<nd ref="65409272"/>
+		<nd ref="6013828361"/>
+		<nd ref="4767147537"/>
+		<nd ref="4767152752"/>
+		<nd ref="4767057659"/>
+		<nd ref="4767137020"/>
+		<nd ref="65409276"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lanes:backward" v="2"/>
+		<tag k="lanes:forward" v="2"/>
+		<tag k="maxspeed" v="25 mph"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="parking:lane:both" v="parallel"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="396671471" version="7" timestamp="2017-07-05T13:00:20Z" changeset="50058724" uid="5495681" user="JoanL">
+		<nd ref="3994983498"/>
+		<nd ref="4767075511"/>
+		<nd ref="4952595996"/>
+		<nd ref="3994983497"/>
+		<nd ref="4767067121"/>
+		<nd ref="4178921644"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes:backward" v="2"/>
+		<tag k="lanes:forward" v="2"/>
+		<tag k="maxspeed" v="25 mph"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:backward" v="|right"/>
+	</way>
+	<way id="406937264" version="2" timestamp="2017-08-29T05:00:38Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="4089736891"/>
+		<nd ref="449081430"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="turn:lanes" v="left|||right"/>
+	</way>
+	<way id="417324026" version="3" timestamp="2017-08-29T05:00:39Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="449081518"/>
+		<nd ref="2201133743"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="turn:lanes" v="left|||"/>
+	</way>
+	<way id="417324027" version="3" timestamp="2017-08-29T05:00:35Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="661813009"/>
+		<nd ref="4178871190"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="417324031" version="4" timestamp="2018-02-11T00:11:54Z" changeset="56252806" uid="153669" user="dchiles">
+		<nd ref="4178871190"/>
+		<nd ref="65421525"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="left|||"/>
+	</way>
+	<way id="417324036" version="2" timestamp="2017-08-29T05:00:39Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="4178871189"/>
+		<nd ref="449081439"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="turn:lanes" v="left|||right"/>
+	</way>
+	<way id="417324040" version="4" timestamp="2021-07-21T15:12:45Z" changeset="108373084" uid="11905428" user="amakarevich_lyft">
+		<nd ref="4178871191"/>
+		<nd ref="449081518"/>
+		<tag k="bridge" v="yes"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="3"/>
+		<tag k="layer" v="1"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="turn:lanes" v="left|none|through;slight_right"/>
+	</way>
+	<way id="417324041" version="3" timestamp="2019-07-19T00:20:28Z" changeset="72409794" uid="119881" user="clay_c">
+		<nd ref="449081430"/>
+		<nd ref="6630188232"/>
+		<nd ref="1356089219"/>
+		<nd ref="4178869288"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="417324042" version="4" timestamp="2021-11-05T12:36:15Z" changeset="113407541" uid="11249764" user="akakhno_lyft">
+		<nd ref="4178871194"/>
+		<nd ref="1292976969"/>
+		<nd ref="449081429"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="turn:lanes" v="left|||"/>
+	</way>
+	<way id="417324049" version="5" timestamp="2017-08-29T05:00:35Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="4178871193"/>
+		<nd ref="1292976960"/>
+		<nd ref="4774350303"/>
+		<nd ref="4178871192"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="left|||"/>
+	</way>
+	<way id="417324052" version="5" timestamp="2020-11-30T07:52:23Z" changeset="95025689" uid="10976496" user="A_Prokopova_lyft">
+		<nd ref="65506578"/>
+		<nd ref="1292976904"/>
+		<nd ref="65496306"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="|||right"/>
+	</way>
+	<way id="417324055" version="5" timestamp="2021-05-20T15:18:51Z" changeset="105037459" uid="12195744" user="pmarkina_lyft">
+		<nd ref="65477557"/>
+		<nd ref="2201133744"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="417324056" version="5" timestamp="2018-02-11T00:11:55Z" changeset="56252806" uid="153669" user="dchiles">
+		<nd ref="449081439"/>
+		<nd ref="4766885269"/>
+		<nd ref="449081516"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="417324058" version="6" timestamp="2021-05-31T11:13:23Z" changeset="105619503" uid="11089099" user="YuliyaShustava_lyft">
+		<nd ref="449081429"/>
+		<nd ref="1110862036"/>
+		<nd ref="4774304146"/>
+		<nd ref="449081520"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="3"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="417324059" version="4" timestamp="2021-01-25T06:58:29Z" changeset="98096413" uid="8683377" user="payelgh">
+		<nd ref="4178871195"/>
+		<nd ref="449081523"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="turn:lanes" v="left|||"/>
+	</way>
+	<way id="417324060" version="7" timestamp="2021-09-24T09:45:16Z" changeset="111637988" uid="11904280" user="vrynkevich_lyft">
+		<nd ref="4178871192"/>
+		<nd ref="1292977014"/>
+		<nd ref="4774350309"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="5"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="left||||right"/>
+	</way>
+	<way id="417324063" version="6" timestamp="2021-07-12T14:26:00Z" changeset="107845695" uid="11089099" user="YuliyaShustava_lyft">
+		<nd ref="65496306"/>
+		<nd ref="65376794"/>
+		<nd ref="1292976920"/>
+		<nd ref="4774350072"/>
+		<nd ref="65384239"/>
+		<nd ref="4178871193"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="3"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="417324065" version="5" timestamp="2018-08-24T03:57:08Z" changeset="61938661" uid="8107451" user="njtbusfan">
+		<nd ref="449081445"/>
+		<nd ref="1292976962"/>
+		<nd ref="1110862106"/>
+		<nd ref="1292976932"/>
+		<nd ref="4774300639"/>
+		<nd ref="1292976979"/>
+		<nd ref="449081423"/>
+		<nd ref="4178871194"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="417328803" version="3" timestamp="2019-07-19T00:20:28Z" changeset="72409794" uid="119881" user="clay_c">
+		<nd ref="65409278"/>
+		<nd ref="4178921640"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417328808" version="3" timestamp="2017-06-07T02:46:03Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="3189465265"/>
+		<nd ref="65409281"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417328813" version="3" timestamp="2017-06-07T02:46:03Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="4178921641"/>
+		<nd ref="65409278"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes" v="through||"/>
+	</way>
+	<way id="417328818" version="7" timestamp="2020-09-04T06:35:44Z" changeset="90396136" uid="10208972" user="desuman">
+		<nd ref="4178921644"/>
+		<nd ref="4767134094"/>
+		<nd ref="7874630238"/>
+		<nd ref="6013828360"/>
+		<nd ref="65409272"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes:backward" v="2"/>
+		<tag k="lanes:forward" v="2"/>
+		<tag k="maxspeed" v="25 mph"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="parking:lane:both" v="parallel"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417328863" version="2" timestamp="2017-06-07T02:46:04Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="4178921659"/>
+		<nd ref="65472513"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:forward" v="|right"/>
+	</way>
+	<way id="417328878" version="2" timestamp="2017-06-07T02:46:05Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="65472513"/>
+		<nd ref="4178921658"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:backward" v="left|"/>
+	</way>
+	<way id="417328899" version="2" timestamp="2016-08-04T10:28:22Z" changeset="41234234" uid="933797" user="oba510">
+		<nd ref="2201133744"/>
+		<nd ref="2201133743"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="417328905" version="3" timestamp="2019-07-08T21:12:56Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="65434199"/>
+		<nd ref="4178921647"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:backward" v="left||"/>
+	</way>
+	<way id="417328936" version="5" timestamp="2019-07-08T21:12:58Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921647"/>
+		<nd ref="4774232290"/>
+		<nd ref="4774598210"/>
+		<nd ref="4178921643"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417328961" version="3" timestamp="2019-07-08T21:13:00Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921656"/>
+		<nd ref="65434199"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:forward" v="left|"/>
+	</way>
+	<way id="417328972" version="4" timestamp="2019-07-08T21:13:01Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921643"/>
+		<nd ref="4774232283"/>
+		<nd ref="65409287"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:forward" v="left|"/>
+	</way>
+	<way id="417328985" version="2" timestamp="2017-06-07T02:46:06Z" changeset="49322750" uid="1330847" user="TheDutchMan13">
+		<nd ref="661813003"/>
+		<nd ref="4178921659"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417328993" version="3" timestamp="2019-07-08T21:13:02Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="65409287"/>
+		<nd ref="4178921638"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:backward" v="left|"/>
+	</way>
+	<way id="417328999" version="5" timestamp="2018-02-11T00:23:37Z" changeset="56252933" uid="153669" user="dchiles">
+		<nd ref="4178921658"/>
+		<nd ref="4774579938"/>
+		<nd ref="4178921656"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417329031" version="8" timestamp="2019-07-08T21:13:06Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="65434199"/>
+		<nd ref="4178921655"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="5"/>
+		<tag k="lanes:backward" v="3"/>
+		<tag k="lanes:forward" v="2"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:backward" v="left;through|through|right"/>
+	</way>
+	<way id="417329040" version="7" timestamp="2019-07-08T21:13:07Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921654"/>
+		<nd ref="4774446170"/>
+		<nd ref="4178921653"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:forward" v="left||"/>
+	</way>
+	<way id="417329056" version="5" timestamp="2019-07-08T21:13:08Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921651"/>
+		<nd ref="4774529863"/>
+		<nd ref="4178921652"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417329071" version="6" timestamp="2019-07-08T21:13:09Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921652"/>
+		<nd ref="4774529861"/>
+		<nd ref="65434196"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:forward" v="left|"/>
+	</way>
+	<way id="417329090" version="5" timestamp="2019-07-08T21:13:10Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921653"/>
+		<nd ref="65434196"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:forward" v="left||right"/>
+	</way>
+	<way id="417329094" version="11" timestamp="2019-07-08T21:13:11Z" changeset="72030258" uid="2941385" user="cart0">
+		<nd ref="4178921655"/>
+		<nd ref="4774598212"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417329112" version="1" timestamp="2016-05-11T16:55:49Z" changeset="39247073" uid="2512300" user="samely">
+		<nd ref="4178921645"/>
+		<nd ref="809530576"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Spring Street"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Spring"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes:forward" v="through|right"/>
+	</way>
+	<way id="417329115" version="1" timestamp="2016-05-11T16:55:49Z" changeset="39247073" uid="2512300" user="samely">
+		<nd ref="809530576"/>
+		<nd ref="3189465264"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Spring Street"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Spring"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="417934019" version="2" timestamp="2018-08-24T03:57:10Z" changeset="61938661" uid="8107451" user="njtbusfan">
+		<nd ref="3994971206"/>
+		<nd ref="4184051518"/>
+		<nd ref="4184051517"/>
+		<tag k="highway" v="primary_link"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="484550559" version="1" timestamp="2017-04-03T13:39:04Z" changeset="47412546" uid="5495681" user="JoanL">
+		<nd ref="4772983521"/>
+		<nd ref="4772983522"/>
+		<tag k="highway" v="residential"/>
+	</way>
+	<way id="518284069" version="2" timestamp="2017-08-29T05:00:37Z" changeset="51527043" uid="153669" user="dchiles">
+		<nd ref="3994971203"/>
+		<nd ref="4184051517"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="||right"/>
+	</way>
+	<way id="560408656" version="3" timestamp="2020-03-11T21:12:47Z" changeset="82079656" uid="8899833" user="Reemal">
+		<nd ref="65434204"/>
+		<nd ref="4767137019"/>
+		<nd ref="4952539602"/>
+		<nd ref="4952539604"/>
+		<nd ref="4772702491"/>
+		<nd ref="1378229829"/>
+		<nd ref="4772260322"/>
+		<nd ref="65434205"/>
+		<nd ref="4772260325"/>
+		<nd ref="4772260328"/>
+		<nd ref="4767119345"/>
+		<nd ref="4772260331"/>
+		<nd ref="4767122921"/>
+		<nd ref="4767122924"/>
+		<nd ref="4767110851"/>
+		<nd ref="4767110852"/>
+		<nd ref="4774253489"/>
+		<nd ref="4767115428"/>
+		<nd ref="4767075516"/>
+		<nd ref="4767075520"/>
+		<nd ref="4767077717"/>
+		<nd ref="4767094921"/>
+		<nd ref="4772306623"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="567894156" version="1" timestamp="2018-03-08T17:33:43Z" changeset="57007393" uid="7572965" user="lasagna">
+		<nd ref="4767185876"/>
+		<nd ref="3189465268"/>
+		<nd ref="809530569"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="619344071" version="1" timestamp="2018-08-24T03:56:25Z" changeset="61938661" uid="8107451" user="njtbusfan">
+		<nd ref="2201133743"/>
+		<nd ref="449081445"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="619344074" version="1" timestamp="2018-08-24T03:56:26Z" changeset="61938661" uid="8107451" user="njtbusfan">
+		<nd ref="3994971209"/>
+		<nd ref="449081430"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Maple Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Maple"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="651221063" version="1" timestamp="2018-11-30T20:51:56Z" changeset="65057605" uid="7679992" user="kfremd">
+		<nd ref="65409284"/>
+		<nd ref="65421534"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Walnut Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Walnut"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="tiger:reviewed" v="no"/>
+	</way>
+	<way id="687322376" version="3" timestamp="2019-07-19T00:20:28Z" changeset="72409794" uid="119881" user="clay_c">
+		<nd ref="4774598212"/>
+		<nd ref="6630188234"/>
+		<nd ref="4774452548"/>
+		<nd ref="5457891981"/>
+		<nd ref="4772222924"/>
+		<nd ref="4178921654"/>
+		<tag k="cycleway" v="lane"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="surface" v="asphalt"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="705855573" version="2" timestamp="2020-03-11T20:37:29Z" changeset="82078696" uid="10313602" user="claytonvo">
+		<nd ref="65434204"/>
+		<nd ref="4772681306"/>
+		<nd ref="4772675411"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Maple Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Maple"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="705855574" version="1" timestamp="2019-07-20T00:15:47Z" changeset="72449089" uid="119881" user="clay_c">
+		<nd ref="65421531"/>
+		<nd ref="4772666310"/>
+		<nd ref="4772666305"/>
+		<nd ref="65434201"/>
+		<nd ref="4772681304"/>
+		<nd ref="65434204"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Marshall Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Marshall"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="780318210" version="1" timestamp="2020-03-11T20:37:29Z" changeset="82078696" uid="10313602" user="claytonvo">
+		<nd ref="65448673"/>
+		<nd ref="809530577"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Maple Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Maple"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="780318211" version="1" timestamp="2020-03-11T20:37:29Z" changeset="82078696" uid="10313602" user="claytonvo">
+		<nd ref="4772675411"/>
+		<nd ref="65409278"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Maple Street"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Maple"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="780318213" version="1" timestamp="2020-03-11T20:37:29Z" changeset="82078696" uid="10313602" user="claytonvo">
+		<nd ref="4772675414"/>
+		<nd ref="3189465265"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+		<tag k="turn:lanes" v="left||"/>
+	</way>
+	<way id="780318214" version="1" timestamp="2020-03-11T20:37:29Z" changeset="82078696" uid="10313602" user="claytonvo">
+		<nd ref="4954715531"/>
+		<nd ref="809530575"/>
+		<nd ref="65409276"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Broadway"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Broadway"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="899746305" version="1" timestamp="2021-01-25T06:58:29Z" changeset="98096413" uid="8683377" user="payelgh">
+		<nd ref="449081520"/>
+		<nd ref="4178871195"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+	</way>
+	<way id="945161182" version="1" timestamp="2021-05-20T15:18:51Z" changeset="105037459" uid="12195744" user="pmarkina_lyft">
+		<nd ref="65477557"/>
+		<nd ref="1110862019"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="945161183" version="1" timestamp="2021-05-20T15:18:51Z" changeset="105037459" uid="12195744" user="pmarkina_lyft">
+		<nd ref="4774350309"/>
+		<nd ref="1292976955"/>
+		<nd ref="65477557"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+		<tag k="turn:lanes" v="left|||right"/>
+	</way>
+	<way id="945161185" version="1" timestamp="2021-05-20T15:18:51Z" changeset="105037459" uid="12195744" user="pmarkina_lyft">
+		<nd ref="2201133744"/>
+		<nd ref="661813006"/>
+		<tag k="cycleway:right" v="lane"/>
+		<tag k="highway" v="primary"/>
+		<tag k="name" v="Veterans Boulevard"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Veterans"/>
+		<tag k="tiger:name_type" v="Blvd"/>
+	</way>
+	<way id="945161186" version="2" timestamp="2021-10-30T16:18:33Z" changeset="113167009" uid="11740423" user="m2gbike">
+		<nd ref="1110862019"/>
+		<nd ref="7636529233"/>
+		<nd ref="661813007"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="tiger:cfcc" v="A41"/>
+		<tag k="tiger:county" v="San Mateo, CA"/>
+		<tag k="tiger:name_base" v="Main"/>
+		<tag k="tiger:name_type" v="St"/>
+	</way>
+	<way id="945161188" version="1" timestamp="2021-05-20T15:18:51Z" changeset="105037459" uid="12195744" user="pmarkina_lyft">
+		<nd ref="2201133747"/>
+		<nd ref="2201133744"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="name" v="Main Street"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="sidewalk" v="right"/>
+		<tag k="turn:lanes" v="left||"/>
+	</way>
+</osm>

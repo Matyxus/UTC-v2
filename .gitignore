@@ -1,8 +1,13 @@
+# Pycharm project folders
 .idea
 Scripts
 Lib
-
+UTC.egg-info
 pyvenv.cfg
+Project/Converter/OSMfilter/osmfilter
+
+# File pointer
+*.Identifier
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,0 +1,2284 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="osmfilter 1.4.6">
+	<bounds minlat="41.88081" minlon="12.50744" maxlat="41.88529" maxlon="12.51677"/>
+	<node id="246064632" lat="41.8825913" lon="12.5160185" version="6" timestamp="2014-03-22T01:48:11Z" changeset="21237259" uid="217070" user="Davlak"/>
+	<node id="246064787" lat="41.8819703" lon="12.5178043" version="6" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065117" lat="41.8829056" lon="12.5144743" version="7" timestamp="2018-03-02T20:33:10Z" changeset="56831992" uid="6159649" user="iLaw"/>
+	<node id="246065118" lat="41.8829522" lon="12.5133467" version="11" timestamp="2018-02-25T19:05:46Z" changeset="56668543" uid="454589" user="sabas88"/>
+	<node id="246065453" lat="41.8812048" lon="12.5140044" version="16" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065454" lat="41.8812047" lon="12.5141826" version="10" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065455" lat="41.8812445" lon="12.5144234" version="9" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065457" lat="41.8813014" lon="12.5145728" version="12" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59"/>
+	<node id="246065458" lat="41.8814351" lon="12.5147739" version="10" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065460" lat="41.8817256" lon="12.5149417" version="9" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065461" lat="41.8819214" lon="12.5149446" version="13" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru"/>
+	<node id="246065462" lat="41.8819686" lon="12.5149361" version="14" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru"/>
+	<node id="246065463" lat="41.8822238" lon="12.5147726" version="11" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065464" lat="41.8823305" lon="12.5146282" version="10" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065466" lat="41.8824649" lon="12.5140961" version="9" timestamp="2010-05-15T12:50:21Z" changeset="4705875" uid="110076" user="GPS-Marco"/>
+	<node id="246065467" lat="41.882442" lon="12.5138978" version="9" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065468" lat="41.8823677" lon="12.5136803" version="11" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065469" lat="41.8822432" lon="12.5134739" version="14" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246065471" lat="41.8820383" lon="12.51331" version="9" timestamp="2010-05-15T12:50:20Z" changeset="4705875" uid="110076" user="GPS-Marco"/>
+	<node id="246065472" lat="41.8818993" lon="12.5132682" version="8" timestamp="2010-05-15T12:50:20Z" changeset="4705875" uid="110076" user="GPS-Marco"/>
+	<node id="246065473" lat="41.8817575" lon="12.5132673" version="11" timestamp="2011-03-25T01:07:40Z" changeset="7661556" uid="217070" user="Davlak"/>
+	<node id="246065475" lat="41.881509" lon="12.5133815" version="8" timestamp="2010-05-15T12:50:21Z" changeset="4705875" uid="110076" user="GPS-Marco"/>
+	<node id="246065476" lat="41.8813906" lon="12.5135026" version="8" timestamp="2010-05-15T12:50:21Z" changeset="4705875" uid="110076" user="GPS-Marco"/>
+	<node id="246065477" lat="41.8812696" lon="12.5137137" version="13" timestamp="2021-08-15T14:06:24Z" changeset="109702387" uid="160229" user="sorcrosc">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="246067452" lat="41.8824515" lon="12.5143006" version="12" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59"/>
+	<node id="246067530" lat="41.8844888" lon="12.5149866" version="12" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="246067723" lat="41.8816251" lon="12.5133113" version="13" timestamp="2011-03-25T01:07:39Z" changeset="7661556" uid="217070" user="Davlak"/>
+	<node id="246067824" lat="41.8810156" lon="12.5096413" version="12" timestamp="2012-10-11T19:48:06Z" changeset="13458896" uid="217070" user="Davlak"/>
+	<node id="246067825" lat="41.881188" lon="12.5103133" version="6" timestamp="2011-02-15T11:43:05Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="246067826" lat="41.8814462" lon="12.5120875" version="7" timestamp="2011-03-25T01:07:39Z" changeset="7661556" uid="217070" user="Davlak"/>
+	<node id="246067950" lat="41.8815804" lon="12.5120516" version="5" timestamp="2010-05-15T11:21:22Z" changeset="4705063" uid="110076" user="GPS-Marco"/>
+	<node id="246067951" lat="41.881328" lon="12.510382" version="7" timestamp="2021-02-16T22:02:22Z" changeset="99407463" uid="257767" user="mau59"/>
+	<node id="246068404" lat="41.8818696" lon="12.5157668" version="9" timestamp="2017-12-03T09:02:26Z" changeset="54291820" uid="6159649" user="iLaw"/>
+	<node id="246068406" lat="41.8822859" lon="12.5156012" version="8" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246069116" lat="41.8817338" lon="12.5177402" version="8" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="246069644" lat="41.8808583" lon="12.5099322" version="9" timestamp="2013-04-28T14:28:24Z" changeset="15896418" uid="217070" user="Davlak"/>
+	<node id="246070457" lat="41.8802303" lon="12.5158584" version="10" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59"/>
+	<node id="246070458" lat="41.8805208" lon="12.515859" version="6" timestamp="2011-05-05T14:42:54Z" changeset="8057958" uid="217070" user="Davlak"/>
+	<node id="246071221" lat="41.8804561" lon="12.511683" version="7" timestamp="2014-01-31T15:51:39Z" changeset="20301987" uid="26139" user="dieterdreist"/>
+	<node id="246072119" lat="41.8780878" lon="12.5187796" version="7" timestamp="2020-02-08T10:34:50Z" changeset="80719603" uid="3860151" user="Michele Aquilani"/>
+	<node id="246072996" lat="41.8833849" lon="12.5167193" version="9" timestamp="2021-10-14T11:26:32Z" changeset="112499373" uid="223763" user="Patrick Bous"/>
+	<node id="246073360" lat="41.8846984" lon="12.5139607" version="13" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="246073361" lat="41.8855104" lon="12.5102235" version="10" timestamp="2018-10-16T13:26:37Z" changeset="63576518" uid="3860151" user="Michele Aquilani"/>
+	<node id="246073526" lat="41.8853672" lon="12.5152814" version="7" timestamp="2012-10-11T19:58:21Z" changeset="13459047" uid="217070" user="Davlak"/>
+	<node id="246073937" lat="41.8851879" lon="12.5141683" version="4" timestamp="2017-12-09T02:48:43Z" changeset="54475004" uid="6159649" user="iLaw"/>
+	<node id="246074077" lat="41.8847734" lon="12.5136413" version="9" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="246074234" lat="41.8852443" lon="12.513923" version="5" timestamp="2017-12-09T02:48:43Z" changeset="54475004" uid="6159649" user="iLaw"/>
+	<node id="246111694" lat="41.8849339" lon="12.5128803" version="9" timestamp="2021-02-15T17:36:31Z" changeset="99325399" uid="6159649" user="iLaw"/>
+	<node id="246112133" lat="41.8840529" lon="12.5115996" version="6" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="246112769" lat="41.8828068" lon="12.5131339" version="9" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="246112841" lat="41.883323" lon="12.5133698" version="3" timestamp="2009-01-09T00:53:09Z" changeset="760141" uid="15891" user="francesco_pe"/>
+	<node id="246112900" lat="41.8843818" lon="12.5120873" version="5" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="246112961" lat="41.8837144" lon="12.5135439" version="5" timestamp="2012-09-13T20:24:12Z" changeset="13100686" uid="217070" user="Davlak"/>
+	<node id="246113004" lat="41.8834613" lon="12.5146518" version="9" timestamp="2018-03-02T20:33:10Z" changeset="56831992" uid="6159649" user="iLaw"/>
+	<node id="246113098" lat="41.8833837" lon="12.5155126" version="8" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="246113099" lat="41.8835047" lon="12.5162802" version="7" timestamp="2011-11-07T10:56:33Z" changeset="9763512" uid="430115" user="Emistrac"/>
+	<node id="246113348" lat="41.8853915" lon="12.509963" version="22" timestamp="2015-06-28T09:07:49Z" changeset="32258604" uid="217070" user="Davlak"/>
+	<node id="246113501" lat="41.880716" lon="12.5081497" version="7" timestamp="2011-02-15T11:55:35Z" changeset="7294195" uid="393666" user="etrumap"/>
+	<node id="246113502" lat="41.8815366" lon="12.5081726" version="13" timestamp="2020-12-02T21:04:53Z" changeset="95177498" uid="257767" user="mau59"/>
+	<node id="246117642" lat="41.8851116" lon="12.511207" version="3" timestamp="2010-05-15T11:23:58Z" changeset="4705089" uid="110076" user="GPS-Marco"/>
+	<node id="246117753" lat="41.884783" lon="12.5107207" version="6" timestamp="2011-08-08T22:37:03Z" changeset="8962517" uid="113909" user="Giardia"/>
+	<node id="246117805" lat="41.8852593" lon="12.511426" version="6" timestamp="2010-05-14T18:08:39Z" changeset="4698611" uid="110076" user="GPS-Marco"/>
+	<node id="246118245" lat="41.8844267" lon="12.511147" version="6" timestamp="2011-08-08T22:37:43Z" changeset="8962519" uid="113909" user="Giardia"/>
+	<node id="246118320" lat="41.8847547" lon="12.5116419" version="3" timestamp="2011-09-05T09:46:49Z" changeset="9216015" uid="546" user="Alessandro Frigeri"/>
+	<node id="246118321" lat="41.8851021" lon="12.5121287" version="8" timestamp="2021-02-24T21:58:45Z" changeset="99932370" uid="6159649" user="iLaw"/>
+	<node id="246254436" lat="41.8820545" lon="12.5066062" version="4" timestamp="2020-12-19T20:15:40Z" changeset="96120963" uid="257767" user="mau59"/>
+	<node id="246259735" lat="41.8816886" lon="12.5065478" version="5" timestamp="2020-12-19T20:15:40Z" changeset="96120963" uid="257767" user="mau59"/>
+	<node id="246261182" lat="41.8804675" lon="12.5072937" version="6" timestamp="2020-12-19T20:15:40Z" changeset="96120963" uid="257767" user="mau59"/>
+	<node id="246261183" lat="41.8815948" lon="12.5074994" version="4" timestamp="2020-12-02T21:04:53Z" changeset="95177498" uid="257767" user="mau59"/>
+	<node id="246261694" lat="41.8846448" lon="12.5105353" version="7" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="246261695" lat="41.8836535" lon="12.509" version="7" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="246262056" lat="41.8820766" lon="12.5086632" version="8" timestamp="2012-10-11T19:42:39Z" changeset="13458806" uid="217070" user="Davlak"/>
+	<node id="246262233" lat="41.8835407" lon="12.5065717" version="5" timestamp="2010-05-13T16:40:08Z" changeset="4688102" uid="26139" user="dieterdreist"/>
+	<node id="246262234" lat="41.882699" lon="12.5076428" version="3" timestamp="2011-02-15T11:43:00Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="246262465" lat="41.8839142" lon="12.5114037" version="7" timestamp="2020-10-31T22:50:58Z" changeset="93354561" uid="257767" user="mau59"/>
+	<node id="256178952" lat="41.8854518" lon="12.5093719" version="14" timestamp="2011-09-01T21:09:31Z" changeset="9188586" uid="217070" user="Davlak"/>
+	<node id="256178956" lat="41.8847299" lon="12.5083125" version="5" timestamp="2013-01-31T22:58:17Z" changeset="14865421" uid="217070" user="Davlak"/>
+	<node id="256178957" lat="41.8840361" lon="12.509154" version="8" timestamp="2020-10-06T21:21:02Z" changeset="92070644" uid="257767" user="mau59"/>
+	<node id="256180132" lat="41.8851837" lon="12.5096185" version="14" timestamp="2020-10-06T21:21:02Z" changeset="92070644" uid="257767" user="mau59"/>
+	<node id="256180135" lat="41.8831147" lon="12.5102248" version="4" timestamp="2010-05-15T11:18:32Z" changeset="4705038" uid="110076" user="GPS-Marco"/>
+	<node id="256180136" lat="41.8838607" lon="12.5093421" version="4" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="258207292" lat="41.8825735" lon="12.5108692" version="7" timestamp="2019-05-15T13:38:05Z" changeset="70276439" uid="9916830" user="ceseprova"/>
+	<node id="258207295" lat="41.8833929" lon="12.5120316" version="8" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="258207298" lat="41.8814434" lon="12.509191" version="3" timestamp="2010-05-15T11:21:22Z" changeset="4705063" uid="110076" user="GPS-Marco"/>
+	<node id="281205436" lat="41.8794704" lon="12.5171534" version="6" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="281205438" lat="41.8793457" lon="12.5169311" version="7" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="294039222" lat="41.8799154" lon="12.5165949" version="9" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="294039452" lat="41.878662" lon="12.5181375" version="9" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59"/>
+	<node id="296282247" lat="41.8807731" lon="12.5081478" version="5" timestamp="2016-01-21T10:40:09Z" changeset="36717234" uid="26139" user="dieterdreist"/>
+	<node id="303198300" lat="41.8803437" lon="12.5121924" version="5" timestamp="2014-01-31T15:51:39Z" changeset="20301987" uid="26139" user="dieterdreist"/>
+	<node id="303198303" lat="41.88026" lon="12.5125563" version="6" timestamp="2014-09-08T15:11:42Z" changeset="25309428" uid="217070" user="Davlak"/>
+	<node id="327140328" lat="41.8822994" lon="12.5090202" version="3" timestamp="2011-02-15T11:43:05Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="327140334" lat="41.8817663" lon="12.5096514" version="7" timestamp="2011-02-15T11:43:02Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="327140340" lat="41.8817928" lon="12.5082389" version="4" timestamp="2012-10-11T19:42:39Z" changeset="13458806" uid="217070" user="Davlak"/>
+	<node id="330365970" lat="41.88346" lon="12.5158917" version="7" timestamp="2011-11-07T10:56:33Z" changeset="9763512" uid="430115" user="Emistrac"/>
+	<node id="330365972" lat="41.8838375" lon="12.5158202" version="4" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="330365973" lat="41.8842841" lon="12.5159969" version="5" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="330986166" lat="41.8800634" lon="12.5134085" version="6" timestamp="2014-09-10T20:22:20Z" changeset="25355906" uid="217070" user="Davlak"/>
+	<node id="330986169" lat="41.8801068" lon="12.5132099" version="4" timestamp="2014-09-08T15:11:42Z" changeset="25309428" uid="217070" user="Davlak"/>
+	<node id="330986172" lat="41.8801679" lon="12.5133417" version="6" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani"/>
+	<node id="332090898" lat="41.8803281" lon="12.5097263" version="3" timestamp="2011-02-15T11:55:38Z" changeset="7294195" uid="393666" user="etrumap"/>
+	<node id="332090918" lat="41.8806593" lon="12.5107814" version="5" timestamp="2017-12-13T21:24:15Z" changeset="54608287" uid="6159649" user="iLaw"/>
+	<node id="361294116" lat="41.8826733" lon="12.5129182" version="4" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="361294117" lat="41.8818453" lon="12.5117362" version="3" timestamp="2019-05-15T13:38:05Z" changeset="70276439" uid="9916830" user="ceseprova"/>
+	<node id="414273885" lat="41.879816" lon="12.5163615" version="5" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="414273886" lat="41.8799449" lon="12.5165578" version="6" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59"/>
+	<node id="420455999" lat="41.8801547" lon="12.5159458" version="5" timestamp="2020-12-15T18:56:32Z" changeset="95895239" uid="257767" user="mau59"/>
+	<node id="420456001" lat="41.8798772" lon="12.5162849" version="5" timestamp="2020-12-15T18:56:32Z" changeset="95895239" uid="257767" user="mau59"/>
+	<node id="420456002" lat="41.8797561" lon="12.5164365" version="6" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="420456005" lat="41.8794478" lon="12.5168075" version="6" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="420456009" lat="41.8788157" lon="12.5179546" version="4" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="469532092" lat="41.8785749" lon="12.5182444" version="2" timestamp="2020-02-08T10:34:50Z" changeset="80719603" uid="3860151" user="Michele Aquilani"/>
+	<node id="469532096" lat="41.8787142" lon="12.5180742" version="6" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59">
+		<tag k="crossing" v="marked"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="496325129" lat="41.8794046" lon="12.5172349" version="3" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="496332074" lat="41.8795766" lon="12.5170185" version="3" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="496332077" lat="41.8798606" lon="12.516664" version="5" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="496964125" lat="41.8803604" lon="12.516053" version="4" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="566501735" lat="41.8818509" lon="12.508676" version="3" timestamp="2011-03-25T01:07:38Z" changeset="7661556" uid="217070" user="Davlak"/>
+	<node id="566501736" lat="41.8819326" lon="12.5085076" version="6" timestamp="2012-10-11T19:42:39Z" changeset="13458806" uid="217070" user="Davlak">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="566501737" lat="41.8821081" lon="12.50846" version="7" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="566501738" lat="41.8821294" lon="12.5083644" version="5" timestamp="2012-10-11T19:42:39Z" changeset="13458806" uid="217070" user="Davlak"/>
+	<node id="566501739" lat="41.8819587" lon="12.5086263" version="2" timestamp="2010-05-15T11:21:22Z" changeset="4705063" uid="110076" user="GPS-Marco"/>
+	<node id="566501740" lat="41.8820235" lon="12.5086292" version="3" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="566501744" lat="41.8824412" lon="12.5084993" version="3" timestamp="2012-04-11T21:03:38Z" changeset="11270249" uid="217070" user="Davlak"/>
+	<node id="566501746" lat="41.8832874" lon="12.5088515" version="2" timestamp="2010-05-15T11:18:32Z" changeset="4705038" uid="110076" user="GPS-Marco"/>
+	<node id="566501747" lat="41.8826565" lon="12.5095672" version="2" timestamp="2011-02-15T11:43:05Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="566504881" lat="41.8819537" lon="12.50843" version="5" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="675123479" lat="41.881218" lon="12.5138969" version="9" timestamp="2014-09-10T20:22:05Z" changeset="25355901" uid="217070" user="Davlak"/>
+	<node id="732515083" lat="41.8821215" lon="12.5067698" version="1" timestamp="2010-05-13T16:39:57Z" changeset="4688102" uid="26139" user="dieterdreist"/>
+	<node id="734344358" lat="41.8849752" lon="12.5126956" version="8" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo">
+		<tag k="bicycle" v="yes"/>
+		<tag k="crossing" v="marked"/>
+		<tag k="foot" v="yes"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="734977895" lat="41.8811676" lon="12.5081422" version="2" timestamp="2019-12-13T10:00:42Z" changeset="78364803" uid="3860151" user="Michele Aquilani"/>
+	<node id="734977899" lat="41.8811475" lon="12.5100435" version="4" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="734979891" lat="41.8811193" lon="12.5097857" version="3" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="734979893" lat="41.8809392" lon="12.5096989" version="2" timestamp="2011-02-15T11:43:02Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="734986903" lat="41.8811377" lon="12.5095339" version="1" timestamp="2010-05-15T11:28:53Z" changeset="4705132" uid="110076" user="GPS-Marco"/>
+	<node id="735012052" lat="41.8816898" lon="12.513286" version="3" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani"/>
+	<node id="735012053" lat="41.8815688" lon="12.5148867" version="3" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="735038222" lat="41.8821067" lon="12.5148792" version="2" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="983506581" lat="41.8835859" lon="12.5169764" version="5" timestamp="2017-12-03T09:02:25Z" changeset="54291820" uid="6159649" user="iLaw"/>
+	<node id="1154324015" lat="41.8810707" lon="12.5098454" version="2" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="1154324034" lat="41.8812878" lon="12.5102492" version="1" timestamp="2011-02-15T11:42:57Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="1154324037" lat="41.8819441" lon="12.5094436" version="1" timestamp="2011-02-15T11:42:57Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="1154324041" lat="41.8835698" lon="12.5089677" version="2" timestamp="2012-10-11T19:42:38Z" changeset="13458806" uid="217070" user="Davlak"/>
+	<node id="1154324052" lat="41.8811733" lon="12.5101681" version="2" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="1154324054" lat="41.881883" lon="12.5098275" version="1" timestamp="2011-02-15T11:42:58Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="1154324060" lat="41.8826146" lon="12.5104316" version="1" timestamp="2011-02-15T11:42:58Z" changeset="7294110" uid="393666" user="etrumap"/>
+	<node id="1216897926" lat="41.8815503" lon="12.5118613" version="1" timestamp="2011-03-25T01:07:31Z" changeset="7661556" uid="217070" user="Davlak"/>
+	<node id="1216897929" lat="41.881417" lon="12.5118978" version="2" timestamp="2018-02-12T18:03:41Z" changeset="56301448" uid="6159649" user="iLaw"/>
+	<node id="1216897932" lat="41.8823025" lon="12.5084448" version="3" timestamp="2012-10-11T19:42:38Z" changeset="13458806" uid="217070" user="Davlak">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="1216897938" lat="41.8807119" lon="12.5088665" version="4" timestamp="2020-12-09T18:06:42Z" changeset="95569586" uid="257767" user="mau59"/>
+	<node id="1273133419" lat="41.8807779" lon="12.5152065" version="2" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59"/>
+	<node id="1370074700" lat="41.8833685" lon="12.5152437" version="3" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1370074701" lat="41.8834252" lon="12.5148091" version="3" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1370074709" lat="41.8834752" lon="12.5165189" version="4" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1370074734" lat="41.8837387" lon="12.5158261" version="2" timestamp="2011-11-07T10:56:30Z" changeset="9763512" uid="430115" user="Emistrac"/>
+	<node id="1391602820" lat="41.8847618" lon="12.510668" version="1" timestamp="2011-08-08T22:37:01Z" changeset="8962517" uid="113909" user="Giardia"/>
+	<node id="1420459745" lat="41.8851028" lon="12.508868" version="2" timestamp="2013-01-31T22:58:15Z" changeset="14865421" uid="217070" user="Davlak"/>
+	<node id="1420459746" lat="41.8851495" lon="12.5099329" version="6" timestamp="2021-10-12T17:12:38Z" changeset="112427407" uid="184969" user="EvanE">
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1420459747" lat="41.8852857" lon="12.5097795" version="4" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="1420459750" lat="41.8853721" lon="12.5097275" version="4" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="1437052601" lat="41.8824151" lon="12.5144406" version="5" timestamp="2021-08-15T14:06:24Z" changeset="109702387" uid="160229" user="sorcrosc">
+		<tag k="crossing" v="traffic_signals"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1437052602" lat="41.8823926" lon="12.5145044" version="4" timestamp="2021-08-15T14:06:24Z" changeset="109702387" uid="160229" user="sorcrosc"/>
+	<node id="1494113983" lat="41.8833722" lon="12.5153953" version="2" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1494113985" lat="41.8833756" lon="12.515099" version="2" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1494113996" lat="41.8833899" lon="12.5149889" version="2" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1494113998" lat="41.8834051" lon="12.5156582" version="2" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1494114005" lat="41.8834313" lon="12.5157816" version="1" timestamp="2011-11-07T10:56:16Z" changeset="9763512" uid="430115" user="Emistrac"/>
+	<node id="1494114008" lat="41.8834907" lon="12.5160371" version="1" timestamp="2011-11-07T10:56:17Z" changeset="9763512" uid="430115" user="Emistrac"/>
+	<node id="1494114010" lat="41.8834967" lon="12.5163999" version="2" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1494114012" lat="41.8835041" lon="12.5161644" version="1" timestamp="2011-11-07T10:56:17Z" changeset="9763512" uid="430115" user="Emistrac"/>
+	<node id="1494114030" lat="41.8837862" lon="12.5158168" version="2" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1518748537" lat="41.8815041" lon="12.5148408" version="5" timestamp="2021-08-15T14:06:24Z" changeset="109702387" uid="160229" user="sorcrosc">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1518748855" lat="41.8821633" lon="12.5133916" version="3" timestamp="2021-08-15T14:06:24Z" changeset="109702387" uid="160229" user="sorcrosc">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1688919031" lat="41.883503" lon="12.512279" version="2" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="1711933913" lat="41.8828948" lon="12.5130278" version="3" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="1711933915" lat="41.8830358" lon="12.513239" version="2" timestamp="2012-11-12T00:00:34Z" changeset="13841414" uid="217070" user="Davlak"/>
+	<node id="1711933916" lat="41.885553" lon="12.5143212" version="3" timestamp="2015-06-23T14:13:54Z" changeset="32162539" uid="217070" user="Davlak"/>
+	<node id="1771529495" lat="41.8834816" lon="12.5170746" version="4" timestamp="2019-01-04T13:41:23Z" changeset="66021899" uid="160229" user="sorcrosc"/>
+	<node id="1913238705" lat="41.8811397" lon="12.5169554" version="2" timestamp="2014-03-22T01:44:10Z" changeset="21237240" uid="217070" user="Davlak"/>
+	<node id="1913238708" lat="41.8815217" lon="12.5166212" version="2" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="1913238710" lat="41.8818098" lon="12.5166393" version="2" timestamp="2014-03-22T01:44:10Z" changeset="21237240" uid="217070" user="Davlak"/>
+	<node id="1959073020" lat="41.881903" lon="12.50828" version="1" timestamp="2012-10-11T19:42:04Z" changeset="13458806" uid="217070" user="Davlak">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="1959073022" lat="41.8819795" lon="12.5083085" version="1" timestamp="2012-10-11T19:42:05Z" changeset="13458806" uid="217070" user="Davlak"/>
+	<node id="1959073024" lat="41.8820914" lon="12.5085521" version="1" timestamp="2012-10-11T19:42:05Z" changeset="13458806" uid="217070" user="Davlak"/>
+	<node id="1959073025" lat="41.8822196" lon="12.5082579" version="1" timestamp="2012-10-11T19:42:05Z" changeset="13458806" uid="217070" user="Davlak"/>
+	<node id="1959073027" lat="41.8822707" lon="12.5081924" version="1" timestamp="2012-10-11T19:42:05Z" changeset="13458806" uid="217070" user="Davlak">
+		<tag k="highway" v="traffic_signals"/>
+	</node>
+	<node id="1959096134" lat="41.8812196" lon="12.510241" version="1" timestamp="2012-10-11T19:47:56Z" changeset="13458896" uid="217070" user="Davlak"/>
+	<node id="1959096135" lat="41.8812468" lon="12.5102333" version="1" timestamp="2012-10-11T19:47:56Z" changeset="13458896" uid="217070" user="Davlak"/>
+	<node id="1986964564" lat="41.8794316" lon="12.5172021" version="5" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1986964574" lat="41.8802921" lon="12.5157852" version="5" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1986964577" lat="41.8804189" lon="12.5159814" version="2" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1986978891" lat="41.8812495" lon="12.5146324" version="4" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="1986978892" lat="41.8813826" lon="12.5148341" version="4" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="2068205074" lat="41.8833736" lon="12.5124391" version="3" timestamp="2020-10-31T22:50:58Z" changeset="93354561" uid="257767" user="mau59"/>
+	<node id="2068205076" lat="41.8836978" lon="12.5129171" version="2" timestamp="2021-02-15T17:45:57Z" changeset="99325791" uid="6159649" user="iLaw"/>
+	<node id="2068466943" lat="41.8840264" lon="12.5127176" version="3" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="2068466944" lat="41.8841257" lon="12.5137217" version="2" timestamp="2017-12-09T02:48:43Z" changeset="54475004" uid="6159649" user="iLaw"/>
+	<node id="2068466945" lat="41.8841504" lon="12.5136117" version="3" timestamp="2018-02-25T19:05:46Z" changeset="56668543" uid="454589" user="sabas88">
+		<tag k="barrier" v="lift_gate"/>
+	</node>
+	<node id="2068466946" lat="41.8842547" lon="12.5131495" version="1" timestamp="2012-12-15T16:13:26Z" changeset="14282564" uid="217070" user="Davlak">
+		<tag k="barrier" v="bollard"/>
+	</node>
+	<node id="2068466947" lat="41.8842879" lon="12.5131013" version="2" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="2068466948" lat="41.8847165" lon="12.5125815" version="2" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="2070819763" lat="41.8815045" lon="12.5124864" version="1" timestamp="2012-12-16T22:51:46Z" changeset="14300221" uid="217070" user="Davlak"/>
+	<node id="2073646443" lat="41.8836365" lon="12.5138849" version="3" timestamp="2020-06-23T14:30:22Z" changeset="87039582" uid="6159649" user="iLaw"/>
+	<node id="2073646446" lat="41.8837615" lon="12.5139571" version="3" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="2073646447" lat="41.8841281" lon="12.514461" version="3" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="2073646448" lat="41.8842295" lon="12.5144183" version="2" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="2073646449" lat="41.8843468" lon="12.5138242" version="3" timestamp="2017-12-09T02:48:43Z" changeset="54475004" uid="6159649" user="iLaw"/>
+	<node id="2188993406" lat="41.8840797" lon="12.5073607" version="1" timestamp="2013-03-06T21:23:31Z" changeset="15275961" uid="217070" user="Davlak"/>
+	<node id="2210511416" lat="41.8837185" lon="12.5078468" version="1" timestamp="2013-03-19T22:32:57Z" changeset="15426048" uid="217070" user="Davlak"/>
+	<node id="2210511419" lat="41.8843434" lon="12.5087799" version="1" timestamp="2013-03-19T22:32:57Z" changeset="15426048" uid="217070" user="Davlak"/>
+	<node id="2284338368" lat="41.8809057" lon="12.5097663" version="1" timestamp="2013-04-28T14:28:12Z" changeset="15896418" uid="217070" user="Davlak"/>
+	<node id="2645697235" lat="41.8801253" lon="12.5132593" version="3" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani"/>
+	<node id="2732994935" lat="41.8828771" lon="12.5146353" version="3" timestamp="2020-10-31T22:50:58Z" changeset="93354561" uid="257767" user="mau59"/>
+	<node id="3070827976" lat="41.8802073" lon="12.5133935" version="1" timestamp="2014-09-10T20:22:02Z" changeset="25355901" uid="217070" user="Davlak"/>
+	<node id="3070827977" lat="41.8812368" lon="12.5138167" version="1" timestamp="2014-09-10T20:22:02Z" changeset="25355901" uid="217070" user="Davlak"/>
+	<node id="3612943661" lat="41.8859124" lon="12.5144861" version="1" timestamp="2015-06-23T14:13:41Z" changeset="32162539" uid="217070" user="Davlak"/>
+	<node id="3612943662" lat="41.8860067" lon="12.5145047" version="2" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani"/>
+	<node id="3612943663" lat="41.8860857" lon="12.5144971" version="1" timestamp="2015-06-23T14:13:41Z" changeset="32162539" uid="217070" user="Davlak"/>
+	<node id="3612943664" lat="41.8861933" lon="12.5144566" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="3711153504" lat="41.8827397" lon="12.5130227" version="4" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="3711153507" lat="41.8839844" lon="12.5115042" version="1" timestamp="2015-08-23T22:14:40Z" changeset="33534229" uid="217070" user="Davlak"/>
+	<node id="3711153509" lat="41.8847748" lon="12.5105918" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="highway" v="traffic_signals"/>
+		<tag k="traffic_signals" v="signal"/>
+	</node>
+	<node id="4841468267" lat="41.885379" lon="12.5092672" version="2" timestamp="2020-08-10T16:52:15Z" changeset="89209261" uid="6744861" user="ludofru">
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="4911327709" lat="41.8849237" lon="12.5137901" version="2" timestamp="2017-12-09T02:48:43Z" changeset="54475004" uid="6159649" user="iLaw"/>
+	<node id="4911327710" lat="41.8848672" lon="12.5140357" version="4" timestamp="2021-02-15T17:45:57Z" changeset="99325791" uid="6159649" user="iLaw"/>
+	<node id="5261613041" lat="41.8822457" lon="12.5155706" version="2" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw"/>
+	<node id="5723719859" lat="41.8827653" lon="12.5075585" version="1" timestamp="2018-06-27T17:19:29Z" changeset="60224687" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="5723719860" lat="41.8827422" lon="12.5077085" version="1" timestamp="2018-06-27T17:19:29Z" changeset="60224687" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="5723719886" lat="41.8834892" lon="12.5066372" version="1" timestamp="2018-06-27T17:19:30Z" changeset="60224687" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="6462967868" lat="41.8824343" lon="12.5101625" version="1" timestamp="2019-05-09T20:27:09Z" changeset="70088693" uid="9916830" user="ceseprova"/>
+	<node id="6462967869" lat="41.8826607" lon="12.5099018" version="2" timestamp="2019-11-09T08:53:54Z" changeset="76839109" uid="9916830" user="ceseprova">
+		<tag k="barrier" v="cycle_barrier"/>
+		<tag k="bicycle" v="yes"/>
+		<tag k="foot" v="yes"/>
+		<tag k="motor_vehicle" v="no"/>
+	</node>
+	<node id="6462967871" lat="41.8827848" lon="12.5097586" version="1" timestamp="2019-05-09T20:27:09Z" changeset="70088693" uid="9916830" user="ceseprova"/>
+	<node id="6462967872" lat="41.882545" lon="12.5103278" version="1" timestamp="2019-05-09T20:27:09Z" changeset="70088693" uid="9916830" user="ceseprova">
+		<tag k="barrier" v="gate"/>
+	</node>
+	<node id="6462967873" lat="41.8809792" lon="12.507385" version="1" timestamp="2019-05-09T20:27:09Z" changeset="70088693" uid="9916830" user="ceseprova">
+		<tag k="barrier" v="stile"/>
+		<tag k="foot" v="yes"/>
+		<tag k="motor_vehicle" v="no"/>
+	</node>
+	<node id="6465507338" lat="41.8853448" lon="12.509879" version="1" timestamp="2019-05-10T19:20:21Z" changeset="70121927" uid="9916830" user="ceseprova"/>
+	<node id="6718565374" lat="41.8852151" lon="12.509673" version="4" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="traffic_signals"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+		<tag k="source" v="Bing aerial imagery"/>
+	</node>
+	<node id="6718565378" lat="41.8853035" lon="12.509495" version="4" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="traffic_signals"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+		<tag k="source" v="Bing aerial imagery"/>
+	</node>
+	<node id="6718624287" lat="41.8852752" lon="12.5101093" version="4" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="traffic_signals"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="6718624288" lat="41.8852213" lon="12.5100329" version="3" timestamp="2021-10-12T17:12:52Z" changeset="112427407" uid="184969" user="EvanE">
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7054200263" lat="41.8812628" lon="12.5081456" version="1" timestamp="2019-12-13T10:00:42Z" changeset="78364803" uid="3860151" user="Michele Aquilani"/>
+	<node id="7054200264" lat="41.8810687" lon="12.5081406" version="1" timestamp="2019-12-13T10:00:42Z" changeset="78364803" uid="3860151" user="Michele Aquilani"/>
+	<node id="7054200265" lat="41.8812163" lon="12.5081434" version="1" timestamp="2019-12-13T10:00:42Z" changeset="78364803" uid="3860151" user="Michele Aquilani"/>
+	<node id="7054200266" lat="41.8811193" lon="12.5081409" version="1" timestamp="2019-12-13T10:00:42Z" changeset="78364803" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195812" lat="41.8815871" lon="12.5166121" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195813" lat="41.8814621" lon="12.5166563" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195814" lat="41.8815734" lon="12.5166118" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195815" lat="41.8814796" lon="12.5166424" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195816" lat="41.8815481" lon="12.5166145" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195817" lat="41.8815011" lon="12.5166298" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195818" lat="41.8817366" lon="12.5175672" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195820" lat="41.8817342" lon="12.5176131" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195822" lat="41.881733" lon="12.5176766" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195826" lat="41.8820168" lon="12.5176788" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195830" lat="41.8822874" lon="12.5146948" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195831" lat="41.8823677" lon="12.5145572" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195832" lat="41.8821669" lon="12.5148311" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195835" lat="41.8820426" lon="12.5149148" version="3" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195837" lat="41.8818275" lon="12.5149518" version="2" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195838" lat="41.8816419" lon="12.5149204" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195841" lat="41.8813677" lon="12.5146931" version="2" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195842" lat="41.8814675" lon="12.5148088" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195843" lat="41.8812195" lon="12.5143159" version="2" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195844" lat="41.8812652" lon="12.5144838" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195845" lat="41.8812302" lon="12.5143718" version="2" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195846" lat="41.8812017" lon="12.5140993" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195847" lat="41.8812107" lon="12.5142533" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195848" lat="41.8812105" lon="12.5139499" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195849" lat="41.8812023" lon="12.514051" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195850" lat="41.8813219" lon="12.5136071" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195851" lat="41.8812908" lon="12.5136686" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195852" lat="41.8813554" lon="12.513554" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195853" lat="41.8814528" lon="12.5134298" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195854" lat="41.8815671" lon="12.5133423" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195855" lat="41.8818314" lon="12.513262" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195856" lat="41.8819712" lon="12.5132839" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195857" lat="41.882091" lon="12.5133383" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195859" lat="41.8822877" lon="12.5135379" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195860" lat="41.8824138" lon="12.5138014" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195861" lat="41.8823335" lon="12.5136156" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195862" lat="41.882392" lon="12.5137396" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195863" lat="41.8824586" lon="12.5139945" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195864" lat="41.8824288" lon="12.5138488" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195865" lat="41.8824512" lon="12.5139454" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195866" lat="41.8824637" lon="12.5140507" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195867" lat="41.8824606" lon="12.5142091" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195868" lat="41.8824643" lon="12.514156" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195869" lat="41.8824547" lon="12.5142715" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195870" lat="41.8824988" lon="12.5143166" version="3" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195871" lat="41.8824309" lon="12.5143876" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195872" lat="41.8821053" lon="12.5152376" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195874" lat="41.88214" lon="12.5155587" version="2" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw"/>
+	<node id="7078195877" lat="41.8818908" lon="12.5156975" version="2" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw"/>
+	<node id="7078195878" lat="41.8821654" lon="12.5153673" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195879" lat="41.8823376" lon="12.515683" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195880" lat="41.8822243" lon="12.5154842" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195881" lat="41.8824937" lon="12.5158894" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195882" lat="41.8826599" lon="12.5160773" version="2" timestamp="2020-06-23T14:32:52Z" changeset="87039705" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195883" lat="41.882634" lon="12.515807" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195884" lat="41.883371" lon="12.515172" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195885" lat="41.8833822" lon="12.5150425" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195886" lat="41.8833686" lon="12.5153207" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195887" lat="41.8833935" lon="12.5155919" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195888" lat="41.8834178" lon="12.5157199" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195889" lat="41.8834992" lon="12.5161008" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195890" lat="41.8835025" lon="12.5163389" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195891" lat="41.883486" lon="12.5164707" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195892" lat="41.8834612" lon="12.5165778" version="2" timestamp="2021-02-15T17:45:57Z" changeset="99325791" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195895" lat="41.8832873" lon="12.516615" version="2" timestamp="2020-06-23T14:32:52Z" changeset="87039705" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195896" lat="41.8838128" lon="12.5158161" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195897" lat="41.8837656" lon="12.5158203" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195898" lat="41.8838566" lon="12.5158273" version="1" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani"/>
+	<node id="7078195899" lat="41.8842681" lon="12.5160659" version="2" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195909" lat="41.884033" lon="12.517076" version="2" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="7078195915" lat="41.8844204" lon="12.5149643" version="6" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<tag k="bicycle" v="yes"/>
+		<tag k="crossing" v="marked"/>
+		<tag k="foot" v="yes"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195916" lat="41.8844549" lon="12.5151601" version="7" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="bicycle" v="yes"/>
+		<tag k="crossing" v="marked"/>
+		<tag k="foot" v="yes"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7078195917" lat="41.8846365" lon="12.5150357" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="traffic_signals"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7106888188" lat="41.8828801" lon="12.5098932" version="1" timestamp="2020-01-04T14:29:41Z" changeset="79190321" uid="9916830" user="ceseprova"/>
+	<node id="7106888193" lat="41.8837365" lon="12.5091382" version="2" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="7108796103" lat="41.8825116" lon="12.5126979" version="2" timestamp="2020-10-31T22:50:58Z" changeset="93354561" uid="257767" user="mau59"/>
+	<node id="7111661662" lat="41.8835438" lon="12.5108591" version="1" timestamp="2020-01-06T08:34:45Z" changeset="79238185" uid="9916830" user="ceseprova"/>
+	<node id="7111661669" lat="41.8812744" lon="12.5101908" version="2" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="7194969177" lat="41.8781536" lon="12.5187118" version="1" timestamp="2020-02-08T10:34:50Z" changeset="80719603" uid="3860151" user="Michele Aquilani"/>
+	<node id="7194969178" lat="41.8784714" lon="12.518365" version="1" timestamp="2020-02-08T10:34:50Z" changeset="80719603" uid="3860151" user="Michele Aquilani"/>
+	<node id="7194969180" lat="41.8785235" lon="12.5183047" version="1" timestamp="2020-02-08T10:34:50Z" changeset="80719603" uid="3860151" user="Michele Aquilani"/>
+	<node id="7194969181" lat="41.8786182" lon="12.5181918" version="3" timestamp="2021-01-26T21:33:13Z" changeset="98184886" uid="257767" user="mau59"/>
+	<node id="7598325062" lat="41.8838119" lon="12.5140156" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325063" lat="41.8837001" lon="12.5139139" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325064" lat="41.8837857" lon="12.5139823" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325065" lat="41.8837298" lon="12.5139314" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325066" lat="41.8841788" lon="12.5144544" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325067" lat="41.8840895" lon="12.5144274" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325068" lat="41.8841519" lon="12.5144604" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325069" lat="41.8841073" lon="12.5144469" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325070" lat="41.8842497" lon="12.5143552" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325071" lat="41.8842406" lon="12.5143922" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7598325072" lat="41.8842052" lon="12.5144418" version="1" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani"/>
+	<node id="7798541941" lat="41.8810854" lon="12.5137545" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7798541942" lat="41.8810675" lon="12.5138332" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7798541949" lat="41.8819923" lon="12.5149939" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7798541950" lat="41.8819199" lon="12.5150174" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7798541956" lat="41.8824096" lon="12.5144592" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru"/>
+	<node id="7798541965" lat="41.8822879" lon="12.5134146" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7798541966" lat="41.8824184" lon="12.513618" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7798541972" lat="41.8817477" lon="12.5132" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7798541973" lat="41.8816137" lon="12.5132331" version="1" timestamp="2020-08-09T14:17:08Z" changeset="89155409" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7801602262" lat="41.8846021" lon="12.5104644" version="2" timestamp="2020-12-20T13:45:20Z" changeset="96139904" uid="257767" user="mau59"/>
+	<node id="7801602266" lat="41.884585" lon="12.510612" version="2" timestamp="2020-10-31T22:50:58Z" changeset="93354561" uid="257767" user="mau59">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7801602267" lat="41.8847141" lon="12.5108031" version="1" timestamp="2020-08-10T16:52:15Z" changeset="89209261" uid="6744861" user="ludofru">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7801602279" lat="41.8852989" lon="12.5112366" version="2" timestamp="2021-02-15T17:36:31Z" changeset="99325399" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7801603691" lat="41.8854377" lon="12.5105648" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="7908783677" lat="41.8820578" lon="12.5086478" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783678" lat="41.8819808" lon="12.5086231" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783679" lat="41.8820395" lon="12.5086355" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783680" lat="41.882001" lon="12.5086232" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783681" lat="41.8819303" lon="12.5086364" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783682" lat="41.8819078" lon="12.5085754" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783683" lat="41.8818901" lon="12.5086147" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783684" lat="41.8819424" lon="12.5084723" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783685" lat="41.8819597" lon="12.5084017" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783686" lat="41.8820983" lon="12.5085115" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783687" lat="41.8821172" lon="12.5084177" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783688" lat="41.885374" lon="12.5094295" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783689" lat="41.8854144" lon="12.5093972" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783690" lat="41.8853402" lon="12.5094588" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="highway" v="traffic_signals"/>
+		<tag k="traffic_signals" v="signal"/>
+	</node>
+	<node id="7908783723" lat="41.8848079" lon="12.5105402" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783724" lat="41.8847587" lon="12.5106475" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783725" lat="41.8847966" lon="12.5105556" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783726" lat="41.884761" lon="12.5106281" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783727" lat="41.8847663" lon="12.510611" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783728" lat="41.884787" lon="12.5105703" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783729" lat="41.8847708" lon="12.5106934" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783734" lat="41.882207" lon="12.513433" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783735" lat="41.881793" lon="12.5132627" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783736" lat="41.8812532" lon="12.5137597" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783737" lat="41.8815964" lon="12.5149011" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783738" lat="41.8815454" lon="12.5148717" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783739" lat="41.8816867" lon="12.514933" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783740" lat="41.8817758" lon="12.5149483" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783741" lat="41.8818737" lon="12.5149497" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783742" lat="41.8820761" lon="12.514898" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783743" lat="41.8820049" lon="12.514927" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783744" lat="41.882139" lon="12.5148547" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783745" lat="41.8821969" lon="12.5148019" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783746" lat="41.8822514" lon="12.514741" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783747" lat="41.8823112" lon="12.5146605" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783748" lat="41.8823498" lon="12.5145927" version="1" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani"/>
+	<node id="7908783765" lat="41.8851389" lon="12.511964" version="5" timestamp="2021-02-24T21:58:45Z" changeset="99932370" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="foot" v="yes"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8069972721" lat="41.8829212" lon="12.5143043" version="1" timestamp="2020-10-31T22:50:58Z" changeset="93354561" uid="257767" user="mau59"/>
+	<node id="8188724451" lat="41.881655" lon="12.5082003" version="1" timestamp="2020-12-02T21:04:53Z" changeset="95177498" uid="257767" user="mau59"/>
+	<node id="8220530119" lat="41.8809187" lon="12.5097301" version="1" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="8220530121" lat="41.8811631" lon="12.5101027" version="1" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="8220530122" lat="41.8810762" lon="12.5097188" version="1" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="8220530123" lat="41.8812238" lon="12.5100426" version="1" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="8220530124" lat="41.8811734" lon="12.5099032" version="1" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59"/>
+	<node id="8243489124" lat="41.8814008" lon="12.5081578" version="1" timestamp="2020-12-19T20:15:40Z" changeset="96120963" uid="257767" user="mau59"/>
+	<node id="8283409056" lat="41.8847989" lon="12.5140055" version="6" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<tag k="bicycle" v="yes"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="foot" v="no"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8283409057" lat="41.884853" lon="12.5137609" version="6" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<tag k="bicycle" v="yes"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="foot" v="no"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8432112929" lat="41.8816574" lon="12.5132981" version="1" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani"/>
+	<node id="8432112930" lat="41.8817236" lon="12.5132761" version="1" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani"/>
+	<node id="8432112942" lat="41.8819212" lon="12.51498" version="1" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani"/>
+	<node id="8437277744" lat="41.8813164" lon="12.5146036" version="1" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="8437277745" lat="41.8814172" lon="12.5147552" version="1" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="8437277746" lat="41.8814036" lon="12.5147399" version="1" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="8437277747" lat="41.8813322" lon="12.5146339" version="1" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="8437277748" lat="41.881385" lon="12.514717" version="1" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="8437277749" lat="41.8813492" lon="12.514664" version="1" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442514622" lat="41.8801462" lon="12.5133028" version="1" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442514623" lat="41.8801885" lon="12.5133699" version="1" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442514641" lat="41.8812268" lon="12.5138558" version="1" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442926950" lat="41.8860663" lon="12.5145011" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442926951" lat="41.8859371" lon="12.5144934" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442926952" lat="41.8859578" lon="12.514498" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442926953" lat="41.886049" lon="12.5145032" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442926954" lat="41.8860264" lon="12.5145049" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8442926955" lat="41.885983" lon="12.5145023" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani"/>
+	<node id="8442926956" lat="41.8841006" lon="12.5116716" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8442926957" lat="41.8839997" lon="12.5116653" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8442926958" lat="41.8838655" lon="12.5114624" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8442926959" lat="41.8838662" lon="12.5113331" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8442926960" lat="41.8836595" lon="12.5120856" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8442926961" lat="41.8835207" lon="12.5118777" version="1" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8478375660" lat="41.8844441" lon="12.5078968" version="1" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw"/>
+	<node id="8478375682" lat="41.8841486" lon="12.5074615" version="1" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw"/>
+	<node id="8478375684" lat="41.8842088" lon="12.5075509" version="1" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw"/>
+	<node id="8478375686" lat="41.8842799" lon="12.5076548" version="1" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw"/>
+	<node id="8478375689" lat="41.8847707" lon="12.5083733" version="1" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8478375692" lat="41.8845275" lon="12.5080163" version="1" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw"/>
+	<node id="8633279953" lat="41.8852075" lon="12.5140829" version="1" timestamp="2021-04-15T20:06:18Z" changeset="103015577" uid="9916830" user="ceseprova"/>
+	<node id="8678173992" lat="41.880796" lon="12.5137184" version="1" timestamp="2021-04-29T04:28:04Z" changeset="103810045" uid="11705745" user="somaswap"/>
+	<node id="8678173996" lat="41.880657" lon="12.5153505" version="1" timestamp="2021-04-29T04:28:04Z" changeset="103810045" uid="11705745" user="somaswap"/>
+	<node id="8733703280" lat="41.8840489" lon="12.5170076" version="2" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253528" lat="41.884518" lon="12.5148368" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="bicycle" v="yes"/>
+		<tag k="crossing" v="marked"/>
+		<tag k="foot" v="yes"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253536" lat="41.8848662" lon="12.513202" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<tag k="bicycle" v="yes"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="foot" v="no"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253537" lat="41.8850031" lon="12.5130819" version="2" timestamp="2021-10-12T17:13:07Z" changeset="112427407" uid="184969" user="EvanE">
+		<tag k="bicycle" v="designated"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253538" lat="41.8859283" lon="12.512836" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="8831253539" lat="41.8850435" lon="12.5128901" version="3" timestamp="2021-10-12T17:13:09Z" changeset="112427407" uid="184969" user="EvanE">
+		<tag k="bicycle" v="designated"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253540" lat="41.8851333" lon="12.512974" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="8831253541" lat="41.8851698" lon="12.5129784" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="8831253542" lat="41.8852051" lon="12.5129763" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="8831253543" lat="41.8859179" lon="12.5127707" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="8831253544" lat="41.8849618" lon="12.5130921" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253545" lat="41.8851069" lon="12.5129618" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253546" lat="41.8849946" lon="12.5127784" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253547" lat="41.8850149" lon="12.5128355" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253548" lat="41.8849036" lon="12.5131318" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253550" lat="41.8849369" lon="12.5127658" version="2" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="8831253551" lat="41.8848889" lon="12.5127929" version="3" timestamp="2021-10-12T17:13:10Z" changeset="112427407" uid="184969" user="EvanE">
+		<tag k="bicycle" v="designated"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253564" lat="41.8844956" lon="12.5149447" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253569" lat="41.8847902" lon="12.5137024" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253570" lat="41.8848196" lon="12.5137451" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253583" lat="41.8849307" lon="12.5131066" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253584" lat="41.8848859" lon="12.5131588" version="1" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw"/>
+	<node id="8831253587" lat="41.8850834" lon="12.5130608" version="2" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo">
+		<tag k="crossing" v="marked"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253591" lat="41.8858685" lon="12.5127851" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="bicycle" v="designated"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8831253592" lat="41.8858791" lon="12.5128506" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="bicycle" v="designated"/>
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="8903383163" lat="41.8819126" lon="12.5156596" version="1" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw"/>
+	<node id="8903383164" lat="41.8821833" lon="12.5155519" version="1" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw"/>
+	<node id="8903383167" lat="41.8819386" lon="12.5156373" version="1" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw"/>
+	<node id="8903383168" lat="41.8822155" lon="12.5155573" version="1" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw"/>
+	<node id="9122327329" lat="41.8848294" lon="12.5107894" version="2" timestamp="2021-10-12T17:13:16Z" changeset="112427407" uid="184969" user="EvanE">
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="9127278938" lat="41.8848638" lon="12.5127793" version="1" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="9127278939" lat="41.884916" lon="12.5127853" version="1" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="9127278940" lat="41.8848431" lon="12.5127597" version="1" timestamp="2021-09-27T17:07:28Z" changeset="111778868" uid="1983103" user="Jorisbo"/>
+	<node id="9127278941" lat="41.8850736" lon="12.5129321" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="9167879318" lat="41.8858217" lon="12.5127978" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+		<tag k="source" v="Bing aerial imagery"/>
+	</node>
+	<node id="9167879320" lat="41.8844768" lon="12.5112277" version="1" timestamp="2021-10-12T17:12:19Z" changeset="112427407" uid="184969" user="EvanE">
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+		<tag k="source" v="Bing aerial imagery"/>
+	</node>
+	<node id="9167880318" lat="41.8858344" lon="12.5128632" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="uncontrolled"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+		<tag k="source" v="Bing aerial imagery"/>
+	</node>
+	<node id="9167880418" lat="41.8852307" lon="12.5113764" version="2" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="crossing" v="marked"/>
+		<tag k="crossing_ref" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+		<tag k="source" v="Bing aerial imagery"/>
+	</node>
+	<node id="9171622053" lat="41.8841831" lon="12.5159568" version="1" timestamp="2021-10-14T11:26:32Z" changeset="112499373" uid="223763" user="Patrick Bous">
+		<tag k="crossing" v="zebra"/>
+		<tag k="highway" v="crossing"/>
+	</node>
+	<node id="9221170914" lat="41.8861377" lon="12.5144788" version="1" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma"/>
+	<node id="9221179574" lat="41.8852456" lon="12.5101461" version="1" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<tag k="highway" v="traffic_signals"/>
+		<tag k="traffic_signals" v="signal"/>
+	</node>
+	<way id="22883478" version="14" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="246064632"/>
+		<nd ref="7078195826"/>
+		<nd ref="246064787"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Tuscolana"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="22883496" version="45" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani">
+		<nd ref="246067723"/>
+		<nd ref="7078195854"/>
+		<nd ref="246065475"/>
+		<nd ref="7078195853"/>
+		<nd ref="246065476"/>
+		<nd ref="7078195852"/>
+		<nd ref="7078195850"/>
+		<nd ref="7078195851"/>
+		<nd ref="246065477"/>
+		<nd ref="7908783736"/>
+		<nd ref="3070827977"/>
+		<nd ref="8442514641"/>
+		<nd ref="675123479"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22883612" version="22" timestamp="2015-06-22T22:28:09Z" changeset="32149933" uid="217070" user="Davlak">
+		<nd ref="246067824"/>
+		<nd ref="1154324015"/>
+		<nd ref="734977899"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Cerveteri"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="22883640" version="23" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065473"/>
+		<nd ref="7798541972"/>
+		<nd ref="246067950"/>
+		<nd ref="1216897926"/>
+		<nd ref="246067951"/>
+		<nd ref="1154324034"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Cerveteri"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22883694" version="20" timestamp="2021-04-29T04:28:04Z" changeset="103810045" uid="11705745" user="somaswap">
+		<nd ref="330986166"/>
+		<nd ref="8678173992"/>
+		<nd ref="7798541942"/>
+		<nd ref="675123479"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Albalonga"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22883748" version="17" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065461"/>
+		<nd ref="8432112942"/>
+		<nd ref="7798541950"/>
+		<nd ref="246068404"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Largo Vercelli"/>
+		<tag k="note" v="oneway for works"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22883891" version="24" timestamp="2015-06-22T22:28:11Z" changeset="32149933" uid="217070" user="Davlak">
+		<nd ref="246067824"/>
+		<nd ref="1216897938"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Soana"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="22883892" version="20" timestamp="2017-12-31T16:16:18Z" changeset="55061626" uid="7404545" user="LucianoTok">
+		<nd ref="246067824"/>
+		<nd ref="734986903"/>
+		<nd ref="258207298"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Gabi"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="22883917" version="9" timestamp="2014-07-30T20:58:44Z" changeset="24452075" uid="217070" user="Davlak">
+		<nd ref="246069644"/>
+		<nd ref="332090898"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Astura"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="22883954" version="10" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="246072996"/>
+		<nd ref="7078195895"/>
+		<nd ref="7078195882"/>
+		<nd ref="246064632"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Pinerolo"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="22883965" version="33" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="246073361"/>
+		<nd ref="7801603691"/>
+		<nd ref="7801602279"/>
+		<nd ref="246117805"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Largo Brindisi"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22883972" version="20" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="246067530"/>
+		<nd ref="7078195917"/>
+		<nd ref="246073526"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Monza"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="22883981" version="12" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<nd ref="246074077"/>
+		<nd ref="8831253569"/>
+		<nd ref="8831253570"/>
+		<nd ref="8283409057"/>
+		<nd ref="4911327709"/>
+		<nd ref="246074234"/>
+		<nd ref="8633279953"/>
+		<nd ref="246073937"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Piazza Imola"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="22884887" version="20" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="734344358"/>
+		<nd ref="8831253550"/>
+		<nd ref="9127278939"/>
+		<nd ref="8831253551"/>
+		<nd ref="9127278938"/>
+		<nd ref="9127278940"/>
+		<nd ref="2068466948"/>
+		<nd ref="246112900"/>
+		<nd ref="8442926956"/>
+		<nd ref="246112133"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Rimini"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22884893" version="45" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065468"/>
+		<nd ref="7798541966"/>
+		<nd ref="246112769"/>
+		<nd ref="1711933913"/>
+		<nd ref="2068205074"/>
+		<nd ref="1688919031"/>
+		<nd ref="8442926960"/>
+		<nd ref="8442926957"/>
+		<nd ref="246112133"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22884905" version="12" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="246117642"/>
+		<nd ref="246118320"/>
+		<nd ref="246112900"/>
+		<nd ref="2068205076"/>
+		<nd ref="246112841"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Urbino"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22884908" version="4" timestamp="2012-12-18T21:28:22Z" changeset="14324166" uid="217070" user="Davlak">
+		<nd ref="246112961"/>
+		<nd ref="2073646443"/>
+		<nd ref="246113004"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Fidenza"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="22884911" version="12" timestamp="2021-02-15T17:45:57Z" changeset="99325791" uid="6159649" user="iLaw">
+		<nd ref="246072996"/>
+		<nd ref="7078195892"/>
+		<nd ref="1370074709"/>
+		<nd ref="7078195891"/>
+		<nd ref="1494114010"/>
+		<nd ref="7078195890"/>
+		<nd ref="246113099"/>
+		<nd ref="1494114012"/>
+		<nd ref="7078195889"/>
+		<nd ref="1494114008"/>
+		<nd ref="330365970"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Casoria"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="22885073" version="20" timestamp="2021-10-12T17:13:18Z" changeset="112427407" uid="184969" user="EvanE">
+		<nd ref="246117753"/>
+		<nd ref="9122327329"/>
+		<nd ref="246117642"/>
+		<nd ref="9167880418"/>
+		<nd ref="246117805"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="30"/>
+		<tag k="name" v="Via Faenza"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22885085" version="9" timestamp="2021-10-12T17:13:21Z" changeset="112427407" uid="184969" user="EvanE">
+		<nd ref="246118321"/>
+		<nd ref="246118320"/>
+		<nd ref="9167879320"/>
+		<nd ref="246118245"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Pontremoli"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="22890628" version="23" timestamp="2020-08-10T16:52:15Z" changeset="89209261" uid="6744861" user="ludofru">
+		<nd ref="246261694"/>
+		<nd ref="7801602262"/>
+		<nd ref="256180136"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Veio"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="22890873" version="7" timestamp="2013-01-31T22:57:33Z" changeset="14865421" uid="217070" user="Davlak">
+		<nd ref="246113502"/>
+		<nd ref="246261183"/>
+		<nd ref="246259735"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Claterna"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="22890962" version="7" timestamp="2020-01-04T10:51:32Z" changeset="79185452" uid="9916830" user="ceseprova">
+		<nd ref="246261182"/>
+		<nd ref="6462967873"/>
+		<nd ref="246261183"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Cereate"/>
+		<tag k="oneway" v="no"/>
+	</way>
+	<way id="23032633" version="16" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59">
+		<nd ref="246069644"/>
+		<nd ref="2284338368"/>
+		<nd ref="8220530119"/>
+		<nd ref="734979893"/>
+		<nd ref="246067824"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza Tarquinia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="23032634" version="9" timestamp="2014-07-30T20:58:43Z" changeset="24452075" uid="217070" user="Davlak">
+		<nd ref="246069644"/>
+		<nd ref="734977899"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza Tarquinia"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="23032681" version="9" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="246262465"/>
+		<nd ref="3711153507"/>
+		<nd ref="246112133"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="23646588" version="11" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw">
+		<nd ref="256178952"/>
+		<nd ref="4841468267"/>
+		<nd ref="1420459745"/>
+		<nd ref="8478375689"/>
+		<nd ref="256178956"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Sannio"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="23646589" version="7" timestamp="2018-06-27T17:19:38Z" changeset="60224687" uid="3860151" user="Michele Aquilani">
+		<nd ref="246262233"/>
+		<nd ref="5723719886"/>
+		<nd ref="5723719859"/>
+		<nd ref="246262234"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Amiterno"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="27611923" version="5" timestamp="2014-07-30T20:58:51Z" changeset="24452075" uid="217070" user="Davlak">
+		<nd ref="246071221"/>
+		<nd ref="246067826"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Pomezia"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="29702749" version="7" timestamp="2013-01-31T22:57:37Z" changeset="14865421" uid="217070" user="Davlak">
+		<nd ref="258207295"/>
+		<nd ref="258207292"/>
+		<nd ref="1154324054"/>
+		<nd ref="327140334"/>
+		<nd ref="258207298"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Fregene"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="29702750" version="5" timestamp="2013-01-31T22:57:34Z" changeset="14865421" uid="217070" user="Davlak">
+		<nd ref="327140328"/>
+		<nd ref="1154324037"/>
+		<nd ref="327140334"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Cuma"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="30010340" version="9" timestamp="2021-10-14T11:26:32Z" changeset="112499373" uid="223763" user="Patrick Bous">
+		<nd ref="330365973"/>
+		<nd ref="9171622053"/>
+		<nd ref="7078195898"/>
+		<nd ref="330365972"/>
+		<nd ref="7078195896"/>
+		<nd ref="1494114030"/>
+		<nd ref="7078195897"/>
+		<nd ref="1370074734"/>
+		<nd ref="330365970"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Conegliano"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="31998925" version="10" timestamp="2018-03-02T20:33:11Z" changeset="56831992" uid="6159649" user="iLaw">
+		<nd ref="361294116"/>
+		<nd ref="3711153504"/>
+		<nd ref="246112769"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="32217469" version="4" timestamp="2020-01-05T10:05:49Z" changeset="79208570" uid="9916830" user="ceseprova">
+		<nd ref="361294116"/>
+		<nd ref="7108796103"/>
+		<nd ref="361294117"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Lavinio"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="33600916" version="13" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<nd ref="246111694"/>
+		<nd ref="8831253536"/>
+		<nd ref="246074077"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Taranto"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="36768609" version="11" timestamp="2021-07-08T06:45:35Z" changeset="107608275" uid="6159649" user="iLaw">
+		<nd ref="246068404"/>
+		<nd ref="7078195877"/>
+		<nd ref="8903383163"/>
+		<nd ref="8903383167"/>
+		<nd ref="7078195874"/>
+		<nd ref="8903383164"/>
+		<nd ref="8903383168"/>
+		<nd ref="5261613041"/>
+		<nd ref="246068406"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Largo Vercelli"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="36768610" version="18" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246068406"/>
+		<nd ref="7078195880"/>
+		<nd ref="7078195878"/>
+		<nd ref="7078195872"/>
+		<nd ref="7798541949"/>
+		<nd ref="246065462"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Largo Vercelli"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="44625539" version="12" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani">
+		<nd ref="256180132"/>
+		<nd ref="256178957"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="44625540" version="4" timestamp="2013-01-31T22:57:23Z" changeset="14865421" uid="217070" user="Davlak">
+		<nd ref="246262234"/>
+		<nd ref="1959073027"/>
+		<nd ref="1959073025"/>
+		<nd ref="566501738"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Amiterno"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="44625543" version="12" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani">
+		<nd ref="566501735"/>
+		<nd ref="7908783683"/>
+		<nd ref="7908783682"/>
+		<nd ref="566501736"/>
+		<nd ref="7908783684"/>
+		<nd ref="566504881"/>
+		<nd ref="7908783685"/>
+		<nd ref="1959073022"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Gabi"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="44625544" version="10" timestamp="2020-12-02T21:04:53Z" changeset="95177498" uid="257767" user="mau59">
+		<nd ref="246113502"/>
+		<nd ref="8188724451"/>
+		<nd ref="327140340"/>
+		<nd ref="1959073020"/>
+		<nd ref="1959073022"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="44625546" version="11" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani">
+		<nd ref="566501738"/>
+		<nd ref="7908783687"/>
+		<nd ref="566501737"/>
+		<nd ref="7908783686"/>
+		<nd ref="1959073024"/>
+		<nd ref="246262056"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="49190731" version="6" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani">
+		<nd ref="566501735"/>
+		<nd ref="7908783681"/>
+		<nd ref="566501739"/>
+		<nd ref="7908783678"/>
+		<nd ref="7908783680"/>
+		<nd ref="566501740"/>
+		<nd ref="7908783679"/>
+		<nd ref="7908783677"/>
+		<nd ref="246262056"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Gabi"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="59275365" version="6" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="246067452"/>
+		<nd ref="7078195870"/>
+		<nd ref="246065117"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Aosta"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="84665214" version="4" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani">
+		<nd ref="330986169"/>
+		<nd ref="303198303"/>
+		<nd ref="303198300"/>
+		<nd ref="246071221"/>
+		<nd ref="332090918"/>
+		<nd ref="246069644"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Ceneda"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="99848113" version="4" timestamp="2018-06-27T17:19:38Z" changeset="60224687" uid="3860151" user="Michele Aquilani">
+		<nd ref="1154324041"/>
+		<nd ref="5723719860"/>
+		<nd ref="246262234"/>
+		<nd ref="732515083"/>
+		<nd ref="246254436"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Veio"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="99848117" version="3" timestamp="2019-05-09T20:27:09Z" changeset="70088693" uid="9916830" user="ceseprova">
+		<nd ref="1154324037"/>
+		<nd ref="6462967868"/>
+		<nd ref="6462967872"/>
+		<nd ref="1154324060"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Via Suessola"/>
+	</way>
+	<way id="99852739" version="6" timestamp="2020-12-19T20:15:40Z" changeset="96120963" uid="257767" user="mau59">
+		<nd ref="246113501"/>
+		<nd ref="296282247"/>
+		<nd ref="7054200264"/>
+		<nd ref="7054200266"/>
+		<nd ref="734977895"/>
+		<nd ref="7054200265"/>
+		<nd ref="7054200263"/>
+		<nd ref="8243489124"/>
+		<nd ref="246113502"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="102218491" version="10" timestamp="2021-02-07T10:57:09Z" changeset="98845309" uid="217070" user="Davlak">
+		<nd ref="1420459747"/>
+		<nd ref="6465507338"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazzale Appio"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="105679086" version="4" timestamp="2019-05-15T13:38:05Z" changeset="70276439" uid="9916830" user="ceseprova">
+		<nd ref="1216897929"/>
+		<nd ref="1216897926"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="110595444" version="11" timestamp="2021-04-29T04:28:04Z" changeset="103810045" uid="11705745" user="somaswap">
+		<nd ref="246065457"/>
+		<nd ref="1986978891"/>
+		<nd ref="1273133419"/>
+		<nd ref="8678173996"/>
+		<nd ref="1986964574"/>
+		<nd ref="246070457"/>
+		<nd ref="420455999"/>
+		<nd ref="420456001"/>
+		<nd ref="414273885"/>
+		<nd ref="420456002"/>
+		<nd ref="420456005"/>
+		<nd ref="281205438"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="ref" v="SS7"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="120513795" version="7" timestamp="2020-08-10T16:52:15Z" changeset="89209261" uid="6744861" user="ludofru">
+		<nd ref="246112133"/>
+		<nd ref="246118245"/>
+		<nd ref="7801602267"/>
+		<nd ref="246117753"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="120513796" version="10" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="246117805"/>
+		<nd ref="7908783765"/>
+		<nd ref="246118321"/>
+		<nd ref="734344358"/>
+		<nd ref="246111694"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Taranto"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="120514952" version="7" timestamp="2021-05-15T11:31:58Z" changeset="104728991" uid="3695759" user="Blade_71">
+		<nd ref="246067530"/>
+		<nd ref="7078195916"/>
+		<nd ref="330365973"/>
+		<tag k="cycleway:left" v="track"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Taranto"/>
+		<tag k="oneway:bicycle" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="123964293" version="14" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065458"/>
+		<nd ref="7078195842"/>
+		<nd ref="1518748537"/>
+		<nd ref="7908783738"/>
+		<nd ref="735012053"/>
+		<nd ref="7908783737"/>
+		<nd ref="7078195838"/>
+		<nd ref="7908783739"/>
+		<nd ref="246065460"/>
+		<nd ref="7908783740"/>
+		<nd ref="7078195837"/>
+		<nd ref="7908783741"/>
+		<nd ref="246065461"/>
+		<nd ref="246065462"/>
+		<nd ref="7908783743"/>
+		<nd ref="7078195835"/>
+		<nd ref="7908783742"/>
+		<nd ref="735038222"/>
+		<nd ref="7908783744"/>
+		<nd ref="7078195832"/>
+		<nd ref="7908783745"/>
+		<nd ref="246065463"/>
+		<nd ref="7908783746"/>
+		<nd ref="7078195830"/>
+		<nd ref="7908783747"/>
+		<nd ref="246065464"/>
+		<nd ref="7908783748"/>
+		<nd ref="7078195831"/>
+		<nd ref="1437052602"/>
+		<nd ref="7798541956"/>
+		<nd ref="1437052601"/>
+		<nd ref="7078195871"/>
+		<nd ref="246067452"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="123964296" version="10" timestamp="2021-02-19T09:36:58Z" changeset="99581030" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065457"/>
+		<nd ref="8437277744"/>
+		<nd ref="8437277747"/>
+		<nd ref="8437277749"/>
+		<nd ref="7078195841"/>
+		<nd ref="8437277748"/>
+		<nd ref="8437277746"/>
+		<nd ref="8437277745"/>
+		<nd ref="246065458"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="123964298" version="6" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065473"/>
+		<nd ref="8432112930"/>
+		<nd ref="735012052"/>
+		<nd ref="8432112929"/>
+		<nd ref="246067723"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="123981332" version="7" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065468"/>
+		<nd ref="7078195861"/>
+		<nd ref="7078195859"/>
+		<nd ref="246065469"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="123981333" version="12" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246065469"/>
+		<nd ref="7908783734"/>
+		<nd ref="1518748855"/>
+		<nd ref="7078195857"/>
+		<nd ref="246065471"/>
+		<nd ref="7078195856"/>
+		<nd ref="246065472"/>
+		<nd ref="7078195855"/>
+		<nd ref="7908783735"/>
+		<nd ref="246065473"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="128565528" version="5" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="1420459747"/>
+		<nd ref="1420459746"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazzale Appio"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="128565536" version="8" timestamp="2021-02-07T10:53:43Z" changeset="98845189" uid="217070" user="Davlak">
+		<nd ref="256180132"/>
+		<nd ref="6718565374"/>
+		<nd ref="1420459747"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazzale Appio"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="128648686" version="10" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="1420459750"/>
+		<nd ref="1420459747"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazzale Appio"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="139680009" version="7" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246067452"/>
+		<nd ref="7078195869"/>
+		<nd ref="7078195867"/>
+		<nd ref="7078195868"/>
+		<nd ref="246065466"/>
+		<nd ref="7078195866"/>
+		<nd ref="7078195863"/>
+		<nd ref="7078195865"/>
+		<nd ref="246065467"/>
+		<nd ref="7078195864"/>
+		<nd ref="7078195860"/>
+		<nd ref="7078195862"/>
+		<nd ref="246065468"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="139680013" version="7" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="675123479"/>
+		<nd ref="7078195848"/>
+		<nd ref="246065453"/>
+		<nd ref="7078195849"/>
+		<nd ref="7078195846"/>
+		<nd ref="246065454"/>
+		<nd ref="7078195847"/>
+		<nd ref="7078195843"/>
+		<nd ref="7078195845"/>
+		<nd ref="246065455"/>
+		<nd ref="7078195844"/>
+		<nd ref="246065457"/>
+		<tag k="highway" v="primary"/>
+		<tag k="junction" v="roundabout"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza dei Re di Roma"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="140457008" version="10" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="246261694"/>
+		<nd ref="7801602266"/>
+		<nd ref="246262465"/>
+		<nd ref="8442926958"/>
+		<nd ref="8442926961"/>
+		<nd ref="258207295"/>
+		<nd ref="361294116"/>
+		<nd ref="7798541965"/>
+		<nd ref="246065469"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="140457009" version="12" timestamp="2021-10-12T17:13:26Z" changeset="112427407" uid="184969" user="EvanE">
+		<nd ref="3711153509"/>
+		<nd ref="7908783727"/>
+		<nd ref="7908783726"/>
+		<nd ref="7908783724"/>
+		<nd ref="1391602820"/>
+		<nd ref="7908783729"/>
+		<nd ref="246117753"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="159096034" version="8" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="246262056"/>
+		<nd ref="327140328"/>
+		<nd ref="566501747"/>
+		<nd ref="6462967871"/>
+		<nd ref="7106888188"/>
+		<nd ref="256180135"/>
+		<nd ref="7111661662"/>
+		<nd ref="8442926959"/>
+		<nd ref="246262465"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Faleria"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="159096035" version="8" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="246073937"/>
+		<nd ref="1711933916"/>
+		<nd ref="3612943661"/>
+		<nd ref="8442926951"/>
+		<nd ref="8442926952"/>
+		<nd ref="8442926955"/>
+		<nd ref="3612943662"/>
+		<nd ref="8442926954"/>
+		<nd ref="8442926953"/>
+		<nd ref="8442926950"/>
+		<nd ref="3612943663"/>
+		<nd ref="9221170914"/>
+		<nd ref="3612943664"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Isernia"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="159096037" version="6" timestamp="2018-02-25T19:05:46Z" changeset="56668543" uid="454589" user="sabas88">
+		<nd ref="246112769"/>
+		<nd ref="246065118"/>
+		<nd ref="1711933915"/>
+		<nd ref="1711933913"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Piazza Sulmona"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="162351564" version="7" timestamp="2020-06-19T08:58:49Z" changeset="86866017" uid="9916830" user="ceseprova">
+		<nd ref="246261695"/>
+		<nd ref="7106888193"/>
+		<nd ref="256180136"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Largo Magnagrecia"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="180870202" version="6" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="246064632"/>
+		<nd ref="7078195881"/>
+		<nd ref="7078195879"/>
+		<nd ref="246068406"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Pinerolo"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="180870203" version="7" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="1913238705"/>
+		<nd ref="7078195813"/>
+		<nd ref="7078195815"/>
+		<nd ref="7078195817"/>
+		<nd ref="1913238708"/>
+		<nd ref="7078195816"/>
+		<nd ref="7078195814"/>
+		<nd ref="7078195812"/>
+		<nd ref="1913238710"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Sermide"/>
+		<tag k="oneway" v="no"/>
+	</way>
+	<way id="185329836" version="2" timestamp="2012-11-10T15:03:10Z" changeset="13821828" uid="217070" user="Davlak">
+		<nd ref="1959073022"/>
+		<nd ref="566501738"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="185329837" version="4" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani">
+		<nd ref="256178957"/>
+		<nd ref="246261695"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Largo Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="185329838" version="3" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani">
+		<nd ref="1154324041"/>
+		<nd ref="566501746"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="185329839" version="3" timestamp="2020-09-15T13:18:17Z" changeset="90928943" uid="3860151" user="Michele Aquilani">
+		<nd ref="246261695"/>
+		<nd ref="1154324041"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="185329840" version="2" timestamp="2012-11-10T15:03:11Z" changeset="13821828" uid="217070" user="Davlak">
+		<nd ref="566501746"/>
+		<nd ref="566501744"/>
+		<nd ref="1216897932"/>
+		<nd ref="566501738"/>
+		<tag k="highway" v="primary"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Magnagrecia"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="185330658" version="5" timestamp="2020-12-11T18:58:52Z" changeset="95698539" uid="257767" user="mau59">
+		<nd ref="1154324034"/>
+		<nd ref="7111661669"/>
+		<nd ref="8220530123"/>
+		<nd ref="8220530124"/>
+		<nd ref="734979891"/>
+		<nd ref="8220530122"/>
+		<nd ref="246067824"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Cerveteri"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="185330659" version="7" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="734977899"/>
+		<nd ref="8220530121"/>
+		<nd ref="1154324052"/>
+		<nd ref="246067825"/>
+		<nd ref="1216897929"/>
+		<nd ref="246067826"/>
+		<nd ref="2070819763"/>
+		<nd ref="7798541973"/>
+		<nd ref="246067723"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Cerveteri"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="185330660" version="3" timestamp="2014-07-30T20:58:55Z" changeset="24452075" uid="217070" user="Davlak">
+		<nd ref="1154324034"/>
+		<nd ref="1959096135"/>
+		<nd ref="1959096134"/>
+		<nd ref="246067825"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="185331806" version="2" timestamp="2013-01-24T18:59:43Z" changeset="14772916" uid="217070" user="Davlak">
+		<nd ref="246065117"/>
+		<nd ref="246113004"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Aosta"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="185331808" version="3" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="246113004"/>
+		<nd ref="7078195915"/>
+		<nd ref="246067530"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Aosta"/>
+		<tag k="oneway" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="185331813" version="4" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="330365970"/>
+		<nd ref="1494114005"/>
+		<nd ref="7078195888"/>
+		<nd ref="1494113998"/>
+		<nd ref="7078195887"/>
+		<nd ref="246113098"/>
+		<nd ref="1494113983"/>
+		<nd ref="7078195886"/>
+		<nd ref="1370074700"/>
+		<nd ref="7078195884"/>
+		<nd ref="1494113985"/>
+		<nd ref="7078195885"/>
+		<nd ref="1494113996"/>
+		<nd ref="1370074701"/>
+		<nd ref="246113004"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Casoria"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="185331818" version="8" timestamp="2021-10-12T17:13:31Z" changeset="112427407" uid="184969" user="EvanE">
+		<nd ref="246073360"/>
+		<nd ref="8831253528"/>
+		<nd ref="8831253564"/>
+		<nd ref="246067530"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Taranto"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="190361284" version="4" timestamp="2013-01-31T22:57:32Z" changeset="14865421" uid="217070" user="Davlak">
+		<nd ref="1711933915"/>
+		<nd ref="246112841"/>
+		<nd ref="246112961"/>
+		<nd ref="2068466944"/>
+		<nd ref="2073646449"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Cesena"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="190361293" version="8" timestamp="2020-10-31T22:50:58Z" changeset="93354561" uid="257767" user="mau59">
+		<nd ref="246065118"/>
+		<nd ref="8069972721"/>
+		<nd ref="246065117"/>
+		<nd ref="2732994935"/>
+		<nd ref="7078195883"/>
+		<nd ref="246064632"/>
+		<tag k="highway" v="residential"/>
+		<tag k="is_in:city" v="Roma"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Tuscolana"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="190525615" version="4" timestamp="2021-02-17T14:35:18Z" changeset="99459890" uid="3860151" user="Michele Aquilani">
+		<nd ref="246072119"/>
+		<nd ref="7194969177"/>
+		<nd ref="7194969178"/>
+		<nd ref="7194969180"/>
+		<nd ref="469532092"/>
+		<nd ref="7194969181"/>
+		<nd ref="294039452"/>
+		<nd ref="469532096"/>
+		<nd ref="420456009"/>
+		<nd ref="496325129"/>
+		<nd ref="1986964564"/>
+		<nd ref="281205436"/>
+		<nd ref="496332074"/>
+		<nd ref="496332077"/>
+		<nd ref="294039222"/>
+		<nd ref="414273886"/>
+		<nd ref="496964125"/>
+		<nd ref="1986964577"/>
+		<nd ref="246070458"/>
+		<nd ref="1986978892"/>
+		<nd ref="246065458"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="ref" v="SS7"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="196523685" version="1" timestamp="2012-12-15T16:13:30Z" changeset="14282564" uid="217070" user="Davlak">
+		<nd ref="2068466947"/>
+		<nd ref="2068466943"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Via Vibo Valentia"/>
+	</way>
+	<way id="196523686" version="1" timestamp="2012-12-15T16:13:30Z" changeset="14282564" uid="217070" user="Davlak">
+		<nd ref="2068466948"/>
+		<nd ref="2068466947"/>
+		<nd ref="2068466946"/>
+		<nd ref="2068466945"/>
+		<nd ref="2068466944"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Via Vibo Valentia"/>
+	</way>
+	<way id="197065745" version="2" timestamp="2020-06-06T15:41:23Z" changeset="86283466" uid="3860151" user="Michele Aquilani">
+		<nd ref="2073646449"/>
+		<nd ref="7598325070"/>
+		<nd ref="7598325071"/>
+		<nd ref="2073646448"/>
+		<nd ref="7598325072"/>
+		<nd ref="7598325066"/>
+		<nd ref="7598325068"/>
+		<nd ref="2073646447"/>
+		<nd ref="7598325069"/>
+		<nd ref="7598325067"/>
+		<nd ref="7598325062"/>
+		<nd ref="7598325064"/>
+		<nd ref="2073646446"/>
+		<nd ref="7598325065"/>
+		<nd ref="7598325063"/>
+		<nd ref="2073646443"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Via Sciacca"/>
+	</way>
+	<way id="203672982" version="3" timestamp="2017-12-03T08:26:19Z" changeset="54291221" uid="6159649" user="iLaw">
+		<nd ref="983506581"/>
+		<nd ref="246072996"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazza Casalmaggiore"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="203672983" version="3" timestamp="2021-01-02T11:37:18Z" changeset="96803042" uid="3695759" user="Blade_71">
+		<nd ref="246073937"/>
+		<nd ref="4911327710"/>
+		<nd ref="8283409056"/>
+		<nd ref="246073360"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Piazza Imola"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="203672994" version="1" timestamp="2013-01-31T22:56:35Z" changeset="14865421" uid="217070" user="Davlak">
+		<nd ref="2073646449"/>
+		<nd ref="246073360"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Cesena"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="203673002" version="5" timestamp="2021-03-02T08:50:21Z" changeset="100262220" uid="6159649" user="iLaw">
+		<nd ref="246262233"/>
+		<nd ref="2188993406"/>
+		<nd ref="8478375682"/>
+		<nd ref="8478375684"/>
+		<nd ref="8478375686"/>
+		<nd ref="8478375660"/>
+		<nd ref="8478375692"/>
+		<nd ref="256178956"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Via Sannio"/>
+		<tag k="oneway" v="yes"/>
+	</way>
+	<way id="203673003" version="3" timestamp="2021-02-07T10:43:23Z" changeset="98844834" uid="217070" user="Davlak">
+		<nd ref="246074077"/>
+		<nd ref="246073360"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Taranto"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="203673004" version="5" timestamp="2021-06-14T07:35:59Z" changeset="106316924" uid="6159649" user="iLaw">
+		<nd ref="330365973"/>
+		<nd ref="7078195899"/>
+		<nd ref="8733703280"/>
+		<nd ref="7078195909"/>
+		<tag k="cycleway:left" v="track"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="4"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Taranto"/>
+		<tag k="oneway:bicycle" v="no"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="203673005" version="4" timestamp="2019-12-22T18:58:44Z" changeset="78741975" uid="3860151" user="Michele Aquilani">
+		<nd ref="246069116"/>
+		<nd ref="7078195822"/>
+		<nd ref="7078195820"/>
+		<nd ref="7078195818"/>
+		<nd ref="1913238710"/>
+		<nd ref="246068404"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Vercelli"/>
+		<tag k="note" v="oneway for works"/>
+		<tag k="oneway" v="no"/>
+		<tag k="parking:lane:both" v="perpendicular"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="211042715" version="1" timestamp="2013-03-19T22:32:59Z" changeset="15426048" uid="217070" user="Davlak">
+		<nd ref="2210511416"/>
+		<nd ref="2210511419"/>
+		<tag k="highway" v="residential"/>
+		<tag k="name" v="Via Fidene"/>
+	</way>
+	<way id="222401998" version="6" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="256178952"/>
+		<nd ref="7908783689"/>
+		<nd ref="7908783688"/>
+		<nd ref="7908783690"/>
+		<nd ref="6718565378"/>
+		<nd ref="256180132"/>
+		<tag k="highway" v="secondary_link"/>
+		<tag k="lanes" v="2"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Piazzale Appio"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="249070727" version="2" timestamp="2017-12-31T16:16:17Z" changeset="55061626" uid="7404545" user="LucianoTok">
+		<nd ref="258207298"/>
+		<nd ref="566501735"/>
+		<tag k="highway" v="tertiary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Gabi"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="302799266" version="3" timestamp="2021-02-21T11:45:07Z" changeset="99676430" uid="3860151" user="Michele Aquilani">
+		<nd ref="3070827977"/>
+		<nd ref="7798541941"/>
+		<nd ref="3070827976"/>
+		<nd ref="8442514623"/>
+		<nd ref="330986172"/>
+		<nd ref="8442514622"/>
+		<nd ref="2645697235"/>
+		<nd ref="330986169"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="1"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Albalonga"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="544290780" version="4" timestamp="2021-02-15T17:45:57Z" changeset="99325791" uid="6159649" user="iLaw">
+		<nd ref="246072996"/>
+		<nd ref="1771529495"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lit" v="yes"/>
+		<tag k="name" v="Piazza Casalmaggiore"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="688994446" version="2" timestamp="2020-01-19T21:26:19Z" changeset="79765836" uid="3335899" user="GBAB">
+		<nd ref="6462967868"/>
+		<nd ref="6462967869"/>
+		<tag k="access" v="private"/>
+		<tag k="bicycle" v="yes"/>
+		<tag k="foot" v="yes"/>
+		<tag k="highway" v="residential"/>
+		<tag k="motor_vehicle" v="no"/>
+	</way>
+	<way id="689209057" version="8" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="6465507338"/>
+		<nd ref="6718624288"/>
+		<nd ref="7908783723"/>
+		<nd ref="7908783725"/>
+		<nd ref="7908783728"/>
+		<nd ref="3711153509"/>
+		<tag k="highway" v="primary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="689209058" version="3" timestamp="2021-02-21T15:35:23Z" changeset="99685593" uid="3860151" user="Michele Aquilani">
+		<nd ref="1420459746"/>
+		<nd ref="246261694"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="689209059" version="5" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="246117753"/>
+		<nd ref="9221179574"/>
+		<nd ref="6718624287"/>
+		<nd ref="246113348"/>
+		<tag k="highway" v="secondary"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Appia Nuova"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+		<tag k="surface" v="asphalt"/>
+	</way>
+	<way id="954164225" version="3" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="8831253538"/>
+		<nd ref="8831253592"/>
+		<nd ref="9167880318"/>
+		<nd ref="8831253587"/>
+		<nd ref="8831253537"/>
+		<nd ref="8831253544"/>
+		<nd ref="8831253583"/>
+		<nd ref="8831253548"/>
+		<nd ref="8831253584"/>
+		<nd ref="8831253536"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Pozzuoli"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+	<way id="954164226" version="4" timestamp="2021-11-03T12:06:05Z" changeset="113329248" uid="12770453" user="AlCeRoma">
+		<nd ref="734344358"/>
+		<nd ref="8831253546"/>
+		<nd ref="8831253547"/>
+		<nd ref="8831253539"/>
+		<nd ref="9127278941"/>
+		<nd ref="8831253545"/>
+		<nd ref="8831253540"/>
+		<nd ref="8831253541"/>
+		<nd ref="8831253542"/>
+		<nd ref="9167879318"/>
+		<nd ref="8831253591"/>
+		<nd ref="8831253543"/>
+		<tag k="highway" v="residential"/>
+		<tag k="lanes" v="2"/>
+		<tag k="lit" v="yes"/>
+		<tag k="maxspeed" v="50"/>
+		<tag k="name" v="Via Pozzuoli"/>
+		<tag k="oneway" v="yes"/>
+		<tag k="source:maxspeed" v="IT:urban"/>
+	</way>
+</osm>
