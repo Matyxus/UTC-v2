@@ -1,0 +1,253 @@
+from Project.Simplify.Graph_modules.graph_module import GraphModule
+from typing import List, Set, Tuple, Dict
+from numpy import array, average
+from Project.Simplify.Components import Route, Junction
+
+
+class Simplify(GraphModule):
+    """ Class which contains methods for simplifying graph """
+
+    def __init__(self):
+        super().__init__()
+        print("Created 'Simplify' class")
+
+    def simplify(self, plot: bool) -> None:
+        """
+
+        :param plot: bool, if plot should be displayed
+        :return: None
+        """
+        assert (self.skeleton is not None)
+        self.simplify_junctions(plot)
+        self.simplify_roundabouts(plot)
+
+    def simplify_junctions(self, plot: bool) -> None:
+        """
+        Finds junctions, that may be removed, e.g.
+        A ----> B ---- > C (B can be removed),
+        A <---> B <----> C (B can be removed),
+        Takes out_route from B and merges it with in_route to B,
+        for all out_routes, in_routes,
+        should be called before simplify_roundabouts
+
+        :param plot: bool, if plot should be displayed
+        :return: None
+        """
+        print("Simplifying junctions")
+        # Junctions that cannot be removed
+        non_removable: Set[str] = (self.skeleton.starting_junctions | self.skeleton.ending_junctions)
+        for roundabout in self.skeleton.roundabouts:
+            non_removable |= set(roundabout)
+        connections: Dict[str, List[Route]] = {}
+        assert ((self.skeleton.junctions.keys() & non_removable) == non_removable)
+        # Find junctions that can be removed
+        for junction_id in (self.skeleton.junctions.keys() ^ non_removable):
+            if self.junction_can_be_removed(junction_id):
+                connections[junction_id] = []
+        # Among junctions to be removed, find in_routes that are from junction
+        # which is not removable, those without such routes are connected to another
+        # removable junction
+        for junction_id in connections.keys():
+            for in_route in self.skeleton.junctions[junction_id].get_in_routes():
+                from_junction_id: str = in_route.get_start()
+                if from_junction_id not in connections:
+                    connections[junction_id].append(in_route)
+        print("Merging routes")
+        for junction_id, in_routes in connections.items():
+            for in_route in in_routes:
+                replacing_junction_id: str = in_route.get_start()
+                # Find route from junction before this one
+                route: Route = self.skeleton.find_route(replacing_junction_id, junction_id)
+                current_route: Route = route
+                # print(f"Starting to merge route: {route}, starting at junction: {junction_id}")
+                assert (route is not None)
+                # While we are traversing among removable junctions, connect routes
+                destination_junction_id: str = current_route.get_destination()
+                assert (destination_junction_id == junction_id)  # Sanity check
+                while destination_junction_id in connections:
+                    # print(f"Checking junction: {destination_junction_id}")
+                    assert (len(self.skeleton.junctions[destination_junction_id].travel(current_route)) == 1)
+                    # There can only be one route, that's why junction can be removed
+                    out_route: Route = self.skeleton.junctions[destination_junction_id].travel(current_route)[0]
+                    route |= self.skeleton.routes.pop(out_route.id)  # Remove route, merge it
+                    current_route = out_route  # Move route id to last merged one
+                    destination_junction_id: str = current_route.get_destination()
+                # Change incoming route of last Junction of current route, to be the same as current route.id
+                self.skeleton.junctions[destination_junction_id].replace_in_route(current_route, route)
+                # print(f"Final route: {route}")
+        print("Finished merging routes")
+        # Remove junctions
+        removed_junctions: List[Junction] = [self.skeleton.junctions.pop(junction_id) for junction_id in connections]
+        # ------------------ Plot ------------------
+        """
+        if plot:
+            fig, ax = self.default_plot()
+            for junction in removed_junctions:
+                junction.plot(ax, color="red")
+            self.add_label("o", "red", "Removed Junctions")
+            self.make_legend(1)
+            self.show_plot()
+        """
+        print("Finished simplifying junctions")
+        # self.route_count = len(self.skeleton.routes)
+
+    def simplify_roundabouts(self, plot: bool) -> None:
+        """
+        Removes junctions forming roundabout, replaces them
+        with new node (at center of mass position), adds new routes,
+        removes previous routes between roundabout nodes,
+        should be called after simplify_junctions
+
+        :param plot: bool, if plot should be displayed
+        :return: None
+        """
+        print(f"Simplifying roundabouts: {self.skeleton.roundabouts}")
+        while len(self.skeleton.roundabouts) != 0:
+            # ---------------- Variable setup ----------------
+            roundabout: List[str] = self.skeleton.roundabouts.pop()
+            roundabout_points: List[Tuple[float, float]] = []
+            roundabout_routes: Set[Route] = set()  # Routes on roundabout
+            in_routes: Set[Route] = set()  # Routes connection to roundabout
+            out_routes: Set[Route] = set()  # Routes coming out of roundabout
+            for junction_id in roundabout:
+                junction: Junction = self.skeleton.junctions[junction_id]
+                roundabout_points.append(junction.get_position())
+                # Find all entry points to roundabout
+                for in_route in junction.get_in_routes():
+                    # Get edges going to roundabout
+                    if not (in_route.get_start() in roundabout):
+                        in_routes.add(in_route)
+                # Find all exit points of roundabout
+                for out_route in junction.get_out_routes():
+                    # Get route going from roundabout
+                    if not (out_route.get_destination() in roundabout):
+                        out_routes.add(out_route)
+                    else:  # Route leads to another roundabout junction
+                        roundabout_routes.add(out_route)
+            # ---------------- Setup new junction ----------------
+            new_point: tuple = self.get_center_of_mass(roundabout_points)
+            new_junction_id: str = ("roundabout-replace-" + "-".join(roundabout))
+            new_junction: Junction = Junction({"id": new_junction_id, "x": new_point[0], "y": new_point[1]})
+            new_junction.marker_size = 10
+            new_junction.color = "yellow"
+            print(f"Creating new junction: {new_junction_id}")
+            # ---------------- From all entrances of roundabout form new routes ----------------
+            for in_route in in_routes:
+                starting_junction_id: str = in_route.get_destination()
+                current_junction: Junction = self.skeleton.junctions[starting_junction_id]
+                assert (starting_junction_id in roundabout)  # Sanity check
+                new_route: Route = self.skeleton.get_new_route()  # New route for new junction
+                # Since we entered roundabout now, the only (possible) route now leads to another roundabout junction
+                current_out_routes: Set[Route] = set(current_junction.travel(in_route))
+                assert (len(current_out_routes) == 1)  # Sanity check
+                route: Route = current_out_routes.pop()
+                assert (route.get_destination() in roundabout)  # Sanity check
+                new_route |= route  # Modify current route
+                current_junction_id: str = route.get_destination()
+                while current_junction_id != starting_junction_id:
+                    current_junction = self.skeleton.junctions[current_junction_id]
+                    # print(f"Currently on junction: {current_junction_id}")
+                    # Get all out coming routes
+                    current_out_routes = set(current_junction.get_out_routes())
+                    # Routes going out of current roundabout junction
+                    routes_out_roundabout: Set[Route] = (current_out_routes & out_routes)
+                    # Create new routes for each path leading out of roundabout
+                    for out_route in routes_out_roundabout:
+                        new_route_out: Route = (self.skeleton.get_new_route() | new_route | out_route)
+                        self.skeleton.add_route(new_route_out)  # Add new route to skeleton of graph
+                        new_junction.add_connection(in_route, new_route_out)  # Add new route to junction
+                        # Add new incoming route to connected junction
+                        destination: Junction = self.skeleton.junctions[new_route_out.get_destination()]
+                        destination.neighbours[new_route_out] = destination.neighbours[out_route]
+                        # destination.replace_in_route(out_route, new_route_out)
+                    assert (len(current_out_routes ^ routes_out_roundabout) == 1)
+                    route = (current_out_routes ^ routes_out_roundabout).pop()
+                    # print(f"Route: {self.routes[route_id]}")
+                    current_junction_id = route.get_destination()
+                    new_route |= route  # Move to next roundabout junction
+                    # print(f"New route: {new_route}")
+                current_junction = self.skeleton.junctions[current_junction_id]
+                assert (current_junction_id == starting_junction_id)
+                # Now current_junction is equal to starting_junction
+                # Check if starting junction has any out edges, add them as new route
+                for out_route in (set(current_junction.get_out_routes()) & out_routes):
+                    new_route_out: Route = (self.skeleton.get_new_route() | new_route | out_route)
+                    # print(f"New route added to junction: {new_route_out}")
+                    self.skeleton.add_route(new_route_out)  # Add new route to skeleton of graph
+                    new_junction.add_connection(in_route, new_route_out)  # Add new route to junction
+                    # Add new incoming route to connected junction
+                    destination: Junction = self.skeleton.junctions[new_route_out.get_destination()]
+                    destination.neighbours[new_route_out] = destination.neighbours[out_route]
+                    # destination.replace_in_route(out_route, new_route_out)
+            # ---------------- Remove ----------------
+            # Remove routes on roundabout
+            for route in roundabout_routes:
+                self.skeleton.routes.pop(route.id)
+            # Remove routes out of roundabout, connection on junctions
+            for route in out_routes:
+                destination: Junction = self.skeleton.junctions[route.get_destination()]
+                destination.remove_in_route(route)
+                self.skeleton.routes.pop(route.id)
+            # Set each out coming route of roundabout attribute["from"] as new junction
+            for route in new_junction.get_out_routes():
+                route.first_edge().attributes["from"] = new_junction_id
+            # Set each incoming edge of roundabout, attribute["to"] as new junction
+            for route in in_routes:
+                route.last_edge().attributes["to"] = new_junction_id
+            # Remove junctions forming roundabout
+            removed_junctions: List[Junction] = [self.skeleton.junctions.pop(junction_id) for junction_id in roundabout]
+            # self.route_count -= len(removed_junctions)
+            # ---------------- Plot ----------------
+            """
+            if plot:
+                fig, ax = self.default_plot()
+                # Remove junctions from roundabout
+                for junction in removed_junctions:
+                    junction.plot(ax, color="red")
+                new_junction.plot(ax)
+                self.add_label("o", "red", "Roundabout junctions")
+                self.add_label("o", new_junction.color, "New junction")
+                self.make_legend(2)
+                self.show_plot()
+            """
+            # Add new junction
+            self.skeleton.junctions[new_junction.attributes["id"]] = new_junction
+        print("Done simplifying roundabouts")
+
+    # ----------------------------------- Utils -----------------------------------
+
+    def get_center_of_mass(self, points: list) -> tuple:
+        """
+        :param points: list of (x, y) coordinates
+        :return: new (x, y) coordinate, which corresponds to center of mass
+        """
+        assert (len(points) > 0)
+        return tuple(average(array(points), axis=0))
+
+    def junction_can_be_removed(self, junction_id: str) -> bool:
+        """
+        Only junctions with 2 in routes, 2 out routes or with 1 in route, 1 out route,
+        can be removed from graph
+        e.g. A ----> B ---> C, B can be removed
+        e.g. A <----> B <---> C, B can be removed
+
+        :param junction_id: to be checked
+        :return: True if junction can be replaced, false otherwise
+        """
+        junction: Junction = self.skeleton.junctions[junction_id]
+        in_routes: Set[Route] = set(junction.get_in_routes())
+        out_routes: Set[Route] = set(junction.get_out_routes())
+        length_in: int = len(in_routes)
+        length_out: int = len(out_routes)
+        if (length_in == 2 == length_out) or (length_in == 1 == length_out):
+            overlapping_edges: Set[str] = set()
+            # Check if traveling on different in_routes goes trough same edges
+            for in_route in in_routes:
+                for out_route in junction.travel(in_route):
+                    edges: Set[str] = set(edge.attributes["id"] for edge in out_route.edge_list)
+                    # Edges overlap, cannot be replaced
+                    if len(edges & overlapping_edges) != 0:
+                        return False
+                    overlapping_edges |= edges
+            return True
+        return False

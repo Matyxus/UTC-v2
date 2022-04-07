@@ -1,5 +1,4 @@
 from os.path import isfile, dirname, abspath
-from pathlib import Path
 from typing import FrozenSet
 # ----------- Edges -----------
 EDGE_ATTRIBUTES: FrozenSet[str] = frozenset(["id", "from", "to", "type", "shape"])

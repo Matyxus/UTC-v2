@@ -94,7 +94,7 @@ class Converter:
 
 
 if __name__ == "__main__":
-	print(f"Accepting arguments: {argv[]}")
+	print(f"Accepting arguments: {argv}")
 	converter: Converter = Converter()
 	for arg in argv[1:]:
 		converter.convert(arg)
