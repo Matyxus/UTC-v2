@@ -80,7 +80,7 @@ To get a local copy up and running follow these simple example steps.
   gcc osmfilter.c -O3 -o osmfilter
   ```
 2) [SUMO](https://www.eclipse.org/sumo/) has to be downloaded.
-3) Pddl ...
+3) [Planners]((https://ipc2018-classical.bitbucket.io/#description)) used in this project: MERWIN, Cerberus (agile)
 
 ### Installation
 
@@ -94,7 +94,7 @@ Below is an example of how you can instruct your audience on installing and sett
    ```sh
    pip install -e UTC
    ```
-
+3. Install planners
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

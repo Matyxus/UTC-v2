@@ -70,9 +70,12 @@ class Converter:
 		command += file_path
 		# Net convert arguments
 		command += (
-			" --geometry.remove --ramps.guess --junctions.join"
-			" --roundabouts.guess"
-			" --remove-edges.isolated --keep-edges.components 1"
+			# Remove geometry of buildings etc, guess highway ramps, guess roundabouts, join close junctions into one
+			" --geometry.remove --ramps.guess --roundabouts.guess --junctions.join"  
+			# Removes lone edges, keeps biggest component of network graph
+			" --remove-edges.isolated --keep-edges.components 1" 
+			" --numerical-ids.node-start 0"  # Junction id's will start from 0 to n
+			" --numerical-ids.edge-start 0"  # Edge id's will start from 0 to n
 		)
 		net_file_path = (CWD + "/Maps/sumo/" + file_name + ".net.xml")
 		command += (" -o " + net_file_path)
@@ -94,8 +97,12 @@ class Converter:
 
 
 if __name__ == "__main__":
+	print(f"Usage: input name of maps in /Maps/osm/original/map_name.osm (without extension)")
 	print(f"Accepting arguments: {argv}")
-	converter: Converter = Converter()
-	for arg in argv[1:]:
-		converter.convert(arg)
+	if len(argv) > 1:
+		converter: Converter = Converter()
+		for arg in argv[1:]:
+			converter.convert(arg)
+	else:
+		print("Enter name of maps you wish to convert")
 

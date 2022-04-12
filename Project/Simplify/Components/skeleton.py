@@ -65,7 +65,6 @@ class Skeleton:
             sub_graph.remove_edge(edge.attributes["id"])
         for junction_id in (self.junctions.keys() ^ junctions):
             sub_graph.remove_junction(junction_id)
-        print("Finished creating sub-graph")
         return sub_graph
 
     # ----------------------------------- Utils -----------------------------------
@@ -79,6 +78,9 @@ class Skeleton:
         :return: None
         """
         assert (isinstance(other, Skeleton))
+        if self.map_name != other.map_name:
+            print(f"Only graphs from the same network may be merged {self.map_name} != {other.map_name}")
+            return
         print("Merging with another graph")
         # ------------------------ Junctions ------------------------
         self.starting_junctions |= other.starting_junctions
@@ -169,7 +171,7 @@ class Skeleton:
     def construct_route(self, junction_list: List[str]) -> Route:
         """
         :param junction_list: of junctions ids on path
-        :return: None in case junction is empty or path does not exist, route otherwise
+        :return: None in case junction is empty or path does not exist, temporary Route Class otherwise
         """
         if len(junction_list) == 0:
             return None

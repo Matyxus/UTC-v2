@@ -53,11 +53,6 @@ class Launcher(UserInterface):
     # ----------------------------------------- Commands -----------------------------------------
 
     def load_command(self, args: List[str]) -> None:
-        """
-
-        :param args:
-        :return:
-        """
         temp: Skeleton = Skeleton()
         self.loader.set_skeleton(temp)
         # Error while loading
@@ -66,11 +61,6 @@ class Launcher(UserInterface):
         self.graphs[args[0]] = temp
 
     def plot_command(self, args: List[str]) -> None:
-        """
-
-        :param args:
-        :return:
-        """
         if args[0] not in self.graphs:
             print(f"Graph with name: {args[0]} does not exist")
             return
@@ -117,49 +107,30 @@ class Launcher(UserInterface):
         print(f"Finished creating sub-graph: {args[1]}")
     
     def merge_command(self, args: List[str]) -> None:
-        """
-
-        :param args:
-        :return:
-        """
-        #  graph_name_1 graph_name_2 plot
-        plot: bool = False
-        if len(args) == 3 and args[-1].lower() == "true":
-            plot = True
         if args[0] not in self.graphs:
             print(f"Graph with name: {args[0]} does not exist")
             return
         elif args[1] not in self.graphs:
             print(f"Graph with name: {args[1]} does not exist")
             return
+        plot: bool = False
+        if len(args) == 3 and args[-1].lower() == "true":
+            plot = True
         self.graphs[args[0]].merge(self.graphs[args[1]], plot)
+        print(f"Finished merging graphs: {args[0]} with {args[1]}")
 
     def graphs_command(self, args: List[str]) -> None:
-        """
-
-        :param args:
-        :return:
-        """
+        print("Printing all graphs names:")
         for graph_name in self.graphs:
             print(graph_name)
 
     def delete_command(self, args: List[str]) -> None:
-        """
-
-        :param args:
-        :return:
-        """
         if args[0] not in self.graphs:
             print(f"Graph with name: {args[0]} does not exist")
             return
         self.graphs.pop(args[0])
 
     def save_command(self, args: List[str]) -> None:
-        """
-
-        :param args:
-        :return: None
-        """
         if args[0] not in self.graphs:
             print(f"Graph with name: {args[0]} does not exist")
             return
@@ -173,24 +144,24 @@ class Launcher(UserInterface):
                 edges.add(edge.attributes["id"])
         command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {path}"
         print(f"Executing command: {command}")
-        #try:
-        #    os.system(command)
-        #except Exception as e:
-        #    print(f"Error occurred: {e}")
+        try:
+            os.system(command)
+        except Exception as e:
+            print(f"Error occurred: {e}")
 
     def help_command(self, args: List[str]) -> None:
         help_string: str = ("""
         1) load map_name -> creates graph named map_name (map_name is used to plot, merge with others)
             1.1) map_name -> name of map to be loaded, has to be in /Maps/sumo/map_name.net.xml
 
-        2) Plot graph_name -> plots graph using matplotlib
+        2) plot graph_name -> plots graph using matplotlib
             2.1) graph_name -> name of graph to be shown
 
-        3) Simplify graph_name plot -> simplifies junctions and roundabouts in graph
+        3) simplify graph_name, plot* -> simplifies junctions and roundabouts in graph
             3.1) graph_name ->  name of graph to simplify
             3.2) plot -> bool (true/false), if process should be displayed
 
-        4) Subgraph graph_name, subgraph_name, junction_1, junction_2, c, plot
+        4) subgraph graph_name, subgraph_name, junction_1, junction_2, c, plot*
             4.1) graph_name -> name of graph from which sub_graph will be made
             4.2) sub_graph_name -> name of created sub_graph, can be used to call Plot afterwards
             4.3) junction_1 -> starting point of sub-graph
@@ -198,21 +169,23 @@ class Launcher(UserInterface):
             4.5) c -> maximal route length (shortest_path * c), must be higher than 1
             4.6) plot -> bool (true, false), if process should be displayed
 
-        5) Merge graph_name_1 graph_name_2 plot -> merges graphs together, result will be in graph_name_1
+        5) merge graph_name_1, graph_name_2, plot* -> merges graphs together, result will be in graph_name_1
             5.1) graph_name_1 -> name of first graph
             5.2) graph_name_2 -> name of second graph
             5.3) plot -> bool (true, false), if process should be displayed
 
-        6) Validate sub_graph_name -> Removes all unused junctions, edges, routes from subgraph
+        6) validate sub_graph_name -> Removes all unused junctions, edges, routes from subgraph
         
-        7) Save graph_name file_name -> Saves graph into file_name as '.pddl'
+        7) save graph_name file_name -> Saves graph into network file as '.net.xml'
 
         7) ------ Utils ------
-            7.1) Graphs -> prints names of all created sub-graphs
-            7.2) Delete graph_name -> deletes graph named graph_name
-            7.3) Restart -> restarts the program
-            7.4) Quit/Exit -> quits the program
-            7.5) Help -> prints what commands do, their arguments etc.
+            7.1) graphs -> prints names of all created sub-graphs
+            7.2) delete graph_name -> deletes graph named graph_name
+            7.3) exit -> quits the program
+            7.4) help -> prints what commands do, their arguments etc.
+        
+        !) Do not use file extension when typing name of file! 
+        *) Astrix (*) is for optional arguments
         """)
         print(help_string)
 

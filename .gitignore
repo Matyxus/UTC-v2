@@ -6,8 +6,8 @@ UTC.egg-info
 pyvenv.cfg
 Project/Converter/OSMfilter/osmfilter
 
-# C files
-*.o
+# Planners
+Project/Pddl/Planners
 # File pointer
 *.Identifier
 

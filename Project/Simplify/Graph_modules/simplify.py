@@ -18,6 +18,10 @@ class Simplify(GraphModule):
         :return: None
         """
         assert (self.skeleton is not None)
+        # Check for valid roundabouts
+        self.skeleton.roundabouts = [
+            roundabout for roundabout in self.skeleton.roundabouts if self.check_roundabout(roundabout)
+        ]
         self.simplify_junctions(plot)
         self.simplify_roundabouts(plot)
 
@@ -102,9 +106,8 @@ class Simplify(GraphModule):
         :return: None
         """
         print(f"Simplifying roundabouts: {self.skeleton.roundabouts}")
-        while len(self.skeleton.roundabouts) != 0:
+        for index, roundabout in enumerate(self.skeleton.roundabouts):
             # ---------------- Variable setup ----------------
-            roundabout: List[str] = self.skeleton.roundabouts.pop()
             roundabout_points: List[Tuple[float, float]] = []
             roundabout_routes: Set[Route] = set()  # Routes on roundabout
             in_routes: Set[Route] = set()  # Routes connection to roundabout
@@ -126,11 +129,11 @@ class Simplify(GraphModule):
                         roundabout_routes.add(out_route)
             # ---------------- Setup new junction ----------------
             new_point: tuple = self.get_center_of_mass(roundabout_points)
-            new_junction_id: str = ("roundabout-replace-" + "-".join(roundabout))
+            new_junction_id: str = f"r{index}"
             new_junction: Junction = Junction({"id": new_junction_id, "x": new_point[0], "y": new_point[1]})
             new_junction.marker_size = 10
             new_junction.color = "yellow"
-            print(f"Creating new junction: {new_junction_id}")
+            print(f"Creating new junction: {new_junction_id} representing roundabout")
             # ---------------- From all entrances of roundabout form new routes ----------------
             for in_route in in_routes:
                 starting_junction_id: str = in_route.get_destination()
@@ -179,6 +182,7 @@ class Simplify(GraphModule):
                     destination: Junction = self.skeleton.junctions[new_route_out.get_destination()]
                     destination.neighbours[new_route_out] = destination.neighbours[out_route]
                     # destination.replace_in_route(out_route, new_route_out)
+            self.skeleton.roundabouts = []  # Empty list
             # ---------------- Remove ----------------
             # Remove routes on roundabout
             for route in roundabout_routes:
@@ -216,7 +220,27 @@ class Simplify(GraphModule):
 
     # ----------------------------------- Utils -----------------------------------
 
-    def get_center_of_mass(self, points: list) -> tuple:
+    def check_roundabout(self, roundabout: List[str]) -> bool:
+        """
+        :param roundabout: list of junction id's forming roundabout
+        :return: True if roundabout is truly a roundabout
+        """
+        if not len(roundabout): # Empty roundabout
+            return False
+        # For every junction, check if it is connected to another roundabout junction
+        for junction_id in roundabout:
+            found = False
+            for route in self.skeleton.junctions[junction_id].get_out_routes():
+                # Found connection, check for other junction
+                if route.get_destination() in roundabout:
+                    found = True
+                    break
+            # No connection found, this is not roundabout
+            if not found:
+                return False
+        return True
+
+    def get_center_of_mass(self, points: List[Tuple[float, float]]) -> tuple:
         """
         :param points: list of (x, y) coordinates
         :return: new (x, y) coordinate, which corresponds to center of mass
