@@ -96,8 +96,10 @@ class ShortestPath(GraphModule):
         # For node n, gScore[n] is the cost of the cheapest path from start to n currently known
         g_score: Dict[str, float] = {junction_id: float("inf") for junction_id in self.skeleton.junctions}
         g_score[start_junction_id] = 0  # id of 0 for route is reserved!
-        # -------------------------- Algorithm --------------------------
         shortest_route: Route = None
+        if not self.check_junctions(start_junction_id, target_junction_id):
+            return queue, shortest_route
+        # -------------------------- Algorithm --------------------------
         while not queue.empty():
             priority, length, in_route, path = queue.get()  # Removes and returns
             junction_id: str = path[-1]
@@ -134,6 +136,8 @@ class ShortestPath(GraphModule):
         dist: Dict[str, float] = {key: float("inf") for key in self.skeleton.junctions.keys()}
         # {junction_id : previous_junction_id, ...}
         prev: Dict[str, str] = {key: None for key in dist.keys()}
+        if not self.check_junctions(start_junction_id, target_junction_id):
+            return dist, prev
         # -------------------------- Algorithm --------------------------
         dist[start_junction_id] = 0
         queue.put((0, start_junction_id, None))
@@ -171,3 +175,19 @@ class ShortestPath(GraphModule):
             return self.skeleton.construct_route(path)
         return None
 
+    def check_junctions(self, start_junction_id: str, target_junction_id: str) -> bool:
+        """
+        :param start_junction_id: where should search start
+        :param target_junction_id: where should search end
+        :return: True if both junctions exist and are not equal, False otherwise
+        """
+        if start_junction_id not in self.skeleton.junctions.keys():
+            print(f"Junction: {start_junction_id} does not exist!")
+            return False
+        elif target_junction_id not in self.skeleton.junctions.keys():
+            print(f"Junction: {target_junction_id} does not exist!")
+            return False
+        if start_junction_id == target_junction_id:
+            print(f"No possible path between the same junctions!")
+            return False
+        return True

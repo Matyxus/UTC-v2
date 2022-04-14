@@ -2,7 +2,7 @@ from Project.Simplify.Components import Route, Skeleton
 from typing import List, Tuple, Dict
 
 
-class Capacity:
+class Network:
     """ """
     def __init__(self):
         self.CAR_LENGTH: float = 4.5  # Average car length (in meters)
@@ -10,7 +10,7 @@ class Capacity:
         self.max_capacity: int = 0  # Maximal capacity, necessary for 'use' predicate
         # ------------------- DENSITY CONSTANTS -------------------
         # Light traffic -> (maximum_road_capacity * LIGHT_CAPACITY_THRESHOLD), similar for medium/heavy
-        self.LIGHT_CAPACITY_THRESHOLD: float = 0.35  # Low -> medium (%)
+        self.LIGHT_CAPACITY_THRESHOLD: float = 0.35  # Low -> Medium (%)
         self.MEDIUM_CAPACITY_THRESHOLD: float = 0.4  # Medium -> Heavy (%)
         self.HEAVY_CAPACITY_THRESHOLD: float = 0.25  # Heavy -> Congested (over 100%)
         assert (self.LIGHT_CAPACITY_THRESHOLD + self.MEDIUM_CAPACITY_THRESHOLD + self.HEAVY_CAPACITY_THRESHOLD == 1)
@@ -108,10 +108,3 @@ class Capacity:
         }
         assert (light_cap + medium_cap + heavy_cap == capacity)
         return ret_val
-
-
-if __name__ == "__main__":
-    temp: Capacity = Capacity()
-    for i in temp.calculate_thresholds(20, 2):
-        print(i)
-

@@ -5,6 +5,7 @@ class UserInterface:
     """ Parent class for dynamic input """
 
     def __init__(self):
+        print(f"Launching UI for input, initializing objects..")
         self.running = True  # Control of main loop
         # Mapping name of commands to List
         self.functions: Dict[str, List[callable, int, int]] = {

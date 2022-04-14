@@ -33,10 +33,8 @@ class Launcher(UserInterface):
         while self.running:
             # ------------ Input ------------
             text: str = input("Type command: ")
-            user_input: List[str] = []
+            user_input: List[str] = text.split()
             # Check input
-            if text:
-                user_input = text.split()
             if not len(user_input):
                 print(f"{text} is invalid input!")
                 continue

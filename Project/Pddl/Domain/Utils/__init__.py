@@ -1,3 +1,3 @@
-from Project.Pddl.Domain.Utils.capacity import Capacity
+from Project.Pddl.Domain.Utils.network import Network
 
 # Forward imports
