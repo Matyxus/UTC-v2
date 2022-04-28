@@ -1,4 +1,5 @@
 from Project.Simplify.Graph_modules.graph_module import GraphModule
+from Project.Simplify.Graph_modules.display import Display
 from typing import List, Set, Tuple, Dict
 from numpy import array, average
 from Project.Simplify.Components import Route, Junction
@@ -11,10 +12,10 @@ class Simplify(GraphModule):
         super().__init__()
         print("Created 'Simplify' class")
 
-    def simplify(self, plot: bool) -> None:
+    def simplify(self, plot: Display = None) -> None:
         """
 
-        :param plot: bool, if plot should be displayed
+        :param plot: Class Display, if plot should be displayed (default None)
         :return: None
         """
         assert (self.skeleton is not None)
@@ -25,7 +26,7 @@ class Simplify(GraphModule):
         self.simplify_junctions(plot)
         self.simplify_roundabouts(plot)
 
-    def simplify_junctions(self, plot: bool) -> None:
+    def simplify_junctions(self, plot: Display = None) -> None:
         """
         Finds junctions, that may be removed, e.g.
         A ----> B ---- > C (B can be removed),
@@ -34,7 +35,7 @@ class Simplify(GraphModule):
         for all out_routes, in_routes,
         should be called before simplify_roundabouts
 
-        :param plot: bool, if plot should be displayed
+        :param plot: Class Display, if plot should be displayed (default None)
         :return: None
         """
         print("Simplifying junctions")
@@ -83,26 +84,24 @@ class Simplify(GraphModule):
         # Remove junctions
         removed_junctions: List[Junction] = [self.skeleton.junctions.pop(junction_id) for junction_id in connections]
         # ------------------ Plot ------------------
-        """
-        if plot:
-            fig, ax = self.default_plot()
+        if plot is not None:
+            fig, ax = plot.default_plot()
             for junction in removed_junctions:
                 junction.plot(ax, color="red")
-            self.add_label("o", "red", "Removed Junctions")
-            self.make_legend(1)
-            self.show_plot()
-        """
+            plot.add_label("o", "red", "Removed Junctions")
+            plot.make_legend(1)
+            plot.show_plot()
         print("Finished simplifying junctions")
         # self.route_count = len(self.skeleton.routes)
 
-    def simplify_roundabouts(self, plot: bool) -> None:
+    def simplify_roundabouts(self, plot: Display = None) -> None:
         """
         Removes junctions forming roundabout, replaces them
         with new node (at center of mass position), adds new routes,
         removes previous routes between roundabout nodes,
         should be called after simplify_junctions
 
-        :param plot: bool, if plot should be displayed
+        :param plot: Class Display, if plot should be displayed (default None)
         :return: None
         """
         print(f"Simplifying roundabouts: {self.skeleton.roundabouts}")
@@ -202,18 +201,16 @@ class Simplify(GraphModule):
             removed_junctions: List[Junction] = [self.skeleton.junctions.pop(junction_id) for junction_id in roundabout]
             # self.route_count -= len(removed_junctions)
             # ---------------- Plot ----------------
-            """
-            if plot:
-                fig, ax = self.default_plot()
+            if plot is not None:
+                fig, ax = plot.default_plot()
                 # Remove junctions from roundabout
                 for junction in removed_junctions:
                     junction.plot(ax, color="red")
                 new_junction.plot(ax)
-                self.add_label("o", "red", "Roundabout junctions")
-                self.add_label("o", new_junction.color, "New junction")
-                self.make_legend(2)
-                self.show_plot()
-            """
+                plot.add_label("o", "red", "Roundabout junctions")
+                plot.add_label("o", new_junction.color, "New junction")
+                plot.make_legend(2)
+                plot.show_plot()
             # Add new junction
             self.skeleton.junctions[new_junction.attributes["id"]] = new_junction
         print("Done simplifying roundabouts")

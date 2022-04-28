@@ -2,9 +2,8 @@ from typing import List
 from Project.Utils import UserInterface
 from Project.Simplify.Graph_modules import Display, ShortestPath, Simplify, Loader
 from Project.Simplify.Components import Skeleton
-from Project.constants import file_exists, dir_exist, Path
+from Project.Utils.constants import file_exists, dir_exist, Path
 from Project.Pddl.Domain import UtcProblem
-import subprocess
 
 
 class Launcher(UserInterface):
@@ -177,26 +176,6 @@ class Launcher(UserInterface):
             print(f"Command: '{command_name}' can only be used while generating problem!")
             return False
         return True
-
-    def run_commmand(self, command: str, timeout: int, encoding="utf-8"):
-        """
-        https://stackoverflow.com/questions/41094707/setting-timeout-when-using-os-system-function
-
-        :param command: console/terminal command string
-        :param timeout: wait max timeout (seconds) for run console command
-        :param encoding: console output encoding, default is utf-8
-        :return: True/False on success/failure, console output
-        """
-        success: bool = False
-        console_output: str = ""
-        try:
-            console_output_byte = subprocess.check_output(command, shell=True, timeout=timeout)
-            console_output = console_output_byte.decode(encoding)  # '640x360\n'
-            console_output = console_output.strip()  # '640x360'
-            success = True
-        except subprocess.CalledProcessError as callProcessErr:
-            print(f"Error {str(callProcessErr)} for run command {command}\n\n")
-        return success, console_output
 
 
 if __name__ == "__main__":

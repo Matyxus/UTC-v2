@@ -1,6 +1,6 @@
 from Project.Simplify.Graph_modules import GraphModule
 from matplotlib import pyplot as plt
-from Project.constants import (
+from Project.Utils.constants import (
     JUNCTION_END_COLOR, JUNCTION_START_END_COLOR,
     JUNCTION_START_COLOR, JUNCTION_DEFAULT_COLOR,
     EDGE_DEFAULT_COLOR

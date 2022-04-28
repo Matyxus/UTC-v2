@@ -1,9 +1,11 @@
 from Project.Simplify.Graph_modules.graph_module import GraphModule
+from Project.Simplify.Graph_modules.display import Display
 from queue import PriorityQueue
 from typing import List, Tuple, Dict
 from Project.Simplify.Components import Route
 from numpy import array
 from numpy.linalg.linalg import norm
+from time import sleep
 
 
 class ShortestPath(GraphModule):
@@ -13,7 +15,7 @@ class ShortestPath(GraphModule):
         super().__init__()
         print("Created 'ShortestPath' class")
 
-    def top_k_a_star(self, start_junction_id: str, target_junction_id: str, c: float, plot: bool) -> List[Route]:
+    def top_k_a_star(self, start_junction_id: str, target_junction_id: str, c: float, plot: Display = None) -> List[Route]:
         """
         At start, performs A* search to find shortest route,
         uses unexplored junction remaining in queue from the initial call of A* to find K other routes.
@@ -23,7 +25,7 @@ class ShortestPath(GraphModule):
         :param start_junction_id: starting junction
         :param target_junction_id: target junction
         :param c: multiplier of shortest path length
-        :param plot: bool, if plot should be displayed
+        :param plot: Class Display, if plot should be displayed (default None)
         :return: List of routes (shortest route is the first) satisfying (route_length < c * shortest_route_length),
         empty list if shortest route does not exists
         """
@@ -42,17 +44,6 @@ class ShortestPath(GraphModule):
         limit: float = c * sum([edge.attributes["length"] for edge in shortest_route.edge_list])
         assert (limit > 0)
         print(f"Setting route length limit: {limit}")
-        """
-        if plot:
-            fig, ax = self.default_plot()
-            for item in queue.queue:
-                self.junctions[item[-1][-1]].plot(ax, color="Blue")
-            self.route_manager.plot(ax, shortest_route, color="red")
-            self.add_label("_", "red", f"Shortest path, length: {round(limit / c)}")
-            self.add_label("o", "blue", "Unexplored junctions")
-            self.make_legend(2)
-            self.show_plot()
-        """
         other_routes: List[Route] = [shortest_route]
         # -------------------------------- Algorithm --------------------------------
         while not queue.empty():
@@ -75,6 +66,18 @@ class ShortestPath(GraphModule):
                         current_distance, route, path + [neigh_junction_id]
                     ))
         print(f"Finished finding routes, found another: {len(other_routes) - 1} routes")
+        # -------------------------------- Plot --------------------------------
+        if plot is not None:  # Show animation of routes
+            fig, ax = plot.default_plot()
+            for index, route in enumerate(other_routes):
+                ax.clear()
+                plot.plot_default_graph(ax)
+                route.plot(ax, color="blue")
+                plot.add_label("_", "blue", f"Route: {index}, length: {round(route.traverse()[0])}")
+                plot.make_legend(1)
+                fig.canvas.draw()
+                sleep(0.1)
+            plot.show_plot()
         return other_routes
 
     # *************************************  Shortest path *************************************

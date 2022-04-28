@@ -1,7 +1,9 @@
 import xml.etree.ElementTree as ET
 from typing import Dict, List
 from Project.Simplify.Components import Junction, Edge, Route
-from Project.constants import CWD, file_exists, JUNCTION_START_COLOR, JUNCTION_START_END_COLOR, JUNCTION_END_COLOR
+from Project.Utils.constants import (
+    PATH, file_exists, get_file_name, JUNCTION_START_COLOR, JUNCTION_START_END_COLOR, JUNCTION_END_COLOR
+)
 from Project.Simplify.Graph_modules.graph_module import GraphModule
 
 
@@ -22,10 +24,11 @@ class Loader(GraphModule):
         :param file_name: of map to be loaded
         :return: True on success, false otherwise
         """
-        print(f"Creating Loader Class, loading file form: {CWD}/Maps/sumo/{file_name + '.net.xml'}")
-        if not (file_exists(f"{CWD}/Maps/sumo/{file_name+'.net.xml'}")):
+        file_name = get_file_name(file_name)
+        print(f"Creating Loader Class, loading file form: {PATH.NETWORK_SUMO_MAPS.format(file_name)}")
+        if not (file_exists(PATH.NETWORK_SUMO_MAPS.format(file_name))):
             return False
-        self.root = ET.parse(f"{CWD}/Maps/sumo/{file_name+'.net.xml'}").getroot()
+        self.root = ET.parse(PATH.NETWORK_SUMO_MAPS.format(file_name)).getroot()
         assert (self.skeleton is not None)
         self.load_junctions()
         self.load_edges()

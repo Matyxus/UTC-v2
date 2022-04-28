@@ -1,108 +1,114 @@
-import os
 from sys import argv
-from Project.constants import CWD, file_exists
+from typing import List
+from Project.Utils.constants import PATH, file_exists, get_file_name
+from Project.Utils import UserInterface
 
 
-class Converter:
+class Converter(UserInterface):
 	""" Class that uses osm_filter and netconvert to create network file for SUMO """
 
 	def __init__(self):
-		pass
+		super().__init__()
+
+	def dynamic_input(self) -> None:
+		print("Class Converter does not accept dynamic input!")
+
+	def static_input(self) -> None:
+		print(f"Accepting arguments: {argv}")
+		if len(argv) > 1:
+			for map_name in argv[1:]:
+				success: bool = self.convert(map_name)
+				print(f"Successfully converted: {success}")
+		else:
+			print("Enter name of maps you wish to convert")
+
+	# ---------------------------------- Commands ----------------------------------
+
+	def help_command(self, args: List[str]) -> None:
+		help_string: str = (f"""
+		Usage: input name of maps downloaded from OpenStreetMap(.osm) 
+		of maps in {PATH.ORIGINAL_OSM_MAPS.format('map_name')}
+		""")
+		print(help_string)
+
+	#  ----------------------------------  Utils  ----------------------------------
 
 	def convert(self, file_name: str) -> bool:
 		"""
-		Expecting file to be in /Maps/osm/original/file_name.osm,
+		Expecting file to be in directory defined in constants.PATH.ORIGINAL_OSM_MAPS,
 		converts osm file into .net.xml file, while removing all
 		non-highway elements from original osm file.
 
 		:param file_name: name of .osm file, to convert
 		:return: True if successful, false otherwise
 		"""
-		print(f"Converting file: '{file_name}'")
-		if "/" in file_name:
-			print(f"Expecting file to be in {CWD}/Maps/osm/original/file_name, input only file_name, not path.")
-			return False
+		print(f"Converting map: '{file_name}'")
 		# Remove file type from file_name
-		if ".osm" in file_name:
-			file_name = file_name.replace(".osm", "")
-		if not self.osm_filter(file_name):
+		map_name: str = get_file_name(file_name)
+		if not self.osm_filter(map_name):
 			return False
-		return self.net_convert(file_name)
+		return self.net_convert(map_name)
 
-	def osm_filter(self, file_name: str) -> bool:
+	def osm_filter(self, map_name: str) -> bool:
 		"""
 		Uses osm filter to filter .osm file, removing everything apart from highways,
-		filtered file will be saved in \\Maps\\osm\\filtered under
+		filtered file will be saved in directory defined in constants.PATH.FILTERED_OSM_MAPS
 		the same name (with '_filtered' suffix added)
 
+		:param map_name: name of OSM map
 		:return: True if successful, false otherwise
 		"""
-		print("Filtering osm file with osm filter")
-		file_path: str = (CWD + "/Maps/osm/original/" + file_name + ".osm")
+		print("Filtering osm file with osm_filter")
+		file_path: str = PATH.ORIGINAL_OSM_MAPS.format(map_name)
 		if not file_exists(file_path):
-			print(f"Could not load file: {file_path}, file does not exist!")
 			return False
-		command: str = (CWD + "/Converter/OSMfilter/osmfilter ")
-		command += file_path
+		command: str = (PATH.OSM_FILTER + " " + file_path)
 		# osmfilter arguments
 		command += (
 			' --hash-memory=720 --keep-ways="highway=primary =tertiary '
 			'=residential =primary_link =secondary =secondary_link =trunk =trunk_link =motorway =motorway_link" '
 			'--keep-nodes= --keep-relations= > '
 		)
-		filtered_file_path: str = (CWD + "/Maps/osm/filtered/" + file_name + "_filtered.osm")
+		filtered_file_path: str = PATH.FILTERED_OSM_MAPS.format(map_name)
 		command += filtered_file_path
-		return self.execute_command(command, f"Done filtering osm file, saved in: {filtered_file_path}")
+		success, output = self.run_commmand(command)
+		if success:
+			print(f"Done filtering osm file, saved in: {filtered_file_path}")
+		return success
 
-	def net_convert(self, file_name: str) -> bool:
+	def net_convert(self, map_name: str) -> bool:
 		"""
 		Uses netconvert to convert .osm file into .net.xml, expecting .osm file to be in
-		\\Maps\\osm\\filtered\\file_name, resulting file will be saved in \\Maps\\sumo\\file_name
+		directory defined in constants.PATH.FILTERED_OSM_MAPS,
+		resulting file will be saved in directory defined in constants.PATH.NETWORK_SUMO_MAPS
 
+		:param map_name: name of OSM map (filtered by osmfilter)
 		:return: True if successful, false otherwise
 		"""
 		print("Creating '.net.xml' file for SUMO with netconvert on filtered file")
-		file_path: str = (CWD + "/Maps/osm/filtered/" + file_name + "_filtered.osm")
+		file_path: str = PATH.FILTERED_OSM_MAPS.format(map_name)
 		if not file_exists(file_path):
-			print(f"Could not load file: {file_path}, file does not exist!")
 			return False
 		command: str = "netconvert --osm "
 		command += file_path
 		# Net convert arguments
 		command += (
-			# Remove geometry of buildings etc, guess highway ramps, guess roundabouts, join close junctions into one
+			# Remove geometry of buildings etc, guess highway ramps, guess roundabouts, join close junctions
 			" --geometry.remove --ramps.guess --roundabouts.guess --junctions.join"  
 			# Removes lone edges, keeps biggest component of network graph
 			" --remove-edges.isolated --keep-edges.components 1" 
 			" --numerical-ids.node-start 0"  # Junction id's will start from 0 to n
 			" --numerical-ids.edge-start 0"  # Edge id's will start from 0 to n
 		)
-		net_file_path = (CWD + "/Maps/sumo/" + file_name + ".net.xml")
+		net_file_path = PATH.NETWORK_SUMO_MAPS.format(map_name)
 		command += (" -o " + net_file_path)
-		return self.execute_command(command, f"Done creating .net file, saved in: {net_file_path}")
-
-	def execute_command(self, command: str, message: str) -> bool:
-		"""
-		:param message: to be printed, if execution is successful
-		:param command: command to be executed
-		:return: True if successful, false otherwise
-		"""
-		try:
-			os.system(command)
-		except Exception as e:
-			print(f"Error occurred: {e}")
-			return False
-		print(message)
-		return True
+		success, output = self.run_commmand(command)
+		if success:
+			print(f"Done creating '{map_name}.net.xml' file, saved in: {net_file_path}")
+		return success
 
 
 if __name__ == "__main__":
-	print(f"Usage: input name of maps in /Maps/osm/original/map_name.osm (without extension)")
-	print(f"Accepting arguments: {argv}")
-	if len(argv) > 1:
-		converter: Converter = Converter()
-		for arg in argv[1:]:
-			converter.convert(arg)
-	else:
-		print("Enter name of maps you wish to convert")
-
+	converter: Converter = Converter()
+	converter.help_command([])
+	converter.static_input()

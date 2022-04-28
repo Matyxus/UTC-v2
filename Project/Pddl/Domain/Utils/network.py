@@ -6,6 +6,7 @@ class Network:
     """ """
     def __init__(self):
         self.CAR_LENGTH: float = 4.5  # Average car length (in meters)
+        self.MIN_GAP: float = 2.5  # Minimal gap (meters) between vehicles, as defined in SUMO
         # self.FOLLOWING_DISTANCE: float = 2.0  # Safe following distance (in seconds), depends on speed
         self.max_capacity: int = 0  # Maximal capacity, necessary for 'use' predicate
         # ------------------- DENSITY CONSTANTS -------------------
@@ -84,7 +85,8 @@ class Network:
             return 0
         # Find how many lanes routes has, if there is edge with only 1 lane (capacity multiplier is 1)
         lane_multiplier: int = max(min([len(edge.lanes.keys()) for edge in route.edge_list]), 1)
-        capacity: int = max(int(route.traverse()[0] / self.CAR_LENGTH), 1)  # route_length / car_length
+        # Route_length / (car_length + gap)
+        capacity: int = max(int(route.traverse()[0] / (self.CAR_LENGTH+self.MIN_GAP)), 1)
         return capacity * lane_multiplier
 
     def get_thresholds(self, capacity: int) -> Dict[str, int]:

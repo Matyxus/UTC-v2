@@ -1,8 +1,9 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
+import subprocess
 
 
 class UserInterface:
-    """ Parent class for dynamic input """
+    """ Parent class for static/dynamic input """
 
     def __init__(self):
         print(f"Launching UI for input, initializing objects..")
@@ -16,8 +17,15 @@ class UserInterface:
 
     def dynamic_input(self) -> None:
         """
-        Handles input dynamically passed during runtime,
-        always has while(self.running) loop.
+        Handles input dynamically passed during runtime, always has while(self.running) loop.
+
+        :return: None
+        """
+        raise NotImplementedError("Error, this functions has to be implemented by children classes!")
+
+    def static_input(self) -> None:
+        """
+        Handles statically passed input (e.g. from command line, file, ..), uses sys.argv
 
         :return: None
         """
@@ -75,3 +83,23 @@ class UserInterface:
         if command_name in self.functions:
             return command_name
         return ""
+
+    def run_commmand(self, command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
+        """
+        https://stackoverflow.com/questions/41094707/setting-timeout-when-using-os-system-function
+
+        :param command: console/terminal command string
+        :param timeout: wait max timeout (seconds) for run console command (default None)
+        :param encoding: console output encoding, default is utf-8
+        :return: True/False on success/failure, console output as string
+        """
+        success: bool = False
+        console_output: str = ""
+        try:
+            console_output_byte = subprocess.check_output(command, shell=True, timeout=timeout)
+            console_output = console_output_byte.decode(encoding)  # '640x360\n'
+            console_output = console_output.strip()  # '640x360'
+            success = True
+        except subprocess.CalledProcessError as callProcessErr:
+            print(f"Error {str(callProcessErr)} for run command {command}\n\n")
+        return success, console_output

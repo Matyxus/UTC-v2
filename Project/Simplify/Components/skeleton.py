@@ -69,12 +69,11 @@ class Skeleton:
 
     # ----------------------------------- Utils -----------------------------------
 
-    def merge(self, other, plot: bool) -> None:
+    def merge(self, other) -> None:
         """
         Merges this graph with another graph.
 
         :param other: another graph current graph is merging with
-        :param plot: bool, if plot should be displayed
         :return: None
         """
         assert (isinstance(other, Skeleton))

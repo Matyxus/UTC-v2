@@ -1,6 +1,6 @@
 from Project.Simplify.Components import Skeleton
 from Project.Pddl.Domain import PddlProblem
-from Project.constants import Path
+from Project.Utils.constants import Path
 
 
 class ProblemGenerator(PddlProblem):
