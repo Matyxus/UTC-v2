@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+	<vType accel="3.0" decel="6.0" id="CarDefault" length="4.5" minGap="2.5" maxSpeed="50.0" sigma="0.5" />
+	<route id="r230" edges="84 85 86 87 88 153 144 159"/>
+	<route id="r231" edges="132 133 43 153 144 145 47 56 55 165"/>
+	<vehicle id="car0" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car1" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car2" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car3" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car4" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car5" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car6" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car7" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car8" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car9" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car10" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car11" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car12" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car13" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<vehicle id="car14" depart="0.0" route="r230" type="CarDefault" departLane="random"/>
+	<flow id="flow0" begin="0.0" end="150" vehsPerHour="36000" route="r231" type="CarDefault"/>
+</routes>
