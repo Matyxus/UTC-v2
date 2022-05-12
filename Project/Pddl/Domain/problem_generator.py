@@ -1,6 +1,5 @@
 from Project.Simplify.Components import Skeleton
 from Project.Pddl.Domain import PddlProblem
-from Project.Utils.constants import Path
 
 
 class ProblemGenerator(PddlProblem):
@@ -104,11 +103,11 @@ class ProblemGenerator(PddlProblem):
 
     # -------------------------------- Utils --------------------------------
 
-    def save(self) -> None:
+    def save(self, file_path: str) -> None:
         if self.attributes["problem"] is None:
             print(f"Problem name is not set, cannot save file!")
             return
-        file_path: str = (Path.PDDL_GENERATED_PROBLEMS + self.attributes["problem"] + ".pddl")
+        file_path += self.attributes["problem"] + ".pddl"
         print(f"Saving problem to file: {file_path}")
         try:
             with open(file_path, "w") as file:

@@ -5,7 +5,7 @@
 
     <input>
         <net-file value="\\wsl$\Ubuntu\home\svadlmat\UTC\Project/Maps/sumo/Chodov.net.xml"/>
-        <route-files value="\\wsl$\Ubuntu\home\svadlmat\UTC\Project/Traci/scenarios/test/routes.rou.xml"/>
+        <route-files value="\\wsl$\Ubuntu\home\svadlmat\UTC\Project/Traci/scenarios/test/routes1.rou.xml"/>
     </input>
 
     <output>

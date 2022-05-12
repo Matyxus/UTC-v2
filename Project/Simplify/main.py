@@ -81,9 +81,9 @@ class Launcher(UserInterface):
         if args[0] not in self.graphs:
             print(f"Graph with name: {args[0]} does not exist")
             return
-        elif not args[4].isnumeric():
-            print(f"Expecting number as 4th argument, got: {args[4]}!")
-            return
+        #elif not args[4].isnumeric():
+        #     print(f"Expecting number as 4th argument, got: {args[4]}!")
+        #    return
         # Check path
         graph: Skeleton = self.graphs[args[0]]
         self.shortest_path.set_skeleton(graph)

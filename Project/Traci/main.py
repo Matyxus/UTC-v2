@@ -65,6 +65,8 @@ class TraciLauncher(UserInterface):
         self.scenario.add_cars(args)
 
     def add_car_flow_command(self, args: List[str]) -> None:
+        return
+        """
         if not self.check_generation("add-car-flow"):
             return
         elif not args[0].isnumeric() and float(args[0]) > 0:
@@ -83,6 +85,7 @@ class TraciLauncher(UserInterface):
             print(f"Argument 'vehicles_per_hour' must be non-negative number, got: {args[4]}!")
             return
         self.scenario.add_flow(args)
+        """
 
     def save_command(self, args: List[str]) -> None:
         if not self.check_generation("save"):

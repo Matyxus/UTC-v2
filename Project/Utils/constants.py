@@ -27,7 +27,7 @@ class PATH:
     FILTERED_OSM_MAPS: str = (CWD + "/Maps/osm/filtered/{0}_filtered.osm")
     NETWORK_SUMO_MAPS: str = (CWD + "/Maps/sumo/{0}.net.xml")  # Path to folder containing .net.xml maps for SUMO
     #  -------------- Pddl --------------
-    PDDL_DOMAINS: str = (CWD + "/Pddl/Domain/Domains/{0}")  # Path to folder containing pddl domains
+    PDDL_DOMAINS: str = (CWD + "/Pddl/Domain/Domains/{0}.pddl")  # Path to folder containing pddl domains
     PDDL_PLANERS: str = (CWD + "/Pddl/Planners/{0}")   # Path to folder containing pddl planners
     PDDL_GENERATED_PROBLEMS: str = (CWD + "/Pddl/Problems/generated/{0}")  # Path to folder containing pddl problems
     # Path to folder containing results of pddl problems
@@ -35,8 +35,8 @@ class PATH:
     # -------------- Planners --------------
     PLANNERS: Dict[str, str] = {
         # Planner_name : command to run planner (.format(args) string)
-        "Cerberus": "python3 " + PDDL_PLANERS + "Cerberus/plan.py" + " {0} {1} {2}",
-        "Merwin": PDDL_PLANERS + "Merwin/plan" + " {0} {1} {2}"
+        "Cerberus": "python3 " + PDDL_PLANERS.format("Cerberus/plan.py") + " {0} {1} {2}",
+        "Merwin": PDDL_PLANERS.format("Merwin/plan") + " {0} {1} {2}"
     }
     # -------------- Traci --------------
     TRACI_SCENARIOS: str = (CWD + "/Traci/scenarios/{0}")  # Path to generated scenarios for SUMO

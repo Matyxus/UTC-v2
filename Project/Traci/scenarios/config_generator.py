@@ -44,7 +44,3 @@ class ConfigGenerator:
             print("Route file for SUMO config is not set!")
             return
         self.tree.write(file_path, encoding="UTF-8", xml_declaration=True)
-
-
-
-

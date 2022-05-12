@@ -86,7 +86,7 @@ class Network:
         # Find how many lanes routes has, if there is edge with only 1 lane (capacity multiplier is 1)
         lane_multiplier: int = max(min([len(edge.lanes.keys()) for edge in route.edge_list]), 1)
         # Route_length / (car_length + gap)
-        capacity: int = max(int(route.traverse()[0] / (self.CAR_LENGTH+self.MIN_GAP)), 1)
+        capacity: int = max(int(route.traverse()[0] / (self.CAR_LENGTH + self.MIN_GAP)), 1)
         return capacity * lane_multiplier
 
     def get_thresholds(self, capacity: int) -> Dict[str, int]:
