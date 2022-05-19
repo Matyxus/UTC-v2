@@ -2,7 +2,7 @@ from typing import List, Tuple
 from Project.Simplify.Components import Graph
 from Project.Utils.constants import file_exists, dir_exist, PATH
 from Project.Pddl.Domain import UtcProblem
-from Project.Pddl.routes_parser import RouteParser
+from Project.Traci.scenarios.generators.routes_generator import RoutesGenerator
 import subprocess
 
 
@@ -16,7 +16,7 @@ class Pddl:
         # -------------- Domain --------------
         self.generator: UtcProblem = UtcProblem()
         # -------------- Utils --------------
-        self.route_parser: RouteParser = RouteParser()
+        self.route_parser: RoutesGenerator = RoutesGenerator()
         self.generating_problem: bool = False
         self.TIME_OUT: int = 120  # Seconds
 
@@ -27,26 +27,28 @@ class Pddl:
         self.graph.loader.load_map(network_name)
         self.graph.simplify.simplify()
         self.graph.skeleton.validate_graph()
+        self.route_parser.load_network(network_name)
 
     def generate_problem(self, scenario_name: str, start_time: int, end_time: int) -> None:
         if self.graph is None:
             return
+        # Start generator
         self.generator = UtcProblem()
         self.generator.add_network(self.graph.skeleton)
-        self.generator.set_problem_name("problem")  # Set problem name
-        self.generator.save(PATH.TRACI_SCENARIOS.format(scenario_name)+"/")
-        for vehicle, route in self.route_parser.load_vehicles(scenario_name, start_time, end_time).items():
-            from_junction: str = self.graph.skeleton.edges[route[0]].attributes["from"]
-            to_junction: str = self.graph.skeleton.edges[route[1]].attributes["to"]
-            self.generator.add_car(1, from_junction, to_junction)
-        self.generator.save(PATH.TRACI_SCENARIOS.format(scenario_name)+"/")
+        self.generator.set_problem_name(f"problem{start_time}_{end_time}")  # Set problem name (same as file name)
+        self.route_parser.load_routes(PATH.TRACI_SCENARIOS.format(scenario_name)+"/routes.ruo.xml")
+        # Add vehicles
+        for vehicle_id, junctions in self.route_parser.get_vehicles(start_time, end_time).items():
+            print(vehicle_id, junctions)
+            self.generator.add_car(vehicle_id, junctions[0], junctions[1])
+        self.generator.save(PATH.TRACI_SCENARIOS_PROBLEMS.format(scenario_name, f"problem{start_time}_{end_time}.pddl"))
 
-    def generate_result(self, scenario_name: str) -> None:
+    def generate_result(self, scenario_name: str, problem_name: str, result_name: str) -> None:
         # Call planner
         planner_args: List[str] = [
             PATH.PDDL_DOMAINS.format("utc"),  # Domain
-            PATH.TRACI_SCENARIOS.format(scenario_name) + "/problem.pddl",  # Problem
-            PATH.TRACI_SCENARIOS.format(scenario_name) + "/result.txt"  # Result
+            PATH.TRACI_SCENARIOS_PROBLEMS.format(scenario_name, problem_name),  # Problem
+            PATH.TRACI_SCENARIOS_RESULTS.format(scenario_name, result_name)  # Result
         ]
         print(f"Calling command: {PATH.PLANNERS['Merwin'].format(*planner_args)}")
         print(f"With {self.TIME_OUT} second timeout")
@@ -57,7 +59,7 @@ class Pddl:
 
     def parse_result(self, scenario_name: str, result_name: str) -> None:
         paths: dict = {}
-        with open(PATH.TRACI_SCENARIOS.format(scenario_name)+f"/{result_name}", "r") as file:
+        with open(PATH.TRACI_SCENARIOS_RESULTS.format(scenario_name, result_name), "r") as file:
             for line in file:
                 line = line.split()
                 car_id: str = line[1]
@@ -73,12 +75,10 @@ class Pddl:
                     edges.append(edge_id)
             if edges not in routes:
                 routes.append(edges)
-            print(f"Car: {car} goes trough: {edges}")
+            print(f"Car: {car} goes trough: route{routes.index(edges)}")
         for index, route in enumerate(routes):
             print(f"route{index}: {' '.join(route)}")
         # print(f"unique edges: {routes}")
-
-
 
     def run_commmand(self, command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
         """
@@ -105,8 +105,10 @@ class Pddl:
 if __name__ == "__main__":
     launcher: Pddl = Pddl()
     launcher.set_network("test2")
-    # launcher.generate_problem("test1", 0, 30)
-    # launcher.generate_result("test1")
-    launcher.parse_result("test1", "result.txt.2")
+    # launcher.generate_problem("test2", 21, 30)
+    # launcher.generate_result("test2", "problem21_30.pddl", "result21_30")
+    launcher.parse_result("test2", "result0_10.2")
+    launcher.parse_result("test2", "result11_20.2")
+    launcher.parse_result("test2", "result21_30.2")
     #
     #

@@ -53,16 +53,16 @@ class TraciLauncher(UserInterface):
         elif not args[0].isdigit() and int(args[0]) > 0:
             print(f"Argument 'amount' must be whole positive number, got: {args[0]}!")
             return
-        elif not args[1] in self.scenario.graph.skeleton.junctions:
+        elif not args[1] in self.scenario.routes_generator.graph.skeleton.junctions:
             print(f"Argument 'from_junction_id' must be existing junction id, got: {args[1]}!")
             return
-        elif not args[2] in self.scenario.graph.skeleton.junctions:
+        elif not args[2] in self.scenario.routes_generator.graph.skeleton.junctions:
             print(f"Argument 'to_junction_id' must be existing junction id, got: {args[2]}!")
             return
         elif not args[3].isnumeric() and float(args[3]) >= 0:
             print(f"Argument 'depart' must be non-negative number, got: {args[3]}!")
             return
-        self.scenario.add_cars(args)
+        self.scenario.routes_generator.add_cars(args)
 
     def add_car_flow_command(self, args: List[str]) -> None:
         return
@@ -104,7 +104,7 @@ class TraciLauncher(UserInterface):
     def plot_command(self, args: List[str]) -> None:
         if not self.check_generation("plot"):
             return
-        self.scenario.graph.display.plot()
+        self.scenario.routes_generator.graph.display.plot()
 
     def help_command(self, args: List[str]) -> None:
         help_string: str = ("""

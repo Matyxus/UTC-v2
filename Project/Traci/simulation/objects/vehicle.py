@@ -10,13 +10,14 @@ class Vehicle(XmlObject):
     def __init__(self):
         super().__init__("vehicle")
         # ---------- Prepare vehicle attributes  ----------
+        self.attributes["id"] = f"v{Vehicle._counter}"
+        Vehicle._counter += 1
         self.attributes["depart"] = ""
         # Route (id) trough which cars will travel (must be defined in routes.route.xml file !)
         self.attributes["route"] = ""
         # Average passenger car type (must be defined in routes.route.xml file !)
         self.attributes["type"] = "CarDefault"
         self.attributes["departLane"] = "random"  # Lane on which car will arrive (must be number, or 'random')
-        self.amount: int = 1  # Number of cars
         self.interval: str = ""
 
     # -------------------------------- Setters --------------------------------
@@ -33,15 +34,7 @@ class Vehicle(XmlObject):
         :param depart_time: time after which vehicle/s should arrive (seconds)
         :return: None
         """
-        self.attributes["depart"] = str(depart_time )
-
-    def set_amount(self, amount: int) -> None:
-        """
-        :param amount: Number of cars that have the same starting/ending position
-        :return: None
-        """
-        assert (amount >= 1)
-        self.amount = amount
+        self.attributes["depart"] = str(depart_time)
 
     def set_interval(self, interval: str) -> None:
         """
@@ -52,24 +45,13 @@ class Vehicle(XmlObject):
 
     # -------------------------------- Getters --------------------------------
 
-    def get_begin(self) -> float:
+    def get_depart(self) -> float:
         """
-        :return: time of vehicle arrival (used for sorting), raises error if attribute is not set!
+        :return: time of vehicle depart (used for sorting), raises error if attribute is not set!
         """
         if self.attributes["depart"] is None:
             raise AttributeError(f"Attribute 'depart' for vehicle: {self.attributes['id']} is not set!")
-        return self.attributes["depart"]
-
-    # -------------------------------- Override --------------------------------
-
-    def to_xml(self) -> str:
-        # Check what type of interval is selected
-        ret_val: str = ""
-        for i in range(1, self.amount+1):
-            self.attributes["id"] = f"car{Vehicle._counter}"  # Change id during each iteration
-            ret_val += super().to_xml()
-            Vehicle._counter += 1
-        return ret_val
+        return float(self.attributes["depart"])
 
     # -------------------------------- Utils --------------------------------
 
@@ -80,3 +62,8 @@ class Vehicle(XmlObject):
             print("Setting interval to default: None -> all cars will arrive at the same time if possible")
             return ""
         return interval
+
+    def __lt__(self, other) -> bool:
+        if isinstance(other, Vehicle):
+            return self.get_depart() < other.get_depart()
+        return False

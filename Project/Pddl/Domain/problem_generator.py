@@ -107,7 +107,6 @@ class ProblemGenerator(PddlProblem):
         if self.attributes["problem"] is None:
             print(f"Problem name is not set, cannot save file!")
             return
-        file_path += self.attributes["problem"] + ".pddl"
         print(f"Saving problem to file: {file_path}")
         try:
             with open(file_path, "w") as file:

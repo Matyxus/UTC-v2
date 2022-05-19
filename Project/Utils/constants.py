@@ -1,4 +1,4 @@
-from os.path import isfile, dirname, abspath, isdir
+from os.path import isfile, isdir
 from typing import FrozenSet, Dict
 from pathlib import Path as Pt  # Avoid confusion with PATH Class
 # ----------- Edges -----------
@@ -13,33 +13,38 @@ JUNCTION_END_COLOR: str = "blue"
 JUNCTION_START_END_COLOR: str = "#FFD632"  # "turquoise"
 
 
-#  ---------------------------------- Path ----------------------------------
+# ---------------------------------- Path ----------------------------------
 class PATH:
     """ (static) Class holding different project paths, used with .format(args) """
     CWD: str = str(Pt(__file__).parent.parent)  # Project Root
     OSM_FILTER: str = (CWD + "/Converter/OSMfilter/osmfilter")  # Path to osmfilter (executable)
-    # Path to template of sumo config file
-    SUMO_CONFIG_TEMPLATE: str = (CWD + "/Traci/scenarios/sumo_config_template.xml")
-    # -------------- Maps --------------
+    # Template for .sumocfg file
+    SUMO_CONFIG_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_config_template.xml")
+    # Template for .ruo.xml file
+    SUMO_ROUTES_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_routes_template.xml")
+    # -------------------------------------- Maps --------------------------------------
     # Path to folder containing maps from open street map (.osm)
     ORIGINAL_OSM_MAPS: str = (CWD + "/Maps/osm/original/{0}.osm")
     # Path to folder containing filtered .osm maps
     FILTERED_OSM_MAPS: str = (CWD + "/Maps/osm/filtered/{0}_filtered.osm")
-    NETWORK_SUMO_MAPS: str = (CWD + "/Maps/sumo/{0}.net.xml")  # Path to folder containing .net.xml maps for SUMO
-    #  -------------- Pddl --------------
+    # Path to folder containing .net.xml maps for SUMO
+    NETWORK_SUMO_MAPS: str = (CWD + "/Maps/sumo/{0}.net.xml")
+    # --------------------------------------  Pddl --------------------------------------
     PDDL_DOMAINS: str = (CWD + "/Pddl/Domain/Domains/{0}.pddl")  # Path to folder containing pddl domains
     PDDL_PLANERS: str = (CWD + "/Pddl/Planners/{0}")   # Path to folder containing pddl planners
     PDDL_GENERATED_PROBLEMS: str = (CWD + "/Pddl/Problems/generated/{0}")  # Path to folder containing pddl problems
     # Path to folder containing results of pddl problems
     PDDL_SOLVED_PROBLEMS: str = (CWD + "/Pddl/Problems/solved/{0}")
-    # -------------- Planners --------------
+    # -------------------------------------- Planners --------------------------------------
     PLANNERS: Dict[str, str] = {
-        # Planner_name : command to run planner (.format(args) string)
+        # Planner_name : command to run planner (.format(args))
         "Cerberus": "python3 " + PDDL_PLANERS.format("Cerberus/plan.py") + " {0} {1} {2}",
         "Merwin": PDDL_PLANERS.format("Merwin/plan") + " {0} {1} {2}"
     }
-    # -------------- Traci --------------
+    # -------------------------------------- Traci --------------------------------------
     TRACI_SCENARIOS: str = (CWD + "/Traci/scenarios/{0}")  # Path to generated scenarios for SUMO
+    TRACI_SCENARIOS_PROBLEMS: str = (CWD + "/Traci/scenarios/{0}/problems/{1}")  # Path to folder with pddl problems
+    TRACI_SCENARIOS_RESULTS: str = (CWD + "/Traci/scenarios/{0}/results/{1}")  # Path to fold with pddl results
 
 
 # ---------------------------------- Functions ----------------------------------

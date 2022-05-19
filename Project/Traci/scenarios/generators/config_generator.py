@@ -12,8 +12,18 @@ class ConfigGenerator:
         assert (self.root.find("input") is not None)
         assert (self.root.find("input").find("net-file") is not None)
         assert (self.root.find("input").find("route-files") is not None)
-        assert ("value" in self.root.find("input").find("net-file"))
-        assert ("value" in self.root.find("input").find("route-files"))
+        assert ("value" in self.root.find("input").find("net-file").attrib)
+        assert ("value" in self.root.find("input").find("route-files").attrib)
+
+    def load_config(self, config_path: str) -> None:
+        """
+        :param config_path: path to '.sumocfg' file
+        :return: None
+        """
+        if not file_exists(config_path):
+            return
+        self.tree = ET.parse(config_path)
+        self.root = self.tree.getroot()
 
     def set_network_name(self, network_name: str) -> None:
         """
@@ -29,18 +39,17 @@ class ConfigGenerator:
         :param routes_file_path: path to sumo routes file (.rou.xml)
         :return: None
         """
-        if not file_exists(routes_file_path):
-            return
         self.root.find("input").find("route-files").attrib["value"] = routes_file_path
 
     def save(self, file_path: str) -> None:
         """
+        :param file_path: where file should be saved
         :return: None
         """
         if not self.root.find("input").find("net-file").attrib["value"]:
             print("Network file for SUMO config is not set!")
             return
-        elif self.root.find("input").find("route-files").attrib["value"]:
+        elif not self.root.find("input").find("route-files").attrib["value"]:
             print("Route file for SUMO config is not set!")
             return
         self.tree.write(file_path, encoding="UTF-8", xml_declaration=True)
