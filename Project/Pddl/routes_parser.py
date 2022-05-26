@@ -25,7 +25,7 @@ class RouteParser:
             edges: list = route.attrib["edges"].split()
             routes[route.attrib["id"]] = (edges[0], edges[-1])  # Initial and ending edges
         for vehicle in self.root.findall("vehicle"):
-            if start_time <= float(vehicle.attrib["depart"]) <= end_time:
+            if start_time <= int(vehicle.attrib["depart"]) < end_time:
                 vehicles[vehicle.attrib["id"]] = routes[vehicle.attrib["route"]]
         return vehicles
 

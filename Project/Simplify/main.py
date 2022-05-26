@@ -1,6 +1,6 @@
 from typing import Dict, List, Set
-from Project.Simplify.Graph_modules import Display, ShortestPath, Simplify, Loader
 from Project.Simplify.Components import Skeleton
+from Project.Simplify.Graph_modules import Display, ShortestPath, Simplify, Loader
 from Project.Utils import UserInterface
 from Project.Utils.constants import PATH
 
@@ -183,8 +183,3 @@ class Launcher(UserInterface):
 if __name__ == "__main__":
     launcher: Launcher = Launcher()
     launcher.dynamic_input()
-
-
-
-
-

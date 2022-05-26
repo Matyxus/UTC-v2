@@ -3,7 +3,7 @@ from typing import List, Tuple, Dict
 
 
 class Network:
-    """ """
+    """ Class which enables to convert graph of road network to pddl """
     def __init__(self):
         self.CAR_LENGTH: float = 4.5  # Average car length (in meters)
         self.MIN_GAP: float = 2.5  # Minimal gap (meters) between vehicles, as defined in SUMO

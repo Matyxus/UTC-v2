@@ -1,5 +1,6 @@
 from typing import Dict, List, Tuple
 import subprocess
+import inspect
 
 
 class UserInterface:
@@ -10,10 +11,12 @@ class UserInterface:
         self.running = True  # Control of main loop
         # Mapping name of commands to List
         self.functions: Dict[str, List[callable, int, int]] = {
-            # Command name : [function, min_args, max_args]
+            # function_name : [function_pointer, {arg_name: [[arg_type,..], optional], ...}]
             "exit": [self.exit_command, 0, 0],
-            "help": [self.help_command, 0, 0],
+            "help": [self.help_command, 0, 0]
         }
+
+    # ----------------------------------------- Input -----------------------------------------
 
     def dynamic_input(self) -> None:
         """
@@ -101,5 +104,13 @@ class UserInterface:
             console_output = console_output.strip()  # '640x360'
             success = True
         except subprocess.CalledProcessError as callProcessErr:
-            print(f"Error {str(callProcessErr)} for run command {command}\n\n")
+            print(f"Error {str(callProcessErr)} for command {command}\n\n")
         return success, console_output
+
+# For testing purposes
+if __name__ == "__main__":
+    pass
+    # temp = UserInterface()
+    # print(temp.functions["exit"].__doc__)
+    # print(inspect.signature(temp.functions["exit"]))
+

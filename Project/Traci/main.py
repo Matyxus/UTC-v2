@@ -12,7 +12,7 @@ class TraciLauncher(UserInterface):
         self.scenario: Scenario = None
         self.functions["generate-scenario"] = [self.scenario_command, 2, 2]
         self.functions["add-cars"] = [self.add_cars_command, 4, 5]
-        self.functions["add-car-flow"] = [self.add_car_flow_command, 5, 6]
+        self.functions["add-random-flow"] = [self.add_random_flow_command, 7, 7]
         self.functions["save"] = [self.save_command, 0, 0]
         self.functions["generate-plan"] = [self.generate_plan_command, 0, 0]
         self.functions["run-scenario"] = [self.run_scenario, 4, 4]
@@ -64,28 +64,10 @@ class TraciLauncher(UserInterface):
             return
         self.scenario.routes_generator.add_cars(args)
 
-    def add_car_flow_command(self, args: List[str]) -> None:
-        return
-        """
-        if not self.check_generation("add-car-flow"):
+    def add_random_flow_command(self, args: List[str]) -> None:
+        if not self.check_generation("add-random-flow"):
             return
-        elif not args[0].isnumeric() and float(args[0]) > 0:
-            print(f"Argument 'begin' must be whole positive number, got: {args[0]}!")
-            return
-        elif not args[1].isnumeric() and float(args[1]) > 0:
-            print(f"Argument 'end' must be whole positive number, got: {args[1]}!")
-            return
-        elif not args[2] in self.scenario.graph.skeleton.junctions:
-            print(f"Argument 'from_junction_id' must be existing junction id, got: {args[2]}!")
-            return
-        elif not args[3] in self.scenario.graph.skeleton.junctions:
-            print(f"Argument 'to_junction_id' must be existing junction id, got: {args[3]}!")
-            return
-        elif not args[4].isdigit() and int(args[4]) >= 0:
-            print(f"Argument 'vehicles_per_hour' must be non-negative number, got: {args[4]}!")
-            return
-        self.scenario.add_flow(args)
-        """
+        self.scenario.routes_generator.add_flow("random", args[0], args[1], args[2:])
 
     def save_command(self, args: List[str]) -> None:
         if not self.check_generation("save"):
@@ -119,15 +101,14 @@ class TraciLauncher(UserInterface):
             2.4) depart_time -> time in which vehicles will enter road network (in seconds)
             2.5) [interval] -> time during which vehicles will arrive [seconds/random/uniform], default 0
 
-        3*) add-car-flow: begin, end, from_junction_id, to_junction_id, vehicles_per_hour, period, probability, number
-            3.1) begin -> starting time of flow (seconds)
-            3.2) end  -> end time of flow (seconds)
-            3.3) from_junction_id -> starting junction
-            3.4) to_junction_id -> ending junction
-            3.5) vehicles_per_hour -> number of vehicles per hour, equally spaced (not together with period or probability)
-            3.6) period -> 
-            3.7) probability -> probability for emitting a vehicle each second (not together with vehsPerHour or period)
-            3.8) number -> total number of vehicles, equally spaced
+        3*) add-random-flow: from_junction_id, to_junction_id, minimal, maximal, period, start_time, end_time
+            3.1) from_junction_id -> starting junction
+            3.2) to_junction_id  -> ending junction
+            3.3) minimal -> number of vehicles
+            3.4) maximal -> number of vehicles
+            3.5) period -> number of seconds to generate new vehicles
+            3.6) start_time -> starting time of flow (seconds)
+            3.7) end_time -> ending time of flow (seconds)
         
         4*) save: -> saves scenario (does not discard of currently created class)
         

@@ -1,7 +1,6 @@
 from Project.Simplify.Graph_modules.graph_module import GraphModule
 from Project.Simplify.Graph_modules.display import Display
 from typing import List, Set, Tuple, Dict
-from numpy import array, average
 from Project.Simplify.Components import Route, Junction
 
 
@@ -237,13 +236,19 @@ class Simplify(GraphModule):
                 return False
         return True
 
-    def get_center_of_mass(self, points: List[Tuple[float, float]]) -> tuple:
+    def get_center_of_mass(self, points: List[Tuple[float, float]]) -> Tuple[float, float]:
         """
         :param points: list of (x, y) coordinates
         :return: new (x, y) coordinate, which corresponds to center of mass
         """
-        assert (len(points) > 0)
-        return tuple(average(array(points), axis=0))
+        count: int = len(points)
+        assert (count > 0)
+        x: float = 0
+        y: float = 0
+        for i, j in points:
+            x += i
+            y += j
+        return (x / count), (y / count)
 
     def junction_can_be_removed(self, junction_id: str) -> bool:
         """

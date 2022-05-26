@@ -32,11 +32,22 @@ class SimulationLauncher:
         if statistic:
             options += self.statistics_cmd
         # [temp, "-c", PATH.TRACI_SCENARIOS.format(scenario_name) + "/simulation.sumocfg"]
-        traci.start([sumo_run, *options])
-        print(traci.simulation.getLoadedIDList(), traci.simulation.getPendingVehicles(), traci.simulation.getTime())
-        while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
-            traci.simulationStep()
-        traci.close()
+        try:
+            traci.start([sumo_run, *options])
+            print(traci.simulation.getLoadedIDList(), traci.simulation.getPendingVehicles(), traci.simulation.getTime())
+            for vehicle_id in traci.simulation.getLoadedIDList():
+                print(f"Vehicle: {vehicle_id} departs in: {traci.vehicle.getParameter(vehicle_id, 'param')}")
+            traci.vehicle.getParameter()
+
+            while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
+                traci.simulationStep()
+                print(traci.vehicle.getIDList())
+            traci.close()
+        except traci.exceptions.FatalTraCIError as e:
+            if str(e) == "connection closed by SUMO":
+                print("Closed GUI, exiting ....")
+            else:
+                print(f"Error occurred: {e}")
 
 
 if __name__ == "__main__":

@@ -14,3 +14,7 @@ class Graph:
         self.shortest_path.set_skeleton(self.skeleton)
         self.display: Display = Display()
         self.display.set_skeleton(self.skeleton)
+
+
+if __name__ == "__main__":
+    print("works")

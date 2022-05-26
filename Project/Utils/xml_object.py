@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from xml.etree.ElementTree import Element
+import xml.etree.ElementTree as ET
 
 
 class XmlObject:
@@ -9,8 +9,11 @@ class XmlObject:
         self.tag = tag
         self.attributes: Dict[str, Any] = {"id": ""}  # All xml object must have 'id' at least
 
-    def to_xml(self) -> Element:
+    def __str__(self) -> str:
+        return f"<{self.tag} {' '.join(['{0}={1}'.format(k, v) for k,v in self.attributes.items()])}/>"
+
+    def to_xml(self) -> ET.Element:
         """
         :return: xml Element representing this object
         """
-        return Element(self.tag, self.attributes)
+        return ET.Element(self.tag, self.attributes)

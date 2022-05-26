@@ -3,8 +3,6 @@ from Project.Simplify.Graph_modules.display import Display
 from queue import PriorityQueue
 from typing import List, Tuple, Dict
 from Project.Simplify.Components import Route
-from numpy import array
-from numpy.linalg.linalg import norm
 from time import sleep
 
 
@@ -40,7 +38,7 @@ class ShortestPath(GraphModule):
             print(f"No path exists between {start_junction_id} and {target_junction_id}")
             return []
         print("Found shortest route")
-        destination_pos: array = array(self.skeleton.junctions[target_junction_id].get_position())
+        destination_pos: Tuple[float, float] = self.skeleton.junctions[target_junction_id].get_position()
         limit: float = c * sum([edge.attributes["length"] for edge in shortest_route.edge_list])
         assert (limit > 0)
         print(f"Setting route length limit: {limit}")
@@ -60,9 +58,10 @@ class ShortestPath(GraphModule):
                 distance, neigh_junction_id = route.traverse()
                 current_distance: float = length + distance
                 if neigh_junction_id not in path:  # Avoid loops
-                    pos: array = array(self.skeleton.junctions[neigh_junction_id].get_position())  # Current position
+                    # Current position
+                    pos: Tuple[float, float] = self.skeleton.junctions[neigh_junction_id].get_position()
                     queue.put((
-                        (current_distance + norm(destination_pos - pos)),
+                        (current_distance + self.coord_distance(destination_pos, pos)),
                         current_distance, route, path + [neigh_junction_id]
                     ))
         print(f"Finished finding routes, found another: {len(other_routes) - 1} routes")
@@ -92,7 +91,7 @@ class ShortestPath(GraphModule):
         """
         print(f"Finding shortest route from: {start_junction_id}, to: {target_junction_id} using A* algorithm")
         # -------------------------- Init --------------------------
-        destination_pos: array = array(self.skeleton.junctions[target_junction_id].get_position())
+        destination_pos: Tuple[float, float] = self.skeleton.junctions[target_junction_id].get_position()
         # priority, distance, in_route, path (list of visited junctions)
         queue: PriorityQueue[Tuple[float, float, Route, List[str]]] = PriorityQueue()
         queue.put((0, 0, None, [start_junction_id]))
@@ -113,10 +112,11 @@ class ShortestPath(GraphModule):
                 distance, neigh_junction_id = route.traverse()
                 tentative_g_score = g_score[junction_id] + distance
                 if tentative_g_score < g_score[neigh_junction_id]:
-                    pos: array = array(self.skeleton.junctions[neigh_junction_id].get_position())  # Current position
+                    # Current position
+                    pos: Tuple[float, float] = self.skeleton.junctions[neigh_junction_id].get_position()
                     g_score[neigh_junction_id] = tentative_g_score  # Update distances
                     queue.put((
-                        (tentative_g_score + norm(destination_pos - pos)),
+                        (tentative_g_score + self.coord_distance(destination_pos, pos)),
                         tentative_g_score, route, path + [neigh_junction_id]
                     ))
         print(f"Finished finding route: {shortest_route} ")
@@ -163,6 +163,16 @@ class ShortestPath(GraphModule):
 
     # ************************************* Utils *************************************
 
+    def coord_distance(self, point_a: Tuple[float, float], point_b: Tuple[float, float]) -> float:
+        """
+        :param point_a: first point
+        :param point_b: second point
+        :return: absolute distance between points (3 decimal precision)
+        """
+        diff_x: float = abs(point_a[0] - point_b[0])
+        diff_y: float = abs(point_a[1] - point_b[0])
+        return round(((diff_x ** 2) + (diff_y ** 2)) ** 0.5, 3)
+
     def reconstruct_path(self, target_junction_id: str, dist: Dict[str, float], prev: Dict[str, str]) -> Route:
         """
         :param target_junction_id: destination
@@ -190,7 +200,7 @@ class ShortestPath(GraphModule):
         elif target_junction_id not in self.skeleton.junctions.keys():
             print(f"Junction: {target_junction_id} does not exist!")
             return False
-        if start_junction_id == target_junction_id:
+        elif start_junction_id == target_junction_id:
             print(f"No possible path between the same junctions!")
             return False
         return True
