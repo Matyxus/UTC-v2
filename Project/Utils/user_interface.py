@@ -1,4 +1,5 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Mapping
+import prompt_toolkit
 import subprocess
 import inspect
 
@@ -9,11 +10,11 @@ class UserInterface:
     def __init__(self):
         print(f"Launching UI for input, initializing objects..")
         self.running = True  # Control of main loop
-        # Mapping name of commands to List
-        self.functions: Dict[str, List[callable, int, int]] = {
-            # function_name : [function_pointer, {arg_name: [[arg_type,..], optional], ...}]
-            "exit": [self.exit_command, 0, 0],
-            "help": [self.help_command, 0, 0]
+        # Mapping name of commands to their respective functions
+        self.functions: Dict[str, callable] = {
+            # function_name : function_pointer
+            "exit": self.exit_command,
+            "help": self.help_command
         }
 
     # ----------------------------------------- Input -----------------------------------------
@@ -24,7 +25,45 @@ class UserInterface:
 
         :return: None
         """
-        raise NotImplementedError("Error, this functions has to be implemented by children classes!")
+        print("Starting program, for help type: 'help'")
+        while self.running:
+            # Command name
+            command_name: str = input("Input command: ").lower()
+            if not command_name or command_name not in self.functions:
+                print(f"Unknown command name: {command_name}, for list of commands type: 'help'")
+                continue
+            # Command args
+            command_args: List[inspect.Parameter] = list(
+                inspect.signature(self.functions[command_name]).parameters.values()
+            )
+            print("Input command arguments separated by space (arguments with values are optional)")
+            inputted_args: Dict[str, str] = {}
+            # Check for no argument commands
+            if len(command_args) != 0:
+                inputted_args: Dict[str, str] = {
+                    arg.name: '' if arg.default == inspect.Parameter.empty else str(arg.default)
+                    for arg in command_args
+                }
+                for arg_name, arg_default in inputted_args.items():
+                    user_input: str = ""
+                    if arg_default:
+                        user_input = input(f"Enter argument {arg_name}(default {arg_default}): ")
+                        if not user_input:
+                            user_input = arg_default
+                    else:
+                        user_input = input(f"Enter argument {arg_name}: ")
+                    inputted_args[arg_name] = user_input.lower()
+
+            print(f"Interpreting... {command_name}:{inputted_args}")
+            # Check and process command args
+            processed_args: list = self.process_command_args(command_args, inputted_args)
+            # Check if command has any required arguments in case processed_args is empty
+            if len(processed_args) < sum(1 for arg in command_args if arg.default == inspect.Parameter.empty):
+                continue  # Error occurred
+            # Execute function
+            print(f"Executing command: {command_name} with arguments: {processed_args}")
+            self.functions[command_name](*processed_args)
+        print("Exiting...")
 
     def static_input(self) -> None:
         """
@@ -36,56 +75,90 @@ class UserInterface:
 
     # ----------------------------------------- Commands -----------------------------------------
 
-    def help_command(self, args: List[str]) -> None:
+    def help_command(self, command_name: str = "all") -> None:
         """
-        Prints all function names with their description and how tu use them.
-
-        :param args: arguments of help command (expecting none)
+        :param command_name: description of command to be printed (default all)
         :return: None
         """
-        raise NotImplementedError("Error, this functions has to be implemented by children classes!")
+        function_to_print: Dict[str, callable] = self.functions
+        if command_name != "all" and command_name in self.functions:
+            function_to_print = {command_name: self.functions[command_name]}
+        for function_name, function in function_to_print:
+            print(f"Description of command: {function_name}\n")
+            print("\t" + inspect.getdoc(function) + "\n")
 
-    def exit_command(self, args: List[str]) -> None:
+    def exit_command(self) -> None:
         """
         Quits the program
 
-        :param args: arguments of exit command (expecting none)
         :return: None
         """
         self.running = False
 
     # ----------------------------------------- Utils -----------------------------------------
 
-    def check_function_args(self, command_name: str, args: List[str]) -> bool:
+    def process_command_args(self, command_args: List[inspect.Parameter], inputted_args: Dict[str, str]) -> list:
+        """
+        :param command_args: List of command arguments in form of class Parameter
+        :param inputted_args: arguments of command inputted by user (dictionary mapping command name to value)
+        :return: list of command arguments in correct type (in order)
+        """
+        ret_val: list = []
+        # Check command arguments
+        if not self.check_command_args(command_args, inputted_args):
+            return ret_val
+        # Check types of command arguments and convert them to their correct type, if possible
+        for arg in command_args:
+            # If argument is not in args, expecting default value (checked by check_command_args function)
+            if arg.name not in inputted_args:
+                assert (arg.default != inspect.Parameter.empty)
+                ret_val.append(arg.default)
+            # Argument is present, convert inputted string to correct type
+            elif arg.annotation == inspect.Parameter.empty:  # Unknown type, leave it as string
+                print(f"Found unknown type of parameter: {arg.name}, defaulting to string")
+                ret_val.append(inputted_args[arg.name])
+            elif arg.annotation == bool:  # Check for bool
+                ret_val.append(inputted_args[arg.name] in ["true", "t"])
+            # Default value
+            elif arg.default != inspect.Parameter.empty and str(arg.default) == inputted_args[arg.name]:
+                ret_val.append(arg.default)
+            else:
+                try:
+                    ret_val.append(arg.annotation(inputted_args[arg.name]))
+                except ValueError as e:
+                    print(f"Unable to convert argument: {arg.name} to type: {arg.annotation}, defaulting to string")
+                    ret_val.append(inputted_args[arg.name])
+        return ret_val
+
+    def check_command_args(self, command_args: List[inspect.Parameter], inputted_args: Dict[str, str]) -> bool:
         """
         Check command name and number of arguments.
 
-        :param command_name: name of command
-        :param args: inputted by user
+        :param command_args: List of command arguments in form of class Parameter
+        :param inputted_args: arguments of command inputted by user in string (mapped name to value)
         :return: True if arguments are correct, false otherwise
         """
-        if command_name not in self.functions:
-            print(f"Unknown command name: {command_name}")
+        # Check for incorrectly entered arguments (evaluated by format_command_args function)
+        if not len(inputted_args):
             return False
-        command: List = self.functions[command_name]
-        arg_count: int = len(args)
-        if arg_count < command[1]:
-            print(f"Command: {command_name} expects at least {command[1]} arguments, got {arg_count}!")
+        # ------------------------- Check number of arguments -------------------------
+        arg_count: int = len(inputted_args)
+        maximum_args: int = len(command_args)  # Maximum number of arguments function can take
+        # Count number of arguments with non default value (aka required arguments)
+        minimum_args: int = sum(1 for arg in command_args if arg.default == inspect.Parameter.empty)
+        if arg_count < minimum_args:
+            print(f"Command expects at least {minimum_args} arguments, got {arg_count}!")
             return False
-        elif arg_count > command[2]:
-            print(f"Command: {command_name} expects at maximum {command[2]} arguments, got {arg_count}!")
+        elif arg_count > maximum_args:
+            print(f"Command expects at maximum {maximum_args} arguments, got {arg_count}!")
             return False
+        # ------------------------- Check if arguments correspond to function args -------------------------
+        for arg in command_args:
+            if arg.default != inspect.Parameter.empty:
+                if arg.name not in inputted_args:
+                    print(f"Missing required argument: {arg.name}, please check your input!")
+                    return False
         return True
-
-    def get_function_name(self, command_name: str) -> str:
-        """
-        :param command_name: name of command from command line
-        :return: command name in commands dictionary, empty string if it does not exist
-        """
-        command_name = command_name.lower()
-        if command_name in self.functions:
-            return command_name
-        return ""
 
     def run_commmand(self, command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
         """
@@ -104,13 +177,20 @@ class UserInterface:
             console_output = console_output.strip()  # '640x360'
             success = True
         except subprocess.CalledProcessError as callProcessErr:
-            print(f"Error {str(callProcessErr)} for command {command}\n\n")
+            if callProcessErr != subprocess.TimeoutExpired:
+                print(f"Error {str(callProcessErr)} for command {command}\n\n")
         return success, console_output
 
+
+
 # For testing purposes
-if __name__ == "__main__":
-    pass
+#if __name__ == "__main__":
+#    default_str: str = "number='' count='' from='' to='' where='default'"
+#    text: str = prompt_toolkit.prompt('What is your name: ', default=default_str)
+#    print(type(text))
     # temp = UserInterface()
-    # print(temp.functions["exit"].__doc__)
-    # print(inspect.signature(temp.functions["exit"]))
+    # temp.dynamic_input()
+
+
+
 
