@@ -19,9 +19,9 @@ class PATH:
     CWD: str = str(Pt(__file__).parent.parent)  # Project Root
     OSM_FILTER: str = (CWD + "/Converter/OSMfilter/osmfilter")  # Path to osmfilter (executable)
     # Template for .sumocfg file
-    SUMO_CONFIG_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_config_template.xml")
+    SUMO_CONFIG_TEMPLATE: str = (CWD + "/Traci/scenarios/sumo_xml/generators/templates/sumo_config_template.xml")
     # Template for .ruo.xml file
-    SUMO_ROUTES_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_routes_template.xml")
+    SUMO_ROUTES_TEMPLATE: str = (CWD + "/Traci/scenarios/sumo_xml/generators/templates/sumo_routes_template.xml")
     # -------------------------------------- Maps --------------------------------------
     # Path to folder containing maps from open street map (.osm)
     ORIGINAL_OSM_MAPS: str = (CWD + "/Maps/osm/original/{0}.osm")

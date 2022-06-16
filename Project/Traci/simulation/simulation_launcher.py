@@ -9,13 +9,13 @@ class SimulationLauncher:
         self.statistics_cmd: list = [
             "--statistic-output", "result.txt",
             "--duration-log.statistics", "true",
-            "--tripinfo-output", "tripinfo.xml"
+            "--tripinfo-output", "tripinfo.xml",
+            "--summary", "summary.txt"
         ]
 
-    def run_scenario(self, scenario_name: str, default: bool, statistic: bool, display: bool) -> None:
+    def run_scenario(self, scenario_name: str, statistic: bool, display: bool) -> None:
         """
         :param scenario_name: name of scenario to be launched, must be in
-        :param default: if planning result should be used for car routes
         :param statistic: if file containing statistics about vehicles should be generated
         :param display: if SUMO GUI should be launched to display simulation
         :return: None
@@ -34,14 +34,15 @@ class SimulationLauncher:
         # [temp, "-c", PATH.TRACI_SCENARIOS.format(scenario_name) + "/simulation.sumocfg"]
         try:
             traci.start([sumo_run, *options])
-            print(traci.simulation.getLoadedIDList(), traci.simulation.getPendingVehicles(), traci.simulation.getTime())
-            for vehicle_id in traci.simulation.getLoadedIDList():
-                print(f"Vehicle: {vehicle_id} departs in: {traci.vehicle.getParameter(vehicle_id, 'param')}")
-            traci.vehicle.getParameter()
+            # print(traci.simulation.getLoadedIDList(), traci.simulation.getPendingVehicles(), traci.simulation.getTime())
+            # for vehicle_id in traci.simulation.getLoadedIDList():
+            #     print(f"Vehicle: {vehicle_id} departs in: {traci.vehicle.getParameter(vehicle_id, 'param')}")
+            # traci.vehicle.getParameter()
+            traci.simulation.getParameter()
 
             while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
                 traci.simulationStep()
-                print(traci.vehicle.getIDList())
+                # print(traci.vehicle.getIDList())
             traci.close()
         except traci.exceptions.FatalTraCIError as e:
             if str(e) == "connection closed by SUMO":
@@ -52,5 +53,5 @@ class SimulationLauncher:
 
 if __name__ == "__main__":
     temp: SimulationLauncher = SimulationLauncher()
-    temp.run_scenario("test", True, False, True)
+    temp.run_scenario("test3", True, False)
 

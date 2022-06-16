@@ -1,29 +1,27 @@
 import xml.etree.ElementTree as ET
-from xml.etree.ElementTree import ElementTree, Element
+from Project.Traci.scenarios.sumo_xml.generators.generator import Generator
 from Project.Utils.constants import PATH, file_exists
 
 
-class ConfigGenerator:
+class ConfigGenerator(Generator):
     """ Class that generates '.sumocfg' files for SUMO """
-    def __init__(self):
-        self.tree: ElementTree = ET.parse(PATH.SUMO_CONFIG_TEMPLATE)
-        self.root: Element = self.tree.getroot()
-        # Checks for template
+    def __init__(self, config_path: str = PATH.SUMO_CONFIG_TEMPLATE):
+        """
+        :param config_path: path to '.sumocfg' file
+        """
+        # super().__init__(config_path)
+        super().__init__(config_path)
+        # Checks template
+        print("Cheking template")
+        assert (self.tree is not None)
+        assert (self.root is not None)
         assert (self.root.find("input") is not None)
         assert (self.root.find("input").find("net-file") is not None)
         assert (self.root.find("input").find("route-files") is not None)
         assert ("value" in self.root.find("input").find("net-file").attrib)
         assert ("value" in self.root.find("input").find("route-files").attrib)
 
-    def load_config(self, config_path: str) -> None:
-        """
-        :param config_path: path to '.sumocfg' file
-        :return: None
-        """
-        if not file_exists(config_path):
-            return
-        self.tree = ET.parse(config_path)
-        self.root = self.tree.getroot()
+    # ------------------------------------------ Setters ------------------------------------------
 
     def set_network_name(self, network_name: str) -> None:
         """
@@ -41,6 +39,14 @@ class ConfigGenerator:
         """
         self.root.find("input").find("route-files").attrib["value"] = routes_file_path
 
+    # ------------------------------------------Load & Save ------------------------------------------
+
+    def load(self, file_path: str) -> None:
+        if ".sumocfg" not in file_path and file_path != PATH.SUMO_CONFIG_TEMPLATE:
+            print(f"Error, expect file type to be: '.sumocfg', got: {file_path}")
+            return
+        super().load(file_path)
+
     def save(self, file_path: str) -> None:
         """
         :param file_path: where file should be saved
@@ -52,4 +58,8 @@ class ConfigGenerator:
         elif not self.root.find("input").find("route-files").attrib["value"]:
             print("Route file for SUMO config is not set!")
             return
-        self.tree.write(file_path, encoding="UTF-8", xml_declaration=True)
+        super().save(file_path)
+
+# For testing purposes
+if __name__ == "__main__":
+    temp: ConfigGenerator = ConfigGenerator()

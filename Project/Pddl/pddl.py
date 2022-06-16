@@ -1,8 +1,8 @@
 from typing import List, Tuple, Dict
 from Project.Simplify.Components import Graph, Route
-from Project.Utils.constants import file_exists, dir_exist, PATH
+from Project.Utils.constants import file_exists, PATH
 from Project.Pddl.Domain import UtcProblem
-from Project.Traci.scenarios.generators.routes_generator import RoutesGenerator
+from Project.Traci.scenarios.sumo_xml.generators import RoutesGenerator
 import xml.etree.ElementTree as ET
 import subprocess
 
