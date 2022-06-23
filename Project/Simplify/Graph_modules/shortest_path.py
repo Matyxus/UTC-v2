@@ -1,17 +1,19 @@
 from Project.Simplify.Graph_modules.graph_module import GraphModule
 from Project.Simplify.Graph_modules.display import Display
+from Project.Simplify.Components import Skeleton, Route
 from queue import PriorityQueue
-from typing import List, Tuple, Dict
-from Project.Simplify.Components import Route
+from typing import List, Tuple, Dict, Optional
 from time import sleep
 
 
 class ShortestPath(GraphModule):
     """ Class containing shortest path algorithms """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, skeleton: Skeleton = None):
+        super().__init__(skeleton)
         print("Created 'ShortestPath' class")
+
+    # -------------------------------------- Shortest path --------------------------------------
 
     def top_k_a_star(self, start_junction_id: str, target_junction_id: str, c: float, plot: Display = None) -> List[Route]:
         """
@@ -23,23 +25,24 @@ class ShortestPath(GraphModule):
         :param start_junction_id: starting junction
         :param target_junction_id: target junction
         :param c: multiplier of shortest path length
-        :param plot: Class Display, if plot should be displayed (default None)
+        :param plot: Class Display, if process should be displayed (default None)
         :return: List of routes (shortest route is the first) satisfying (route_length < c * shortest_route_length),
         empty list if shortest route does not exists
         """
         # -------------------------------- checks --------------------------------
-        assert (start_junction_id in self.skeleton.junctions)
-        assert (target_junction_id in self.skeleton.junctions)
-        assert (c > 1)
+        if not self.check_junctions(start_junction_id, target_junction_id):
+            return []
+        elif not c > 1:
+            print(f"Parameter 'c' has to be greater than 1, got: {c}")
+            return []
         # -------------------------------- init --------------------------------
         # Perform initial search to find shortest route and return queue with unexplored junctions
         queue, shortest_route = self.a_star(start_junction_id, target_junction_id)
         if shortest_route is None:  # No path exists
             print(f"No path exists between {start_junction_id} and {target_junction_id}")
             return []
-        print("Found shortest route")
         destination_pos: Tuple[float, float] = self.skeleton.junctions[target_junction_id].get_position()
-        limit: float = c * sum([edge.attributes["length"] for edge in shortest_route.edge_list])
+        limit: float = round(c * sum([edge.attributes["length"] for edge in shortest_route.edge_list]), 3)
         assert (limit > 0)
         print(f"Setting route length limit: {limit}")
         other_routes: List[Route] = [shortest_route]
@@ -79,9 +82,7 @@ class ShortestPath(GraphModule):
             plot.show_plot()
         return other_routes
 
-    # *************************************  Shortest path *************************************
-
-    def a_star(self, start_junction_id: str, target_junction_id: str) -> Tuple[PriorityQueue, Route]:
+    def a_star(self, start_junction_id: str, target_junction_id: str) -> Tuple[PriorityQueue, Optional[Route]]:
         """
         Standard implementation of A* algorithm
 
@@ -119,7 +120,7 @@ class ShortestPath(GraphModule):
                         (tentative_g_score + self.coord_distance(destination_pos, pos)),
                         tentative_g_score, route, path + [neigh_junction_id]
                     ))
-        print(f"Finished finding route: {shortest_route} ")
+        print(f"Finished finding shortest route: {shortest_route} ")
         return queue, shortest_route
 
     def dijkstra(self, start_junction_id: str, target_junction_id: str = "") -> Tuple[Dict[str, float], Dict[str, str]]:
@@ -158,10 +159,9 @@ class ShortestPath(GraphModule):
                         dist[to_junction_id] = current_distance
                         prev[to_junction_id] = junction_id
                         queue.put((current_distance, to_junction_id, route))
-        # -------------------------- Finished --------------------------
         return dist, prev
 
-    # ************************************* Utils *************************************
+    # -------------------------------------- Utils --------------------------------------
 
     def coord_distance(self, point_a: Tuple[float, float], point_b: Tuple[float, float]) -> float:
         """
@@ -173,7 +173,7 @@ class ShortestPath(GraphModule):
         diff_y: float = abs(point_a[1] - point_b[0])
         return round(((diff_x ** 2) + (diff_y ** 2)) ** 0.5, 3)
 
-    def reconstruct_path(self, target_junction_id: str, dist: Dict[str, float], prev: Dict[str, str]) -> Route:
+    def reconstruct_path(self, target_junction_id: str, dist: Dict[str, float], prev: Dict[str, str]) -> Optional[Route]:
         """
         :param target_junction_id: destination
         :param dist: distance of junctions

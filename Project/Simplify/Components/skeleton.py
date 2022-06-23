@@ -17,89 +17,6 @@ class Skeleton:
         self.map_name: str = ""
         self.index: int = 0  # For generating new id's of routes, has to start at 0 !
 
-    def get_skeleton(self):
-        """
-        :return: Skeleton class (itself)
-        """
-        return self
-
-    def load(self, other) -> bool:
-        """
-        Loads attributes from other struct
-
-        :param other: Skeleton Class (loaded from the same file)
-        :return: True on success, false otherwise
-        """
-        if not isinstance(other, Skeleton) or (self.map_name != other.map_name):
-            return False
-        self.junctions = deepcopy(other.junctions)
-        self.edges = deepcopy(other.edges)
-        self.routes = deepcopy(other.routes)
-        self.starting_junctions = deepcopy(other.starting_junctions)
-        self.ending_junctions = deepcopy(other.ending_junctions)
-        self.roundabouts = deepcopy(other.roundabouts)
-        self.index = len(self.routes)
-        return True
-
-    # -------------------------- Sub-graph --------------------------
-    def create_sub_graph(self, routes: List[Route]):
-        """
-        Creates sub-graph from this graph.
-
-        :param routes: List of routes from which sub-graph will be created
-        :return: Skeleton (sub-graph), None if routes are empty
-        """
-        sub_graph: Skeleton = Skeleton()
-        sub_graph.map_name = self.map_name
-        if len(routes) == 0 or not sub_graph.load(self):
-            return None
-        # -------------------------- Cut graph --------------------------
-        junctions: Set[str] = set()  # Junctions to be kept in graph
-        edges: Set[Edge] = set()  # Edges to be kept in graph
-        # Extract junctions and edges from routes
-        for route in routes:
-            edges |= set(route.edge_list)
-            junctions |= set(route.get_junctions())
-        # Delete others edges, junctions
-        for edge in (set(self.edges.values()) ^ edges):
-            sub_graph.remove_edge(edge.attributes["id"])
-        for junction_id in (self.junctions.keys() ^ junctions):
-            sub_graph.remove_junction(junction_id)
-        return sub_graph
-
-    # ----------------------------------- Utils -----------------------------------
-
-    def merge(self, other) -> None:
-        """
-        Merges this graph with another graph.
-
-        :param other: another graph current graph is merging with
-        :return: None
-        """
-        assert (isinstance(other, Skeleton))
-        if self.map_name != other.map_name:
-            print(f"Only graphs from the same network may be merged {self.map_name} != {other.map_name}")
-            return
-        print("Merging with another graph")
-        # ------------------------ Junctions ------------------------
-        self.starting_junctions |= other.starting_junctions
-        self.ending_junctions |= other.ending_junctions
-        for junction_id, junction in other.junctions.items():
-            if junction_id in self.junctions:
-                self.junctions[junction_id] |= junction
-            else:
-                self.junctions[junction_id] = deepcopy(junction)
-        # ------------------------ Routes ------------------------
-        for route in other.routes.values():
-            if route.id not in self.routes:
-                self.routes[route.id] = deepcopy(route)
-        # ------------------------ Edges ------------------------
-        for edge_id, edge in other.edges.items():
-            if edge_id not in self.edges:
-                self.edges[edge_id] = deepcopy(edge)
-
-    # ------------------------------ Utils ------------------------------
-
     def validate_graph(self) -> None:
         """
         Checks all junctions, edges, routes.
@@ -113,7 +30,7 @@ class Skeleton:
         # Check routes, find routes that have edge which are no longer in graph
         for route in self.routes.values():
             for edge in route.edge_list:
-                if edge not in self.edges.values():
+                if edge.attributes["id"] not in self.edges.keys():
                     routes_to_remove.append(route.id)
                     break
         # Remove routes such routes
@@ -131,6 +48,8 @@ class Skeleton:
                     junction.remove_out_route(out_route)
         print("Finished validating graph")
 
+    # ------------------------------- Utils -------------------------------
+
     def remove_junction(self, junction_id: str) -> None:
         """
         :param junction_id: to be removed
@@ -138,7 +57,7 @@ class Skeleton:
         """
         if junction_id not in self.junctions:
             return
-        self.junctions.pop(junction_id, None)
+        self.junctions.pop(junction_id)
         if junction_id in self.starting_junctions:
             self.starting_junctions.remove(junction_id)
         if junction_id in self.ending_junctions:
@@ -149,8 +68,8 @@ class Skeleton:
         :param route: to be added to dictionary of routes
         :return: None
         """
-        assert (route.id not in self.routes)
-        self.routes[route.id] = route
+        if route.id not in self.routes:
+            self.routes[route.id] = route
 
     def get_new_route_id(self) -> int:
         """
@@ -202,3 +121,25 @@ class Skeleton:
         :return: new route, with new route_id, empty edge_list
         """
         return Route(self.get_new_route_id(), [])
+
+    def load(self, other) -> bool:
+        """
+        Loads skeleton from another skeleton class
+
+        :param other: Skeleton Class (loaded from the same file)
+        :return: True on success, false otherwise
+        """
+        if not isinstance(other, Skeleton):
+            print("Can only load Skeleton class from other Skeleton class!")
+            return False
+        elif self.map_name != other.map_name:
+            print(f"Only skeletons loaded from the same network may be loaded {self.map_name} != {other.map_name}")
+            return False
+        self.junctions = deepcopy(other.junctions)
+        self.edges = deepcopy(other.edges)
+        self.routes = deepcopy(other.routes)
+        self.starting_junctions = deepcopy(other.starting_junctions)
+        self.ending_junctions = deepcopy(other.ending_junctions)
+        self.roundabouts = deepcopy(other.roundabouts)
+        self.index = len(self.routes)
+        return True

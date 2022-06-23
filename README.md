@@ -7,7 +7,7 @@
   <h3 align="center">Urban Traffic Control</h3>
 
   <p align="center">
-    Bachelor thesis project connecting automated planning with SUMO simulator
+    Bachelor thesis project: connecting automated planning with SUMO simulator
   </p>
 </div>
 
@@ -50,9 +50,9 @@ Project description.
 
 * [gcc]()
 * [g++]()
-* [python3.8]()
-* [Cmake]()
-* [Make]()
+* [python3.9]()
+* [Cmake]() (for planner installation)
+* [Make]() (for planner installation)
 
 Python libraries: (version can be found in requirements.txt file)
 * [pip](https://pypi.org/project/pip/)
@@ -60,6 +60,9 @@ Python libraries: (version can be found in requirements.txt file)
 * [setuptools](https://pypi.org/project/setuptools/)
 * [numpy](https://numpy.org/)
 * [matplotlib](https://matplotlib.org/)
+* [prompt_toolkit](https://python-prompt-toolkit.readthedocs.io/en/master/)
+* [traci](https://pypi.org/project/traci/)
+* [sumolib](https://pypi.org/project/sumolib/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -74,13 +77,12 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 
-1) [osmfilter.c](https://wiki.openstreetmap.org/wiki/Osmfilter) (located in Project/Converter/OSMfilter) has to be compiled.
-* gcc
+1) [osmfilter.c](https://wiki.openstreetmap.org/wiki/Osmfilter) (located in Project/Converter/OSMfilter) has to be compiled
   ```sh
   gcc osmfilter.c -O3 -o osmfilter
   ```
-2) [SUMO](https://www.eclipse.org/sumo/) has to be downloaded.
-3) [Planners]((https://ipc2018-classical.bitbucket.io/#description)) used in this project: MERWIN, Cerberus (agile)
+2) [SUMO](https://www.eclipse.org/sumo/) has to be downloaded
+3) [Planners](https://ipc2018-classical.bitbucket.io/#description) used in this project: MERWIN, Cerberus (agile)
 
 ### Installation
 
@@ -94,7 +96,11 @@ Below is an example of how you can instruct your audience on installing and sett
    ```sh
    pip install -e UTC
    ```
-3. Install planners
+3. Install requirements
+   ```sh
+   pip install -r requirements.txt
+   ```
+4. Install planners
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

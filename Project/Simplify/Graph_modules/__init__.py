@@ -3,5 +3,6 @@ from Project.Simplify.Graph_modules.display import Display
 from Project.Simplify.Graph_modules.shortest_path import ShortestPath
 from Project.Simplify.Graph_modules.simplify import Simplify
 from Project.Simplify.Graph_modules.loader import Loader
+from Project.Simplify.Graph_modules.sub_graph import SubGraph
 
 # Forward imports

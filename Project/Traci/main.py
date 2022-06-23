@@ -35,6 +35,9 @@ class TraciLauncher(UserInterface):
         )
 
     def save_command(self) -> None:
+        """
+        :return:
+        """
         self.scenario.save()
         self.scenario = None
         self.remove_commands(["add-cars", "add-random-flow", "save", "plot"])

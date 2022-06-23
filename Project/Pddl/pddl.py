@@ -26,7 +26,7 @@ class Pddl:
             return
         self.graph = Graph()
         self.graph.loader.load_map(network_name)
-        self.graph.simplify.simplify()
+        self.graph.simplify.simplify_graph()
         self.graph.skeleton.validate_graph()
         self.route_parser.load_network(network_name)
 
@@ -135,4 +135,3 @@ if __name__ == "__main__":
     # launcher.generate_result("test3", f"problem{i*20}_{i*20 + 20}.pddl", f"result{i*20}_{i*20 + 20}")
     # launcher.parse_result("test2", "result11_20.2")
     # launcher.parse_result("test2", "result21_30.2")
-

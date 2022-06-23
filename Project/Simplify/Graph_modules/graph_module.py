@@ -4,8 +4,8 @@ from Project.Simplify.Components import Skeleton
 class GraphModule:
     """ Super class for classes which modify graph """
 
-    def __init__(self):
-        self.skeleton: Skeleton = None
+    def __init__(self, skeleton: Skeleton = None):
+        self.skeleton: Skeleton = skeleton
 
     def set_skeleton(self, skeleton: Skeleton) -> None:
         """

@@ -1,4 +1,5 @@
 from Project.Simplify.Graph_modules import GraphModule
+from Project.Simplify.Components import Skeleton
 from matplotlib import pyplot as plt
 from Project.Utils.constants import (
     JUNCTION_END_COLOR, JUNCTION_START_END_COLOR,
@@ -10,8 +11,8 @@ from Project.Utils.constants import (
 class Display(GraphModule):
     """ Class displaying graph, always use 'set_skeleton' function before plotting """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, skeleton: Skeleton = None):
+        super().__init__(skeleton)
         print("Created 'Display' class")
 
     def default_plot(self):
@@ -79,7 +80,7 @@ class Display(GraphModule):
 
     def show_plot(self) -> None:
         """
-        Calls matplotlib.pyplot.tight_layout(), matplotlib.pyplot.show()
+        Calls matplotlib.pyplot.tight_layout, matplotlib.pyplot.show
 
         :return: None
         """

@@ -5,13 +5,14 @@ from Project.Utils.constants import (
     PATH, file_exists, get_file_name, JUNCTION_START_COLOR, JUNCTION_START_END_COLOR, JUNCTION_END_COLOR
 )
 from Project.Simplify.Graph_modules.graph_module import GraphModule
+from Project.Simplify.Components import Skeleton
 
 
 class Loader(GraphModule):
     """ Loads graph from SUMO's '.net.xml' file """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, skeleton: Skeleton = None):
+        super().__init__(skeleton)
         print("Created 'Loader' class")
         # Xml root of .net.xml file
         self.root: ET.Element = None
@@ -25,7 +26,7 @@ class Loader(GraphModule):
         :return: True on success, false otherwise
         """
         file_name = get_file_name(file_name)
-        print(f"Creating Loader Class, loading file form: {PATH.NETWORK_SUMO_MAPS.format(file_name)}")
+        print(f"Loading road network form: {PATH.NETWORK_SUMO_MAPS.format(file_name)}")
         if not (file_exists(PATH.NETWORK_SUMO_MAPS.format(file_name))):
             return False
         self.root = ET.parse(PATH.NETWORK_SUMO_MAPS.format(file_name)).getroot()
@@ -35,7 +36,7 @@ class Loader(GraphModule):
         self.skeleton.roundabouts = self.load_roundabouts()
         self.edge_to_route.clear()
         self.skeleton.map_name = file_name
-        print("Finished loading map")
+        print("Finished loading road network")
         return True
 
     def load_junctions(self) -> None:

@@ -1,5 +1,6 @@
 from Project.Simplify.Graph_modules.graph_module import GraphModule
 from Project.Simplify.Graph_modules.display import Display
+from Project.Simplify.Components import Skeleton
 from typing import List, Set, Tuple, Dict
 from Project.Simplify.Components import Route, Junction
 
@@ -7,12 +8,15 @@ from Project.Simplify.Components import Route, Junction
 class Simplify(GraphModule):
     """ Class which contains methods for simplifying graph """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, skeleton: Skeleton = None):
+        super().__init__(skeleton)
         print("Created 'Simplify' class")
 
-    def simplify(self, plot: Display = None) -> None:
+    def simplify_graph(self, plot: Display = None) -> None:
         """
+        Simplifies graph by removing junctions forming roundabout, or those
+        added by SUMO which are only for rendering/graphical reasons (they
+        do not exist in '.osm' maps).
 
         :param plot: Class Display, if plot should be displayed (default None)
         :return: None
@@ -49,12 +53,10 @@ class Simplify(GraphModule):
             if self.junction_can_be_removed(junction_id):
                 connections[junction_id] = []
         # Among junctions to be removed, find in_routes that are from junction
-        # which is not removable, those without such routes are connected to another
-        # removable junction
+        # which is not removable, those without such routes are connected to another removable junction
         for junction_id in connections.keys():
             for in_route in self.skeleton.junctions[junction_id].get_in_routes():
-                from_junction_id: str = in_route.get_start()
-                if from_junction_id not in connections:
+                if in_route.get_start() not in connections:
                     connections[junction_id].append(in_route)
         print("Merging routes")
         for junction_id, in_routes in connections.items():
@@ -91,7 +93,6 @@ class Simplify(GraphModule):
             plot.make_legend(1)
             plot.show_plot()
         print("Finished simplifying junctions")
-        # self.route_count = len(self.skeleton.routes)
 
     def simplify_roundabouts(self, plot: Display = None) -> None:
         """
@@ -106,7 +107,7 @@ class Simplify(GraphModule):
         print(f"Simplifying roundabouts: {self.skeleton.roundabouts}")
         for index, roundabout in enumerate(self.skeleton.roundabouts):
             # ---------------- Variable setup ----------------
-            roundabout_points: List[Tuple[float, float]] = []
+            roundabout_points: List[Tuple[float, float]] = []  # Position of each junction (x, y)
             roundabout_routes: Set[Route] = set()  # Routes on roundabout
             in_routes: Set[Route] = set()  # Routes connection to roundabout
             out_routes: Set[Route] = set()  # Routes coming out of roundabout
@@ -127,7 +128,7 @@ class Simplify(GraphModule):
                         roundabout_routes.add(out_route)
             # ---------------- Setup new junction ----------------
             new_point: tuple = self.get_center_of_mass(roundabout_points)
-            new_junction_id: str = f"r{index}"
+            new_junction_id: str = f"r{index}"  # "r" for roundabout to not confuse with normal junctions
             new_junction: Junction = Junction({"id": new_junction_id, "x": new_point[0], "y": new_point[1]})
             new_junction.marker_size = 10
             new_junction.color = "yellow"
@@ -198,7 +199,8 @@ class Simplify(GraphModule):
                 route.last_edge().attributes["to"] = new_junction_id
             # Remove junctions forming roundabout
             removed_junctions: List[Junction] = [self.skeleton.junctions.pop(junction_id) for junction_id in roundabout]
-            # self.route_count -= len(removed_junctions)
+            # Add new junction
+            self.skeleton.junctions[new_junction.attributes["id"]] = new_junction
             # ---------------- Plot ----------------
             if plot is not None:
                 fig, ax = plot.default_plot()
@@ -207,11 +209,9 @@ class Simplify(GraphModule):
                     junction.plot(ax, color="red")
                 new_junction.plot(ax)
                 plot.add_label("o", "red", "Roundabout junctions")
-                plot.add_label("o", new_junction.color, "New junction")
+                plot.add_label("o", new_junction.color, "Roundabout")
                 plot.make_legend(2)
                 plot.show_plot()
-            # Add new junction
-            self.skeleton.junctions[new_junction.attributes["id"]] = new_junction
         print("Done simplifying roundabouts")
 
     # ----------------------------------- Utils -----------------------------------
@@ -221,7 +221,7 @@ class Simplify(GraphModule):
         :param roundabout: list of junction id's forming roundabout
         :return: True if roundabout is truly a roundabout
         """
-        if not len(roundabout): # Empty roundabout
+        if not len(roundabout):  # Empty roundabout
             return False
         # For every junction, check if it is connected to another roundabout junction
         for junction_id in roundabout:

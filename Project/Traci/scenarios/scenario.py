@@ -1,6 +1,6 @@
 from Project.Utils.constants import PATH
 from Project.Traci.scenarios.sumo_xml import ConfigGenerator, RoutesGenerator
-from Project.Simplify.Components import Graph
+from Project.Simplify.Components import Graph, Skeleton
 from os import mkdir
 
 
@@ -18,9 +18,9 @@ class Scenario:
         self.config_generator.set_routes_file("routes.ruo.xml")
         self.config_generator.set_network_name(network_name)
         # Graph
-        self.graph: Graph = Graph()
+        self.graph: Graph = Graph(Skeleton())
         self.graph.loader.load_map(network_name)
-        self.graph.simplify.simplify()
+        self.graph.simplify.simplify_graph()
         # Sumo routes file
         self.routes_generator: RoutesGenerator = RoutesGenerator(graph=self.graph)
 

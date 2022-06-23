@@ -1,7 +1,6 @@
 from typing import Dict, List, Set
-from Project.Simplify.Components import Skeleton
-from Project.Simplify.Graph_modules import Display, ShortestPath, Simplify, Loader
-from Project.Utils import UserInterface
+from Project.Simplify.Components import Skeleton, Graph
+from Project.UI import UserInterface
 from Project.Utils.constants import PATH
 
 
@@ -11,125 +10,146 @@ class Launcher(UserInterface):
     def __init__(self):
         super().__init__()
         # Graph modules
-        self.display: Display = Display()
-        self.shortest_path: ShortestPath = ShortestPath()
-        self.simplify: Simplify = Simplify()
-        self.loader: Loader = Loader()
+        self.graph: Graph = Graph()
         # Maps names of graphs to Graph class
         self.graphs: Dict[str, Skeleton] = {}
         # Set functions to commands (inherited from parent class)
-        self.functions["load"] = [self.load_command, 1, 1]
-        self.functions["plot"] = [self.plot_command, 1, 1]
-        self.functions["simplify"] = [self.simplify_command, 1, 2]
-        self.functions["subgraph"] = [self.sub_graph_command, 5, 6]
-        self.functions["merge"] = [self.merge_command, 2, 2]
-        self.functions["save"] = [self.save_command, 2, 2]
-        self.functions["graphs"] = [self.graphs_command, 0, 0]
-        self.functions["delete"] = [self.delete_command, 1, 1]
-
-    def dynamic_input(self) -> None:
-        print("Starting program, for help type 'help', expecting white space between command arguments.")
-        while self.running:
-            # ------------ Input ------------
-            text: str = input("Type command: ")
-            user_input: List[str] = text.split()
-            # Check input
-            if not len(user_input):
-                print(f"{text} is invalid input!")
-                continue
-            print(f"Interpreting: {user_input}")
-            command_name: str = self.get_function_name(user_input.pop(0))
-            if not self.check_function_args(command_name, user_input):
-                continue
-            # Execute function
-            print(f"Function args: {user_input}")
-            command: List[callable, int, int] = self.functions[command_name]
-            command[0](user_input)
-        print("Exiting...")
-
-    def static_input(self) -> None:
-        print("Class Launcher does not accept static input!")
+        self.commands["load"] = self.load_command
+        self.commands["plot"] = self.plot_command
+        self.commands["simplify"] = self.simplify_command
+        self.commands["subgraph"] = self.sub_graph_command
+        self.commands["merge"] = self.merge_command
+        self.commands["save"] = self.save_command
+        self.commands["graphs"] = self.graphs_command
+        self.commands["delete"] = self.delete_command
 
     # ----------------------------------------- Commands -----------------------------------------
 
-    def load_command(self, args: List[str]) -> None:
+    def static_input(self) -> None:
+        print("Static input is not implemented")
+
+    def load_command(self, map_name: str) -> None:
+        """
+        :param map_name: load map from /Maps/sumo/map_name.net.xml and creates graph named map_name
+        :return: None
+        """
         temp: Skeleton = Skeleton()
-        self.loader.set_skeleton(temp)
+        self.graph.set_skeleton(temp)
         # Error while loading
-        if not self.loader.load_map(args[0]):
+        if not self.graph.loader.load_map(map_name):
             return
-        self.graphs[args[0]] = temp
+        self.graphs[map_name] = temp
 
-    def plot_command(self, args: List[str]) -> None:
-        if args[0] not in self.graphs:
-            print(f"Graph with name: {args[0]} does not exist")
+    def plot_command(self, graph_name: str) -> None:
+        """
+        :param graph_name: name of graph to be displayed
+        :return: None
+        """
+        if graph_name not in self.graphs:
+            print(f"Graph with name: {graph_name} does not exist")
             return
-        self.display.set_skeleton(self.graphs[args[0]])
-        self.display.plot()
+        self.graph.set_skeleton(self.graphs[graph_name])
+        self.graph.display.plot()
 
-    def simplify_command(self, args: List[str]) -> None:
-        if args[0] not in self.graphs:
-            print(f"Graph with name: {args[0]} does not exist")
-            return
-        display: Display = None
-        if len(args) == 2 and args[1].lower() == "true":
-            display = self.display
-        self.simplify.set_skeleton(self.graphs[args[0]])
-        self.simplify.simplify(display)
+    def simplify_command(self, graph_name: str, plot: bool = False) -> None:
+        """
+        Replaces junctions forming roundabouts with single junction,
+        removes junctions that do not need to be in graph
 
-    def sub_graph_command(self, args: List[str]) -> None:
-        if args[0] not in self.graphs:
-            print(f"Graph with name: {args[0]} does not exist")
+        :param graph_name: name of graph to simplify
+        :param plot: bool (true/false), if process should be displayed
+        :return: None
+        """
+        if graph_name not in self.graphs:
+            print(f"Graph with name: {graph_name} does not exist")
             return
-        #elif not args[4].isnumeric():
-        #     print(f"Expecting number as 4th argument, got: {args[4]}!")
-        #    return
-        # Check path
-        graph: Skeleton = self.graphs[args[0]]
-        self.shortest_path.set_skeleton(graph)
-        queue, route = self.shortest_path.a_star(args[2], args[3])
-        if route is None:
-            print(f"No path exists between: {args[2]} and {args[3]}")
+        self.graph.set_skeleton(self.graphs[graph_name])
+        self.graph.simplify.simplify_graph(self.graph.display if plot else None)
+
+    def sub_graph_command(
+            self, subgraph_name: str, graph_name: str, from_junction: str,
+            to_junction: str, c: float, plot: bool = False
+         ) -> None:
+        """
+        :param subgraph_name: new name of created sub-graph
+        :param graph_name: name of graph from which sub-graph will be made
+        :param from_junction: starting junction of sub-graph
+        :param to_junction: ending junction of sub-graph
+        :param c: maximal route length (shortest_path * c), must be higher than 1
+        :param plot: bool (true, false), if process should be displayed
+        :return: None
+        """
+        if graph_name not in self.graphs:
+            print(f"Graph with name: {graph_name} does not exist")
             return
-        display: Display = None
-        if len(args) == 6 and args[-1].lower() == "true":
-            display = self.display
-        routes = self.shortest_path.top_k_a_star(args[2], args[3], float(args[4]), plot=display)
+        self.graph.set_skeleton(self.graphs[graph_name])
+        routes = self.graph.shortest_path.top_k_a_star(
+            from_junction, to_junction, c, self.graph.display if plot else None
+        )
         # -------------------------------- Init --------------------------------
-        sub_graph: Skeleton = self.graphs[args[0]].create_sub_graph(routes)
+        sub_graph: Skeleton = self.graph.sub_graph.create_sub_graph(routes)
         if sub_graph is None:
             print("Could not create subgraph")
             return
-        self.graphs[args[1]] = sub_graph
-        print(f"Finished creating sub-graph: {args[1]}")
+        self.graphs[subgraph_name] = sub_graph
+        print(f"Finished creating sub-graph: {subgraph_name}")
     
-    def merge_command(self, args: List[str]) -> None:
-        if args[0] not in self.graphs:
-            print(f"Graph with name: {args[0]} does not exist")
+    def merge_command(self, graph_name: str, graph_a: str, graph_b: str, plot: bool = False) -> None:
+        """
+        :param graph_name: new name of created graph
+        :param graph_a: name of first graph (which will be merged)
+        :param graph_b: name of second graph (which will be merged)
+        :param plot: bool (true, false), if process should be displayed
+        :return: None
+        """
+        if graph_a not in self.graphs:
+            print(f"Graph with name: {graph_a} does not exist")
             return
-        elif args[1] not in self.graphs:
-            print(f"Graph with name: {args[1]} does not exist")
+        elif graph_b not in self.graphs:
+            print(f"Graph with name: {graph_b} does not exist")
             return
-        self.graphs[args[0]].merge(self.graphs[args[1]])
-        print(f"Finished merging graphs: {args[0]} with {args[1]}")
+        # Merge
+        self.graph.set_skeleton(self.graphs[graph_a])
+        new_graph: Skeleton = self.graph.sub_graph.merge(self.graphs[graph_a], self.graph.display if plot else None)
+        if new_graph is None:
+            print("Could not merge graphs")
+            return
+        self.graphs[graph_name] = new_graph
+        print(f"Finished merging graphs: {graph_a} with {graph_b}, created graph: {graph_name}")
 
-    def graphs_command(self, args: List[str]) -> None:
+    def graphs_command(self) -> None:
+        """
+        Prints names of all created sub-graphs
+
+        :return: None
+        """
         print("Printing all graphs names:")
         for graph_name in self.graphs:
-            print(graph_name)
+            print("\t" + graph_name)
 
-    def delete_command(self, args: List[str]) -> None:
-        if args[0] not in self.graphs:
-            print(f"Graph with name: {args[0]} does not exist")
+    def delete_command(self, graph_name: str) -> None:
+        """
+        :param graph_name: name of graph to be deleted
+        :return: None
+        """
+        if graph_name not in self.graphs:
+            print(f"Graph with name: {graph_name} does not exist")
             return
-        self.graphs.pop(args[0])
+        self.graphs.pop(graph_name)
 
-    def save_command(self, args: List[str]) -> None:
-        if args[0] not in self.graphs:
-            print(f"Graph with name: {args[0]} does not exist")
+    def save_command(self, graph_name: str, file_name: str) -> None:
+        """
+        Saves graph into /Maps/sumo/file_name.net.xml
+
+        :param graph_name: to be saved
+        :param file_name: name of file containing new road network
+        :return: None
+        """
+        if graph_name not in self.graphs:
+            print(f"Graph with name: {graph_name} does not exist")
             return
-        path: str = PATH.NETWORK_SUMO_MAPS.format(args[1])
-        graph: Skeleton = self.graphs[args[0]]
+        path: str = PATH.NETWORK_SUMO_MAPS.format(file_name)
+        graph: Skeleton = self.graphs[graph_name]
         graph.validate_graph()
         command: str = f"netconvert --sumo-net-file {PATH.NETWORK_SUMO_MAPS.format(graph.map_name)} "
         edges: Set[str] = set()
@@ -139,47 +159,8 @@ class Launcher(UserInterface):
         command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {path}"
         self.run_commmand(command)
 
-    def help_command(self, args: List[str]) -> None:
-        help_string: str = ("""
-        1) load: map_name -> creates graph named map_name (map_name is used to plot, merge with others)
-            1.1) map_name -> name of map to be loaded, has to be in /Maps/sumo/map_name.net.xml
-
-        2) plot: graph_name -> plots graph using matplotlib
-            2.1) graph_name -> name of graph to be shown
-
-        3) simplify: graph_name, plot* -> simplifies junctions and roundabouts in graph
-            3.1) graph_name ->  name of graph to simplify
-            3.2) plot -> bool (true/false), if process should be displayed
-
-        4) subgraph: graph_name, subgraph_name, junction_1, junction_2, c, plot*
-            4.1) graph_name -> name of graph from which sub_graph will be made
-            4.2) sub_graph_name -> name of created sub_graph, can be used to call Plot afterwards
-            4.3) junction_1 -> starting point of sub-graph
-            4.4) junction_2 -> ending point of sub-graph
-            4.5) c -> maximal route length (shortest_path * c), must be higher than 1
-            4.6) plot -> bool (true, false), if process should be displayed
-
-        5) merge: graph_name_1, graph_name_2 -> merges graphs together, result will be in graph_name_1
-            5.1) graph_name_1 -> name of first graph
-            5.2) graph_name_2 -> name of second graph
-
-        6) validate: sub_graph_name -> Removes all unused junctions, edges, routes from subgraph
-        
-        7) save: graph_name, file_name -> Saves graph into network file as '.net.xml'
-
-        7) ------ Utils ------
-            7.1) graphs -> prints names of all created sub-graphs
-            7.2) delete graph_name -> deletes graph named graph_name
-            7.3) exit -> quits the program
-            7.4) help -> prints what commands do, their arguments etc.
-        
-        !) Do not use file extension when typing name of file! 
-        *) Astrix (*) is for optional arguments
-        """)
-        print(help_string)
-
 
 # Program start
 if __name__ == "__main__":
     launcher: Launcher = Launcher()
-    launcher.dynamic_input()
+    # launcher.dynamic_input()

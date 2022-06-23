@@ -92,7 +92,7 @@ class Junction(Figure, XmlObject):
 
     def get_out_routes(self) -> List[Route]:
         """
-        :return: List of out all coming routes
+        :return: List of all out coming routes
         """
         return [route for route_list in self.neighbours.values() for route in route_list]
 

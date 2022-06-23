@@ -68,6 +68,9 @@ class Route(Figure, XmlObject):
         return ret_val
 
     def get_edge_ids(self) -> List[str]:
+        """
+        :return: List of all edge id's
+        """
         return [edge.attributes["id"] for edge in self.edge_list]
 
     # ---------------------------- Utils ----------------------------
@@ -89,9 +92,6 @@ class Route(Figure, XmlObject):
         self.attributes["fromJunction"] = self.get_start()
         self.attributes["toJunction"] = self.get_destination()
         return super().to_xml()
-
-    def __repr__(self):
-        pass
 
     # -------------------------------- Magic Methods --------------------------------
 

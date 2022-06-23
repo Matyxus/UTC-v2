@@ -67,7 +67,7 @@ class UserInterface:
                     "Fill arguments: ", default=self.argument_validator.get_command_args(),
                     history=InMemoryHistory(self.stored_arguments.get(command_name, None)),
                     validator=self.argument_validator
-                ).lower()
+                )
                 doc: Document = Document(inputted_args_text)
                 inputted_args = self.argument_validator.convert_args(
                     self.argument_validator.parse_input(doc), doc

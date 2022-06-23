@@ -1,20 +1,26 @@
 from Project.Simplify.Components.skeleton import Skeleton
-from Project.Simplify.Graph_modules import Loader, Simplify, ShortestPath, Display
+from Project.Simplify.Graph_modules import Loader, Simplify, ShortestPath, Display, SubGraph
 
 
 class Graph:
     """ Class holding skeleton of graph and all graph modules """
-    def __init__(self):
-        self.skeleton: Skeleton = Skeleton()
-        self.loader: Loader = Loader()
-        self.loader.set_skeleton(self.skeleton)
-        self.simplify: Simplify = Simplify()
-        self.simplify.set_skeleton(self.skeleton)
-        self.shortest_path: ShortestPath = ShortestPath()
-        self.shortest_path.set_skeleton(self.skeleton)
-        self.display: Display = Display()
-        self.display.set_skeleton(self.skeleton)
+    def __init__(self, skeleton: Skeleton = None):
+        self.skeleton: Skeleton = skeleton
+        self.loader: Loader = Loader(self.skeleton)
+        self.simplify: Simplify = Simplify(self.skeleton)
+        self.shortest_path: ShortestPath = ShortestPath(self.skeleton)
+        self.display: Display = Display(self.skeleton)
+        self.sub_graph: SubGraph = SubGraph(self.skeleton)
 
+    def set_skeleton(self, skeleton: Skeleton) -> None:
+        """
+        :param skeleton: to be set for graph modules
+        :return: None
+        """
+        self.skeleton = skeleton
+        self.loader.set_skeleton(skeleton)
+        self.simplify.set_skeleton(skeleton)
+        self.shortest_path.set_skeleton(skeleton)
+        self.display.set_skeleton(skeleton)
+        self.sub_graph.set_skeleton(skeleton)
 
-if __name__ == "__main__":
-    print("works")
