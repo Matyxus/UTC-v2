@@ -82,7 +82,9 @@ To get a local copy up and running follow these simple example steps.
   gcc osmfilter.c -O3 -o osmfilter
   ```
 2) [SUMO](https://www.eclipse.org/sumo/) has to be downloaded
-3) [Planners](https://ipc2018-classical.bitbucket.io/#description) used in this project: MERWIN, Cerberus (agile)
+3) [Planners](https://ipc2018-classical.bitbucket.io/#description) 
+used in this project: [MERWIN](https://bitbucket.org/ipc2018-classical/team14/src/ipc-2018-seq-agl/), 
+[Cerberus](https://bitbucket.org/ipc2018-classical/team15/src/ipc-2018-seq-agl/) (agile)
 
 ### Installation
 
@@ -110,6 +112,19 @@ Below is an example of how you can instruct your audience on installing and sett
 ## Usage
 
 Usage description.
+
+1. Downloading maps from [OpenStreetMap](https://www.openstreetmap.org/)
+save them in /UTC/Project/Maps/osm/original
+2. Convert downloaded maps into '.net.xml' format.
+   ```sh
+   python converter.py map_name1 map_name2 ...
+   ```
+   Or run converter.py and enter input dynamically, for command type 'convert',
+   fill argument 'file_name' with name of the map (.osm suffix not needed).
+   ```sh
+   python converter.py
+   ```
+   ![converter example](Images/converter_input_example.PNG)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

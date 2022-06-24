@@ -47,7 +47,7 @@ class SubGraph(GraphModule):
         """
         assert (self.skeleton is not None)
         if self.skeleton.map_name != other.map_name:
-            print(f"Only graphs from the same network may be merged {self.skeleton.map_name} != {other.map_name}")
+            print(f"Only graphs of the same network may be merged {self.skeleton.map_name} != {other.map_name}")
             return None
         print("Merging with another graph")
         new_graph: Skeleton = Skeleton()
@@ -58,7 +58,7 @@ class SubGraph(GraphModule):
             fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12, 8), sharex="all", sharey="all")
             ax[0].title.set_text("Graph A")
             ax[1].title.set_text("Graph B")
-            for index, skeleton in [self.skeleton, other]:
+            for index, skeleton in enumerate([self.skeleton, other]):
                 ax[index].set(aspect='auto')
                 display.set_skeleton(skeleton)
                 display.plot_default_graph(ax[index], edge_color=colors[index])

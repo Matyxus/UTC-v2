@@ -67,6 +67,17 @@ class Display(GraphModule):
         for edge in self.skeleton.edges.values():
             edge.plot(ax, color=edge_color)
 
+    def show_plot(self) -> None:
+        """
+        Calls matplotlib.pyplot.tight_layout, matplotlib.pyplot.show
+
+        :return: None
+        """
+        plt.tight_layout()
+        plt.show()
+
+    # ------------------------------------------ Utils ------------------------------------------
+
     def add_label(self, marker: str, color: str, label: str) -> None:
         """
         Adds label to be displayed on legend, uses matplotlib scatter
@@ -77,15 +88,6 @@ class Display(GraphModule):
         :return: None
         """
         plt.scatter([], [], marker=marker, color=color, label=label)
-
-    def show_plot(self) -> None:
-        """
-        Calls matplotlib.pyplot.tight_layout, matplotlib.pyplot.show
-
-        :return: None
-        """
-        plt.tight_layout()
-        plt.show()
 
     def make_legend(self, columns: int) -> None:
         """

@@ -8,11 +8,11 @@ class ArgumentValidator(Validator):
     def __init__(self, command: callable = None):
         super().__init__()
         self.set_command(command)
-        self.args: Mapping[str, Parameter] = {}
-        self.required_args: int = 0
+        self.args: Mapping[str, Parameter] = {}  # True arguments of function
+        self.required_args: int = 0  # Number of arguments which must be filled by user
         self.allowed_bool: List[str] = ["true", "t", "false", "f"]
 
-    def validate(self, document: Document):
+    def validate(self, document: Document) -> None:
         # If there are no required arguments and text is empty, return
         if not document.text and self.required_args == 0:
             return
@@ -68,7 +68,7 @@ class ArgumentValidator(Validator):
                     )
         return ret_val
 
-    def parse_input(self, document: Document) -> Union[ValidationError, dict[str, str]]:
+    def parse_input(self, document: Document) -> Union[ValidationError, Dict[str, str]]:
         """
         :param document: document containing text of command line, mouse position etc..
         :return: Dictionary mapping arg_name to arg_value, Validation error in case of bad form of argument
