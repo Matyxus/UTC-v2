@@ -1,4 +1,4 @@
-from Project.Simplify.Components import Route, Skeleton
+from Project.Simplify.components import Route, Skeleton
 from typing import List, Tuple, Dict
 
 

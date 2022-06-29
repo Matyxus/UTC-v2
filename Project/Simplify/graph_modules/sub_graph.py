@@ -1,6 +1,6 @@
-from Project.Simplify.Graph_modules.graph_module import GraphModule
-from Project.Simplify.Components import Skeleton, Route, Edge
-from Project.Simplify.Graph_modules.display import Display, plt
+from Project.Simplify.graph_modules.graph_module import GraphModule
+from Project.Simplify.components import Skeleton, Route, Edge
+from Project.Simplify.graph_modules.display import Display, plt
 from typing import List, Set, Optional
 from copy import deepcopy
 
@@ -20,8 +20,8 @@ class SubGraph(GraphModule):
         """
         assert (self.skeleton is not None)
         sub_graph: Skeleton = Skeleton()
-        sub_graph.map_name = self.skeleton.map_name
-        if len(routes) == 0 or not sub_graph.load(self):
+        sub_graph.map_name = deepcopy(self.skeleton.map_name)
+        if len(routes) == 0 or not sub_graph.load(self.skeleton):
             return None
         # -------------------------- Cut graph --------------------------
         junctions: Set[str] = set()  # Junctions to be kept in graph
@@ -51,7 +51,7 @@ class SubGraph(GraphModule):
             return None
         print("Merging with another graph")
         new_graph: Skeleton = Skeleton()
-        new_graph.load(self.skeleton)
+        new_graph.load(self.skeleton)  # Copy graph A
         # ------------------------ Plot -----------------------
         colors: List[str] = ["mediumblue", "gold", "darkmagenta"]
         if display is not None:  # Plot both graphs next to each other (differently colored)
@@ -86,12 +86,12 @@ class SubGraph(GraphModule):
             # Common edges
             common: Set[str] = self.skeleton.edges.keys() & other.edges.keys()
             colored_edges: List[Set[str]] = [
-                self.skeleton.edges.keys() ^ common,  # Edges only present in graph "a"
-                other.edges.keys() ^ common,  # Edges only present in graph "b"
+                (self.skeleton.edges.keys() ^ common) & new_graph.edges.keys(),  # Edges only present in graph "a"
+                (other.edges.keys() ^ common) & new_graph.edges.keys(),  # Edges only present in graph "b"
                 common  # Edges present in both graphs
             ]
             # Plot colored edges
-            for index, edges in colored_edges:
+            for index, edges in enumerate(colored_edges):
                 for edge_id in edges:
                     new_graph.edges[edge_id].plot(ax, color=colors[index])
             display.add_label("o", colors[0], "Subgraph A")
@@ -99,4 +99,4 @@ class SubGraph(GraphModule):
             display.add_label("o", colors[2], "United")
             display.make_legend(len(colors))
             display.show_plot()
-        print("Finished merging")
+        return new_graph

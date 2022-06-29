@@ -1,5 +1,5 @@
-from Project.Simplify.Components.skeleton import Skeleton
-from Project.Simplify.Graph_modules import Loader, Simplify, ShortestPath, Display, SubGraph
+from Project.Simplify.components.skeleton import Skeleton
+from Project.Simplify.graph_modules import Loader, Simplify, ShortestPath, Display, SubGraph
 
 
 class Graph:

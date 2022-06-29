@@ -30,6 +30,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#usafe">Usage</a>
+    </li>
   </ol>
 </details>
 
@@ -38,7 +41,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!-- Img: [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
+
 
 Project description.
 
@@ -94,15 +97,17 @@ Below is an example of how you can instruct your audience on installing and sett
    ```sh
    git clone https://github.com/Matyxus/UTC
    ```
-2. In project root (.../UTC) execute:
+2. In folder where UTC is located execute:
    ```sh
    pip install -e UTC
    ```
-3. Install requirements
+3. Install requirements (in ../UTC)
    ```sh
    pip install -r requirements.txt
    ```
 4. Install planners
+5. Give permission to project enabling it to create: folders, files and execute
+commands with [subprocess](https://docs.python.org/3/library/subprocess.html) library.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -111,20 +116,48 @@ Below is an example of how you can instruct your audience on installing and sett
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Usage description.
+All main.py files have class that is subclass of UserInterface (UTC/Project/UI), which uses
+[prompt_toolkit](https://python-prompt-toolkit.readthedocs.io/en/master/) library to ask
+user for input. Starting by asking for command name, and then command parameter\s (if there are any) will be written
+in format: parameter_name1="", ..., parameter_nameX="default_vale", **all parameters that do not have default value
+must be filled** (between "quotes"). Supports command/parameters history and validation, command name completion,
+taking input from file (each line has to have at most 1 command and parameters separated by space and in format described earlier),
+then input can be redirected as such:
+   ```sh
+   python main.py < your_file
+   ```
+Base commands are **_help_** (which prints all commands, their parameters and their description) and **_exit_** which quits
+the program.
 
-1. Downloading maps from [OpenStreetMap](https://www.openstreetmap.org/)
-save them in /UTC/Project/Maps/osm/original
+1. Downloading maps from [OpenStreetMap](https://www.openstreetmap.org/). \
+Save them in UTC/Project/Maps/osm/original folder.
 2. Convert downloaded maps into '.net.xml' format.
    ```sh
    python converter.py map_name1 map_name2 ...
    ```
    Or run converter.py and enter input dynamically, for command type 'convert',
-   fill argument 'file_name' with name of the map (.osm suffix not needed).
+   fill argument 'file_name' with name of the map.
    ```sh
    python converter.py
    ```
    ![converter example](Images/converter_input_example.PNG)
+3. Generate scenario. \
+Scenarios can be found in (UTC/Project/Traci/scenarios) and they consist of: 
+   ```
+   name
+   │   simulation.sumocfg
+   │   routes.ruo.xml   
+   │   info.txt (file containing commands used go generate this scenario)
+   │   (If planner was used, then more '.sumocfg' and 'info' files)
+   │   (statistics if their generation was enabled)
+   └───problems (pddl representation of problem)
+   └───results (pddl results of planner)
+   ```
+4. (Optional) Generate sub-graph for road network used in scenario. \
+Planners can take long time to generate solutions if road network (or number of cars)
+is high, for that reason road networks can be simplified (example below).
+5. Call planner to generate plan for given scenario.
+6. Launch scenario and compare vehicle statistics against planned simulation.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

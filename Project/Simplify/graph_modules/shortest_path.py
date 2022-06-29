@@ -1,9 +1,8 @@
-from Project.Simplify.Graph_modules.graph_module import GraphModule
-from Project.Simplify.Graph_modules.display import Display
-from Project.Simplify.Components import Skeleton, Route
+from Project.Simplify.graph_modules.graph_module import GraphModule
+from Project.Simplify.graph_modules.display import Display, plt
+from Project.Simplify.components import Skeleton, Route
 from queue import PriorityQueue
 from typing import List, Tuple, Dict, Optional
-from time import sleep
 
 
 class ShortestPath(GraphModule):
@@ -39,12 +38,12 @@ class ShortestPath(GraphModule):
         # Perform initial search to find shortest route and return queue with unexplored junctions
         queue, shortest_route = self.a_star(start_junction_id, target_junction_id)
         if shortest_route is None:  # No path exists
-            print(f"No path exists between {start_junction_id} and {target_junction_id}")
+            print(f"No path exists between junction {start_junction_id} and junction {target_junction_id}")
             return []
         destination_pos: Tuple[float, float] = self.skeleton.junctions[target_junction_id].get_position()
-        limit: float = round(c * sum([edge.attributes["length"] for edge in shortest_route.edge_list]), 3)
+        limit: float = round(c * shortest_route.traverse()[0], 3)
         assert (limit > 0)
-        print(f"Setting route length limit: {limit}")
+        print(f"Setting alternative route length limit: {limit}")
         other_routes: List[Route] = [shortest_route]
         # -------------------------------- Algorithm --------------------------------
         while not queue.empty():
@@ -77,8 +76,9 @@ class ShortestPath(GraphModule):
                 route.plot(ax, color="blue")
                 plot.add_label("_", "blue", f"Route: {index}, length: {round(route.traverse()[0])}")
                 plot.make_legend(1)
+                plt.tight_layout()
                 fig.canvas.draw()
-                sleep(0.1)
+                plt.pause(0.1)
             plot.show_plot()
         return other_routes
 
@@ -97,7 +97,7 @@ class ShortestPath(GraphModule):
         queue: PriorityQueue[Tuple[float, float, Route, List[str]]] = PriorityQueue()
         queue.put((0, 0, None, [start_junction_id]))
         # For node n, gScore[n] is the cost of the cheapest path from start to n currently known
-        g_score: Dict[str, float] = {junction_id: float("inf") for junction_id in self.skeleton.junctions}
+        g_score: Dict[str, float] = {junction_id: float("inf") for junction_id in self.skeleton.junctions.keys()}
         g_score[start_junction_id] = 0  # id of 0 for route is reserved!
         shortest_route: Route = None
         if not self.check_junctions(start_junction_id, target_junction_id):
@@ -170,7 +170,7 @@ class ShortestPath(GraphModule):
         :return: absolute distance between points (3 decimal precision)
         """
         diff_x: float = abs(point_a[0] - point_b[0])
-        diff_y: float = abs(point_a[1] - point_b[0])
+        diff_y: float = abs(point_a[1] - point_b[1])
         return round(((diff_x ** 2) + (diff_y ** 2)) ** 0.5, 3)
 
     def reconstruct_path(self, target_junction_id: str, dist: Dict[str, float], prev: Dict[str, str]) -> Optional[Route]:

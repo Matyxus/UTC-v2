@@ -1,4 +1,4 @@
-from Project.Simplify.Components import Skeleton
+from Project.Simplify.components import Skeleton
 
 
 class GraphModule:

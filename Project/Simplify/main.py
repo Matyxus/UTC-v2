@@ -1,5 +1,5 @@
 from typing import Dict, List, Set
-from Project.Simplify.Components import Skeleton, Graph
+from Project.Simplify.components import Skeleton, Graph
 from Project.UI import UserInterface
 from Project.Utils.constants import PATH
 
@@ -24,9 +24,6 @@ class Launcher(UserInterface):
         self.commands["delete"] = self.delete_command
 
     # ----------------------------------------- Commands -----------------------------------------
-
-    def static_input(self) -> None:
-        print("Static input is not implemented")
 
     def load_command(self, map_name: str) -> None:
         """
@@ -110,7 +107,7 @@ class Launcher(UserInterface):
             return
         # Merge
         self.graph.set_skeleton(self.graphs[graph_a])
-        new_graph: Skeleton = self.graph.sub_graph.merge(self.graphs[graph_a], self.graph.display if plot else None)
+        new_graph: Skeleton = self.graph.sub_graph.merge(self.graphs[graph_b], self.graph.display if plot else None)
         if new_graph is None:
             print("Could not merge graphs")
             return
@@ -163,4 +160,7 @@ class Launcher(UserInterface):
 # Program start
 if __name__ == "__main__":
     launcher: Launcher = Launcher()
-    # launcher.dynamic_input()
+    launcher.run()
+    # launcher.load_command("Chodov")
+    # launcher.sub_graph_command("sg1", "Chodov", "77", "66", 1.3, True)
+    # launcher.run()

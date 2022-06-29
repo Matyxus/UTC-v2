@@ -1,7 +1,7 @@
 from typing import Tuple, List, Dict
 from Project.Utils.constants import JUNCTION_ATTRIBUTES, JUNCTION_DEFAULT_COLOR
-from Project.Simplify.Components.Parts.Figure import Figure
-from Project.Simplify.Components.Parts.Route import Route
+from Project.Simplify.components.parts.Figure import Figure
+from Project.Simplify.components.parts.Route import Route
 from Project.Utils.xml_object import XmlObject
 
 

@@ -1,5 +1,5 @@
-from Project.Simplify.Graph_modules import GraphModule
-from Project.Simplify.Components import Skeleton
+from Project.Simplify.graph_modules import GraphModule
+from Project.Simplify.components import Skeleton
 from matplotlib import pyplot as plt
 from Project.Utils.constants import (
     JUNCTION_END_COLOR, JUNCTION_START_END_COLOR,

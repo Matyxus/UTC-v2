@@ -1,13 +1,13 @@
 from typing import List, Tuple, Dict
-from Project.Simplify.Components import Graph, Route
-from Project.Utils.constants import file_exists, PATH
+from Project.Simplify.components import Graph, Route
+from Project.Utils.constants import file_exists, dir_exist, PATH
 from Project.Pddl.Domain import UtcProblem
-from Project.Traci.scenarios.sumo_xml.generators import RoutesGenerator
+from Project.Traci.scenarios.generators import RoutesGenerator
+from Project.UI import UserInterface
 import xml.etree.ElementTree as ET
-import subprocess
 
 
-class Pddl:
+class PddlLauncher(UserInterface):
     """ Class that launches program for UTC problem.pddl generation, ask user for input """
 
     def __init__(self):
@@ -17,18 +17,52 @@ class Pddl:
         # -------------- Domain --------------
         self.generator: UtcProblem = UtcProblem()
         # -------------- Utils --------------
-        self.route_parser: RoutesGenerator = RoutesGenerator()
+        self.route_generator: RoutesGenerator = RoutesGenerator()
         self.generating_problem: bool = False
-        self.TIME_OUT: int = 120  # Seconds
+        self.TIME_OUT: int = 60  # Seconds
+        # -------------- Commands --------------
+        self.commands["generate_plan"] = self.generate_plan
 
-    def set_network(self, network_name: str) -> None:
+    def generate_plan(
+            self, network_name: str, scenario_name: str, planner: str,
+            domain: str = "utc", window: int = 20, keep_files: bool = True
+            ) -> None:
+        """
+
+        :param network_name: name of network, on which problem will be generated
+        :param scenario_name: name of scenario
+        :param domain: name of pddl domain
+        :param planner: name of planner
+        :param window: planning window time (seconds) corresponding to each pddl problem time
+        frame in simulation (fist problem is generated from time: 0-window, second from time: window-window*2, ...)
+        :param keep_files: bool (true/false) if pddl problems and result files should saved
+        :return: None
+        """
+        # Checks
         if not file_exists(PATH.NETWORK_SUMO_MAPS.format(network_name)):
             return
+        elif not dir_exist(PATH.TRACI_SCENARIOS.format(scenario_name)):
+            return
+        elif not window > 0:
+            print("Planning window time must be higher than 0")
+            return
+        elif not file_exists(PATH.PDDL_DOMAINS.format(domain)):
+            return
+        elif scenario_name not in PATH.PLANNERS:
+            print(f"Planner: {scenario_name} does not exist!")
+            return
+        # Load network
         self.graph = Graph()
         self.graph.loader.load_map(network_name)
         self.graph.simplify.simplify_graph()
         self.graph.skeleton.validate_graph()
-        self.route_parser.load_network(network_name)
+        # Generate problems
+
+        # Generate results
+
+        # Convert results to '.sumocfg' files (possible multiple, if planner generated more solutions)
+
+
 
     def generate_problem(self, scenario_name: str, start_time: int, end_time: int) -> None:
         if self.graph is None:
@@ -106,32 +140,8 @@ class Pddl:
             xml_vehicle.attrib["route"] = vehicles[xml_vehicle.attrib["id"]]
         self.route_parser.save(PATH.TRACI_SCENARIOS.format(scenario_name)+"/routes2.ruo.xml")
 
-    def run_commmand(self, command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
-        """
-        https://stackoverflow.com/questions/41094707/setting-timeout-when-using-os-system-function
 
-        :param command: console/terminal command string
-        :param timeout: wait max timeout (seconds) for run console command (default None)
-        :param encoding: console output encoding, default is utf-8
-        :return: True/False on success/failure, console output as string
-        """
-        success: bool = False
-        console_output: str = ""
-        try:
-            console_output_byte = subprocess.check_output(command, shell=True, timeout=timeout)
-            console_output = console_output_byte.decode(encoding)  # '640x360\n'
-            console_output = console_output.strip()  # '640x360'
-            success = True
-        except subprocess.TimeoutExpired as callProcessErr:
-            print(f"Timeout {timeout} seconds  for command expired, exiting...")
-        return success, console_output
-
-
+# Program start
 if __name__ == "__main__":
-    launcher: Pddl = Pddl()
-    launcher.set_network("test2")
-    launcher.results_to_scenario("test3")
-    # launcher.generate_problem("test3", i*20,  i*20 + 20)
-    # launcher.generate_result("test3", f"problem{i*20}_{i*20 + 20}.pddl", f"result{i*20}_{i*20 + 20}")
-    # launcher.parse_result("test2", "result11_20.2")
-    # launcher.parse_result("test2", "result21_30.2")
+    launcher: PddlLauncher = PddlLauncher()
+    launcher.run()

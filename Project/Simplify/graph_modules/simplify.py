@@ -1,8 +1,8 @@
-from Project.Simplify.Graph_modules.graph_module import GraphModule
-from Project.Simplify.Graph_modules.display import Display
-from Project.Simplify.Components import Skeleton
+from Project.Simplify.graph_modules.graph_module import GraphModule
+from Project.Simplify.graph_modules.display import Display
+from Project.Simplify.components import Skeleton
 from typing import List, Set, Tuple, Dict
-from Project.Simplify.Components import Route, Junction
+from Project.Simplify.components import Route, Junction
 
 
 class Simplify(GraphModule):

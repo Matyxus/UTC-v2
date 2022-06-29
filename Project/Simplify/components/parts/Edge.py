@@ -1,4 +1,4 @@
-from Project.Simplify.Components.Parts.Figure import Figure
+from Project.Simplify.components.parts.Figure import Figure
 from Project.Utils.xml_object import XmlObject
 from Project.Utils.constants import EDGE_ATTRIBUTES, LANE_ATTRIBUTES, EDGE_DEFAULT_COLOR
 from typing import Tuple, List

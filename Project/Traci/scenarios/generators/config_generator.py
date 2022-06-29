@@ -1,5 +1,4 @@
-import xml.etree.ElementTree as ET
-from Project.Traci.scenarios.sumo_xml.generators.generator import Generator
+from Project.Traci.scenarios.generators.generator import Generator
 from Project.Utils.constants import PATH, file_exists
 
 
@@ -59,6 +58,7 @@ class ConfigGenerator(Generator):
             print("Route file for SUMO config is not set!")
             return
         super().save(file_path)
+
 
 # For testing purposes
 if __name__ == "__main__":

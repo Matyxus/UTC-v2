@@ -1,11 +1,11 @@
 import xml.etree.ElementTree as ET
 from typing import Dict, List
-from Project.Simplify.Components import Junction, Edge, Route
+from Project.Simplify.components import Junction, Edge, Route
 from Project.Utils.constants import (
     PATH, file_exists, get_file_name, JUNCTION_START_COLOR, JUNCTION_START_END_COLOR, JUNCTION_END_COLOR
 )
-from Project.Simplify.Graph_modules.graph_module import GraphModule
-from Project.Simplify.Components import Skeleton
+from Project.Simplify.graph_modules.graph_module import GraphModule
+from Project.Simplify.components import Skeleton
 
 
 class Loader(GraphModule):

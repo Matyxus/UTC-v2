@@ -1,6 +1,6 @@
 from Project.Traci.simulation.objects.vehicle import Vehicle
 from Project.Traci.simulation.objects.bst import BST
-from Project.Simplify.Components import Graph, Route
+from Project.Simplify.components import Graph, Route
 from typing import Dict, List
 import random
 

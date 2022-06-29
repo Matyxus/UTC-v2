@@ -1,8 +1,8 @@
-from Project.Traci.scenarios.sumo_xml.generators.generator import Generator
+from Project.Traci.scenarios.generators.generator import Generator
 from Project.Utils.constants import PATH
 from typing import Dict, Tuple
 from Project.Traci.simulation import VehicleGenerator
-from Project.Simplify.Components import Graph
+from Project.Simplify.components import Graph
 
 
 class RoutesGenerator(Generator):

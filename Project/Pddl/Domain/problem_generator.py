@@ -1,4 +1,4 @@
-from Project.Simplify.Components import Skeleton
+from Project.Simplify.components import Skeleton
 from Project.Pddl.Domain import PddlProblem
 
 
@@ -91,7 +91,7 @@ class ProblemGenerator(PddlProblem):
         self.add_object_group("junction")
         self.add_object_group("road")
         # Add junctions
-        for counter, junction_id in enumerate(skeleton.junctions.keys()):
+        for junction_id in skeleton.junctions.keys():
             self.add_object(f"j{junction_id}", "junction")
         # Add roads and connections between junctions
         for route_id, route in skeleton.routes.items():

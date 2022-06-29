@@ -1,6 +1,6 @@
 from Project.Utils.constants import PATH
-from Project.Traci.scenarios.sumo_xml import ConfigGenerator, RoutesGenerator
-from Project.Simplify.Components import Graph, Skeleton
+from Project.Traci.scenarios.generators import ConfigGenerator, RoutesGenerator
+from Project.Simplify.components import Graph, Skeleton
 from os import mkdir
 
 

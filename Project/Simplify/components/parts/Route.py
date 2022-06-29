@@ -1,5 +1,5 @@
-from Project.Simplify.Components.Parts.Figure import Figure
-from Project.Simplify.Components.Parts.Edge import Edge
+from Project.Simplify.components.parts.Figure import Figure
+from Project.Simplify.components.parts.Edge import Edge
 from Project.Utils import XmlObject
 from Project.Utils.constants import EDGE_DEFAULT_COLOR
 from typing import List, Tuple
