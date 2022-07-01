@@ -11,9 +11,6 @@ class TraciLauncher(UserInterface):
         self.scenario: Scenario = None
         self.commands["generate-scenario"] = self.scenario_command
 
-    def static_input(self) -> None:
-        print("TraciLauncher Class does not take static input!")
-
     # ---------------------------------- Commands ----------------------------------
 
     def scenario_command(self, scenario_name: str, network_name: str) -> None:

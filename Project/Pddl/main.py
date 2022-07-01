@@ -1,6 +1,7 @@
 from typing import List, Tuple, Dict
 from Project.Simplify.components import Graph, Route
 from Project.Utils.constants import file_exists, dir_exist, PATH
+from Project.Pddl.Utils.constants import PLANNERS
 from Project.Pddl.Domain import UtcProblem
 from Project.Traci.scenarios.generators import RoutesGenerator
 from Project.UI import UserInterface
@@ -15,9 +16,9 @@ class PddlLauncher(UserInterface):
         # -------------- Graph --------------
         self.graph: Graph = None
         # -------------- Domain --------------
-        self.generator: UtcProblem = UtcProblem()
+        self.generator: UtcProblem = None
         # -------------- Utils --------------
-        self.route_generator: RoutesGenerator = RoutesGenerator()
+        self.route_generator: RoutesGenerator = None
         self.generating_problem: bool = False
         self.TIME_OUT: int = 60  # Seconds
         # -------------- Commands --------------
@@ -43,53 +44,71 @@ class PddlLauncher(UserInterface):
             return
         elif not dir_exist(PATH.TRACI_SCENARIOS.format(scenario_name)):
             return
+        elif not file_exists(PATH.TRACI_SCENARIOS.format(scenario_name) + "/routes.ruo.xml"):
+            return
         elif not window > 0:
             print("Planning window time must be higher than 0")
             return
         elif not file_exists(PATH.PDDL_DOMAINS.format(domain)):
             return
-        elif scenario_name not in PATH.PLANNERS:
-            print(f"Planner: {scenario_name} does not exist!")
+        elif planner not in PLANNERS:
+            print(f"Planner: {planner} does not exist!")
+            return
+        elif domain != "utc":
+            print(f"Unknown domain: {domain}")
             return
         # Load network
         self.graph = Graph()
         self.graph.loader.load_map(network_name)
         self.graph.simplify.simplify_graph()
         self.graph.skeleton.validate_graph()
-        # Generate problems
-
-        # Generate results
-
+        # Generate problems & results
+        self.generator = UtcProblem()
+        self.route_generator = RoutesGenerator(
+            routes_path=PATH.TRACI_SCENARIOS.format(scenario_name) + "/routes.ruo.xml"
+        )
+        last_vehicle_depart: int = self.route_generator.get_end_time()
+        interval: int = max(int(round(last_vehicle_depart/window)), 1)
+        for i in range(interval):
+            start_time: int = i * window
+            end_time: int = start_time + window
+            self.generate_problem(scenario_name, start_time, end_time)
+            self.generate_result(
+                planner, domain, scenario_name,
+                f"problem{start_time}_{end_time}", f"result{start_time}_{end_time}"
+            )
         # Convert results to '.sumocfg' files (possible multiple, if planner generated more solutions)
+        self.results_to_scenario(scenario_name, interval)
 
 
+    # ----------------------------------------------- Utils -----------------------------------------------
 
     def generate_problem(self, scenario_name: str, start_time: int, end_time: int) -> None:
-        if self.graph is None:
+        if self.graph is None or self.generator is None or self.route_generator is None:
+            print("Erorr graph/generator/route_generator is not initialized")
             return
         # Start generator
-        self.generator = UtcProblem()
-        self.generator.add_network(self.graph.skeleton)
         self.generator.set_problem_name(f"problem{start_time}_{end_time}")  # Set problem name (same as file name)
-        self.route_parser.load_routes(PATH.TRACI_SCENARIOS.format(scenario_name)+"/routes.ruo.xml")
         # Add vehicles
-        for vehicle_id, junctions in self.route_parser.get_vehicles(start_time, end_time).items():
+        for vehicle_id, junctions in self.route_generator.get_vehicles(start_time, end_time).items():
             self.generator.add_car(vehicle_id, junctions[0], junctions[1])
-        self.generator.save(PATH.TRACI_SCENARIOS_PROBLEMS.format(scenario_name, f"problem{start_time}_{end_time}.pddl"))
+        self.generator.save(PATH.TRACI_SCENARIOS_PROBLEMS.format(scenario_name, f"problem{start_time}_{end_time}"))
 
-    def generate_result(self, scenario_name: str, problem_name: str, result_name: str) -> None:
+    def generate_result(
+            self, planner: str, domain: str, scenario_name: str, problem_name: str, result_name: str
+            ) -> None:
         # Call planner
         planner_args: List[str] = [
-            PATH.PDDL_DOMAINS.format("utc"),  # Domain
+            PATH.PDDL_DOMAINS.format(domain),  # Domain
             PATH.TRACI_SCENARIOS_PROBLEMS.format(scenario_name, problem_name),  # Problem
             PATH.TRACI_SCENARIOS_RESULTS.format(scenario_name, result_name)  # Result
         ]
-        print(f"Calling command: {PATH.PLANNERS['Merwin'].format(*planner_args)}")
-        print(f"With {self.TIME_OUT} second timeout")
-        success, output = self.run_commmand(PATH.PLANNERS["Merwin"].format(*planner_args), self.TIME_OUT)
+        print(f"Generating result of pddl problem: {problem_name}")
+        # print(f"Calling command: {PLANNERS[planner].format(*planner_args)}")
+        # print(f"With {self.TIME_OUT} second timeout")
+        success, output = self.run_commmand(PLANNERS[planner].format(*planner_args), self.TIME_OUT)
         if success:
-            print("Successfully created result file, printing planner output:")
-            print(output)
+            print(f"Successfully created result file: {result_name}")
 
     def parse_result(self, scenario_name: str, result_name: str) -> Dict[str, str]:
         """
@@ -108,24 +127,19 @@ class PddlLauncher(UserInterface):
                 paths[car_id] += (" ".join(self.graph.skeleton.routes[route_id].get_edge_ids()) + " ")
         return paths
 
-    def results_to_scenario(self, scenario_name: str) -> None:
+    def results_to_scenario(self, scenario_name: str, interval: int) -> None:
         """
         :param scenario_name:
         :return:
         """
         unique_routes: Dict[str, str] = {}
         vehicles: Dict[str, str] = {}
-        self.route_parser.load_routes(PATH.TRACI_SCENARIOS.format(scenario_name)+"/routes.ruo.xml")
-        root = self.route_parser.tree.getroot()
+        root = self.route_generator.root
         for xml_route in root.findall("route"):
             root.remove(xml_route)
         # Cars and their routes
-        for i in range(15):  # 15
-            file: str = ""
-            if file_exists(PATH.TRACI_SCENARIOS_RESULTS.format(scenario_name, f"result{i * 20}_{i * 20 + 20}.2")):
-                file = f"result{i * 20}_{i * 20 + 20}.2"
-            else:
-                file = f"result{i * 20}_{i * 20 + 20}.1"
+        for i in range(interval):  # 15
+            file: str = f"result{i * 20}_{i * 20 + 20}.1"
             paths: Dict[str, str] = self.parse_result(scenario_name, file)
             for vehicle_id, route_edges in paths.items():
                 route_edges = route_edges.rstrip()
@@ -138,10 +152,23 @@ class PddlLauncher(UserInterface):
         # Change cars routes
         for xml_vehicle in root.findall("vehicle"):
             xml_vehicle.attrib["route"] = vehicles[xml_vehicle.attrib["id"]]
-        self.route_parser.save(PATH.TRACI_SCENARIOS.format(scenario_name)+"/routes2.ruo.xml")
+        self.route_generator.save(PATH.TRACI_SCENARIOS.format(scenario_name)+"/routes1.ruo.xml")
 
 
 # Program start
 if __name__ == "__main__":
-    launcher: PddlLauncher = PddlLauncher()
-    launcher.run()
+    temp: dict = {
+        "object": {
+            "junction": [],
+            "road": []
+        }
+    }
+    additional: dict = {
+        "object": {
+            "hello": []
+        }
+    }
+    additional["object"] |= temp["object"]
+    print(additional)
+    #launcher: PddlLauncher = PddlLauncher()
+    # launcher.run()

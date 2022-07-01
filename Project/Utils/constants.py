@@ -19,9 +19,9 @@ class PATH:
     CWD: str = str(Pt(__file__).parent.parent)  # Project Root
     OSM_FILTER: str = (CWD + "/Converter/OSMfilter/osmfilter")  # Path to osmfilter (executable)
     # Template for .sumocfg file
-    SUMO_CONFIG_TEMPLATE: str = (CWD + "/Traci/scenarios/sumo_xml/generators/templates/sumo_config_template.xml")
+    SUMO_CONFIG_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_config_template.xml")
     # Template for .ruo.xml file
-    SUMO_ROUTES_TEMPLATE: str = (CWD + "/Traci/scenarios/sumo_xml/generators/templates/sumo_routes_template.xml")
+    SUMO_ROUTES_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_routes_template.xml")
     # -------------------------------------- Maps --------------------------------------
     # Path to folder containing maps from open street map (.osm)
     ORIGINAL_OSM_MAPS: str = (CWD + "/Maps/osm/original/{0}.osm")
@@ -35,16 +35,10 @@ class PATH:
     PDDL_GENERATED_PROBLEMS: str = (CWD + "/Pddl/Problems/generated/{0}")  # Path to folder containing pddl problems
     # Path to folder containing results of pddl problems
     PDDL_SOLVED_PROBLEMS: str = (CWD + "/Pddl/Problems/solved/{0}")
-    # -------------------------------------- Planners --------------------------------------
-    PLANNERS: Dict[str, str] = {
-        # Planner_name : command to run planner (.format(args))
-        "Cerberus": "python3 " + PDDL_PLANERS.format("Cerberus/plan.py") + " {0} {1} {2}",
-        "Merwin": PDDL_PLANERS.format("Merwin/plan") + " {0} {1} {2}"
-    }
     # -------------------------------------- Traci --------------------------------------
     TRACI_SCENARIOS: str = (CWD + "/Traci/scenarios/{0}")  # Path to generated scenarios for SUMO
-    TRACI_SCENARIOS_PROBLEMS: str = (CWD + "/Traci/scenarios/{0}/problems/{1}")  # Path to folder with pddl problems
-    TRACI_SCENARIOS_RESULTS: str = (CWD + "/Traci/scenarios/{0}/results/{1}")  # Path to fold with pddl results
+    TRACI_SCENARIOS_PROBLEMS: str = (CWD + "/Traci/scenarios/{0}/problems/{1}.pddl")  # Path to folder with pddl problems
+    TRACI_SCENARIOS_RESULTS: str = (CWD + "/Traci/scenarios/{0}/results/{1}.pddl")  # Path to folder with pddl results
 
 
 # ---------------------------------- Functions ----------------------------------

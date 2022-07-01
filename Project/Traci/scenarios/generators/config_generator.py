@@ -8,10 +8,8 @@ class ConfigGenerator(Generator):
         """
         :param config_path: path to '.sumocfg' file
         """
-        # super().__init__(config_path)
         super().__init__(config_path)
         # Checks template
-        print("Cheking template")
         assert (self.tree is not None)
         assert (self.root is not None)
         assert (self.root.find("input") is not None)

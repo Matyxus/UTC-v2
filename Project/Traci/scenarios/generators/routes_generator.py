@@ -18,6 +18,8 @@ class RoutesGenerator(Generator):
         assert (self.root is not None)
         # Binary search tree for sorting vehicles
         self.vehicle_generator: VehicleGenerator = VehicleGenerator(graph)
+        # Memory of previously searched vehicles (start_time, index)
+        self.previous_search: Tuple[int, int] = (0, 0)
 
     # ------------------------------------------Load & Save ------------------------------------------
 
@@ -37,12 +39,20 @@ class RoutesGenerator(Generator):
 
     # ------------------------------------------ Utils  ------------------------------------------
 
+    def get_end_time(self) -> int:
+        """
+        :return: Last vehicle arrival time (-1 if no vehicles are found)
+        """
+        if not len(self.root.findall("vehicle")):
+            return -1
+        return int(self.root.findall("vehicle")[-1].attrib["depart"])
+
     def get_vehicles(self, start_time: int, end_time: int) -> Dict[str, Tuple[str, str]]:
         """
-        Extracts vehicles from .ruo.xml file, filtered by start/end time.
+        Extracts vehicles from .ruo.xml file, filtered by start/end time as <start_time, end_time)
 
         :param start_time: earliest vehicle arrival
-        :param end_time: latest vehicle arrival
+        :param end_time: latest vehicle arrival (without)
         :return: Vehicle dictionary mapping vehicle id to initial and ending junctions of its route
         """
         print("Parsing vehicles")
@@ -51,17 +61,23 @@ class RoutesGenerator(Generator):
             print("XML Tree is not set!")
             return vehicles
         routes: Dict[str, Tuple[str, str]] = {}
-        root = self.tree.getroot()
         # Routes
-        for route in root.findall("route"):
+        for route in self.root.findall("route"):
             routes[route.attrib["id"]] = (route.attrib["fromJunction"], route.attrib["toJunction"])
+        search_start: int = 0
+        if self.previous_search is not None and self.previous_search[0] <= start_time:
+            search_start = self.previous_search[1]
         # Vehicles
-        for vehicle in root.findall("vehicle"):
-            if start_time <= float(vehicle.attrib["depart"]) <= end_time:
+        for index, vehicle in enumerate(self.root.findall("vehicle")[search_start:]):
+            if start_time <= int(vehicle.attrib["depart"]) <= end_time:
                 vehicles[vehicle.attrib["id"]] = routes[vehicle.attrib["route"]]
+            elif int(vehicle.attrib["depart"]) > end_time:
+                self.previous_search = (start_time, index)
+                break
         return vehicles
 
 
 # For testing purposes
 if __name__ == "__main__":
-    temp: RoutesGenerator = RoutesGenerator()
+    temp: RoutesGenerator = RoutesGenerator(routes_path=PATH.TRACI_SCENARIOS.format(""))
+

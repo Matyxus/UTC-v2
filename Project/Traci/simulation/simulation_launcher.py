@@ -38,7 +38,7 @@ class SimulationLauncher:
             # for vehicle_id in traci.simulation.getLoadedIDList():
             #     print(f"Vehicle: {vehicle_id} departs in: {traci.vehicle.getParameter(vehicle_id, 'param')}")
             # traci.vehicle.getParameter()
-            traci.simulation.getParameter()
+            # traci.simulation.getParameter()
 
             while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
                 traci.simulationStep()

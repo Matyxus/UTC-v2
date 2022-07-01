@@ -14,7 +14,7 @@ class Launcher(UserInterface):
         # Maps names of graphs to Graph class
         self.graphs: Dict[str, Skeleton] = {}
         # Set functions to commands (inherited from parent class)
-        self.commands["load"] = self.load_command
+        self.commands["load"] = [self.load_command, ...]
         self.commands["plot"] = self.plot_command
         self.commands["simplify"] = self.simplify_command
         self.commands["subgraph"] = self.sub_graph_command
@@ -161,6 +161,3 @@ class Launcher(UserInterface):
 if __name__ == "__main__":
     launcher: Launcher = Launcher()
     launcher.run()
-    # launcher.load_command("Chodov")
-    # launcher.sub_graph_command("sg1", "Chodov", "77", "66", 1.3, True)
-    # launcher.run()

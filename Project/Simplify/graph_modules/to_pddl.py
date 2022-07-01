@@ -1,10 +1,12 @@
-from Project.Simplify.components import Route, Skeleton
-from typing import List, Tuple, Dict
+from Project.Simplify.graph_modules.graph_module import GraphModule
+from Project.Simplify.components import Skeleton, Route
+from typing import List, Dict
 
 
-class Network:
-    """ Class which enables to convert graph of road network to pddl """
-    def __init__(self):
+class ToPddl(GraphModule):
+    """ Class converting skeleton of graph to pddl representation """
+    def __init__(self, skeleton: Skeleton = None):
+        super().__init__(skeleton)
         self.CAR_LENGTH: float = 4.5  # Average car length (in meters)
         self.MIN_GAP: float = 2.5  # Minimal gap (meters) between vehicles, as defined in SUMO
         # self.FOLLOWING_DISTANCE: float = 2.0  # Safe following distance (in seconds), depends on speed
@@ -12,22 +14,53 @@ class Network:
         # ------------------- DENSITY CONSTANTS -------------------
         # Light traffic -> (maximum_road_capacity * LIGHT_CAPACITY_THRESHOLD), similar for medium/heavy
         self.LIGHT_CAPACITY_THRESHOLD: float = 0.35  # Low -> Medium (%)
-        self.MEDIUM_CAPACITY_THRESHOLD: float = 0.4  # Medium -> Heavy (%)
-        self.HEAVY_CAPACITY_THRESHOLD: float = 0.25  # Heavy -> Congested (over 100%)
+        self.MEDIUM_CAPACITY_THRESHOLD: float = 0.4  # Medium -> Heavy (Up to 75 = LOW + MEDIUM % of capacity)
+        self.HEAVY_CAPACITY_THRESHOLD: float = 0.25  # Heavy (Over LIGHT+MEDIUM capacity) -> Congested (over 100%)
         assert (self.LIGHT_CAPACITY_THRESHOLD + self.MEDIUM_CAPACITY_THRESHOLD + self.HEAVY_CAPACITY_THRESHOLD == 1)
         # Penalization multipliers for higher than light capacity
         # self.LIGHT_CAPACITY_MULTIPLIER: float = 1
         self.MEDIUM_CAPACITY_MULTIPLIER: float = 10
         self.HEAVY_CAPACITY_MULTIPLIER: float = 100
 
-    def road_to_predicates(self, skeleton: Skeleton) -> List[str]:
+    def convert(self, capacity: bool = False) -> dict:
         """
-        :param skeleton: of graph
-        :return: list of predicates for roads in network
+        :param capacity: bool, if pddl representation should include road capacity + predicate 'next'
+        for counting number of cars on road
+        :return: dictionary containing 'init' and 'object' pddl representation of road network
+        """
+        assert (self.skeleton is not None)
+        ret_val: dict = {
+            "init": [],
+            "object": {
+                "junction": [],
+                "road": []
+            }
+        }
+        # --------------- Add basic network  ---------------
+        # Add junctions
+        for junction_id in self.skeleton.junctions.keys():
+            ret_val["object"]["junction"].append(f"j{junction_id}")
+        # Add roads and connections between junctions
+        for route_id, route in self.skeleton.routes.items():
+            ret_val["object"]["road"].append(f"r{route_id}")
+            # Add connections between junctions and routes  -> (connected from_junction_id road_id to_junction_id)
+            ret_val["init"].append(f"(connected j{route.get_start()} r{route_id} j{route.get_destination()})")
+        #  --------------- Extend network ---------------
+        if capacity:
+            ret_val["init"].extend(self.extended_network())
+            ret_val["object"]["next"] = [f"use{i}" for i in range(self.max_capacity+1)]
+        return ret_val
+
+    def extended_network(self) -> List[str]:
+        """
+        Extends basic road network by road capacity, traffic thresholds,
+        'next' predicate for counting number of cars on road
+
+        :return: list of predicates
         """
         predicates: List[str] = []
         # Add predicates: 'length', 'use', 'cap', 'using', 'light, medium, heavy'
-        for route_id, route in skeleton.routes.items():
+        for route_id, route in self.skeleton.routes.items():
             capacity: int = self.calculate_capacity(route)
             assert (capacity > 0)
             self.max_capacity = max(capacity, self.max_capacity)

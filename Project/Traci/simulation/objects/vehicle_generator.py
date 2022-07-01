@@ -90,7 +90,7 @@ class VehicleGenerator:
         if not route_id:
             return
         # For every period add cars to vehicle list
-        for i in range(int(duration / period)):
+        for i in range(int(duration / period)):  # [1, 2, 3, 4, 5]
             current_time: int = start_time + (i * period)
             end_time: int = current_time + period
             # Add randomly chosen number of cars to list
@@ -101,6 +101,8 @@ class VehicleGenerator:
                 vehicle.set_depart(random.randint(current_time, end_time))
                 self.vehicles_bst.binary_insert(vehicle)
         # print(f"Random flow generated: {len(vehicles)} vehicles")
+
+
 
     # ------------------------------------------ Utils  ------------------------------------------
 
