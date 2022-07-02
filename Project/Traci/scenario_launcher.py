@@ -1,6 +1,8 @@
 from Project.UI import UserInterface
 from Project.Utils.constants import file_exists, PATH
 from Project.Traci.scenarios import Scenario
+from Project.Traci.simulation import SimulationLauncher
+from typing import Dict
 
 
 class TraciLauncher(UserInterface):
@@ -10,6 +12,12 @@ class TraciLauncher(UserInterface):
         super().__init__()
         self.scenario: Scenario = None
         self.commands["generate-scenario"] = self.scenario_command
+        # Commands enabled when generating scenario
+        self.generating_commands: Dict[str, callable] = {}
+        # Launcher of scenarios and '.sumocfg' files,
+        # allows to use planner to generate vehicle routes while
+        # simulation runs
+        self.simulation_launcher: SimulationLauncher = None
 
     # ---------------------------------- Commands ----------------------------------
 
@@ -22,14 +30,14 @@ class TraciLauncher(UserInterface):
         if not file_exists(PATH.NETWORK_SUMO_MAPS.format(network_name)):
             return
         self.scenario = Scenario(scenario_name, network_name)
-        self.add_commands(
-            {
-                "add-cars": self.scenario.routes_generator.vehicle_generator.add_vehicles,
-                "add-random-flow": self.scenario.routes_generator.vehicle_generator.random_flow,
-                "save": self.save_command,
-                "plot": self.scenario.graph.display.plot
-            }
-        )
+        self.generating_commands = {
+            "add-cars": self.scenario.routes_generator.vehicle_generator.add_vehicles,
+            "add-random-flow": self.scenario.routes_generator.vehicle_generator.random_flow,
+            "add-uniform-flow": self.scenario.routes_generator.vehicle_generator.uniform_flow,
+            "save": self.save_command,
+            "plot": self.scenario.graph.display.plot
+        }
+        self.add_commands(self.generating_commands)
 
     def save_command(self) -> None:
         """
@@ -37,7 +45,7 @@ class TraciLauncher(UserInterface):
         """
         self.scenario.save()
         self.scenario = None
-        self.remove_commands(["add-cars", "add-random-flow", "save", "plot"])
+        self.remove_commands(list(self.generating_commands.keys()))
 
 
 if __name__ == "__main__":

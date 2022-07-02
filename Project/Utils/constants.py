@@ -18,9 +18,9 @@ class PATH:
     """ (static) Class holding different project paths, used with .format(args) """
     CWD: str = str(Pt(__file__).parent.parent)  # Project Root
     OSM_FILTER: str = (CWD + "/Converter/OSMfilter/osmfilter")  # Path to osmfilter (executable)
-    # Template for .sumocfg file
+    # Template for '.sumocfg' file
     SUMO_CONFIG_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_config_template.xml")
-    # Template for .ruo.xml file
+    # Template for '.ruo.xml' file
     SUMO_ROUTES_TEMPLATE: str = (CWD + "/Traci/scenarios/generators/templates/sumo_routes_template.xml")
     # -------------------------------------- Maps --------------------------------------
     # Path to folder containing maps from open street map (.osm)
@@ -37,6 +37,7 @@ class PATH:
     PDDL_SOLVED_PROBLEMS: str = (CWD + "/Pddl/Problems/solved/{0}")
     # -------------------------------------- Traci --------------------------------------
     TRACI_SCENARIOS: str = (CWD + "/Traci/scenarios/{0}")  # Path to generated scenarios for SUMO
+    TRACI_SIMULATION: str = (CWD + "/Traci/scenarios/{0}/{1}.sumocfg")  # Path to generated '.sumocfg' file
     TRACI_SCENARIOS_PROBLEMS: str = (CWD + "/Traci/scenarios/{0}/problems/{1}.pddl")  # Path to folder with pddl problems
     TRACI_SCENARIOS_RESULTS: str = (CWD + "/Traci/scenarios/{0}/results/{1}.pddl")  # Path to folder with pddl results
 

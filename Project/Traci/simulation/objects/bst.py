@@ -46,6 +46,18 @@ class BST:
         else:
             temp_pointer.r_child = new_node
 
+    def size(self, node: Node) -> int:
+        """
+        :param node: starting node from which size will be calculated
+        :return: Size of BST
+        """
+        size = 0
+        if node is not None:
+            size += 1
+            size += self.size(node.l_child)
+            size += self.size(node.r_child)
+        return size
+
     def in_order(self, node: Node) -> None:
         """
         Prints vehicles in BST (sorted by lowest departure time to highest)

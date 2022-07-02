@@ -34,7 +34,7 @@ class RoutesGenerator(Generator):
         for route in self.vehicle_generator.routes:
             self.root.append(route.to_xml())
         # Append vehicles
-        self.vehicle_generator.vehicles_bst.sorted_append(self.vehicle_generator.vehicles_bst.root, self.root)
+        self.vehicle_generator.save(self.root)
         super().save(file_path)
 
     # ------------------------------------------ Utils  ------------------------------------------

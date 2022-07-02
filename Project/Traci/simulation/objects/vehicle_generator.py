@@ -1,8 +1,8 @@
 from Project.Traci.simulation.objects.vehicle import Vehicle
-from Project.Traci.simulation.objects.bst import BST
+from Project.Traci.simulation.objects.bst import BST, Element
 from Project.Simplify.components import Graph, Route
-from typing import Dict, List
-import random
+from typing import Dict, List, Tuple, Iterator
+import numpy as np
 
 
 class VehicleGenerator:
@@ -10,7 +10,7 @@ class VehicleGenerator:
     def __init__(self, graph: Graph):
         # -------------- Random --------------
         self.SEED: int = 42
-        random.seed(self.SEED)
+        np.random.seed(self.SEED)
         # -------------- Graph --------------
         self.graph: Graph = graph
         # Recording found shortest paths
@@ -20,6 +20,7 @@ class VehicleGenerator:
         # -------------- Routes & vehicles --------------
         self.routes: List[Route] = []
         self.vehicles_bst: BST = BST()
+        self.generators: List[Iterator[Vehicle]] = []
 
     # -------------------------------------------- Vehicles --------------------------------------------
 
@@ -50,17 +51,19 @@ class VehicleGenerator:
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         if not route_id:
             return
-        # Add vehicles
-        for i in range(amount):
-            temp: Vehicle = Vehicle()
-            temp.set_route(route_id)
-            temp.set_depart(depart_time)
-            self.vehicles_bst.binary_insert(temp)
+
+        def generate_vehicles(_amount: int, _route_id: str, depart: int) -> Iterator[Vehicle]:
+            """
+            :param _amount: of vehicles
+            :param _route_id: id of route used by vehicles
+            :param depart: departure time of vehicles
+            :return: Iterator of vehicles
+            """
+            for i in range(_amount):
+                yield Vehicle(depart, _route_id)
+        self.generators.append(generate_vehicles(amount, route_id, depart_time))
 
     # -------------------------------------------- Flows --------------------------------------------
-
-    # Types of Flows, uniform, random, exponential, ....
-    # Improve with numpy for performance!
 
     def random_flow(
             self, from_junction_id: str, to_junction_id: str, minimal: int,
@@ -70,41 +73,95 @@ class VehicleGenerator:
         Randomly generates between minimal and maximal cars every period, starting
         from start_time and ending at end_time.
 
-        :param from_junction_id:  starting junction of cars
+        :param from_junction_id: starting junction of cars
         :param to_junction_id: destination junction of cars
-        :param minimal: amount of cars to be sent
+        :param minimal: minimal amount of cars to be sent
         :param maximal: maximal amount of cars to be sent
         :param period: time (seconds) over which vehicles are sent
         :param start_time: of flow (seconds)
         :param end_time: of flow (seconds)
         :return: None
         """
-        print("Adding random flow")
+        print("Generating random flow..")
+        # ---------------------- Checks ----------------------
         assert (end_time > start_time >= 0)
         assert (maximal >= minimal >= 1)
-        duration: int = (end_time - start_time)
-        if ((maximal + minimal) / 2) * int(duration / period) > 10000:
-            print("Generating over 10 000 vehicles, returning ....!")
-            return
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         if not route_id:
             return
-        # For every period add cars to vehicle list
-        for i in range(int(duration / period)):  # [1, 2, 3, 4, 5]
-            current_time: int = start_time + (i * period)
-            end_time: int = current_time + period
-            # Add randomly chosen number of cars to list
-            for car in range(random.randint(minimal, maximal)):
-                vehicle: Vehicle = Vehicle()
-                vehicle.set_route(route_id)
-                # Randomly select departure time
-                vehicle.set_depart(random.randint(current_time, end_time))
-                self.vehicles_bst.binary_insert(vehicle)
-        # print(f"Random flow generated: {len(vehicles)} vehicles")
 
+        def generate_random_flow(
+                vehicle_interval: Tuple[int, int], _period: int,
+                _route_id: str, time_interval: Tuple[int, int]
+                ) -> Iterator[Vehicle]:
+            """
+            :param vehicle_interval: minimal and maximal value of vehicles
+            :param _period: how often should vehicles be generated
+            :param _route_id: id of route used by vehicles
+            :param time_interval: of cars to be sent (randomly selected between two values)
+            :return: Iterator of vehicles
+            """
+            starting_time: int = time_interval[0] - period
+            ending_time: int = time_interval[0]
+            # Generate random vehicle_counts N times (generating_time / period)
+            episodes: int = int((time_interval[0] + time_interval[1]) / period)
+            for vehicle_count in np.random.randint(vehicle_interval[0], vehicle_interval[1]+1, episodes):
+                starting_time += period
+                ending_time += period
+                # Generate random departing times for vehicles
+                for depart_time in np.random.randint(starting_time, ending_time, vehicle_count):
+                    yield Vehicle(depart_time, _route_id)
+        self.generators.append(generate_random_flow((minimal, maximal), period, route_id, (start_time, end_time)))
 
+    def uniform_flow(
+            self, from_junction_id: str, to_junction_id: str,
+            vehicles: int, start_time: int, end_time: int
+            ) -> None:
+        """
+        :param from_junction_id: starting junction of cars
+        :param to_junction_id: destination junction of cars
+        :param vehicles: number of vehicles (equally spaced)
+        :param start_time: of flow (seconds)
+        :param end_time: of flow (seconds)
+        :return: None
+        """
+        assert (end_time > start_time >= 0)
+        assert (vehicles > 0)
+        route_id: str = self.get_path(from_junction_id, to_junction_id)
+        if not route_id:
+            return
+        print("Generating uniform flow..")
+
+        def generate_uniform_flow(
+                time_interval: Tuple[int, int], _route_id: str, vehicle_count: int
+                ) -> Iterator[Vehicle]:
+            """
+            :param time_interval: of vehicles
+            :param _route_id: id of route that cars will use
+            :param vehicle_count: number of vehicles (equally spaced)
+            :return: Iterator of vehicles
+            """
+            for depart_time in np.linspace(time_interval[0], time_interval[1], vehicle_count):
+                yield Vehicle(round(depart_time), _route_id)
+        self.generators.append(generate_uniform_flow((start_time, end_time), route_id, vehicles))
 
     # ------------------------------------------ Utils  ------------------------------------------
+
+    def save(self, root: Element) -> None:
+        """
+        Appends vehicles from created generators to BST for sorting,
+        afterwards to root of xml file
+
+        :param root: of '.ruo.xml' file
+        :return: None
+        """
+        # Generate vehicles and sort them in BST
+        for generator in self.generators:
+            for vehicle in generator:
+                self.vehicles_bst.binary_insert(vehicle)
+        print(f"Scenario contains: {len(root.findall('vehicle'))} vehicles.")
+        # Add vehicles to xml root
+        self.vehicles_bst.sorted_append(self.vehicles_bst.root, root)
 
     def get_path(self, from_junction_id: str, to_junction_id: str) -> str:
         """
@@ -133,5 +190,3 @@ class VehicleGenerator:
         :return: None
         """
         self.graph = graph
-
-
