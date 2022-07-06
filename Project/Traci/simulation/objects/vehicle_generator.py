@@ -211,7 +211,7 @@ class VehicleGenerator:
         # Add vehicles to xml root
         self.vehicles_bst.sorted_append(self.vehicles_bst.root, root)
 
-    def get_path(self, from_junction_id: str, to_junction_id: str, message: bool) -> str:
+    def get_path(self, from_junction_id: str, to_junction_id: str, message: bool = True) -> str:
         """
         :param from_junction_id: starting junction
         :param to_junction_id: destination junction
