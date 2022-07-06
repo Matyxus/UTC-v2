@@ -6,12 +6,12 @@ class Vehicle(XmlObject):
     # https://sumo.dlr.de/docs/Definition_of_Vehicles%2C_Vehicle_Types%2C_and_Routes.html
     _counter: int = 0  # Variable serving to count number of class instances (to assign id's to vehicles)
 
-    def __init__(self, depart: int = -1, route_id: str = ""):
+    def __init__(self, depart: float = -1, route_id: str = ""):
         super().__init__("vehicle")
         # ---------- Prepare vehicle attributes  ----------
         self.attributes["id"] = f"v{Vehicle._counter}"
         Vehicle._counter += 1
-        self.attributes["depart"] = ("" if depart < 0 else str(depart))
+        self.attributes["depart"] = ("" if depart < 0 else str(round(depart, 2)))
         # Route (id) trough which cars will travel (must be defined in routes.route.xml file !)
         self.attributes["route"] = route_id
         # Average passenger car type (must be defined in routes.route.xml file !)
@@ -29,20 +29,20 @@ class Vehicle(XmlObject):
 
     def set_depart(self, depart_time: int) -> None:
         """
-        :param depart_time: time after which vehicle/s should arrive (seconds)
+        :param depart_time: time after which vehicle/s should arrive (seconds), 2 digit precision
         :return: None
         """
-        self.attributes["depart"] = str(depart_time)
+        self.attributes["depart"] = str(round(depart_time, 2))
 
     # -------------------------------- Getters --------------------------------
 
-    def get_depart(self) -> int:
+    def get_depart(self) -> float:
         """
-        :return: time of vehicle depart (used for sorting), raises error if attribute is not set!
+        :return: time of vehicle depart, 2 digit precision (used for sorting), raises error if attribute is not set!
         """
         if self.attributes["depart"] is None:
             raise AttributeError(f"Attribute 'depart' for vehicle: {self.attributes['id']} is not set!")
-        return int(self.attributes["depart"])
+        return float(self.attributes["depart"])
 
     # -------------------------------- Utils --------------------------------
 

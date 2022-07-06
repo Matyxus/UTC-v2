@@ -48,7 +48,7 @@ class ToPddl(GraphModule):
         #  --------------- Extend network ---------------
         if capacity:
             ret_val["init"].extend(self.extended_network())
-            ret_val["object"]["next"] = [f"use{i}" for i in range(self.max_capacity+1)]
+            ret_val["object"]["use"] = [f"use{i}" for i in range(self.max_capacity+1)]
         return ret_val
 
     def extended_network(self) -> List[str]:

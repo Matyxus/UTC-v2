@@ -1,8 +1,10 @@
 from typing import Dict, List
-from Project.Simplify.components import Graph
-from Project.Traci.scenarios.generators import RoutesGenerator
-from Project.Utils.constants import file_exists, dir_exist, PATH
+from Project.Simplify.components import Graph, Route, Skeleton
+from Project.Traci.scenarios.generators import RoutesGenerator, ConfigGenerator
+from Project.Utils.constants import file_exists, dir_exist, PATH, get_file_name
+import xml.etree.ElementTree as ET
 from os import listdir
+from os.path import splitext
 import re
 
 
@@ -12,21 +14,94 @@ class ResultGenerator:
         self.graph: Graph = graph
         self.route_generator: RoutesGenerator = route_generator
 
+    def results_to_scenario(self, scenario_name: str) -> None:
+        """
+        :param scenario_name:
+        :return:
+        """
+        # ------------------------- Checks  -------------------------
+        if not dir_exist(PATH.TRACI_SCENARIOS.format(scenario_name)):
+            return
+        elif not dir_exist(PATH.TRACI_SCENARIOS.format(scenario_name) + "/results"):
+            return
+        elif not file_exists(PATH.TRACI_SIMULATION.format(scenario_name, "simulation")):
+            return
+        result_files: List[str] = listdir(PATH.TRACI_SCENARIOS.format(scenario_name) + "/results")
+        if not result_files:
+            print(f"No files found in: {listdir(PATH.TRACI_SCENARIOS.format(scenario_name) + '/results')}")
+            return
+        # ------------------------- Init -------------------------
+        result_files = [file.replace(".pddl", "") for file in result_files]  # Remove '.pddl' extension
+        print(f"Result files: {result_files}")
+        # Mapping file extensions to files
+        extensions: Dict[str, List[str]] = {"_planned": []}
+        # Check if files contain some extension -> e.g. '.1', '.2' (some planners may generate
+        # more/better plans given enough time, such files are marked with different extensions)
+        for file in result_files:
+            file_name, file_extension = splitext(file)
+            # No extension present in file or extension is only dot
+            if not file_extension or file_extension == ".":
+                file_extension = ".planned"
+            elif file_extension not in extensions:
+                extensions[file_extension] = []
+            extensions[file_extension].append(file_name)
+        if len(extensions.keys()) > 1:
+            print(f"Found more file extensions: {extensions.keys()}, ")
+            print("'.sumocfg' files will be generated for all of them")
+        print(f"Extensions: {extensions}")
+        root = self.route_generator.root
+        # ------------------------- Generate files -------------------------
+        # Cars and their routes
+        for file_extension, file_name_list in extensions.items():
+            simulation_name: str = f"simulation_{file_extension[1:]}"  # Name of new '.sumocfg' file
+            routes_name: str = f"routes_{file_extension[1:]}"  # Name of new '.ruo.xml' file
+            print(f"Creating '{simulation_name}.sumocfg', '{routes_name}.ruo.xml")
+            unique_routes: Dict[str, str] = {}  # Mapping of edge id's to unique id
+            vehicles: Dict[str, str] = {}  # Mapping of vehicle id's to unique id of their route
+            failure: bool = False
+            for file_name in file_name_list:
+                # Get all vehicles in dictionary, mapping vehicle id to their route (edge id's)
+                paths: Dict[str, str] = self.parse_result(scenario_name, file_name)
+                if not paths:
+                    failure = True
+                    break
+                for vehicle_id, route_edges in paths.items():
+                    # Record route if it does not exist
+                    if route_edges not in unique_routes:
+                        # Create temporary Route class
+                        route: Route = Route(0, [self.graph.skeleton.edges[edge_id] for edge_id in route_edges.split()])
+                        tmp = route.to_xml()
+                        root.insert(0, ET.Element(tmp.tag, tmp.attrib))
+                        unique_routes[route_edges] = route.attributes["id"]
+                    vehicles[vehicle_id] = unique_routes[route_edges]
+            if not failure:
+                # Give '.ruo.xml' new routes, and change vehicle routes
+                for xml_vehicle in root.findall("vehicle"):
+                    xml_vehicle.attrib["route"] = vehicles[xml_vehicle.attrib["id"]]
+                # Create 'ruo.xml' file
+                self.route_generator.save(PATH.TRACI_ROUTES.format(scenario_name, routes_name))
+                # Create '.sumocfg' file
+                config: ConfigGenerator = ConfigGenerator(PATH.TRACI_SIMULATION.format(scenario_name, "simulation"))
+                config.set_routes_file(f"{routes_name}.ruo.xml")
+                config.save(PATH.TRACI_SIMULATION.format(scenario_name, simulation_name))
+            else:
+                print("Failed to generate simulation and route file ...")
 
     def parse_result(self, scenario_name: str, result_name: str) -> Dict[str, str]:
         """
-        :param scenario_name:
-        :param result_name:
-        :return:
+        :param scenario_name: name of scenario (expecting '/results' folder to be present)
+        :param result_name: name of file containing result of pddl planner
+        :return: Dictionary, mapping id's of vehicles to their routes (string of edge id's, separated by space)
         """
         # Mapping of cars to their entire path
         paths: Dict[str, str] = {}
+        result_name = result_name.replace(".pddl", "")
         # Checks
-        if not dir_exist(PATH.TRACI_SCENARIOS.format(scenario_name)):
+        if not file_exists(PATH.TRACI_SCENARIOS_RESULTS.format(scenario_name, result_name)):
             return paths
-        elif not file_exists(PATH.TRACI_SCENARIOS_RESULTS.format(scenario_name, result_name)):
+        elif self.graph is None:
+            print(f"Graph class is not set!")
             return paths
-
         # Parse the result file
         with open(PATH.TRACI_SCENARIOS_RESULTS.format(scenario_name, result_name), "r") as file:
             # Find vehicle, road (expecting all actions correspond to vehicle using such road)
@@ -38,49 +113,26 @@ class ResultGenerator:
                 result: List[str] = re.findall(r"[v|r]\d+", line)
                 if len(result) != 2:
                     print(f"Unknown line in pddl file: {line}")
-                    print(f"Expecting to find pattern: 'v(number)' 'r(number)'")
+                    print(f"Expecting to find pattern: 'v(number)' -> id of vehicle, 'r(number)' -> id of road")
                     print(f"Corresponding to vehicle using road (exactly 1 vehicle and 1 road)!")
                     return {}
-                # Sorted alphabetically in reverse -> [vehicle, road, junction\s]
+                # Sorted alphabetically in reverse -> [vehicle, road]
                 result.sort(key=lambda x: x[0], reverse=True)
                 car_id: str = result[0]
                 route_id: int = int(result[1][1:])
                 if car_id not in paths:
-                    paths[car_id] = ""
-                paths[car_id] += (" ".join(self.graph.skeleton.routes[route_id].get_edge_ids()) + " ")
+                    paths[car_id] = (" ".join(self.graph.skeleton.routes[route_id].get_edge_ids()))
+                else:
+                    paths[car_id] += (" " + " ".join(self.graph.skeleton.routes[route_id].get_edge_ids()))
         return paths
-
-    def results_to_scenario(self, scenario_name: str) -> None:
-        """
-        :param scenario_name:
-        :return:
-        """
-        unique_routes: Dict[str, str] = {}
-        vehicles: Dict[str, str] = {}
-        root = self.route_generator.root
-        for xml_route in root.findall("route"):
-            root.remove(xml_route)
-        # Cars and their routes
-        for i in range(interval):  # 15
-            file: str = f"result{i * 20}_{i * 20 + 20}.1"
-            paths: Dict[str, str] = self.parse_result(scenario_name, file)
-            for vehicle_id, route_edges in paths.items():
-                route_edges = route_edges.rstrip()
-                if route_edges not in unique_routes:
-                    route: Route = Route(0, [self.graph.skeleton.edges[edge_id] for edge_id in route_edges.split()])
-                    tmp = route.to_xml()
-                    root.insert(0, ET.Element(tmp.tag, tmp.attrib))
-                    unique_routes[route_edges] = route.attributes["id"]
-                vehicles[vehicle_id] = unique_routes[route_edges]
-        # Change cars routes
-        for xml_vehicle in root.findall("vehicle"):
-            xml_vehicle.attrib["route"] = vehicles[xml_vehicle.attrib["id"]]
-        self.route_generator.save(PATH.TRACI_SCENARIOS.format(scenario_name)+"/routes1.ruo.xml")
 
 
 # For testing purposes
 if __name__ == "__main__":
-    temp: str = "(drive-to-light v100 j37 r65 j41 j91 use0 use1)"
-    result = re.findall(r"[v|r]\d+", temp)
-    # Sorted alphabetically in reverse -> [vehicle, road, junction\s]
-    print(result)
+    graph: Graph = Graph(Skeleton())
+    graph.loader.load_map("test")
+    graph.simplify.simplify_graph()
+    route_gen: RoutesGenerator = RoutesGenerator(routes_path=PATH.TRACI_ROUTES.format("test3", "routes"))
+    temp: ResultGenerator = ResultGenerator(graph, route_gen)
+    # temp.results_to_scenario("test3")
+

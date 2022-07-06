@@ -38,6 +38,7 @@ class PATH:
     # -------------------------------------- Traci --------------------------------------
     TRACI_SCENARIOS: str = (CWD + "/Traci/scenarios/{0}")  # Path to generated scenarios for SUMO
     TRACI_SIMULATION: str = (CWD + "/Traci/scenarios/{0}/{1}.sumocfg")  # Path to generated '.sumocfg' file
+    TRACI_ROUTES: str = (CWD + "/Traci/scenarios/{0}/{1}.ruo.xml")  # Path to generated '.ruo.xml' file
     TRACI_SCENARIOS_PROBLEMS: str = (CWD + "/Traci/scenarios/{0}/problems/{1}.pddl")  # Path to folder with pddl problems
     TRACI_SCENARIOS_RESULTS: str = (CWD + "/Traci/scenarios/{0}/results/{1}.pddl")  # Path to folder with pddl results
 

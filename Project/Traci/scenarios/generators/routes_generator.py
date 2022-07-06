@@ -6,7 +6,7 @@ from Project.Simplify.components import Graph
 
 
 class RoutesGenerator(Generator):
-    """ Class that generates '.route.xml' files for SUMO """
+    """ Class that generates '.rou.xml' files for SUMO """
 
     def __init__(self, graph: Graph = None, routes_path: str = PATH.SUMO_ROUTES_TEMPLATE):
         """
@@ -16,10 +16,11 @@ class RoutesGenerator(Generator):
         super().__init__(routes_path)
         assert (self.tree is not None)
         assert (self.root is not None)
-        # Binary search tree for sorting vehicles
+        # Class handling generation of vehicles and routes
         self.vehicle_generator: VehicleGenerator = VehicleGenerator(graph)
-        # Memory of previously searched vehicles (start_time, index)
+        # Memory of previously searched vehicles (end_time, index)
         self.previous_search: Tuple[int, int] = (0, 0)
+
 
     # ------------------------------------------Load & Save ------------------------------------------
 
@@ -49,10 +50,10 @@ class RoutesGenerator(Generator):
 
     def get_vehicles(self, start_time: int, end_time: int) -> Dict[str, Tuple[str, str]]:
         """
-        Extracts vehicles from .ruo.xml file, filtered by start/end time as <start_time, end_time)
+        Extracts vehicles from '.ruo.xml' file, filtered by start/end time as <start_time, end_time)
 
         :param start_time: earliest vehicle arrival
-        :param end_time: latest vehicle arrival (without)
+        :param end_time: latest vehicle arrival (without) -> (end_time-1) is the latest arrival of vehicle
         :return: Vehicle dictionary mapping vehicle id to initial and ending junctions of its route
         """
         print("Parsing vehicles")
@@ -61,18 +62,20 @@ class RoutesGenerator(Generator):
             print("XML Tree is not set!")
             return vehicles
         routes: Dict[str, Tuple[str, str]] = {}
-        # Routes
+        # Routes mapping (id: from, to)
         for route in self.root.findall("route"):
             routes[route.attrib["id"]] = (route.attrib["fromJunction"], route.attrib["toJunction"])
+        # Find if previous end_time is less than or equal to current start_time, if so
+        # get saved index of last vehicle
         search_start: int = 0
         if self.previous_search is not None and self.previous_search[0] <= start_time:
-            search_start = self.previous_search[1]
+            search_start = self.previous_search[1]  # Index
         # Vehicles
         for index, vehicle in enumerate(self.root.findall("vehicle")[search_start:]):
-            if start_time <= int(vehicle.attrib["depart"]) <= end_time:
+            if start_time <= int(vehicle.attrib["depart"]) < end_time:
                 vehicles[vehicle.attrib["id"]] = routes[vehicle.attrib["route"]]
-            elif int(vehicle.attrib["depart"]) > end_time:
-                self.previous_search = (start_time, index)
+            elif int(vehicle.attrib["depart"]) >= end_time:
+                self.previous_search = (end_time, index)
                 break
         return vehicles
 

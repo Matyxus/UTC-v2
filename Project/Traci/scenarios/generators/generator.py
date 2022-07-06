@@ -2,11 +2,10 @@ from Project.Utils.constants import file_exists
 from xml.dom import minidom
 from xml.etree.ElementTree import Element, ElementTree
 import xml.etree.ElementTree as ET
-from copy import deepcopy
 
 
 class Generator:
-    """ """
+    """ Parent class for loading '.xml' files """
     def __init__(self, xml_path: str):
         self.tree: ElementTree = None
         self.root: Element = None
@@ -22,10 +21,12 @@ class Generator:
         :param file_path: of xml file to be loaded
         :return: None
         """
+        print(f"Loading xml file: {file_path}")
         if not file_exists(file_path):
             return
         self.tree = ET.parse(file_path)
         self.root = self.tree.getroot()
+        print("Success")
 
     def save(self, file_path: str) -> None:
         """

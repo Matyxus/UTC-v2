@@ -34,6 +34,7 @@ class TraciLauncher(UserInterface):
             "add-cars": self.scenario.routes_generator.vehicle_generator.add_vehicles,
             "add-random-flow": self.scenario.routes_generator.vehicle_generator.random_flow,
             "add-uniform-flow": self.scenario.routes_generator.vehicle_generator.uniform_flow,
+            "add-random-trips": self.scenario.routes_generator.vehicle_generator.random_trips,
             "save": self.save_command,
             "plot": self.scenario.graph.display.plot
         }

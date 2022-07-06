@@ -6,7 +6,8 @@ import numpy as np
 
 
 class VehicleGenerator:
-    """ """
+    """ Class serving for generating vehicles """
+    
     def __init__(self, graph: Graph):
         # -------------- Random --------------
         self.SEED: int = 42
@@ -98,7 +99,7 @@ class VehicleGenerator:
             :param vehicle_interval: minimal and maximal value of vehicles
             :param _period: how often should vehicles be generated
             :param _route_id: id of route used by vehicles
-            :param time_interval: of cars to be sent (randomly selected between two values)
+            :param time_interval: of vehicles arrival time (start_time, end_time)
             :return: Iterator of vehicles
             """
             starting_time: int = time_interval[0] - period
@@ -115,35 +116,82 @@ class VehicleGenerator:
 
     def uniform_flow(
             self, from_junction_id: str, to_junction_id: str,
-            vehicles: int, start_time: int, end_time: int
+            vehicle_count: int, start_time: int, end_time: int
             ) -> None:
         """
         :param from_junction_id: starting junction of cars
         :param to_junction_id: destination junction of cars
-        :param vehicles: number of vehicles (equally spaced)
+        :param vehicle_count: number of vehicles (equally spaced)
         :param start_time: of flow (seconds)
         :param end_time: of flow (seconds)
         :return: None
         """
         assert (end_time > start_time >= 0)
-        assert (vehicles > 0)
+        assert (vehicle_count > 0)
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         if not route_id:
             return
         print("Generating uniform flow..")
 
         def generate_uniform_flow(
-                time_interval: Tuple[int, int], _route_id: str, vehicle_count: int
+                time_interval: Tuple[int, int], _route_id: str, _vehicle_count: int
                 ) -> Iterator[Vehicle]:
             """
-            :param time_interval: of vehicles
+            :param time_interval: of vehicles arrival time (start_time, end_time)
             :param _route_id: id of route that cars will use
-            :param vehicle_count: number of vehicles (equally spaced)
+            :param _vehicle_count: number of vehicles (equally spaced)
             :return: Iterator of vehicles
             """
-            for depart_time in np.linspace(time_interval[0], time_interval[1], vehicle_count):
+            for depart_time in np.linspace(time_interval[0], time_interval[1], _vehicle_count):
                 yield Vehicle(round(depart_time), _route_id)
-        self.generators.append(generate_uniform_flow((start_time, end_time), route_id, vehicles))
+        self.generators.append(generate_uniform_flow((start_time, end_time), route_id, vehicle_count))
+
+    # -------------------------------------------- Trips --------------------------------------------
+
+    def random_trips(self, vehicle_count: int, start_time: int, end_time: int) -> None:
+        """
+        Calculates period (vehicles entering network per period) according to formula:
+        period = (end_time-start_time) / (network_length / 1000) / vehicle_count,
+        randomly selects starting/ending junction to create path vehicles will take.
+        ! May take a while, depending on the network size (to find shortest paths) and
+        the duration (end_time - start_time) -> number of generate vehicles = (end_time - start_time) / period
+
+        :param vehicle_count: Number of vehicles used in formula to calculate period (vehicles/second)
+        :param start_time: starting time of trips
+        :param end_time: ending time of trips
+        :return: None
+        """
+        assert (end_time > start_time >= 0)
+        assert (vehicle_count > 0)
+        print("Generating random trips ...")
+
+        def generate_random_trips(time_interval: Tuple[int, int], _vehicle_count: int) -> Iterator[Vehicle]:
+            """
+            :param time_interval: of vehicles arrival time (start_time, end_time)
+            :param _vehicle_count: number of vehicles
+            :return: Iterator of vehicles
+            """
+            network_length: int = int(sum([
+                edge.get_length() * edge.get_lane_count() for edge in self.graph.skeleton.edges.values()
+            ]))
+            print(f"Network length: {network_length}")
+            duration: int = (time_interval[1] - time_interval[0])
+            period: float = round(duration / (network_length / 1000) / _vehicle_count, 3)
+            print(f"Period: {period}")
+            # Pointers for random.choice (must be a list!)
+            starting_junctions_ptr: List[str] = list(self.graph.skeleton.starting_junctions)
+            ending_junctions_ptr: List[str] = list(self.graph.skeleton.ending_junctions)
+            for i in range(int(duration / period)):
+                # Randomly choose route
+                route_id: str = ""
+                while not route_id:
+                    route_id = self.get_path(
+                        np.random.choice(starting_junctions_ptr),
+                        np.random.choice(ending_junctions_ptr),
+                        message=False
+                    )
+                yield Vehicle(i*period, route_id)
+        self.generators.append(generate_random_trips((start_time, end_time), vehicle_count))
 
     # ------------------------------------------ Utils  ------------------------------------------
 
@@ -163,22 +211,26 @@ class VehicleGenerator:
         # Add vehicles to xml root
         self.vehicles_bst.sorted_append(self.vehicles_bst.root, root)
 
-    def get_path(self, from_junction_id: str, to_junction_id: str) -> str:
+    def get_path(self, from_junction_id: str, to_junction_id: str, message: bool) -> str:
         """
         :param from_junction_id: starting junction
         :param to_junction_id: destination junction
+        :param message: bool (true/false) to print "invalid route" if route is not found
         :return: id of route, None if it does not exist
         """
         assert (self.graph is not None)
         if from_junction_id in self.road_paths and to_junction_id in self.road_paths[from_junction_id]:
             return self.road_paths[from_junction_id][to_junction_id]  # Get route from already found routes
         path: Route = self.graph.shortest_path.a_star(from_junction_id, to_junction_id)[1]
-        if path is None:
-            print(f"Path between {from_junction_id} and {to_junction_id} does not exist!")
-            return ""
         # Record path
         if from_junction_id not in self.road_paths:
             self.road_paths[from_junction_id] = {}
+        # Path doesnt exist, record its non existence with empty string
+        if path is None:
+            if message:
+                print(f"Path between {from_junction_id} and {to_junction_id} does not exist!")
+            self.road_paths[from_junction_id][to_junction_id] = ""
+            return ""
         self.road_paths[from_junction_id][to_junction_id] = path.attributes["id"]
         self.routes.append(path)
         return path.attributes["id"]

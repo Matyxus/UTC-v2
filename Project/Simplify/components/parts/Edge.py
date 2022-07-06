@@ -39,6 +39,21 @@ class Edge(Figure, XmlObject):
         points = [list(map(float, i.split(","))) for i in points]
         return points
 
+    def get_length(self) -> float:
+        """
+        :return: -1 if parameter length does not exist, else length of
+        lane (it is assumed, all lanes of edge have the same length)
+        """
+        if "length" not in self.attributes:
+            return -1
+        return self.attributes["length"]
+
+    def get_lane_count(self) -> int:
+        """
+        :return:
+        """
+        return len(self.lanes.keys())
+
     def plot(self, axes, color: str = "") -> None:
         color = (color if color != "" else self.color)
         for lane_id in self.lanes:

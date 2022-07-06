@@ -4,9 +4,21 @@ from Project.Simplify.graph_modules import ToPddl
 
 
 class ProblemGenerator(PddlProblem):
-    """ Child class of PddlProblem, provides function to add/set parts of pddl file """
+    """
+    Child class of PddlProblem, provides function to add/set parts of pddl problem files, functions as interface for
+    classes implementing specific pddl problems.
+    """
     def __init__(self):
         super().__init__()
+        self.init_pddl_attributes()
+
+    def init_pddl_attributes(self) -> None:
+        """
+        Sets pddl attributes, such as domain, metric, etc., called at __init__
+
+        :return: None
+        """
+        raise NotImplementedError("Init_pddl_attributes method must be implemented by children classes!")
 
     # -------------------------------- Setters --------------------------------
 
@@ -26,8 +38,8 @@ class ProblemGenerator(PddlProblem):
 
     def set_metric(self, metric: str) -> None:
         """
-        :param metric:
-        :return:
+        :param metric: of pddl problem
+        :return: None
         """
         self.attributes["metric"] = metric
 
@@ -63,8 +75,9 @@ class ProblemGenerator(PddlProblem):
         :param predicate: to be added into ':init'
         :return: None
         """
-        if not predicate or predicate[0] != "(" or predicate[-1] != ")":
-            print(f"Invalid predicate: {predicate}")
+        # Check for correct parentheses
+        if not predicate or not predicate.startswith("(") or not predicate.endswith(")"):
+            print(f"Invalid parentheses in predicate: {predicate}!")
             return
         self.attributes["init"].append(predicate)
 
@@ -102,7 +115,7 @@ class ProblemGenerator(PddlProblem):
 
     def clear_attributes(self) -> None:
         """
-        :return: Clears dictionary containing pddl objects (cars, domain, ..) apart from network
+        :return: Clears dictionary containing pddl objects (vehicles, domain, goal, ..) apart from network
         """
         self.attributes.clear()
 
@@ -111,6 +124,12 @@ class ProblemGenerator(PddlProblem):
         :return: Clears dictionary containing pddl representation of road network
         """
         self.network_pddl.clear()
+
+    def clear_vehicles(self) -> None:
+        """
+        :return: Clear dictionary containing pddl representation of vehicles
+        """
+        self.vehicles_pddl.clear()
 
     def save(self, file_path: str) -> None:
         if self.attributes["problem"] is None:
