@@ -202,7 +202,7 @@ class UserInterface:
         mode: int = fstat(stdin.fileno()).st_mode
         return S_ISREG(mode)
 
-    def run_commmand(self, command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
+    def run_command(self, command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
         """
         https://stackoverflow.com/questions/41094707/setting-timeout-when-using-os-system-function
 

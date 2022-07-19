@@ -36,7 +36,23 @@ class ConfigGenerator(Generator):
         """
         self.root.find("input").find("route-files").attrib["value"] = routes_file_path
 
-    # ------------------------------------------Load & Save ------------------------------------------
+    # ------------------------------------------ Getters ------------------------------------------
+
+    def get_network_name(self) -> str:
+        """
+        :return: sumo road network (.net.xml)
+        """
+        if not self.root.find("input").find("net-file").attrib["value"]:
+            return ""
+        return self.root.find("input").find("net-file").attrib["value"]
+
+    def get_routes_file(self) -> str:
+        """
+        :return: path to sumo routes file (.rou.xml)
+        """
+        return self.root.find("input").find("route-files").attrib["value"]
+
+    # ------------------------------------------ Load & Save ------------------------------------------
 
     def load(self, file_path: str) -> None:
         if ".sumocfg" not in file_path and file_path != PATH.SUMO_CONFIG_TEMPLATE:

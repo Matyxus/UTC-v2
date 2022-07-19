@@ -10,19 +10,21 @@ class Converter(UserInterface):
 		super().__init__()
 		self.commands["convert"] = self.convert
 
+	#  ----------------------------------  Input  ----------------------------------
+
 	def run(self) -> None:
 		# Check for command line arguments
 		if len(argv) > 1:
 			print("Launching static input, reading map names from command line arguments")
-			self.static_input()
+			self.argv_input()
 		elif self.is_redirected():  # Check for redirected file
-			super().static_input()
+			self.static_input()
 		else:  # User input
 			print("Launching dynamic input, reading commands entered by user")
 			self.dynamic_input()
 		print("Exiting...")
 
-	def static_input(self) -> None:
+	def argv_input(self) -> None:
 		print(f"Accepting arguments: {argv}")
 		for map_name in argv[1:]:
 			success: bool = self.convert(map_name)

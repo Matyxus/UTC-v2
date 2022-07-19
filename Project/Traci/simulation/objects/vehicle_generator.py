@@ -174,10 +174,8 @@ class VehicleGenerator:
             network_length: int = int(sum([
                 edge.get_length() * edge.get_lane_count() for edge in self.graph.skeleton.edges.values()
             ]))
-            print(f"Network length: {network_length}")
             duration: int = (time_interval[1] - time_interval[0])
             period: float = round(duration / (network_length / 1000) / _vehicle_count, 3)
-            print(f"Period: {period}")
             # Pointers for random.choice (must be a list!)
             starting_junctions_ptr: List[str] = list(self.graph.skeleton.starting_junctions)
             ending_junctions_ptr: List[str] = list(self.graph.skeleton.ending_junctions)
@@ -204,12 +202,13 @@ class VehicleGenerator:
         :return: None
         """
         # Generate vehicles and sort them in BST
+        print(f"Adding vehicles to BST for sorting ...")
         for generator in self.generators:
             for vehicle in generator:
                 self.vehicles_bst.binary_insert(vehicle)
-        print(f"Scenario contains: {len(root.findall('vehicle'))} vehicles.")
         # Add vehicles to xml root
         self.vehicles_bst.sorted_append(self.vehicles_bst.root, root)
+        print(f"Finished sorting: {len(root.findall('vehicle'))} vehicles.")
 
     def get_path(self, from_junction_id: str, to_junction_id: str, message: bool = True) -> str:
         """

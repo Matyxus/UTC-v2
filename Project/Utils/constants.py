@@ -30,7 +30,7 @@ class PATH:
     # Path to folder containing .net.xml maps for SUMO
     NETWORK_SUMO_MAPS: str = (CWD + "/Maps/sumo/{0}.net.xml")
     # --------------------------------------  Pddl --------------------------------------
-    PDDL_DOMAINS: str = (CWD + "/Pddl/Domain/Domains/{0}.pddl")  # Path to folder containing pddl domains
+    PDDL_DOMAINS: str = (CWD + "/Pddl/Domains/{0}.pddl")  # Path to folder containing pddl domains
     PDDL_PLANERS: str = (CWD + "/Pddl/Planners/{0}")   # Path to folder containing pddl planners
     PDDL_GENERATED_PROBLEMS: str = (CWD + "/Pddl/Problems/generated/{0}")  # Path to folder containing pddl problems
     # Path to folder containing results of pddl problems
@@ -38,21 +38,24 @@ class PATH:
     # -------------------------------------- Traci --------------------------------------
     TRACI_SCENARIOS: str = (CWD + "/Traci/scenarios/{0}")  # Path to generated scenarios for SUMO
     TRACI_SIMULATION: str = (CWD + "/Traci/scenarios/{0}/{1}.sumocfg")  # Path to generated '.sumocfg' file
-    TRACI_ROUTES: str = (CWD + "/Traci/scenarios/{0}/{1}.ruo.xml")  # Path to generated '.ruo.xml' file
+    TRACI_ROUTES: str = (CWD + "/Traci/scenarios/{0}/{1}.rou.xml")  # Path to generated '.ruo.xml' file
     TRACI_SCENARIOS_PROBLEMS: str = (CWD + "/Traci/scenarios/{0}/problems/{1}.pddl")  # Path to folder with pddl problems
     TRACI_SCENARIOS_RESULTS: str = (CWD + "/Traci/scenarios/{0}/results/{1}.pddl")  # Path to folder with pddl results
 
 
 # ---------------------------------- Functions ----------------------------------
 
-def get_file_name(file_name: str) -> str:
+def get_file_name(file_path: str) -> str:
     """
-    :param file_name: of file (can be path)
-    :return: name of file
+    :param file_path: of file
+    :return: name of file without extension
     """
-    if not file_name:
-        return file_name
-    return Pt(file_name).stem
+    if not file_path:
+        return file_path
+    # Loop until suffix is removed
+    while Pt(file_path).suffix != "":
+        file_path = Pt(file_path).stem
+    return file_path
 
 
 def file_exists(file_name: str, message: bool = True) -> bool:
@@ -79,3 +82,22 @@ def dir_exist(dir_name: str, message: bool = True) -> bool:
     if message:
         print(f"Directory: {dir_name} does not exist!")
     return False
+
+
+def scenario_is_valid(scenario: str) -> bool:
+    """
+    :param scenario: name of scenario
+    :return: true, if scenario is correct -> (has /problems, /results, 'routes.rou.xml', 'simulation.sumocfg' file)
+    false otherwise
+    """
+    if not dir_exist(PATH.TRACI_SCENARIOS.format(scenario)):
+        return False
+    elif not file_exists(PATH.TRACI_SIMULATION.format(scenario, "simulation")):
+        return False
+    elif not file_exists(PATH.TRACI_ROUTES.format(scenario, "routes")):
+        return False
+    elif not dir_exist(PATH.TRACI_SCENARIOS.format(scenario) + "/problems"):
+        return False
+    elif not dir_exist(PATH.TRACI_SCENARIOS.format(scenario) + "/results"):
+        return False
+    return True

@@ -21,12 +21,11 @@ class RoutesGenerator(Generator):
         # Memory of previously searched vehicles (end_time, index)
         self.previous_search: Tuple[int, int] = (0, 0)
 
-
     # ------------------------------------------Load & Save ------------------------------------------
 
     def load(self, file_path: str) -> None:
-        if ".ruo.xml" not in file_path and file_path != PATH.SUMO_ROUTES_TEMPLATE:
-            print("File must be of type '.ruo.xml'!")
+        if ".rou.xml" not in file_path and file_path != PATH.SUMO_ROUTES_TEMPLATE:
+            print("File must be of type '.rou.xml'!")
             return
         super().load(file_path)
 
@@ -40,20 +39,20 @@ class RoutesGenerator(Generator):
 
     # ------------------------------------------ Utils  ------------------------------------------
 
-    def get_end_time(self) -> int:
+    def get_end_time(self) -> float:
         """
         :return: Last vehicle arrival time (-1 if no vehicles are found)
         """
         if not len(self.root.findall("vehicle")):
             return -1
-        return int(self.root.findall("vehicle")[-1].attrib["depart"])
+        return float(self.root.findall("vehicle")[-1].attrib["depart"])
 
     def get_vehicles(self, start_time: int, end_time: int) -> Dict[str, Tuple[str, str]]:
         """
         Extracts vehicles from '.ruo.xml' file, filtered by start/end time as <start_time, end_time)
 
         :param start_time: earliest vehicle arrival
-        :param end_time: latest vehicle arrival (without) -> (end_time-1) is the latest arrival of vehicle
+        :param end_time: latest vehicle arrival (without)
         :return: Vehicle dictionary mapping vehicle id to initial and ending junctions of its route
         """
         print("Parsing vehicles")
@@ -72,9 +71,10 @@ class RoutesGenerator(Generator):
             search_start = self.previous_search[1]  # Index
         # Vehicles
         for index, vehicle in enumerate(self.root.findall("vehicle")[search_start:]):
-            if start_time <= int(vehicle.attrib["depart"]) < end_time:
+            depart: float = float(vehicle.attrib["depart"])
+            if start_time <= depart < end_time:
                 vehicles[vehicle.attrib["id"]] = routes[vehicle.attrib["route"]]
-            elif int(vehicle.attrib["depart"]) >= end_time:
+            elif depart >= end_time:
                 self.previous_search = (end_time, index)
                 break
         return vehicles
