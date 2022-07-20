@@ -102,13 +102,13 @@ class VehicleGenerator:
             :param time_interval: of vehicles arrival time (start_time, end_time)
             :return: Iterator of vehicles
             """
-            starting_time: int = time_interval[0] - period
+            starting_time: int = time_interval[0] - _period
             ending_time: int = time_interval[0]
             # Generate random vehicle_counts N times (generating_time / period)
-            episodes: int = int((time_interval[0] + time_interval[1]) / period)
+            episodes: int = int((time_interval[0] + time_interval[1]) / _period)
             for vehicle_count in np.random.randint(vehicle_interval[0], vehicle_interval[1]+1, episodes):
-                starting_time += period
-                ending_time += period
+                starting_time += _period
+                ending_time += _period
                 # Generate random departing times for vehicles
                 for depart_time in np.random.randint(starting_time, ending_time, vehicle_count):
                     yield Vehicle(depart_time, _route_id)

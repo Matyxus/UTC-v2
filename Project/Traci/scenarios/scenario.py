@@ -15,7 +15,7 @@ class Scenario:
         self.name: str = scenario_name  # Name of generated directory
         # Sumo config file
         self.config_generator: ConfigGenerator = ConfigGenerator()
-        self.config_generator.set_routes_file("routes.ruo.xml")
+        self.config_generator.set_routes_file("routes.rou.xml")
         self.config_generator.set_network_name(network_name)
         # Graph
         self.graph: Graph = Graph(Skeleton())
@@ -40,7 +40,7 @@ class Scenario:
             # Create simulation.sumocfg (executable)
             self.config_generator.save(dir_path + "simulation.sumocfg")
             # Create routes.rout.xml
-            self.routes_generator.save(dir_path + "routes.ruo.xml")
+            self.routes_generator.save(dir_path + "routes.rou.xml")
             # Add folders for plans, results of pddl plans
             mkdir(dir_path + "problems")
             mkdir(dir_path + "results")

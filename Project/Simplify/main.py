@@ -14,7 +14,7 @@ class Launcher(UserInterface):
         # Maps names of graphs to Graph class
         self.graphs: Dict[str, Skeleton] = {}
         # Set functions to commands (inherited from parent class)
-        self.commands["load"] = [self.load_command, ...]
+        self.commands["load"] = self.load_command
         self.commands["plot"] = self.plot_command
         self.commands["simplify"] = self.simplify_command
         self.commands["subgraph"] = self.sub_graph_command
@@ -154,7 +154,7 @@ class Launcher(UserInterface):
             for edge in route.edge_list:
                 edges.add(edge.attributes["id"])
         command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {path}"
-        self.run_commmand(command)
+        self.run_command(command)
 
 
 # Program start

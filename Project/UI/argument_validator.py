@@ -107,6 +107,11 @@ class ArgumentValidator(Validator):
         """
         if command is not None:
             self.args: Mapping[str, Parameter] = signature(command).parameters
+            # Remove '*args' and '**kwargs'
+            self.args = {
+                key: value for key, value in self.args.items()
+                if value.kind != Parameter.VAR_KEYWORD and value.kind != Parameter.VAR_POSITIONAL
+            }
             self.required_args: int = sum(1 for arg in self.args.values() if arg.default == Parameter.empty)
 
     def get_command_args(self) -> str:

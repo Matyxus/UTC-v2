@@ -1,3 +1,3 @@
-from Project.Pddl.Utils.network import Network
+from Project.Pddl.Utils.constants import PLANNERS
 
 # Forward imports

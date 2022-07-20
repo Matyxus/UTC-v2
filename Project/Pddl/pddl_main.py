@@ -50,7 +50,6 @@ class PddlMain(UserInterface):
             print(f"Class {class_name} is not subclass of PddlLauncher!")
             return
         self.pddl_launcher = instance
-        quit()
         # Prepare new methods
         if len(self.pddl_commands.keys()):  # Remove previous pointers
             self.remove_commands(list(self.pddl_commands.keys()))

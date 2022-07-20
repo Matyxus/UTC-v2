@@ -213,12 +213,17 @@ class UserInterface:
         """
         success: bool = False
         console_output: str = ""
+        print(f"Calling command: {command} with timeout: {timeout}")
         try:
             console_output_byte = subprocess.check_output(command, shell=True, timeout=timeout)
             console_output = console_output_byte.decode(encoding)  # '640x360\n'
             console_output = console_output.strip()  # '640x360'
             success = True
-        except subprocess.CalledProcessError as callProcessErr:
-            if callProcessErr != subprocess.TimeoutExpired:
+        except subprocess.SubprocessError as callProcessErr:
+            # Catch other errors, apart from timeout ...
+            if not isinstance(callProcessErr, subprocess.TimeoutExpired):
                 print(f"Error {str(callProcessErr)}\n\n")
+            else:
+                success = True
+        print(f"Success: {success}")
         return success, console_output

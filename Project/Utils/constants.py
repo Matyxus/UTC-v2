@@ -1,5 +1,5 @@
 from os.path import isfile, isdir
-from typing import FrozenSet, Dict
+from typing import FrozenSet, List
 from pathlib import Path as Pt  # Avoid confusion with PATH Class
 # ----------- Edges -----------
 EDGE_ATTRIBUTES: FrozenSet[str] = frozenset(["id", "from", "to", "type", "shape"])
@@ -56,6 +56,16 @@ def get_file_name(file_path: str) -> str:
     while Pt(file_path).suffix != "":
         file_path = Pt(file_path).stem
     return file_path
+
+
+def get_file_extension(file_path: str) -> List[str]:
+    """
+    :param file_path: of file
+    :return: extension/s of file
+    """
+    if not file_path:
+        return []
+    return Pt(file_path).suffixes
 
 
 def file_exists(file_name: str, message: bool = True) -> bool:
