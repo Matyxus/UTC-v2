@@ -6,10 +6,14 @@ UTC.egg-info
 photos
 literature
 pyvenv.cfg
-Project/Converter/OSMfilter/osmfilter
 
-# Planners
-Project/Pddl/Planners
+# Compiled "osmfilter.c"
+utc/data/osm_filter/osmfilter
+
+# Planners (Cerberus, Merwin)
+/utc/data/planners
+
+
 # File pointer
 *.Identifier
 
