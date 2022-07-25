@@ -1,7 +1,7 @@
 from utc.src.pddl.pddl_problem import PddlResult
 from utc.src.graph.components import Skeleton, Route
 from utc.src.simulator.scenario.generators import RoutesGenerator, ConfigGenerator
-from utc.src.utils.constants import file_exists, dir_exist, PATH, scenario_is_valid, get_file_name
+from utc.src.utils.constants import file_exists, dir_exist, PATH, get_file_name
 from typing import Dict, List
 
 
@@ -28,9 +28,7 @@ class UtcResult(PddlResult):
 
     def results_to_scenario(self, scenario: str, simulation: str, result_files: List[str]) -> None:
         # Checks
-        if not scenario_is_valid(scenario):
-            return
-        elif self.skeleton is None:
+        if self.skeleton is None:
             print("Skeleton of graph is None!")
             return
         unique_routes: Dict[str, str] = {}

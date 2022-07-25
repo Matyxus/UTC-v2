@@ -59,7 +59,7 @@ class ConfigGenerator(Generator):
 
     def get_network_name(self) -> str:
         """
-        :return: sumo road network (.net.xml)
+        :return: full path to sumo road network (.net.xml)
         """
         if not self.root.find("input").find("net-file").attrib["value"]:
             return ""
@@ -67,7 +67,7 @@ class ConfigGenerator(Generator):
 
     def get_routes_file(self) -> str:
         """
-        :return: path to sumo routes file (.rou.xml)
+        :return: full path to sumo routes file (.rou.xml)
         """
         return self.root.find("input").find("route-files").attrib["value"]
 

@@ -80,7 +80,7 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 
-1) [osmfilter.c](https://wiki.openstreetmap.org/wiki/Osmfilter) (located in Project/Converter/OSMfilter) has to be compiled
+1) [osmfilter.c](https://wiki.openstreetmap.org/wiki/Osmfilter) (located in UTC/utc/data/osm_filter) has to be compiled
   ```sh
   gcc osmfilter.c -O3 -o osmfilter
   ```
@@ -108,6 +108,7 @@ Below is an example of how you can instruct your audience on installing and sett
 4. Install planners
 5. Give permission to project enabling it to create: folders, files and execute
 commands with [subprocess](https://docs.python.org/3/library/subprocess.html) library.
+6. Execute UTC/utc/test/test_launcher.py for testing the whole project
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -116,12 +117,13 @@ commands with [subprocess](https://docs.python.org/3/library/subprocess.html) li
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-All main.py files have class that is subclass of UserInterface (UTC/Project/UI), which uses
+All "_launcher.py" files have class that is subclass of UserInterface (UTC/utc/src/ui), which uses
 [prompt_toolkit](https://python-prompt-toolkit.readthedocs.io/en/master/) library to ask
 user for input. Starting by asking for command name, and then command parameter\s (if there are any) will be written
 in format: parameter_name1="", ..., parameter_nameX="default_vale", **all parameters that do not have default value
 must be filled** (between "quotes"). Supports command/parameters history and validation, command name completion,
-taking input from file (each line has to have at most 1 command and parameters separated by space and in format described earlier),
+taking input from file (each line has to have at most 1 command and corresponding parameters separated by space
+and in format described earlier),
 then input can be redirected as such:
    ```sh
    python main.py < your_file
@@ -130,7 +132,7 @@ Base commands are **_help_** (which prints all commands, their parameters and th
 the program.
 
 1. Downloading maps from [OpenStreetMap](https://www.openstreetmap.org/). \
-Save them in UTC/Project/Maps/osm/original folder.
+Save them in UTC/utc/data/maps/osm/original folder.
 2. Convert downloaded maps into '.net.xml' format.
    ```sh
    python converter.py map_name1 map_name2 ...
@@ -142,16 +144,15 @@ Save them in UTC/Project/Maps/osm/original folder.
    ```
    ![converter example](Images/converter_input_example.PNG)
 3. Generate scenario. \
-Scenarios can be found in (UTC/Project/Traci/scenarios) and they consist of: 
+Scenarios can be found in (UTC/utc/data/scenarios) and they consist of: 
    ```
-   name
-   │   simulation.sumocfg
-   │   routes.ruo.xml   
-   │   info.txt (file containing commands used go generate this scenario)
-   │   (If planner was used, then more '.sumocfg' and 'info' files)
-   │   (statistics if their generation was enabled)
-   └───problems (pddl representation of problem)
-   └───results (pddl results of planner)
+   scenarios
+      |
+      └─── simulation ("[scenario].sumocfg", where scenario is name chosen by user)
+      └─── routes ("[scenario].ruo.xml" files)   
+      └─── statistics (folder containg statistics, same name as generated [scenario])
+      └─── problems (".pddl" problem files, name of scenario as prefix in files)
+      └─── results (".pddl" results files, name of scenario as prefix in files)
    ```
 4. (Optional) Generate sub-graph for road network used in scenario. \
 Planners can take long time to generate solutions if road network (or number of cars)

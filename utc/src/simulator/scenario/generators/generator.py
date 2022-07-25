@@ -2,11 +2,13 @@ from utc.src.utils.constants import file_exists
 from xml.dom import minidom
 from xml.etree.ElementTree import Element, ElementTree
 import xml.etree.ElementTree as ET
+from utc.src.utils.constants import get_file_name
 
 
 class Generator:
     """ Parent class for loading '.xml' files """
     def __init__(self, xml_path: str):
+        self.name: str = ""
         self.tree: ElementTree = None
         self.root: Element = None
         self.load(xml_path)
@@ -26,6 +28,7 @@ class Generator:
             return
         self.tree = ET.parse(file_path)
         self.root = self.tree.getroot()
+        self.name = get_file_name(file_path)
         print("Success")
 
     def save(self, file_path: str) -> None:

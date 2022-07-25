@@ -5,8 +5,8 @@ from utc.src.simulator.simulation import SimulationLauncher
 from typing import Dict
 
 
-class TraciLauncher(UserInterface):
-    """ Class that ask user for input related to generating SUMO scenarios, planning and running scenarios """
+class ScenarioLauncher(UserInterface):
+    """ Class that ask user for input related to generating SUMO scenarios, generating and running scenarios """
 
     def __init__(self):
         super().__init__()
@@ -50,6 +50,6 @@ class TraciLauncher(UserInterface):
 
 
 if __name__ == "__main__":
-    traci_launcher: TraciLauncher = TraciLauncher()
-    traci_launcher.dynamic_input()
+    scenario_launcher: ScenarioLauncher = ScenarioLauncher()
+    scenario_launcher.run()
 
