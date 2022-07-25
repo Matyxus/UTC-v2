@@ -1,12 +1,10 @@
 from utc.src.pddl.pddl_problem import PddlLauncher
 from utc.src.pddl.utc_problem.utc_problem import UtcProblem
-from utc.src.pddl.utc_problem.utc_result import UtcResult
 from utc.src.simulator.scenario.generators import RoutesGenerator, ConfigGenerator
-from utc.src.graph.components import Skeleton, Graph, Route
+from utc.src.graph.components import Route
 from utc.src.utils.constants import file_exists, get_file_extension, PATH, get_planner, get_file_name, dir_exist
-from utc.src.ui import UserInterface
-from typing import List, Callable, Optional, Tuple, Set, Dict
-from os import listdir, rename, mkdir
+from typing import List, Dict
+from os import listdir
 import xml.etree.ElementTree as ET
 
 
@@ -158,10 +156,10 @@ class UtcLauncher(PddlLauncher):
                 paths[car_id] += (" ".join(self.graph.skeleton.routes[route_id].get_edge_ids()) + " ")
         return paths
 
-    def results_to_scenario(self, extension: str,  result_files: List[str]) -> None:
+    def results_to_scenario(self, extension: str, result_files: List[str]) -> None:
         """
 
-        :param extension: extension of result_files (will be used in ".sumocfg" and "rou.xml" file names
+        :param extension: extension of result_files (will be used in ".sumocfg" and ".rou.xml" file names)
         :param result_files: result files corresponding to extension
         :return:
         """
@@ -196,16 +194,3 @@ class UtcLauncher(PddlLauncher):
         route_generator.save(PATH.SCENARIO_ROUTES.format(self.new_scenario_name + extension))
         config_generator.set_routes_file(PATH.SCENARIO_ROUTES.format(self.new_scenario_name + extension))
         config_generator.save(PATH.SCENARIO_SIM_PLANNED.format(self.new_scenario_name + extension))
-
-
-# For testing purposes
-if __name__ == "__main__":
-    tmp: UserInterface = UserInterface()
-    utc_launcher: UtcLauncher = UtcLauncher()
-    utc_launcher.initialize("test", "test_planned", tmp.run_command, network="test")
-    # utc_launcher.generate_problems("utc")
-    # utc_launcher.generate_results("merwin", "utc")
-    utc_launcher.generate_scenario()
-    # utc_launcher.generate_problems("test2", network="test", window=10)
-    # utc_launcher.generate_results("test2", "Cerberus", "utc")
-
