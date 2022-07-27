@@ -8,7 +8,8 @@ from utc.src.utils.constants import get_file_name
 class Generator:
     """ Parent class for loading '.xml' files """
     def __init__(self, xml_path: str):
-        self.name: str = ""
+        self.name: str = ""  # Name of file
+        self.path: str = ""  # Full path to file
         self.tree: ElementTree = None
         self.root: Element = None
         self.load(xml_path)
@@ -29,6 +30,7 @@ class Generator:
         self.tree = ET.parse(file_path)
         self.root = self.tree.getroot()
         self.name = get_file_name(file_path)
+        self.path: str = file_path
         print("Success")
 
     def save(self, file_path: str) -> None:
@@ -53,3 +55,4 @@ class Generator:
         rough_string = ET.tostring(root, 'utf-8', xml_declaration=True)
         re_parsed = minidom.parseString(rough_string)
         return re_parsed.toprettyxml(indent="  ")
+

@@ -1,11 +1,9 @@
 from utc.src.pddl.pddl_problem import PddlLauncher
 from utc.src.pddl.utc_problem.utc_problem import UtcProblem
-from utc.src.simulator.scenario.generators import RoutesGenerator, ConfigGenerator
-from utc.src.graph.components import Route
-from utc.src.utils.constants import file_exists, get_file_extension, PATH, get_planner, get_file_name, dir_exist
-from typing import List, Dict
+from utc.src.pddl.utc_problem.utc_result import UtcResult
+from utc.src.utils.constants import file_exists, PATH, get_planner, get_file_name, dir_exist
+from typing import List
 from os import listdir
-import xml.etree.ElementTree as ET
 
 
 class UtcLauncher(PddlLauncher):
@@ -35,9 +33,9 @@ class UtcLauncher(PddlLauncher):
             return
         # Initialize PddlProblem
         self.pddl_problem = UtcProblem()
-        self.pddl_problem.pddl_network.process_graph(self.graph.skeleton)
+        self.pddl_problem.pddl_network.process_graph(self.scenario.graph.skeleton)
         # Start generating problem files
-        last_vehicle_depart: float = self.routes.get_end_time()
+        last_vehicle_depart: float = self.scenario.routes_generator.get_end_time()
         interval: int = max(int(round(last_vehicle_depart / window)), 1)
         print(f"Generating {interval} problem files")
         problem_files: List[str] = []
@@ -45,7 +43,9 @@ class UtcLauncher(PddlLauncher):
         end_time: int = window
         for i in range(interval):
             self.pddl_problem.set_problem_name(f"{self.new_scenario_name}_problem{start_time}_{end_time}")
-            self.pddl_problem.pddl_vehicle.add_vehicles(self.routes.get_vehicles(start_time, end_time))
+            self.pddl_problem.pddl_vehicle.add_vehicles(
+                self.scenario.routes_generator.get_vehicles(start_time, end_time)
+            )
             self.pddl_problem.save(
                 PATH.SCENARIO_PROBLEMS.format(self.new_scenario_name, self.pddl_problem.problem_name)
             )
@@ -110,87 +110,8 @@ class UtcLauncher(PddlLauncher):
         if not self.is_initialized():
             print("UtcLauncher must be initialized with method: 'initialize' !")
             return
-        elif not dir_exist(self.results_dir, message=False):
-            print(f"Result directory does not exist, generate result files before converting to scenario!")
+        elif not dir_exist(self.results_dir, message=False) or len(listdir(self.results_dir)) == 0:
+            print(f"Pddl result files must be generated before calling 'generate_scenario'!")
             return
-        result_files: List[str] = listdir(self.results_dir)
-        if not len(result_files):
-            print(f"Result directory is empty, generate results before converting to scenario!")
-            return
-        # Check all result files for multiple extension, group them by extension
-        scenarios: Dict[str, List[str]] = {
-            # extension : [file1, ....]
-        }
-        for result_file in result_files:
-            # Expecting all files to be '.pddl'
-            assert (result_file.endswith(".pddl"))
-            extension: str = "".join(get_file_extension(result_file))
-            if extension not in scenarios:
-                scenarios[extension] = []
-            scenarios[extension].append(get_file_name(result_file))
-        if len(scenarios.keys()) > 1:
-            print(f"Found multiple extensions of pddl result files: {scenarios.keys()}")
-            print("Generating '.sumocfg' files for each of them")
-        for extension, result_files in scenarios.items():
-            assert (extension.endswith(".pddl"))
-            extension = extension.replace(".pddl", "")
-            print(f"Generating scenario for extension: {extension}, result file: {result_files}")
-            self.results_to_scenario(extension, result_files)
-
-# ----------------------------------------------- Temporary -----------------------------------------------
-
-    def parse_result(self, result_name: str) -> dict:
-        """
-
-        :param result_name: name of pddl result file
-        :return: Dictionary mapping vehicle_id to edge id's
-        """
-        paths: Dict[str, str] = {}
-        with open(PATH.SCENARIO_RESULTS.format(self.new_scenario_name, result_name), "r") as file:
-            for line in file:
-                line = line.split()
-                car_id: str = line[1]
-                route_id: int = int(line[3][1:])
-                if car_id not in paths:
-                    paths[car_id] = ""
-                paths[car_id] += (" ".join(self.graph.skeleton.routes[route_id].get_edge_ids()) + " ")
-        return paths
-
-    def results_to_scenario(self, extension: str, result_files: List[str]) -> None:
-        """
-
-        :param extension: extension of result_files (will be used in ".sumocfg" and ".rou.xml" file names)
-        :param result_files: result files corresponding to extension
-        :return:
-        """
-        unique_routes: Dict[str, str] = {}
-        vehicles: Dict[str, str] = {}
-        # Create new routes, config, since we modify them
-        route_generator: RoutesGenerator = RoutesGenerator(
-            routes_path=PATH.SCENARIO_ROUTES.format(self.simulation.name)
-        )
-        config_generator: ConfigGenerator = ConfigGenerator(PATH.SCENARIO_SIM_GENERATED.format(self.simulation.name))
-        # Remove all routes, they will be replaced by new routes
-        for xml_route in route_generator.root.findall("route"):
-            route_generator.root.remove(xml_route)
-        # Parse all result files (names of result files)
-        for file in result_files:
-            # Get dict mapping vehicles to their
-            paths: Dict[str, str] = self.parse_result(file + extension)
-            for vehicle_id, route_edges in paths.items():
-                route_edges = route_edges.rstrip()
-                # Record new route
-                if route_edges not in unique_routes:
-                    route: Route = Route(0, [self.graph.skeleton.edges[edge_id] for edge_id in route_edges.split()])
-                    tmp = route.to_xml()
-                    # Insert behind "vType"
-                    route_generator.root.insert(1, ET.Element(tmp.tag, tmp.attrib))
-                    unique_routes[route_edges] = route.attributes["id"]
-                vehicles[vehicle_id] = unique_routes[route_edges]
-        # Change cars routes
-        for xml_vehicle in route_generator.root.findall("vehicle"):
-            xml_vehicle.attrib["route"] = vehicles[xml_vehicle.attrib["id"]]
-        extension = extension.replace(".", "_")
-        route_generator.save(PATH.SCENARIO_ROUTES.format(self.new_scenario_name + extension))
-        config_generator.set_routes_file(PATH.SCENARIO_ROUTES.format(self.new_scenario_name + extension))
-        config_generator.save(PATH.SCENARIO_SIM_PLANNED.format(self.new_scenario_name + extension))
+        self.pddl_result = UtcResult(self.scenario)
+        self.pddl_result.results_to_scenario(self.new_scenario_name)

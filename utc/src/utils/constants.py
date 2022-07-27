@@ -19,8 +19,8 @@ class PATH:
     CWD: str = str(Pt(__file__).parent.parent.parent)  # Project Root (UTC/utc)
     OSM_FILTER: str = (CWD + "/data/osm_filter/osmfilter")  # Path to osmfilter (executable)
     # -------------------------------------- Templates --------------------------------------
-    SUMO_CONFIG_TEMPLATE: str = (CWD + "/data/templates/sumo_config.xml")   # Template for '.sumocfg' file
-    SUMO_ROUTES_TEMPLATE: str = (CWD + "/data/templates/sumo_routes.xml")   # Template for '.ruo.xml' file
+    SUMO_CONFIG_TEMPLATE: str = (CWD + "/data/templates/sumo_config.sumocfg")   # Template for '.sumocfg' file
+    SUMO_ROUTES_TEMPLATE: str = (CWD + "/data/templates/sumo_routes.rou.xml")   # Template for '.ruo.xml' file
     # -------------------------------------- Maps --------------------------------------
     # Path to folder containing maps from open street map (.osm)
     ORIGINAL_OSM_MAPS: str = (CWD + "/data/maps/osm/original/{0}.osm")
@@ -31,6 +31,8 @@ class PATH:
     # --------------------------------------  Pddl --------------------------------------
     PDDL_DOMAINS: str = (CWD + "/data/domains/{0}.pddl")  # Path to folder containing pddl domains
     PDDL_PLANERS: str = (CWD + "/data/planners/{0}")   # Path to folder containing pddl planners
+    PDDL_PROBLEMS: str = (CWD + "/data/scenarios/problems")  # Path to folder containing pddl problems
+    PDDL_RESULTS: str = (CWD + "/data/scenarios/results")  # Path to folder containing pddl results
     # -------------------------------------- Scenarios --------------------------------------
     # Path to folder with pddl problems (specific to scenario)
     SCENARIO_PROBLEMS: str = (CWD + "/data/scenarios/problems/{0}/{1}.pddl")
@@ -74,8 +76,8 @@ def get_file_name(file_path: str) -> str:
     :param file_path: of file
     :return: name of file without extension
     """
-    if not file_path:
-        return file_path
+    # if not file_path:
+    #    return file_path
     # Loop until suffix is removed
     while Pt(file_path).suffix != "":
         file_path = Pt(file_path).stem
@@ -87,8 +89,8 @@ def get_file_extension(file_path: str) -> List[str]:
     :param file_path: of file
     :return: extension/s of file
     """
-    if not file_path:
-        return []
+    # if not file_path:
+    #    return []
     return Pt(file_path).suffixes
 
 
@@ -120,7 +122,7 @@ def dir_exist(dir_name: str, message: bool = True) -> bool:
 
 # For testing purposes
 if __name__ == "__main__":
-    pass
+    print(get_file_extension(""))
 
 
 

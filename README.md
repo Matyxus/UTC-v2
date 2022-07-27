@@ -142,10 +142,10 @@ Scenarios structure is following (located in [data folder](./utc/data)):
       └─── routes ("[scenario].rou.xml" files)   
       └─── problems (".pddl" problem files, name of scenario as prefix in files)
       │       │
-      │       └─── [scenario] (pddl problem generated from [scenario])
+      │       └─── [scenario] (folder of pddl problems generated from [scenario])
       └─── results (".pddl" results files, name of scenario as prefix in files)
-      │       │
-      │       └─── [scenario] (pddl result generated from [scenario])
+              │
+              └─── [scenario] (folder of pddl results generated from [scenario])
    Note: [scenario] is name chosen by user (when generating
    planned scenario, new [scenario] name is inputted by user, all
    ".sumocfg" files must have unique names, 
@@ -154,7 +154,7 @@ Scenarios structure is following (located in [data folder](./utc/data)):
 
 
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 <!-- USAGE EXAMPLES -->
 ## Usage
 

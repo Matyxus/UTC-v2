@@ -52,17 +52,7 @@ class VehicleGenerator:
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         if not route_id:
             return
-
-        def generate_vehicles(_amount: int, _route_id: str, depart: int) -> Iterator[Vehicle]:
-            """
-            :param _amount: of vehicles
-            :param _route_id: id of route used by vehicles
-            :param depart: departure time of vehicles
-            :return: Iterator of vehicles
-            """
-            for i in range(_amount):
-                yield Vehicle(depart, _route_id)
-        self.generators.append(generate_vehicles(amount, route_id, depart_time))
+        self.generators.append((Vehicle(depart_time, route_id) for _ in range(amount)))
 
     # -------------------------------------------- Flows --------------------------------------------
 
@@ -211,7 +201,7 @@ class VehicleGenerator:
             root.append(route.to_xml())
         # Add vehicles to xml root
         self.vehicles_bst.sorted_append(self.vehicles_bst.root, root)
-        print(f"Finished sorting: {len(root.findall('vehicle'))} vehicles.")
+        print(f"Finished adding: {len(root.findall('vehicle'))} vehicles")
 
     def get_path(self, from_junction_id: str, to_junction_id: str, message: bool = True) -> str:
         """

@@ -1,6 +1,7 @@
 from utc.src.simulator.scenario.generators.generator import Generator
-from utc.src.utils.constants import PATH, file_exists
-from typing import List
+from utc.src.utils.constants import PATH, file_exists, dir_exist
+from typing import List, Optional
+from os import listdir
 
 
 class ConfigGenerator(Generator):
@@ -16,12 +17,6 @@ class ConfigGenerator(Generator):
         assert (self.root.find("input") is not None)
         assert (self.root.find("input").find("net-file") is not None)
         assert (self.root.find("input").find("route-files") is not None)
-        assert (self.root.find("pddl").find("problem-files") is not None)
-        assert (self.root.find("pddl").find("result-files") is not None)
-        assert ("value" in self.root.find("input").find("net-file").attrib)
-        assert ("value" in self.root.find("input").find("route-files").attrib)
-        assert ("value" in self.root.find("pddl").find("problem-files").attrib)
-        assert ("value" in self.root.find("pddl").find("result-files").attrib)
 
     # ------------------------------------------ Setters ------------------------------------------
 
@@ -41,25 +36,11 @@ class ConfigGenerator(Generator):
         """
         self.root.find("input").find("route-files").attrib["value"] = routes_file_path
 
-    def set_problem_files(self, problem_files: List[str]) -> None:
-        """
-        :param problem_files: names of pddl problem files (that generated this simulation)
-        :return: None
-        """
-        self.root.find("pddl").find("problem-files").attrib["value"] = " ".join(problem_files)
-
-    def set_result_files(self, result_files: List[str]) -> None:
-        """
-        :param result_files: names of pddl result files (that generated this simulation)
-        :return: None
-        """
-        self.root.find("pddl").find("result-files").attrib["value"] = " ".join(result_files)
-
     # ------------------------------------------ Getters ------------------------------------------
 
     def get_network_name(self) -> str:
         """
-        :return: full path to sumo road network (.net.xml)
+        :return: full path to sumo road network (".net.xml")
         """
         if not self.root.find("input").find("net-file").attrib["value"]:
             return ""
@@ -67,26 +48,32 @@ class ConfigGenerator(Generator):
 
     def get_routes_file(self) -> str:
         """
-        :return: full path to sumo routes file (.rou.xml)
+        :return: full path to sumo routes file (".rou.xml")
         """
         return self.root.find("input").find("route-files").attrib["value"]
 
-    def get_problem_files(self) -> List[str]:
+    def get_problem_files(self) -> Optional[List[str]]:
         """
-        :return: names of pddl problem files (that generated this simulation)
+        :return: names (with extension) of pddl problem files (generated from this scenario),
+        None if directory does not exist
         """
-        return self.root.find("pddl").find("problem-files").attrib["value"].split()
+        if dir_exist(PATH.CWD + f"/data/scenarios/problems/{self.name}", message=False):
+            return listdir(PATH.CWD + f"/data/scenarios/problems/{self.name}")
+        return None
 
-    def get_result_files(self):
+    def get_result_files(self) -> Optional[List[str]]:
         """
-        :return: names of pddl result files (that generated this simulation)
+        :return: names of pddl result files (that generated this simulation),
+        None if directory does not exist
         """
-        return self.root.find("pddl").find("result-files").attrib["value"].split()
+        if dir_exist(PATH.CWD + f"/data/scenarios/results/{self.name}", message=False):
+            return listdir(PATH.CWD + f"/data/scenarios/results/{self.name}")
+        return None
 
     # ------------------------------------------ Load & Save ------------------------------------------
 
     def load(self, file_path: str) -> None:
-        if ".sumocfg" not in file_path and file_path != PATH.SUMO_CONFIG_TEMPLATE:
+        if not file_path.endswith(".sumocfg") and file_path != PATH.SUMO_CONFIG_TEMPLATE:
             print(f"Error, expect file type to be: '.sumocfg', got: {file_path}")
             return
         super().load(file_path)

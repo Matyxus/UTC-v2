@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 try:
-    setup(name='UTC', version='1.0', packages=find_packages())
+    setup(name='UTC', version='1.0', python_requires='>=3.9', packages=find_packages())
 finally:
     # Initialize data directory in /utc
     from os import mkdir

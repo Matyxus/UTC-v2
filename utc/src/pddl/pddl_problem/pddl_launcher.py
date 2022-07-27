@@ -1,8 +1,7 @@
 from utc.src.pddl.pddl_problem.pddl_problem import PddlProblem
 from utc.src.pddl.pddl_problem.pddl_result import PddlResult
-from utc.src.simulator.scenario.generators import ConfigGenerator, RoutesGenerator
-from utc.src.graph.components import Graph, Skeleton
-from utc.src.utils.constants import PATH, file_exists, get_file_name, dir_exist
+from utc.src.simulator.scenario import Scenario
+from utc.src.utils.constants import PATH, file_exists, dir_exist
 from os import mkdir, listdir, rename
 from typing import List
 
@@ -11,15 +10,14 @@ class PddlLauncher:
     """ Class that implements interface methods for generating pddl problems/results """
 
     def __init__(self):
-        self.graph: Graph = None
         # -------------- Pddl --------------
         self.pddl_problem: PddlProblem = None
         self.pddl_result: PddlResult = None
         # function able to call commands into shell/cmd (expecting 'UserInterface.run_command')
         self.shell: callable = None
         # Scenario
-        self.simulation: ConfigGenerator = None
-        self.routes: RoutesGenerator = None
+        self.scenario: Scenario = None
+        self.new_scenario: Scenario = None
         self.new_scenario_name: str = ""
         # Directories for pddl problem/result files (format string, formatted by initialize)
         self.problems_dir: str = (PATH.CWD + "/data/scenarios/problems/{0}")
@@ -39,7 +37,7 @@ class PddlLauncher:
         :return: None
         """
         # Checks
-        if not file_exists(PATH.SCENARIO_SIM_GENERATED.format(scenario)):
+        if not file_exists(PATH.SCENARIO_SIM_GENERATED.format(scenario)):  # Scenario must be user generated
             return False
         elif not file_exists(PATH.SCENARIO_ROUTES.format(scenario)):
             return False
@@ -53,21 +51,12 @@ class PddlLauncher:
             print(f"Method 'shell' is None!")
             return False
         self.shell = shell
-        # Load scenario
-        self.simulation = ConfigGenerator(PATH.SCENARIO_SIM_GENERATED.format(scenario))
-        # (graph is not needed for routes, since we are not generating vehicles here)
-        self.routes = RoutesGenerator(routes_path=PATH.SCENARIO_ROUTES.format(scenario))
-        self.new_scenario_name = new_scenario
-        # Load graph
-        if network == "default":
-            network = get_file_name(self.simulation.get_network_name())
-            print(f"Extracted network from scenario -> {network}")
-        if not file_exists(PATH.NETWORK_SUMO_MAPS.format(network)):
+        try:
+            self.scenario = Scenario(scenario, network=network)
+        except (FileNotFoundError, ValueError) as e:   # Error occurred during loading of scenario
             return False
-        self.graph = Graph(Skeleton())
-        self.graph.loader.load_map(network)
-        self.graph.simplify.simplify_graph()
-        self.graph.skeleton.validate_graph()
+        self.new_scenario_name = new_scenario
+        self.scenario.graph.skeleton.validate_graph()
         self.problems_dir = self.problems_dir.format(self.new_scenario_name)
         self.results_dir = self.results_dir.format(self.new_scenario_name)
         return True
@@ -75,7 +64,19 @@ class PddlLauncher:
     def generate_problems(self, domain: str, *args, **kwargs) -> None:
         """
         Generates ".pddl" problem files corresponding to loaded scenario,
-        their name must contain "new_scenario" attribute, extension must be ".pdd"
+        their name must contain "new_scenario" attribute, extension must be ".pddl"
+
+        :param domain: name of pddl domain (must be in /utc/data/domains)
+        :param args: additional arguments
+        :param kwargs: additional arguments
+        :return: None
+        """
+        raise NotImplementedError("Method 'generate_problems' must be implemented by children of PddlLauncher")
+
+    def generate_problem(self, domain: str, *args, **kwargs) -> None:
+        """
+        Generates ".pddl" problem files corresponding to loaded scenario,
+        their name must contain "new_scenario" attribute, extension must be ".pddl"
 
         :param domain: name of pddl domain (must be in /utc/data/domains)
         :param args: additional arguments
@@ -85,6 +86,21 @@ class PddlLauncher:
         raise NotImplementedError("Method 'generate_problems' must be implemented by children of PddlLauncher")
 
     def generate_results(self, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
+        """
+        Generates ".pddl" results files to loaded scenario,
+        their name must contain "new_scenario" attribute, extension must be ".pdd"
+
+
+        :param planner: name of planner to be used (must be defined in /utc/src/util/constants -> PLANNERS)
+        :param domain: name of pddl domain (must be in /utc/data/domains)
+        :param timeout: seconds given to planner execution
+        :param args: additional arguments
+        :param kwargs: additional arguments
+        :return: None
+        """
+        raise NotImplementedError("Method 'generate_results' must be implemented by children of PddlLauncher")
+
+    def generate_result(self, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
         """
         Generates ".pddl" results files to loaded scenario,
         their name must contain "new_scenario" attribute, extension must be ".pdd"
@@ -137,28 +153,29 @@ class PddlLauncher:
         print(f"Successfully created directory {dir_path}")
         return True
 
-    def check_pddl_extension(self, path: str) -> None:
+    def check_pddl_extension(self, dir_path: str) -> None:
         """
         Checks if files in directory end with ".pddl" extension,
         if not, renames such files.
 
+        :param dir_path: path to directory
         :return: None
         """
-        if not dir_exist(path, message=False):
-            print(f"Invalid directory: {path} passed to method: 'check_pddl_extension'")
+        if not dir_exist(dir_path, message=False):
+            print(f"Invalid directory: {dir_path} passed to method: 'check_pddl_extension'")
             return
-        files: List[str] = listdir(path)
+        files: List[str] = listdir(dir_path)
         for file in files:
             # Add absolute path
-            file = path + "/" + file
+            file = dir_path + "/" + file
             if file.endswith(".pddl"):
                 continue
             # If ".pddl" extension is not last, remove it
             new_file = file.replace(".pddl", "")
             new_file += ".pddl"
-            if file_exists(path + f"/{new_file}", message=False):
+            if file_exists(dir_path + f"/{new_file}", message=False):
                 print(f"Cannot change extension of: {file}, because {new_file} already exists!")
-                return
+                continue
             rename(file, new_file)
             print(f"Done renaming file: {file} -> {new_file}")
 
@@ -166,19 +183,10 @@ class PddlLauncher:
         """
         :return: True if Class was initialized with "initialize" method, false otherwise
         """
-        if self.simulation is None:
-            print("simulation is None")
-            return False
-        elif self.routes is None:
-            print("routes is None")
-            return False
-        elif self.graph is None:
-            print("graph is None")
+        if self.scenario is None:
             return False
         elif self.shell is None:
-            print("shell is None")
             return False
         elif not self.new_scenario_name:
-            print("new_scenario_name is None")
             return False
         return True
