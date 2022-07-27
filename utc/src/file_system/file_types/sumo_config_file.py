@@ -112,7 +112,6 @@ class SumoConfigFile(XmlFile):
         return True
 
     def get_file_path(self, file_name: str) -> str:
-        print("Getting file path")
         # Quick check
         if not file_name:
             return file_name

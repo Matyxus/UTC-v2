@@ -155,7 +155,7 @@ class MyFile:
         file_path = str(file_path)
         if isfile(file_path):
             ret_val = True
-        if message:
+        elif message:
             print(f"File: '{file_path}' does not exist!")
         return ret_val
 

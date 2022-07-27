@@ -89,6 +89,6 @@ class Scenario:
 
 # For testing purposes
 if __name__ == "__main__":
-    temp: Scenario = Scenario("test")
+    temp: Scenario = Scenario("new_scenario", network="Chodov")
 
 

@@ -26,7 +26,7 @@ class Loader(GraphModule):
         :return: True on success, false otherwise
         """
         file_name = get_file_name(file_name)
-        print(f"Loading road network form: {PATH.NETWORK_SUMO_MAPS.format(file_name)}")
+        print(f"Loading road network from: {PATH.NETWORK_SUMO_MAPS.format(file_name)}")
         if not (file_exists(PATH.NETWORK_SUMO_MAPS.format(file_name))):
             return False
         self.root = ET.parse(PATH.NETWORK_SUMO_MAPS.format(file_name)).getroot()
