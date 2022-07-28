@@ -1,9 +1,8 @@
 from utc.src.file_system import MyFile, SumoConfigFile, SumoRoutesFile
 from utc.src.simulator.simulation import VehicleGenerator
-from utc.src.utils.constants import PATH, file_exists, get_file_name
-from utc.src.simulator.scenario.generators import RoutesGenerator
+from utc.src.utils.constants import PATH
 from utc.src.graph.components import Graph, Skeleton
-from typing import List, Optional
+from typing import Optional
 
 
 class Scenario:
@@ -61,6 +60,8 @@ class Scenario:
         self.graph: Graph = Graph(Skeleton())
         self.graph.loader.load_map(network)  # No need to check for network existence, SumoConfig does that
         self.graph.simplify.simplify_graph()
+        # Vehicle generator
+        self.vehicle_generator = VehicleGenerator(self.graph)
         # Sumo routes file
         self.routes_generator = SumoRoutesFile(routes_path)
         if not self.routes_generator.check_file():
@@ -75,13 +76,19 @@ class Scenario:
         PATH.SCENARIO_SIM_GENERATED or PATH.SCENARIO_SIM_PLANNED)
         :return: True on success, false otherwise
         """
+        print(f"Saving scenario: {self.name}")
+        # Check
+        if self.routes_generator is None or self.config_generator is None:
+            print(f"Load scenario first, routes and/or config are 'None' !")
+            return False
+        self.routes_generator.add_vehicles(self.vehicle_generator)  # Add vehicles
         # Create "scenario_routes.rou.xml"
         if not self.routes_generator.save(PATH.SCENARIO_ROUTES.format(self.name)):
-            print(f"Error at creating '{self.name}.rou.xml' file.")
+            print(f"Error at creating '{self.name + MyFile.Extension.SUMO_ROUTES}' file.")
             return False
         # Create ".sumocfg" (executable)
         elif not self.config_generator.save(config_path.format(self.name)):
-            print(f"Error at creating '{self.name}.sumocfg' file.")
+            print(f"Error at creating '{self.name + MyFile.Extension.SUMO_CONFIG} file.")
             return False
         print(f"Scenario: '{self.name}' created successfully")
         return True
@@ -89,6 +96,11 @@ class Scenario:
 
 # For testing purposes
 if __name__ == "__main__":
-    temp: Scenario = Scenario("new_scenario", network="Chodov")
+    temp: Scenario = Scenario("test1", network="Chodov")
+    temp.vehicle_generator.random_flow("77", "0", 10, 20, 20, 0, 300)
+    temp.vehicle_generator.random_flow("3", "10", 10, 20, 20, 0, 300)
+    temp.save()
+
+
 
 

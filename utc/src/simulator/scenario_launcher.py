@@ -11,7 +11,7 @@ class ScenarioLauncher(UserInterface):
     def __init__(self):
         super().__init__()
         self.scenario: Scenario = None
-        self.commands["generate-scenario"] = self.scenario_command
+        self.commands["generate-scenario"] = self.generate_scenario_command
         # Commands enabled when generating scenario
         self.generating_commands: Dict[str, callable] = {}
         # Launcher of scenarios and '.sumocfg' files,
@@ -21,7 +21,7 @@ class ScenarioLauncher(UserInterface):
 
     # ---------------------------------- Commands ----------------------------------
 
-    def scenario_command(self, scenario_name: str, network_name: str) -> None:
+    def generate_scenario_command(self, scenario_name: str, network_name: str) -> None:
         """
         :param scenario_name: name of scenario folder
         :param network_name: name of network on which simulation will be displayed
@@ -31,10 +31,10 @@ class ScenarioLauncher(UserInterface):
             return
         self.scenario = Scenario(scenario_name, network_name)
         self.generating_commands = {
-            "add-cars": self.scenario.routes_generator.vehicle_generator.add_vehicles,
-            "add-random-flow": self.scenario.routes_generator.vehicle_generator.random_flow,
-            "add-uniform-flow": self.scenario.routes_generator.vehicle_generator.uniform_flow,
-            "add-random-trips": self.scenario.routes_generator.vehicle_generator.random_trips,
+            "add-cars": self.scenario.vehicle_generator.add_vehicles,
+            "add-random-flow": self.scenario.vehicle_generator.random_flow,
+            "add-uniform-flow": self.scenario.vehicle_generator.uniform_flow,
+            "add-random-trips": self.scenario.vehicle_generator.random_trips,
             "save": self.save_command,
             "plot": self.scenario.graph.display.plot
         }

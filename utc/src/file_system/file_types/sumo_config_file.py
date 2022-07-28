@@ -28,7 +28,7 @@ class SumoConfigFile(XmlFile):
         elif not file_path.endswith(MyFile.Extension.SUMO_CONFIG):
             print(f"SumoConfig file must be of type: {MyFile.Extension.SUMO_CONFIG}, received: {file_path} !")
             return False
-        super().save(file_path)
+        return super().save(file_path)
 
     # ------------------------------------------ Setters ------------------------------------------
 

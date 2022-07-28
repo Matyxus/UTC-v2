@@ -192,7 +192,7 @@ class VehicleGenerator:
         :return: None
         """
         # Generate vehicles and sort them in BST
-        print(f"Adding vehicles to BST for sorting ...")
+        print(f"Sorting vehicles by depart time using BinarySearchTree...")
         for generator in self.generators:
             for vehicle in generator:
                 self.vehicles_bst.binary_insert(vehicle)
@@ -201,7 +201,7 @@ class VehicleGenerator:
             root.append(route.to_xml())
         # Add vehicles to xml root
         self.vehicles_bst.sorted_append(self.vehicles_bst.root, root)
-        print(f"Finished adding: {len(root.findall('vehicle'))} vehicles")
+        print(f"Added: {len(root.findall('vehicle'))} vehicles")
 
     def get_path(self, from_junction_id: str, to_junction_id: str, message: bool = True) -> str:
         """
@@ -227,10 +227,3 @@ class VehicleGenerator:
         self.routes.append(path)
         return path.attributes["id"]
 
-    def set_graph(self, graph: Graph) -> None:
-        """
-
-        :param graph: Graph Class to be set as current
-        :return: None
-        """
-        self.graph = graph

@@ -25,9 +25,9 @@ class SumoRoutesFile(XmlFile):
         if not self.check_file():
             return False
         elif file_path == "default" and self.file_path == PATH.SUMO_ROUTES_TEMPLATE:
-            print(f"Cannot overwrite template for '.rou.xml' files!")
+            print(f"Cannot overwrite template for '{MyFile.Extension.SUMO_ROUTES}' files!")
             return False
-        super().save(file_path)
+        return super().save(file_path)
 
     # ------------------------------------------ Getters ------------------------------------------
 
@@ -85,10 +85,10 @@ class SumoRoutesFile(XmlFile):
         :param vehicle_generator: generator of Vehicles classes
         :return: None
         """
+        print("Adding vehicles")
         if vehicle_generator is None:
-            print(f"Vehicle generator is 'None' !")
             return
-        elif self.check_file():
+        elif not self.check_file():
             return
         vehicle_generator.save(self.root)
 
@@ -104,8 +104,10 @@ class SumoRoutesFile(XmlFile):
         """
         # Checks ".sumocfg" file structure
         if self.tree is None:
+            print(f"XML Tree is None, cannot save RoutesFile!")
             return False
         elif self.root is None:
+            print("XML root of Tree is None, cannot save RoutesFile!")
             return False
         elif self.root.find("vType") is None:
             print(f"Unable to find xml element <vType> in file: {self} !")
