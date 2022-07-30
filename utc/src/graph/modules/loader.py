@@ -1,11 +1,9 @@
-import xml.etree.ElementTree as ET
-from typing import Dict, List
 from utc.src.graph.components import Junction, Edge, Route
-from utc.src.utils.constants import (
-    PATH, file_exists, get_file_name, JUNCTION_START_COLOR, JUNCTION_START_END_COLOR, JUNCTION_END_COLOR
-)
+from utc.src.utils.constants import JUNCTION_START_COLOR, JUNCTION_START_END_COLOR, JUNCTION_END_COLOR
 from utc.src.graph.modules.graph_module import GraphModule
 from utc.src.graph.components import Skeleton
+from utc.src.file_system import SumoNetworkFile
+from typing import Dict, List, Optional
 
 
 class Loader(GraphModule):
@@ -14,28 +12,28 @@ class Loader(GraphModule):
     def __init__(self, skeleton: Skeleton = None):
         super().__init__(skeleton)
         print("Created 'Loader' class")
-        # Xml root of .net.xml file
-        self.root: ET.Element = None
+        self.network_file: Optional[SumoNetworkFile] = None
         # Mapping edges to their respective routes
         self.edge_to_route: Dict[str, Route] = {}
 
-    def load_map(self, file_name: str) -> bool:
+    def load_map(self, network: str) -> bool:
         """
-
-        :param file_name: of map to be loaded
-        :return: True on success, false otherwise
+        :param network: name of map to be loaded
+        :return: true on success, false otherwise
         """
-        file_name = get_file_name(file_name)
-        print(f"Loading road network from: {PATH.NETWORK_SUMO_MAPS.format(file_name)}")
-        if not (file_exists(PATH.NETWORK_SUMO_MAPS.format(file_name))):
+        network_name = SumoNetworkFile.get_file_name(network)
+        if self.skeleton is None:
+            print("Skeleton must not be of type: 'None' before loading map!")
             return False
-        self.root = ET.parse(PATH.NETWORK_SUMO_MAPS.format(file_name)).getroot()
-        assert (self.skeleton is not None)
+        self.network_file = SumoNetworkFile(network_name)
+        # File does not exist
+        if not self.network_file.file_exists(self.network_file):
+            return False
         self.load_junctions()
         self.load_edges()
         self.skeleton.roundabouts = self.load_roundabouts()
         self.edge_to_route.clear()
-        self.skeleton.map_name = file_name
+        self.skeleton.map_name = network_name
         print("Finished loading road network")
         return True
 
@@ -46,11 +44,8 @@ class Loader(GraphModule):
         :return: None
         """
         print("Loading & creating junctions")
-        # Create Junctions classes
-        for junction in self.root.findall("junction"):
-            # Filter internal junctions
-            if ("type" in junction.attrib) and (junction.attrib["type"] != "internal"):
-                self.skeleton.junctions[junction.attrib["id"]] = Junction(junction.attrib)
+        for xml_junction in self.network_file.get_junctions():
+            self.skeleton.junctions[xml_junction.attrib["id"]] = Junction(xml_junction.attrib)
         print("Finished loading & creating junctions")
 
     def load_edges(self) -> None:
@@ -63,25 +58,21 @@ class Loader(GraphModule):
         print("Loading & creating edges, connections")
         connections: Dict[str, set] = {}
         # ----------------- Connections -----------------
-        for connection in self.root.findall("connection"):
-            # Filter internal connections
-            if connection.attrib["from"][0] != ":":
-                if connection.attrib["to"] not in connections:
-                    connections[connection.attrib["to"]] = set()
-                connections[connection.attrib["to"]].add(connection.attrib["from"])
+        for connection in self.network_file.get_connections():
+            if connection.attrib["to"] not in connections:
+                connections[connection.attrib["to"]] = set()
+            connections[connection.attrib["to"]].add(connection.attrib["from"])
         # ------------------- Edges -----------------
-        for edge in self.root.findall("edge"):
-            # Filter internal edges
-            if not ("function" in edge.attrib):
-                edge_id: str = edge.attrib["id"]
-                self.skeleton.edges[edge_id] = Edge(edge.attrib)
-                # Give each edge its lanes
-                for lane in edge.findall("lane"):
-                    self.skeleton.edges[edge_id].add_lane(lane.attrib)
-                # Create route from edge
-                route: Route = self.get_route(self.skeleton.edges[edge_id])
-                # Set destination junction in_route as this one
-                self.skeleton.junctions[edge.attrib["to"]].neighbours[route] = []
+        for edge in self.network_file.get_edges():
+            edge_id: str = edge.attrib["id"]
+            self.skeleton.edges[edge_id] = Edge(edge.attrib)
+            # Give each edge its lanes
+            for lane in edge.findall("lane"):
+                self.skeleton.edges[edge_id].add_lane(lane.attrib)
+            # Create route from edge
+            route: Route = self.get_route(self.skeleton.edges[edge_id])
+            # Set destination junction in_route as this one
+            self.skeleton.junctions[edge.attrib["to"]].neighbours[route] = []
         # ------------------- Assign routes, to junctions -------------------
         for route in self.skeleton.routes.values():
             # Routes only have 1 edge each
@@ -113,7 +104,7 @@ class Loader(GraphModule):
         for junction_id, junction in self.skeleton.junctions.items():
             in_routes: List[Route] = junction.get_in_routes()
             out_routes: List[Route] = junction.get_out_routes()
-            if (len(in_routes) == 1) and (len(out_routes) == 1):
+            if len(in_routes) == len(out_routes) == 1:
                 in_route: Route = in_routes[0]
                 out_route: Route = out_routes[0]
                 # Check if incoming route is from the same Junction, as the destination of out_route
@@ -138,9 +129,8 @@ class Loader(GraphModule):
         :return: List of roundabouts (each roundabout is list of junctions ids forming it)
         """
         roundabouts: list = []
-        for xml_node in self.root.findall("roundabout"):
-            roundabout: list = xml_node.attrib["nodes"].split()
-            roundabouts.append(roundabout)
+        for xml_roundabout in self.network_file.get_roundabouts():
+            roundabouts.append(xml_roundabout.attrib["nodes"].split())
         return roundabouts
 
     # ------------------------- Utils -------------------------

@@ -1,7 +1,7 @@
 from typing import Dict, List, Set
 from utc.src.graph.components import Skeleton, Graph
 from utc.src.ui import UserInterface
-from utc.src.utils.constants import PATH
+from utc.src.file_system import FilePaths
 
 
 class Launcher(UserInterface):
@@ -145,10 +145,10 @@ class Launcher(UserInterface):
         if graph_name not in self.graphs:
             print(f"Graph with name: {graph_name} does not exist")
             return
-        path: str = PATH.NETWORK_SUMO_MAPS.format(file_name)
+        path: str = FilePaths.NETWORK_SUMO_MAPS.format(file_name)
         graph: Skeleton = self.graphs[graph_name]
         graph.validate_graph()
-        command: str = f"netconvert --sumo-net-file {PATH.NETWORK_SUMO_MAPS.format(graph.map_name)} "
+        command: str = f"netconvert --sumo-net-file {FilePaths.NETWORK_SUMO_MAPS.format(graph.map_name)} "
         edges: Set[str] = set()
         for route in graph.routes.values():
             for edge in route.edge_list:

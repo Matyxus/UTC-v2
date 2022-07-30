@@ -1,6 +1,6 @@
-from sys import argv
-from utc.src.utils.constants import PATH, file_exists, get_file_name
+from utc.src.file_system import MyFile, FilePaths
 from utc.src.ui import UserInterface
+from sys import argv
 
 
 class Converter(UserInterface):
@@ -43,32 +43,32 @@ class Converter(UserInterface):
 		"""
 		print(f"Converting map: '{file_name}'")
 		# Remove file type from file_name
-		map_name: str = get_file_name(file_name)
+		map_name: str = MyFile.get_file_name(file_name)
 		if not self.osm_filter(map_name):
 			return False
 		return self.net_convert(map_name)
 
 	def osm_filter(self, map_name: str) -> bool:
 		"""
-		Uses osm filter to filter .osm file, removing everything apart from highways,
-		filtered file will be saved in directory defined in constants.PATH.FILTERED_OSM_MAPS
+		Uses osm filter to filter ".osm" file, removing everything apart from highways,
+		filtered file will be saved in directory defined in /utc/data/maps/osm/filtered
 		the same name (with '_filtered' suffix added)
 
-		:param map_name: name of OSM map
+		:param map_name: name of ".osm" map
 		:return: True if successful, false otherwise
 		"""
 		print("Filtering osm file with osm_filter")
-		file_path: str = PATH.ORIGINAL_OSM_MAPS.format(map_name)
-		if not file_exists(file_path):
+		file_path: str = FilePaths.ORIGINAL_OSM_MAPS.format(map_name)
+		if not MyFile.file_exists(file_path):
 			return False
-		command: str = (PATH.OSM_FILTER + " " + file_path)
+		command: str = (FilePaths.OSM_FILTER + " " + file_path)
 		# osmfilter arguments
 		command += (
 			' --hash-memory=720 --keep-ways="highway=primary =tertiary '
 			'=residential =primary_link =secondary =secondary_link =trunk =trunk_link =motorway =motorway_link" '
 			'--keep-nodes= --keep-relations= > '
 		)
-		filtered_file_path: str = PATH.FILTERED_OSM_MAPS.format(map_name)
+		filtered_file_path: str = FilePaths.FILTERED_OSM_MAPS.format(map_name)
 		command += filtered_file_path
 		success, output = self.run_command(command)
 		if success:
@@ -77,16 +77,16 @@ class Converter(UserInterface):
 
 	def net_convert(self, map_name: str) -> bool:
 		"""
-		Uses netconvert to convert .osm file into .net.xml, expecting .osm file to be in
-		directory defined in constants.PATH.FILTERED_OSM_MAPS,
-		resulting file will be saved in directory defined in constants.PATH.NETWORK_SUMO_MAPS
+		Uses netconvert to convert ".osm" file into ".net.xml", expecting ".osm" file to be in
+		directory /utc/data/maps/osm/filtered, resulting file will be
+		saved in directory /utc/data/maps/sumo
 
 		:param map_name: name of OSM map (filtered by osmfilter)
 		:return: True if successful, false otherwise
 		"""
 		print("Creating '.net.xml' file for SUMO with netconvert on filtered file")
-		file_path: str = PATH.FILTERED_OSM_MAPS.format(map_name)
-		if not file_exists(file_path):
+		file_path: str = FilePaths.FILTERED_OSM_MAPS.format(map_name)
+		if not MyFile.file_exists(file_path):
 			return False
 		command: str = "netconvert --osm "
 		command += file_path
@@ -99,7 +99,7 @@ class Converter(UserInterface):
 			" --numerical-ids.node-start 0"  # Junction id's will be numerical, starting from 0 to n
 			" --numerical-ids.edge-start 0"  # Edge id's will be numerical, starting from 0 to n
 		)
-		net_file_path: str = PATH.NETWORK_SUMO_MAPS.format(map_name)
+		net_file_path: str = FilePaths.NETWORK_SUMO_MAPS.format(map_name)
 		command += (" -o " + net_file_path)
 		success, output = self.run_command(command)
 		if success:

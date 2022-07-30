@@ -46,7 +46,7 @@ class XmlFile(MyFile):
 
     # ------------------------------------------ Utils ------------------------------------------
 
-    def get_file_path(self, file_name: str) -> str:
+    def get_known_path(self, file_name: str) -> str:
         raise NotImplementedError(
             "Error, to load file from specific file names, method"
             " 'get_file_path' must be implemented by subclasses of XmlFile class!"

@@ -1,9 +1,9 @@
 from utc.src.pddl.pddl_problem import PddlLauncher
 from utc.src.pddl.utc_problem.utc_problem import UtcProblem
 from utc.src.pddl.utc_problem.utc_result import UtcResult
-from utc.src.utils.constants import file_exists, PATH, get_planner, get_file_name, dir_exist
-from typing import List
-from os import listdir
+from utc.src.file_system import MyFile, MyDirectory, FilePaths
+from utc.src.utils.constants import get_planner
+from typing import List, Optional
 
 
 class UtcLauncher(PddlLauncher):
@@ -26,7 +26,7 @@ class UtcLauncher(PddlLauncher):
         if not self.is_initialized():
             print("UtcLauncher must be initialized with method: 'initialize' !")
             return
-        if dir_exist(self.problems_dir, message=False) and len(listdir(self.problems_dir)) != 0:
+        elif MyDirectory.list_directory(self.problems_dir) not in {None, []}:
             print(f"Pddl problem files already exist in: {self.problems_dir}")
             return
         elif not self.prepare_directory("problem"):
@@ -38,7 +38,6 @@ class UtcLauncher(PddlLauncher):
         last_vehicle_depart: float = self.scenario.routes_generator.get_end_time()
         interval: int = max(int(round(last_vehicle_depart / window)), 1)
         print(f"Generating {interval} problem files")
-        problem_files: List[str] = []
         start_time: int = 0
         end_time: int = window
         for i in range(interval):
@@ -47,15 +46,16 @@ class UtcLauncher(PddlLauncher):
                 self.scenario.routes_generator.get_vehicles(start_time, end_time)
             )
             self.pddl_problem.save(
-                PATH.SCENARIO_PROBLEMS.format(self.new_scenario_name, self.pddl_problem.problem_name)
+                FilePaths.SCENARIO_PROBLEMS.format(self.new_scenario_name, self.pddl_problem.problem_name)
             )
-            if not file_exists(PATH.SCENARIO_PROBLEMS.format(self.new_scenario_name, self.pddl_problem.problem_name)):
+            if not MyFile.file_exists(
+                    FilePaths.SCENARIO_PROBLEMS.format(self.new_scenario_name, self.pddl_problem.problem_name)
+                    ):
                 print(f"Error at generating: {i+1} problem file: {self.pddl_problem.problem_name}, exiting ..")
                 return
             # Reset cars
             self.pddl_problem.pddl_vehicle.clear()
             print(f"Finished generating {i+1} problem file: {self.pddl_problem.problem_name}")
-            problem_files.append(self.pddl_problem.problem_name)
             start_time = end_time
             end_time += window
         print("Finished generating problem files")
@@ -65,17 +65,18 @@ class UtcLauncher(PddlLauncher):
         if not self.is_initialized():
             print("UtcLauncher must be initialized with method: 'initialize' !")
             return
-        elif not file_exists(PATH.PDDL_DOMAINS.format(domain)):
+        elif not MyFile.file_exists(FilePaths.PDDL_DOMAINS.format(domain)):
             return
         elif not get_planner(planner):
             return
-        elif not dir_exist(self.problems_dir, message=False) or len(listdir(self.problems_dir)) == 0:
-            print(f"Pddl problem files must be generated before calling 'generate_results'!")
-            return
         elif not self.prepare_directory("result"):
             return
-        problem_files: List[str] = listdir(self.problems_dir)
-        result_count: int = len(listdir(self.results_dir))  # Count of already generated result files
+        problem_files: Optional[List[str]] = MyDirectory.list_directory(self.problems_dir)
+        if problem_files is None or len(problem_files) == 0:
+            print(f"Pddl problem files must be generated before calling 'generate_results'!")
+            return
+        # Count of already generated result files (dir exists, since we used prepare_directory method)
+        result_count: int = len(MyDirectory.list_directory(self.results_dir))
         if result_count != 0:
             print(f"Pddl result files already exist in: {self.results_dir}")
             return
@@ -85,17 +86,17 @@ class UtcLauncher(PddlLauncher):
                     pddl_problem.endswith(".pddl") and
                     "problem" in pddl_problem and pddl_problem.startswith(self.new_scenario_name)
             )
-            pddl_problem = get_file_name(pddl_problem)
+            pddl_problem = MyFile.get_file_name(pddl_problem)
             result_name: str = pddl_problem.replace("problem", "result")
             print(f"Generating: {result_name}")
             planner_call: str = get_planner(planner).format(
-                PATH.PDDL_DOMAINS.format(domain),
-                PATH.SCENARIO_PROBLEMS.format(self.new_scenario_name, pddl_problem),
-                PATH.SCENARIO_RESULTS.format(self.new_scenario_name, result_name)
+                FilePaths.PDDL_DOMAINS.format(domain),
+                FilePaths.SCENARIO_PROBLEMS.format(self.new_scenario_name, pddl_problem),
+                FilePaths.SCENARIO_RESULTS.format(self.new_scenario_name, result_name)
             )
             success, output = self.shell(planner_call, timeout)
             # If file was not generated, return (possibly low timeout)
-            current_count: int = len(listdir(self.results_dir))
+            current_count: int = len(MyDirectory.list_directory(self.results_dir))
             if not success or not (current_count > result_count):
                 print(f"Error at generating result file: {result_name}, try to increase timeout: {timeout}")
                 return
@@ -109,9 +110,6 @@ class UtcLauncher(PddlLauncher):
         # Checks
         if not self.is_initialized():
             print("UtcLauncher must be initialized with method: 'initialize' !")
-            return
-        elif not dir_exist(self.results_dir, message=False) or len(listdir(self.results_dir)) == 0:
-            print(f"Pddl result files must be generated before calling 'generate_scenario'!")
             return
         self.pddl_result = UtcResult(self.scenario)
         self.pddl_result.results_to_scenario(self.new_scenario_name)

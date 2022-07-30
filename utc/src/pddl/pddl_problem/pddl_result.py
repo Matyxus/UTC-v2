@@ -1,6 +1,4 @@
 from utc.src.simulator.scenario import Scenario
-from utc.src.utils.constants import PATH, get_file_extension, get_file_name, file_exists
-from typing import List, Dict
 
 
 class PddlResult:
@@ -10,7 +8,7 @@ class PddlResult:
     """
     def __init__(self, scenario: Scenario):
         """
-        :param scenario: from which pddl result files are parsed
+        :param scenario: used for parsing result files (graph, routes, config)
         """
         self.scenario: Scenario = scenario
         assert (self.scenario is not None)
@@ -39,27 +37,3 @@ class PddlResult:
         :return: None
         """
         raise NotImplementedError("Method 'results_to_scenario' must be implemented by children of PddlResult")
-
-    # ------------------------------------------- Utils -------------------------------------------
-
-    def group_result_files(self, result_files: List[str]) -> Dict[str, List[str]]:
-        """
-        :param result_files: list of pddl result files names
-        :return: Dictionary mapping extension to pddl result file names,
-        empty extension is used for ".pddl" (since all files must be of type
-        ".pddl")
-        """
-        # Check all result files for multiple extension, group them by extension
-        # Happens when using planner Cerberus (adds ".1", ".2" extensions to files)
-        file_extensions: Dict[str, List[str]] = {
-            # extension : [file1, ....]
-        }
-        for result_file in result_files:
-            # Expecting all files to be '.pddl'
-            assert (result_file.endswith(".pddl"))
-            extension: str = "".join(get_file_extension(result_file)).replace(".pddl", "")
-            file_name: str = get_file_name(result_file)
-            if extension not in file_extensions:
-                file_extensions[extension] = []
-            file_extensions[extension].append(file_name)
-        return file_extensions

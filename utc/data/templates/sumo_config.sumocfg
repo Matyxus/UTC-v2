@@ -2,10 +2,10 @@
 
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
 
-<!-- Input files, network and routes -->
+<!-- Input files, network and routes, uses relative path (since folders do not change) -->
     <input>
-        <net-file value=""/>
-        <route-files value=""/>
+        <net-file value="../../../maps/sumo/{0}.net.xml"/>
+        <route-files value="../../routes/{0}.rou.xml"/>
     </input>
 
 <!-- Starting and ending time of simulation (will end automatically after last vehicle departs)-->

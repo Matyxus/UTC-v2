@@ -1,7 +1,7 @@
 from utc.src.pddl.pddl_problem.pddl_struct import PddlStruct
 from utc.src.pddl.pddl_problem.pddl_network import PddlNetwork
 from utc.src.pddl.pddl_problem.pddl_vehicle import PddlVehicle
-from utc.src.utils.constants import PATH, file_exists
+from utc.src.file_system import MyFile, FilePaths
 
 
 class PddlProblem(PddlStruct):
@@ -44,7 +44,7 @@ class PddlProblem(PddlStruct):
         :param domain: name of pddl domain file
         :return: None
         """
-        if not file_exists(PATH.PDDL_DOMAINS.format(domain)):
+        if not MyFile.file_exists(FilePaths.PDDL_DOMAINS.format(domain)):
             return
         self.domain = domain
 

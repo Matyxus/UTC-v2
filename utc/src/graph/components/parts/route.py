@@ -2,7 +2,7 @@ from utc.src.graph.components.parts.figure import Figure
 from utc.src.graph.components.parts.edge import Edge
 from utc.src.utils import XmlObject
 from utc.src.utils.constants import EDGE_DEFAULT_COLOR
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 
 class Route(Figure, XmlObject):
@@ -67,10 +67,13 @@ class Route(Figure, XmlObject):
             ret_val.append(edge.attributes["to"])
         return ret_val
 
-    def get_edge_ids(self) -> List[str]:
+    def get_edge_ids(self, as_int: bool = False) -> List[Union[str, int]]:
         """
+        :param as_int: true if edge ids should be returned as integers (default false)
         :return: List of all edge id's
         """
+        if as_int:
+            return [int(edge.attributes["id"]) for edge in self.edge_list]
         return [edge.attributes["id"] for edge in self.edge_list]
 
     # ---------------------------- Utils ----------------------------

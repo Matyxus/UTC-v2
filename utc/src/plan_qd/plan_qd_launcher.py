@@ -1,5 +1,5 @@
-from utc.src.graph.components import Skeleton, Graph
-from utc.src.plan_qd.metrics import Metrics
+from utc.src.graph.components import Skeleton, Graph, Route
+from utc.src.plan_qd.metrics import SimilarityMetric
 from typing import List
 
 
@@ -10,7 +10,7 @@ class PlanQDLauncher:
     def __init__(self):
         super().__init__()
         self.graph: Graph = None
-        self.metrics: Metrics = Metrics()
+        self.metrics: SimilarityMetric = SimilarityMetric()
 
     def initialize_graphs(self, network_name: str) -> None:
         """
@@ -24,13 +24,12 @@ class PlanQDLauncher:
 
     def subgraph(self,
                  from_junction: str, to_junction: str,
-                 c: float, metrics: List[str], plot: bool = False
+                 c: float, plot: bool = False
                  ) -> None:
         """
         :param from_junction: starting junction of sub-graph
         :param to_junction: ending junction of sub-graph
         :param c: maximal route length (shortest_path * c), must be higher than 1
-        :param metrics: list of metrics names, to be used to create sub_graph
         :param plot:
         :return:
         """
@@ -40,6 +39,34 @@ class PlanQDLauncher:
         routes = self.graph.shortest_path.top_k_a_star(
             from_junction, to_junction, c, self.graph.display if plot else None
         )
+        print(f"Found {len(routes)} routes")
+        print("Groups found by DBSCAN")
+        for route_group, grouped_routes in enumerate(self.metrics.create_dbscan(routes)):
+            fig, ax = self.graph.display.default_plot()
+            print(f"Route group: {route_group}")
+            for route in grouped_routes:
+                # print(f"\t{route}")
+                route.plot(ax, color="red")
+            self.graph.display.show_plot()
+        """
+        print("Groups found by kmedoids: ")
+        for route_group, grouped_routes in self.metrics.rank(routes, 4).items():
+            fig, ax = self.graph.display.default_plot()
+            print(f"Route group: {routes[route_group]}")
+            for route in grouped_routes:
+                # print(f"\t{route}")
+                route.plot(ax, color="blue")
+            self.graph.display.show_plot()
+        print("Groups found by OPTICS: ")
+        for route_group, grouped_routes in enumerate(self.metrics.create_optics(routes)):
+            fig, ax = self.graph.display.default_plot()
+            print(f"Route group: {route_group}")
+            for route in grouped_routes:
+                # print(f"\t{route}")
+                route.plot(ax, color="red")
+            self.graph.display.show_plot()
+        """
+        quit()
         # -------------------------------- Init --------------------------------
         sub_graph: Skeleton = self.graph.sub_graph.create_sub_graph(routes)
         if sub_graph is None:
@@ -51,12 +78,8 @@ class PlanQDLauncher:
         # Plot graph made with metrics
 
 
-
-
-
-
-
-
-
 if __name__ == "__main__":
     temp: PlanQDLauncher = PlanQDLauncher()
+    temp.initialize_graphs("Rome")
+    temp.subgraph("54", "75", 1.6, False)
+

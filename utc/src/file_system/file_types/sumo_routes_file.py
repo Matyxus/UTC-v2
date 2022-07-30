@@ -1,7 +1,6 @@
 from utc.src.file_system.file_types.xml_file import XmlFile
 from utc.src.simulator.simulation import VehicleGenerator
-from utc.src.file_system.my_file import MyFile
-from utc.src.utils.constants import PATH
+from utc.src.file_system.file_constants import FileExtension, FilePaths
 from typing import Tuple, Dict
 
 
@@ -11,7 +10,7 @@ class SumoRoutesFile(XmlFile):
     utility methods
     """
 
-    def __init__(self, file_path: str = PATH.SUMO_ROUTES_TEMPLATE):
+    def __init__(self, file_path: str = FilePaths.SUMO_ROUTES_TEMPLATE):
         """
         :param file_path: to ".rou.xml" file, can be name (in such case
         directory utc/data/scenarios/routes  will be search for corresponding file,
@@ -20,12 +19,16 @@ class SumoRoutesFile(XmlFile):
         super().__init__(file_path)
         # Memory of previously searched vehicles (end_time, index)
         self.previous_search: Tuple[int, int] = (0, 0)
+        self.default_extension = FileExtension.SUMO_ROUTES
 
     def save(self, file_path: str = "default") -> bool:
         if not self.check_file():
             return False
-        elif file_path == "default" and self.file_path == PATH.SUMO_ROUTES_TEMPLATE:
-            print(f"Cannot overwrite template for '{MyFile.Extension.SUMO_ROUTES}' files!")
+        elif file_path == "default" and self.file_path == FilePaths.SUMO_ROUTES_TEMPLATE:
+            print(f"Cannot overwrite template for '{self.default_extension}' files!")
+            return False
+        elif not file_path.endswith(self.default_extension):
+            print(f"SumoRoutes file must be of type: '{self.default_extension}', received: '{file_path}' !")
             return False
         return super().save(file_path)
 
@@ -42,7 +45,7 @@ class SumoRoutesFile(XmlFile):
             return -1
         return float(self.root.findall("vehicle")[-1].attrib["depart"])
 
-    def get_vehicles(self, start_time: int, end_time: int) -> Dict[str, Tuple[str, str]]:
+    def get_vehicles(self, start_time: float, end_time: float) -> Dict[str, Tuple[str, str]]:
         """
         Extracts vehicles from '.ruo.xml' file, filtered by start/end time as <start_time, end_time)
 
@@ -51,6 +54,9 @@ class SumoRoutesFile(XmlFile):
         :return: Vehicle dictionary mapping vehicle id to initial and ending junctions of its route
         """
         print("Parsing vehicles")
+        # Lower precision
+        start_time = round(start_time, 3)
+        end_time = round(end_time, 3)
         vehicles: Dict[str, Tuple[str, str]] = {}
         if not self.check_file():
             return vehicles
@@ -112,18 +118,15 @@ class SumoRoutesFile(XmlFile):
         elif self.root.find("vType") is None:
             print(f"Unable to find xml element <vType> in file: {self} !")
             return False
-        # TODO more throughout check for vehicles/routes
         return True
 
-    def get_file_path(self, file_name: str) -> str:
+    def get_known_path(self, file_name: str) -> str:
         # Quick check
         if not file_name:
             return file_name
-        # Remove extension
-        file_name = file_name.replace(MyFile.Extension.SUMO_ROUTES, "")
         # Search  uts/data/scenarios/routes
-        if self.file_exists(PATH.SCENARIO_ROUTES.format(file_name), message=False):
-            return PATH.SCENARIO_ROUTES.format(file_name)
+        if self.file_exists(FilePaths.SCENARIO_ROUTES.format(file_name), message=False):
+            return FilePaths.SCENARIO_ROUTES.format(file_name)
         return file_name
 
 

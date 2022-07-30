@@ -1,8 +1,8 @@
 from utc.src.graph.modules.graph_module import GraphModule
 from utc.src.graph.modules.display import Display
 from utc.src.graph.components import Skeleton
-from typing import List, Set, Tuple, Dict
 from utc.src.graph.components import Route, Junction
+from typing import List, Set, Tuple, Dict
 
 
 class Simplify(GraphModule):
@@ -129,10 +129,12 @@ class Simplify(GraphModule):
             # ---------------- Setup new junction ----------------
             new_point: tuple = self.get_center_of_mass(roundabout_points)
             new_junction_id: str = f"r{index}"  # "r" for roundabout to not confuse with normal junctions
-            new_junction: Junction = Junction({"id": new_junction_id, "x": new_point[0], "y": new_point[1]})
+            new_junction: Junction = Junction(
+                {"id": new_junction_id, "x": new_point[0], "y": new_point[1], "type": "roundabout"}
+            )
             new_junction.marker_size = 10
             new_junction.color = "yellow"
-            print(f"Creating new junction: {new_junction_id} representing roundabout")
+            print(f"Creating new junction: {new_junction_id} representing roundabout: {roundabout}")
             # ---------------- From all entrances of roundabout form new routes ----------------
             for in_route in in_routes:
                 starting_junction_id: str = in_route.get_destination()

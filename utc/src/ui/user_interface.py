@@ -1,5 +1,5 @@
-from typing import Dict, Tuple, List
 from utc.src.ui.argument_validator import ArgumentValidator, ValidationError
+from typing import Dict, Tuple, List
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.validation import Validator

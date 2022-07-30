@@ -1,5 +1,5 @@
 from utc.src.ui import UserInterface
-from utc.src.utils.constants import file_exists, PATH
+from utc.src.file_system import MyFile, FilePaths
 from utc.src.simulator.scenario import Scenario
 from utc.src.simulator.simulation import SimulationLauncher
 from typing import Dict
@@ -27,7 +27,7 @@ class ScenarioLauncher(UserInterface):
         :param network_name: name of network on which simulation will be displayed
         :return: None
         """
-        if not file_exists(PATH.NETWORK_SUMO_MAPS.format(network_name)):
+        if not MyFile.file_exists(FilePaths.NETWORK_SUMO_MAPS.format(network_name)):
             return
         self.scenario = Scenario(scenario_name, network_name)
         self.generating_commands = {

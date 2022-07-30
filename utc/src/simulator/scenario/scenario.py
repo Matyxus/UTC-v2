@@ -1,6 +1,6 @@
 from utc.src.file_system import MyFile, SumoConfigFile, SumoRoutesFile
 from utc.src.simulator.simulation import VehicleGenerator
-from utc.src.utils.constants import PATH
+from utc.src.file_system import FilePaths, FileExtension
 from utc.src.graph.components import Graph, Skeleton
 from typing import Optional
 
@@ -36,14 +36,14 @@ class Scenario:
         if error occurred during loading ".sumocfg" or ".rou.xml" file
         """
         self.name = scenario
-        routes_path: str = PATH.SUMO_ROUTES_TEMPLATE
+        routes_path: str = FilePaths.SUMO_ROUTES_TEMPLATE
         # ---------------------------- Load existing scenario ----------------------------
         self.config_generator = SumoConfigFile(scenario)
         if MyFile.file_exists(self.config_generator, message=False):
             if network == "default":
                 network = MyFile.get_file_name(self.config_generator.get_network())
             print(f"Loaded existing scenario: '{scenario}' with network: '{network}'")
-            routes_path = PATH.SCENARIO_ROUTES.format(scenario)
+            routes_path = FilePaths.SCENARIO_ROUTES.format(scenario)
         # ---------------------------- Create new scenario ----------------------------
         else:
             print(f"Creating new scenario: {scenario} with network: {network}")
@@ -67,15 +67,21 @@ class Scenario:
         if not self.routes_generator.check_file():
             raise ValueError("Error at creating class 'RoutesGenerator' for '.rou.xml' file!")
 
-    def save(self, config_path: str = PATH.SCENARIO_SIM_GENERATED) -> bool:
+    def save(self, config_path: str = FilePaths.SCENARIO_SIM_GENERATED) -> bool:
         """
         Creates '.rou.xml' file containing vehicle types, routes, individual vehicles.
-        Creates '.sumocfg' file that launches simulation in SUMO GUI.
+        Creates '.sumocfg' file that launches simulation in SUMO GUI (expecting
+        xml element "net-file" and "routes-file" to be set before saving)
 
         :param config_path: path to config path (format string, either
         PATH.SCENARIO_SIM_GENERATED or PATH.SCENARIO_SIM_PLANNED)
         :return: True on success, false otherwise
         """
+        if config_path not in {FilePaths.SCENARIO_SIM_PLANNED, FilePaths.SCENARIO_SIM_GENERATED}:
+            print(
+                f"Invalid config_path: {config_path}, expecting one of: "
+                f"{FilePaths.SCENARIO_SIM_PLANNED, FilePaths.SCENARIO_SIM_GENERATED}"
+            )
         print(f"Saving scenario: {self.name}")
         # Check
         if self.routes_generator is None or self.config_generator is None:
@@ -83,12 +89,12 @@ class Scenario:
             return False
         self.routes_generator.add_vehicles(self.vehicle_generator)  # Add vehicles
         # Create "scenario_routes.rou.xml"
-        if not self.routes_generator.save(PATH.SCENARIO_ROUTES.format(self.name)):
-            print(f"Error at creating '{self.name + MyFile.Extension.SUMO_ROUTES}' file.")
+        if not self.routes_generator.save(FilePaths.SCENARIO_ROUTES.format(self.name)):
+            print(f"Error at creating '{self.name + FileExtension.SUMO_ROUTES}' file.")
             return False
         # Create ".sumocfg" (executable)
         elif not self.config_generator.save(config_path.format(self.name)):
-            print(f"Error at creating '{self.name + MyFile.Extension.SUMO_CONFIG} file.")
+            print(f"Error at creating '{self.name + FileExtension.SUMO_CONFIG} file.")
             return False
         print(f"Scenario: '{self.name}' created successfully")
         return True
@@ -96,10 +102,10 @@ class Scenario:
 
 # For testing purposes
 if __name__ == "__main__":
-    temp: Scenario = Scenario("test1", network="Chodov")
-    temp.vehicle_generator.random_flow("77", "0", 10, 20, 20, 0, 300)
-    temp.vehicle_generator.random_flow("3", "10", 10, 20, 20, 0, 300)
-    temp.save()
+    temp: Scenario = Scenario("test")
+    print(temp.config_generator.get_problem_files())
+    print(temp.config_generator.get_result_files())
+
 
 
 

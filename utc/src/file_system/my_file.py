@@ -1,7 +1,7 @@
 from typing import List, Union, Optional
 from os import rename
 from os.path import isfile
-from pathlib import Path as Pt  # Avoid confusion with PATH Class
+from pathlib import Path
 from io import TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom
 
 
@@ -12,19 +12,6 @@ class MyFile:
     provides static and utility functions, acts as an
     super class to other file classes.
     """
-    class Extension:
-        """
-        Class holding extension of files
-        """
-        PDDL: str = ".pddl"
-        XML: str = ".xml"
-        # ------- Simulation -------
-        SUMO_ROUTES: str = ".rou.xml"
-        SUMO_CONFIG: str = ".sumocfg"  # (is of xml type)
-        SUMO_STATS: str = ""  # statistics file
-        # ------- Maps -------
-        SUMO_NETWORK: str = ".net.xml"
-        OSM: str = ".osm"
 
     def __init__(self, file_path: str, mode: str = "w+"):
         """
@@ -35,6 +22,7 @@ class MyFile:
         """
         self.file_path: str = ""
         self.mode: str = mode  # Mode for opening file
+        self.default_extension: str = ""  # Default file extension
         self.load(file_path)
 
     # ------------------------------------------- Load & Save -------------------------------------------
@@ -56,7 +44,7 @@ class MyFile:
         try:
             # File does not exist, try to load from name (class specific)
             # e.g. SumoRoutesFile class will look into /utc/data/scenarios/routes
-            self.file_path = self.get_file_path(file_path)
+            self.file_path = self.get_known_path(self.get_file_name(file_path))
             if not self.file_exists(self.file_path, message=False):
                 self.file_path = file_path  # Assuming new file name
         except NotImplementedError:
@@ -83,32 +71,20 @@ class MyFile:
         """
         self.mode = mode
 
-    def change_name(self, new_name: str) -> bool:
+    def is_loaded(self) -> bool:
         """
-        :param new_name: to be set for the current file name (must not be path, file must exist!)
-        :return: True on success, false otherwise
+        :return: true if file representing this class exists, false otherwise
         """
-        if not self.file_exists(self.file_path, message=False):
-            print("Cannot change name of non-existing file!")
-            return False
-        current_name: str = self.get_file_name(self.file_path)
-        try:
-            rename(self.file_path, self.file_path.replace(current_name, new_name))
-            self.file_path = self.file_path.replace(current_name, new_name)
-        except OSError as e:
-            print(f"Error: {e} occurred during renaming of file: {self.file_path}")
-            return False
-        print(f"Successfully change name of file: {current_name} -> {new_name}")
-        return True
+        return self.file_exists(self.file_path, message=False)
 
-    def get_file_path(self, file_name: str) -> str:
+    def get_known_path(self, file_name: str) -> str:
         """
-        :param file_name: name of file
-        :return: Full path to file (Subclass specific)
+        :param file_name: name of file (automatically called with name of file)
+        :return: full path to file (Subclass specific)
         """
         raise NotImplementedError(
             "Error, to load file from specific file names, method"
-            " 'get_file_path' must be implemented by subclasses of MyFile class!"
+            " 'get_known_path' must be implemented by subclasses of MyFile class!"
         )
 
     # ------------------------------------------- Static methods -------------------------------------------
@@ -123,7 +99,7 @@ class MyFile:
             raise TypeError("Parameter 'file_path' bust be either string or subclass of 'MyFile' class!")
         # Convert to string if file_path is MyFile class instance
         file_path = str(file_path)
-        return Pt(file_path).suffixes
+        return Path(file_path).suffixes
 
     @staticmethod
     def get_file_name(file_path: Union[str, 'MyFile']) -> str:
@@ -136,9 +112,20 @@ class MyFile:
         # Convert to string if file_path is MyFile class
         file_path = str(file_path)
         # Loop until suffix is removed
-        while Pt(file_path).suffix != "":
-            file_path = Pt(file_path).stem
+        while Path(file_path).suffix != "":
+            file_path = Path(file_path).stem
         return file_path
+
+    @staticmethod
+    def get_absolute_path(file_path: Union[str, 'MyFile']) -> str:
+        """
+        :param file_path: path to file (either string or MyFile class)
+        :return: name of file without extension
+        """
+        if not (isinstance(file_path, str) or isinstance(file_path, MyFile)):
+            raise TypeError("Parameter 'file_path' bust be either string or subclass of 'MyFile' class!")
+        # Convert to string if file_path is MyFile class
+        return str(Path(str(file_path)).parent.resolve())
 
     @staticmethod
     def file_exists(file_path: Union[str, 'MyFile'], message: bool = True) -> bool:
@@ -159,6 +146,33 @@ class MyFile:
             print(f"File: '{file_path}' does not exist!")
         return ret_val
 
+    @staticmethod
+    def rename_file(original: Union[str, 'MyFile'], target: Union[str, 'MyFile']) -> bool:
+        """
+        :param original: path to existing file (either string or MyFile class)
+        :param target: name of new file
+        :return: true if renaming was successful, false otherwise
+        :raises TypeError if argument original or target is not of type string or MyFile class
+        :raises FileNotFoundError if file "original" does not exist
+        """
+        if not (isinstance(original, str) or isinstance(original, MyFile)):
+            raise TypeError("Parameter 'original' bust be either string or subclass of 'MyFile' class!")
+        elif not (isinstance(original, str) or isinstance(original, MyFile)):
+            raise TypeError("Parameter 'target' bust be either string or subclass of 'MyFile' class!")
+        elif not MyFile.file_exists(original, message=False):
+            raise FileNotFoundError(f"File: {original} does not exist!")
+        # Convert to string if target is MyFile class
+        target = MyFile.get_file_name(str(target))
+        try:
+            rename(str(original), str(original).replace(MyFile.get_file_name(original), target))
+            if isinstance(original, MyFile):  # Change name of original file
+                original.file_path = original.file_path.replace(MyFile.get_file_name(original), target)
+        except OSError as e:
+            print(f"Error: {e} occurred during renaming of file: {original}")
+            return False
+        print(f"Successfully change name of file: {MyFile.get_file_name(original)} -> {target}")
+        return True
+
     # ------------------------------------------- Magic methods -------------------------------------------
 
     def __str__(self) -> str:
@@ -171,26 +185,31 @@ class MyFile:
         """
         :return: opened file, None if file does not exist
         """
-        self.file_pointer: Optional[Union[TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom]] = None
+        # Make file_pointer inaccessible outside
+        self._file_pointer: Optional[Union[TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom]] = None
+        if self.default_extension and self.default_extension not in self.file_path:
+            print(f"Expecting path to contain file extension: {self.default_extension}, got: {self.file_path} !")
+            return self._file_pointer
         try:  # Check for errors
-            self.file_pointer = open(self.file_path, self.mode)
+            self._file_pointer = open(self.file_path, self.mode)
         except OSError as e:
             print(f"Error: {e} occurred during opening of file: '{self.file_path}'")
-        return self.file_pointer
+        return self._file_pointer
 
     def __exit__(self) -> None:
         """
         :return: Closes file pointer if its not None
         """
-        if self.file_pointer is not None:
+        if self._file_pointer is not None:
             try:  # Check for errors
-                self.file_pointer.close()
+                self._file_pointer.close()
             except OSError as e:
                 print(f"Error: {e} occurred during closing of file: '{self.file_path}'")
 
 
 # For testing purposes
 if __name__ == "__main__":
-    pass
+    print(MyFile.get_absolute_path(""))
+
 
 

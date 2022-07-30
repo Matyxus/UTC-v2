@@ -40,6 +40,8 @@ class PddlNetwork(PddlStruct):
         :param skeleton: of Graph
         :return: None
         """
+        # Remove unused junctions, etc.
+        skeleton.validate_graph()
         # Add junctions
         for junction_id in skeleton.junctions.keys():
             self.add_object(self.junction_group_name, self.junction_object.format(junction_id))

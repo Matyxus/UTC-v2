@@ -1,6 +1,6 @@
 from utc.src.graph.modules.graph_module import GraphModule
-from utc.src.graph.modules.display import Display, plt
 from utc.src.graph.components import Skeleton, Route
+from utc.src.graph.modules.display import Display, plt
 from queue import PriorityQueue
 from typing import List, Tuple, Dict, Optional
 
