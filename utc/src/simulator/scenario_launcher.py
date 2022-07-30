@@ -29,6 +29,12 @@ class ScenarioLauncher(UserInterface):
         """
         if not MyFile.file_exists(FilePaths.NETWORK_SUMO_MAPS.format(network_name)):
             return
+        elif MyFile.file_exists(FilePaths.SCENARIO_SIM_GENERATED.format(scenario_name), message=False):
+            print(
+                f"Scenario named: {scenario_name} already exists in:"
+                f" {FilePaths.SCENARIO_SIM_GENERATED.format(scenario_name)}, choose different name!"
+            )
+            return
         self.scenario = Scenario(scenario_name, network_name)
         self.generating_commands = {
             "add-cars": self.scenario.vehicle_generator.add_vehicles,

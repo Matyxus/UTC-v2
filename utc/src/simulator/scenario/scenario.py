@@ -87,7 +87,8 @@ class Scenario:
         if self.routes_generator is None or self.config_generator is None:
             print(f"Load scenario first, routes and/or config are 'None' !")
             return False
-        self.routes_generator.add_vehicles(self.vehicle_generator)  # Add vehicles
+        elif self.vehicle_generator is not None:  # Add vehicles to routes file
+            self.vehicle_generator.save(self.routes_generator.root)
         # Create "scenario_routes.rou.xml"
         if not self.routes_generator.save(FilePaths.SCENARIO_ROUTES.format(self.name)):
             print(f"Error at creating '{self.name + FileExtension.SUMO_ROUTES}' file.")

@@ -157,20 +157,18 @@ class MyFile:
         """
         if not (isinstance(original, str) or isinstance(original, MyFile)):
             raise TypeError("Parameter 'original' bust be either string or subclass of 'MyFile' class!")
-        elif not (isinstance(original, str) or isinstance(original, MyFile)):
+        elif not (isinstance(target, str) or isinstance(target, MyFile)):
             raise TypeError("Parameter 'target' bust be either string or subclass of 'MyFile' class!")
         elif not MyFile.file_exists(original, message=False):
             raise FileNotFoundError(f"File: {original} does not exist!")
-        # Convert to string if target is MyFile class
-        target = MyFile.get_file_name(str(target))
         try:
-            rename(str(original), str(original).replace(MyFile.get_file_name(original), target))
+            rename(str(original), str(target))
             if isinstance(original, MyFile):  # Change name of original file
-                original.file_path = original.file_path.replace(MyFile.get_file_name(original), target)
+                original.file_path = str(target)
         except OSError as e:
             print(f"Error: {e} occurred during renaming of file: {original}")
             return False
-        print(f"Successfully change name of file: {MyFile.get_file_name(original)} -> {target}")
+        print(f"Successfully change name of file: {original} -> {target}")
         return True
 
     # ------------------------------------------- Magic methods -------------------------------------------
@@ -196,10 +194,13 @@ class MyFile:
             print(f"Error: {e} occurred during opening of file: '{self.file_path}'")
         return self._file_pointer
 
-    def __exit__(self) -> None:
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         """
         :return: Closes file pointer if its not None
         """
+        if exc_type is not None:
+            traceback.print_exception(exc_type, exc_value, traceback)
+
         if self._file_pointer is not None:
             try:  # Check for errors
                 self._file_pointer.close()
@@ -209,7 +210,7 @@ class MyFile:
 
 # For testing purposes
 if __name__ == "__main__":
-    print(MyFile.get_absolute_path(""))
+    pass
 
 
 

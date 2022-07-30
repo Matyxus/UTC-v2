@@ -147,3 +147,9 @@ class Loader(GraphModule):
         self.skeleton.routes[route_id] = Route(route_id, [edge])
         self.edge_to_route[edge.attributes["id"]] = self.skeleton.routes[route_id]
         return self.skeleton.routes[route_id]
+
+
+if __name__ == "__main__":
+    pass
+
+

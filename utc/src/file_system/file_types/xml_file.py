@@ -1,6 +1,6 @@
 from utc.src.file_system.my_file import MyFile
-from xml.etree.ElementTree import Element, ElementTree, ParseError
 import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import Element, ElementTree, ParseError
 from typing import Optional
 
 

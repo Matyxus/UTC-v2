@@ -1,4 +1,5 @@
-from utc.src.file_system.file_types.xml_file import XmlFile, Element
+from utc.src.file_system.file_types.xml_file import XmlFile
+from xml.etree.ElementTree import Element
 from utc.src.file_system.file_constants import FileExtension, FilePaths
 from typing import Iterator, Optional
 

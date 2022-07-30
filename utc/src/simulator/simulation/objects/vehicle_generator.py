@@ -186,11 +186,14 @@ class VehicleGenerator:
     def save(self, root: Element) -> None:
         """
         Appends routes, vehicles from created generators to BST for sorting,
-        afterwards to root of xml file
+        afterwards to given root of xml file
 
-        :param root: of '.ruo.xml' file
+        :param root: of '.rou.xml' file
         :return: None
         """
+        if root is None:
+            print(f"Cannot add vehicles to root of type 'None' !")
+            return
         # Generate vehicles and sort them in BST
         print(f"Sorting vehicles by depart time using BinarySearchTree...")
         for generator in self.generators:

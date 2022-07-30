@@ -66,3 +66,24 @@ class FilePaths:
     SCENARIO_SIM_PLANNED: str = (CWD + "/data/scenarios/simulation/planned/{0}" + FileExtension.SUMO_CONFIG)
     # Path to '.info' files (same name as ".sumocfg") describing used commands to generate original/planned scenarios
     SCENARIO_SIM_INFO: str = (CWD + "/data/scenarios/simulation/information/{0}" + FileExtension.INFO)
+
+
+# ---------------------------------- Planners ----------------------------------
+class PLANNERS:
+    """
+    (static) Class defining planner calls as format string (expected
+    arguments are "domain.pddl" "problem.pddl" "result_file.pddl")
+    """
+    CERBERUS: str = ("python3 " + FilePaths.PDDL_PLANERS.format("Cerberus/plan.py") + " {0} {1} {2}")
+    MERWIN: str = (FilePaths.PDDL_PLANERS.format("Merwin/plan") + " {0} {1} {2}")
+
+    @staticmethod
+    def get_planner(planner_name: str) -> str:
+        """
+        :param planner_name: name of planner
+        :return: format string for shell/cmd command of planner, empty if planner does not exist
+        """
+        planer: str = getattr(PLANNERS, planner_name.upper(), "")
+        if not planer:
+            print(f"Planner: {planner_name} is not defined in PLANNERS!")
+        return planer

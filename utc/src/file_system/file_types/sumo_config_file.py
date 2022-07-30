@@ -20,8 +20,9 @@ class SumoConfigFile(XmlFile):
         """
         super().__init__(file_path)
         self.default_extension = FileExtension.SUMO_CONFIG
+        # Relative paths (so that simulation can be run on any OS)
         self.relative_network_path: str = "../../../maps/sumo/{0}.net.xml"
-        self.relative_routes_path: str = ".../../routes/{0}.rou.xml"
+        self.relative_routes_path: str = "../../routes/{0}.rou.xml"
 
     def save(self, file_path: str = "default") -> bool:
         if not self.check_file():
@@ -132,7 +133,7 @@ class SumoConfigFile(XmlFile):
                 file_name: str = self.get_file_name(self.root.find("input").find(required_element[0]).attrib["value"])
                 if not self.file_exists(required_element[1].format(file_name), message=False):
                     print(
-                        f"Unable to find file used in <input><{required_element}/><input/> -> "
+                        f"Unable to find file used in <input><{required_element[0]}/><input/> -> "
                         f"{required_element[1].format(file_name)} !"
                     )
                     return False

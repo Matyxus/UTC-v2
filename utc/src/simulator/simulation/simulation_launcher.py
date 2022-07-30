@@ -1,4 +1,3 @@
-from utc.src.utils.constants import PATH, file_exists
 import traci
 from sumolib import checkBinary
 

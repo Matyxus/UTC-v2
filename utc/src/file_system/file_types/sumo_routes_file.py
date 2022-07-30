@@ -1,5 +1,4 @@
 from utc.src.file_system.file_types.xml_file import XmlFile
-from utc.src.simulator.simulation import VehicleGenerator
 from utc.src.file_system.file_constants import FileExtension, FilePaths
 from typing import Tuple, Dict
 
@@ -83,20 +82,6 @@ class SumoRoutesFile(XmlFile):
         return vehicles
 
     # ------------------------------------------ Utils  ------------------------------------------
-
-    def add_vehicles(self, vehicle_generator: VehicleGenerator) -> None:
-        """
-        Extracts vehicles from vehicle generator to this file class
-
-        :param vehicle_generator: generator of Vehicles classes
-        :return: None
-        """
-        print("Adding vehicles")
-        if vehicle_generator is None:
-            return
-        elif not self.check_file():
-            return
-        vehicle_generator.save(self.root)
 
     def has_vehicles(self) -> bool:
         """
