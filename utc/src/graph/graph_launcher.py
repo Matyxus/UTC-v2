@@ -1,7 +1,7 @@
 from typing import Dict, List, Set
 from utc.src.graph.components import Skeleton, Graph
 from utc.src.ui import UserInterface
-from utc.src.file_system import FilePaths
+from utc.src.file_system import FilePaths, InfoFile
 
 
 class Launcher(UserInterface):
@@ -22,6 +22,9 @@ class Launcher(UserInterface):
         self.commands["save"] = self.save_command
         self.commands["graphs"] = self.graphs_command
         self.commands["delete"] = self.delete_command
+        # Info file
+        self.info_file = InfoFile("")
+        self.info_file.allow_commands(["load", "simplify", "subgraph", "merge", "save"])
 
     # ----------------------------------------- Commands -----------------------------------------
 
@@ -155,6 +158,8 @@ class Launcher(UserInterface):
                 edges.add(edge.attributes["id"])
         command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {path}"
         self.run_command(command)
+        # Save info file
+        self.info_file.save(FilePaths.MAPS_INFO.format(graph_name))
 
 
 # Program start

@@ -1,3 +1,4 @@
+from utc.src.file_system import InfoFile
 from utc.src.ui.argument_validator import ArgumentValidator, ValidationError
 from typing import Dict, Tuple, List
 from prompt_toolkit.history import InMemoryHistory
@@ -24,6 +25,8 @@ class UserInterface:
             "exit": self.exit_command,
             "help": self.help_command
         }
+        # Info file
+        self.info_file: InfoFile = None
         # History of used commands (mapping command name to their previous arguments)
         self.stored_arguments: Dict[str, List[str]] = {}
         # Commands Utils
@@ -95,6 +98,10 @@ class UserInterface:
                     self.stored_arguments[command_name] = []
                 self.stored_arguments[command_name].append(inputted_args_text)
             print(f"Executing command {command_name}({inputted_args_text}) ...")
+            # Record command to info file
+            if self.info_file is not None:
+                self.info_file.record_command(command_name, inputted_args_text)
+            # Execute
             self.commands[command_name](*inputted_args)
 
     def static_input(self) -> None:
@@ -105,6 +112,7 @@ class UserInterface:
 
         :return: None
         """
+
         self.argument_validator = ArgumentValidator()
         for index, line in enumerate(stdin):
             print(f"Reading line: {index} -> {line}")
@@ -112,8 +120,8 @@ class UserInterface:
             # In case file does not end with new line
             if not stripped:
                 break
-            split_input: List[str] = line.split()
-            if not split_input:
+            split_input: List[str] = stripped.split()
+            if not split_input:  # Check for empty list
                 print(f"Invalid input: {split_input}")
                 continue
             # Command name
@@ -139,6 +147,10 @@ class UserInterface:
                 )
                 assert (type(inputted_args) == list)
             print(f"Executing command {command_name}({inputted_args_text}) ...")
+            # Record command to info file
+            if self.info_file is not None:
+                self.info_file.record_command(command_name, inputted_args_text)
+            # Execute
             self.commands[command_name](*inputted_args)
 
     # ----------------------------------------- Commands -----------------------------------------
@@ -175,7 +187,8 @@ class UserInterface:
         """
         for command_name, function_pointer in commands.items():
             self.commands[command_name] = function_pointer
-        self.command_completer.words = list(self.commands.keys())
+        if self.command_completer is not None:
+            self.command_completer.words = list(self.commands.keys())
         print(f"Enabling new commands: {list(commands.keys())} ...")
 
     def remove_commands(self, command_names: List[str]) -> None:
@@ -185,7 +198,8 @@ class UserInterface:
         """
         for command_name in command_names:
             self.commands.pop(command_name, None)
-        self.command_completer.words = list(self.commands.keys())
+        if self.command_completer is not None:
+            self.command_completer.words = list(self.commands.keys())
         print(f"Disabling commands: {command_names} ...")
 
     def is_command(self, text: str) -> bool:

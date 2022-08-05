@@ -1,5 +1,5 @@
 from utc.src.ui import UserInterface
-from utc.src.file_system import MyFile, FilePaths
+from utc.src.file_system import MyFile, FilePaths, InfoFile
 from utc.src.simulator.scenario import Scenario
 from utc.src.simulator.simulation import SimulationLauncher
 from typing import Dict
@@ -18,6 +18,12 @@ class ScenarioLauncher(UserInterface):
         # allows to use planner to generate vehicle routes while
         # simulation runs
         self.simulation_launcher: SimulationLauncher = None
+        # Info file
+        self.info_file = InfoFile("")
+        self.info_file.allow_commands(
+            ["generate-scenario", "add-cars", "add-random-flow",
+             "add-uniform-flow", "add-random-trips", "save"]
+        )
 
     # ---------------------------------- Commands ----------------------------------
 
@@ -35,6 +41,7 @@ class ScenarioLauncher(UserInterface):
                 f" {FilePaths.SCENARIO_SIM_GENERATED.format(scenario_name)}, choose different name!"
             )
             return
+        # Scenario
         self.scenario = Scenario(scenario_name, network_name)
         self.generating_commands = {
             "add-cars": self.scenario.vehicle_generator.add_vehicles,
@@ -50,7 +57,12 @@ class ScenarioLauncher(UserInterface):
         """
         :return:
         """
+        # Save scenario
         self.scenario.save()
+        # Save info file
+        self.info_file.save(FilePaths.SCENARIO_SIM_INFO.format(self.scenario.name))
+        self.info_file.clear()
+        # Reset
         self.scenario = None
         self.remove_commands(list(self.generating_commands.keys()))
 

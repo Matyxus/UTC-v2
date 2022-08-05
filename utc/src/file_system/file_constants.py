@@ -47,6 +47,7 @@ class FilePaths:
     FILTERED_OSM_MAPS: str = (CWD + "/data/maps/osm/filtered/{0}_filtered" + FileExtension.OSM)
     # Path to folder containing .net.xml maps for SUMO
     NETWORK_SUMO_MAPS: str = (CWD + "/data/maps/sumo/{0}" + FileExtension.SUMO_NETWORK)
+    MAPS_INFO: str = (CWD + "/data/maps/information/{0}" + FileExtension.INFO)
     # --------------------------------------  Pddl --------------------------------------
     PDDL_DOMAINS: str = (CWD + "/data/domains/{0}" + FileExtension.PDDL)  # Path to folder containing pddl domains
     PDDL_PLANERS: str = (CWD + "/data/planners/{0}")   # Path to folder containing pddl planners

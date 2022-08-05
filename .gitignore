@@ -6,7 +6,6 @@ UTC.egg-info
 photos
 literature
 pyvenv.cfg
-utc/src/plan_qd
 
 # Compiled "osmfilter.c"
 utc/data/osm_filter/osmfilter

@@ -186,7 +186,7 @@ class MyFile:
         # Make file_pointer inaccessible outside
         self._file_pointer: Optional[Union[TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom]] = None
         if self.default_extension and self.default_extension not in self.file_path:
-            print(f"Expecting path to contain file extension: {self.default_extension}, got: {self.file_path} !")
+            print(f"Expecting path to contain file extension: '{self.default_extension}', got: {self.file_path} !")
             return self._file_pointer
         try:  # Check for errors
             self._file_pointer = open(self.file_path, self.mode)
