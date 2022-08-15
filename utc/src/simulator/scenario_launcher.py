@@ -1,8 +1,10 @@
 from utc.src.ui import UserInterface
-from utc.src.file_system import MyFile, FilePaths, InfoFile
+from utc.src.file_system import MyFile, FilePaths, InfoFile, SumoConfigFile
 from utc.src.simulator.scenario import Scenario
 from utc.src.simulator.simulation import SimulationLauncher
+import traci
 from typing import Dict
+from sumolib import checkBinary
 
 
 class ScenarioLauncher(UserInterface):
@@ -12,6 +14,7 @@ class ScenarioLauncher(UserInterface):
         super().__init__()
         self.scenario: Scenario = None
         self.commands["generate-scenario"] = self.generate_scenario_command
+        self.commands["launch-scenario"] = self.launch_scenario_command
         # Commands enabled when generating scenario
         self.generating_commands: Dict[str, callable] = {}
         # Launcher of scenarios and '.sumocfg' files,
@@ -52,6 +55,46 @@ class ScenarioLauncher(UserInterface):
             "plot": self.scenario.graph.display.plot
         }
         self.add_commands(self.generating_commands)
+
+    def launch_scenario_command(self, scenario_name: str, statistics: bool = True, display: bool = True) -> None:
+        """
+        :param scenario_name: name of existing scenario (can be user-generated or planned)
+        :param statistics: bool, if file containing vehicle statistics should be generated (default true)
+        :param display: bool, if simulation should be launched with GUI (default true)
+        :return: None
+        """
+        # Get scenario path (can be planned or user-generated)
+        scenario_path: str = SumoConfigFile(scenario_name).file_path
+        if not MyFile.file_exists(scenario_path, message=False):
+            print(f"Scenario named: {scenario_name} does not exist!")
+            return
+        sumo_run = checkBinary("sumo-gui") if display else checkBinary("sumo")
+        # Basic running options
+        options: list = [
+            "-c", scenario_path
+            # "--route-steps", "0",  # Force sumo to load all vehicles at once
+        ]
+        # Generate file containing vehicle statistics
+        if statistics:
+            options += [
+                "--duration-log.statistics", "true",
+                "--statistic-output", f"{FilePaths.SCENARIO_STATISTICS.format(scenario_name)}"
+                # "--tripinfo-output", "tripinfo.xml",
+                # "--summary", "summary.txt"
+            ]
+        try:
+            traci.start([sumo_run, *options])
+            while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
+                # TODO online planning
+                traci.simulationStep()
+            traci.close()
+            print(f"Simulation of scenario: '{scenario_name}' ended, exiting ...")
+        except traci.exceptions.FatalTraCIError as e:
+            # Closed by user
+            if str(e) == "connection closed by SUMO":
+                print("Closed GUI, exiting ....")
+            else:
+                print(f"Error occurred: {e}")
 
     def save_command(self) -> None:
         """

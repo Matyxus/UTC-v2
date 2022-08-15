@@ -145,10 +145,10 @@ class SumoConfigFile(XmlFile):
             return file_name
         # Remove extension
         file_name = file_name.replace(self.default_extension, "")
-        # Search  uts/data/scenarios/generated
+        # Search  utc/data/scenarios/simulation/generated
         if self.file_exists(FilePaths.SCENARIO_SIM_GENERATED.format(file_name), message=False):
             return FilePaths.SCENARIO_SIM_GENERATED.format(file_name)
-        # Search uts/data/scenarios/planned
+        # Search utc/data/scenarios/simulation/planned
         elif self.file_exists(FilePaths.SCENARIO_SIM_PLANNED.format(file_name), message=False):
             return FilePaths.SCENARIO_SIM_PLANNED.format(file_name)
         # Does not exist, return original value
