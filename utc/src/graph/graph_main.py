@@ -14,17 +14,17 @@ class GraphMain(UserInterface):
         # Maps names of graphs to Graph class
         self.graphs: Dict[str, Skeleton] = {}
         # Set functions to commands (inherited from parent class)
-        self.commands["load"] = self.load_command
-        self.commands["plot"] = self.plot_command
+        self.commands["load-graph"] = self.load_command
+        self.commands["plot-graph"] = self.plot_command
         self.commands["simplify"] = self.simplify_command
         self.commands["subgraph"] = self.sub_graph_command
         self.commands["merge"] = self.merge_command
-        self.commands["save"] = self.save_command
+        self.commands["save-graph"] = self.save_command
         self.commands["graphs"] = self.graphs_command
-        self.commands["delete"] = self.delete_command
+        self.commands["delete-graph"] = self.delete_command
         # Info file
         self.info_file = InfoFile("")
-        self.info_file.add_allowed_commands(["load", "simplify", "subgraph", "merge", "save"])
+        self.info_file.add_allowed_commands(["load-graph", "simplify", "subgraph", "merge", "save-graph"])
 
     # ----------------------------------------- Commands -----------------------------------------
 

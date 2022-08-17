@@ -241,7 +241,8 @@ class UserInterface:
         # (this is mainly for "other" to add suffix of its own name to command names in case of collision)
         other.add_commands(temp_commands)
 
-    def run_command(self, command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
+    @staticmethod
+    def run_command(command: str, timeout: int = None, encoding: str = "utf-8") -> Tuple[bool, str]:
         """
         https://stackoverflow.com/questions/41094707/setting-timeout-when-using-os-system-function
 

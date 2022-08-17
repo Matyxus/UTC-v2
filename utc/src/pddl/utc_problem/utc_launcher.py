@@ -2,6 +2,7 @@ from utc.src.pddl.pddl_problem import PddlLauncher
 from utc.src.pddl.utc_problem.utc_problem import UtcProblem
 from utc.src.pddl.utc_problem.utc_result import UtcResult
 from utc.src.file_system import MyFile, MyDirectory, FilePaths, PLANNERS, FileExtension
+from utc.src.ui import UserInterface
 from typing import List, Optional
 
 
@@ -93,7 +94,7 @@ class UtcLauncher(PddlLauncher):
                 FilePaths.SCENARIO_PROBLEMS.format(self.new_scenario_name, pddl_problem),
                 FilePaths.SCENARIO_RESULTS.format(self.new_scenario_name, result_name)
             )
-            success, output = self.shell(planner_call, timeout)
+            success, output = UserInterface.run_command(planner_call, timeout)
             # If file was not generated, return (possibly low timeout)
             current_count: int = len(MyDirectory.list_directory(self.results_dir))
             if not success or not (current_count > result_count):

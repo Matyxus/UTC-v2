@@ -12,8 +12,6 @@ class PddlLauncher:
         # -------------- Pddl --------------
         self.pddl_problem: Optional[PddlProblem] = None
         self.pddl_result: Optional[PddlResult] = None
-        # function able to call commands into shell/cmd (expecting 'UserInterface.run_command')
-        self.shell: callable = None
         # Scenario
         self.scenario: Optional[Scenario] = None
         self.new_scenario_name: str = ""
@@ -21,16 +19,12 @@ class PddlLauncher:
         self.problems_dir: str = (FilePaths.PDDL_PROBLEMS + "/{0}")
         self.results_dir: str = (FilePaths.PDDL_RESULTS + "/{0}")
 
-    def initialize(
-            self, scenario: str, new_scenario: str,
-            shell: callable, network: str = "default"
-            ) -> bool:
+    def initialize(self, scenario: str, new_scenario: str, network: str = "default") -> bool:
         """
 
         :param scenario: name of scenario to load (".sumocfg" file)
         :param new_scenario: name of scenario which will be created (after converting ".pddl"
         result files to scenario)
-        :param shell: function able to pass commands into shell/cmd (expecting 'UserInterface.run_command')
         :param network: name of network, if default, will be extracted from ".sumocfg" file (scenario)
         :return: None
         """
@@ -43,13 +37,9 @@ class PddlLauncher:
                 f" already exists -> {FilePaths.SCENARIO_SIM_PLANNED.format(new_scenario)} !"
             )
             return False
-        elif shell is None:
-            print("Method 'shell' is None!")
-            return False
-        self.shell = shell
         try:
             self.scenario = Scenario(scenario, network=network)
-        except (FileNotFoundError, ValueError) as e:  # Error occurred during loading of scenario
+        except (FileNotFoundError, ValueError) as _:  # Error occurred during loading of scenario
             return False
         self.new_scenario_name = new_scenario
         self.problems_dir = self.problems_dir.format(self.new_scenario_name)
@@ -147,8 +137,6 @@ class PddlLauncher:
         :return: True if Class was initialized with "initialize" method, false otherwise
         """
         if self.scenario is None:
-            return False
-        elif self.shell is None:
             return False
         elif not self.new_scenario_name:
             return False
