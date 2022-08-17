@@ -55,7 +55,7 @@ class PddlMain(UserInterface):
             return
         # Initialize pddl launcher
         self.pddl_launcher = instance
-        if not self.pddl_launcher.initialize(scenario, new_scenario, self.run_command, network):
+        if not self.pddl_launcher.initialize(scenario, new_scenario, network):
             return
         # Prepare new methods
         if len(self.pddl_commands.keys()):  # Remove previous pointers
