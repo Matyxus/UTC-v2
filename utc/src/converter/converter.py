@@ -7,7 +7,7 @@ class Converter(UserInterface):
 	""" Class that uses osm_filter and netconvert to create network file for SUMO """
 
 	def __init__(self):
-		super().__init__()
+		super().__init__("converter")
 		self.commands["convert"] = self.convert
 
 	#  ----------------------------------  Input  ----------------------------------
@@ -17,12 +17,8 @@ class Converter(UserInterface):
 		if len(argv) > 1:
 			print("Launching static input, reading map names from command line arguments")
 			self.argv_input()
-		elif self.is_redirected():  # Check for redirected file
-			self.static_input()
-		else:  # User input
-			print("Launching dynamic input, reading commands entered by user")
-			self.dynamic_input()
-		print("Exiting...")
+		else:
+			super().run()
 
 	def argv_input(self) -> None:
 		print(f"Accepting arguments: {argv}")

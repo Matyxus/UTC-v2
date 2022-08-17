@@ -1,14 +1,14 @@
-from typing import Dict, List, Set
+from typing import Dict, Set
 from utc.src.graph.components import Skeleton, Graph
 from utc.src.ui import UserInterface
 from utc.src.file_system import FilePaths, InfoFile
 
 
-class Launcher(UserInterface):
+class GraphMain(UserInterface):
     """ Class that launches program, ask user for input """
 
     def __init__(self):
-        super().__init__()
+        super().__init__("graph")
         # Graph modules
         self.graph: Graph = Graph()
         # Maps names of graphs to Graph class
@@ -24,7 +24,7 @@ class Launcher(UserInterface):
         self.commands["delete"] = self.delete_command
         # Info file
         self.info_file = InfoFile("")
-        self.info_file.allow_commands(["load", "simplify", "subgraph", "merge", "save"])
+        self.info_file.add_allowed_commands(["load", "simplify", "subgraph", "merge", "save"])
 
     # ----------------------------------------- Commands -----------------------------------------
 
@@ -164,5 +164,5 @@ class Launcher(UserInterface):
 
 # Program start
 if __name__ == "__main__":
-    launcher: Launcher = Launcher()
+    launcher: GraphMain = GraphMain()
     launcher.run()

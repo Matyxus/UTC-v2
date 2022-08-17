@@ -1,19 +1,20 @@
-import importlib
-from typing import Dict
 from utc.src.pddl.pddl_problem import PddlLauncher
 from utc.src.ui import UserInterface
+from utc.src.file_system import InfoFile, FilePaths
+import importlib
+from typing import Dict
 
 
 class PddlMain(UserInterface):
     """ Class that launches program for UTC problem.pddl generation, ask user for input """
 
     def __init__(self):
-        super().__init__()
+        super().__init__("pddl")
         self.pddl_launcher: PddlLauncher = None
         # Commands enabled when problem_type is loaded
         self.pddl_commands: Dict[str, callable] = {}
         # -------------- Commands --------------
-        self.commands["load_scenario"] = self.load_scenario
+        self.commands["load-scenario"] = self.load_scenario
 
     def load_scenario(
             self, scenario: str, new_scenario: str,
@@ -30,9 +31,10 @@ class PddlMain(UserInterface):
         :return: None
         """
         problem_type = (problem_type if "_problem" in problem_type else problem_type + "_problem")
-        module = importlib.import_module(problem_type)
-        if module is None:
-            print(f"Folder implementing 'pdd_problem' named: {problem_type} does not exist!")
+        try:
+            module = importlib.import_module(problem_type)
+        except ModuleNotFoundError as _:
+            print(f"Problem: {problem_type} module does not exist!")
             return
         # Expecting camel case in class name: utc_launcher -> UtcLauncher
         class_name: str = ''.join(
@@ -45,7 +47,7 @@ class PddlMain(UserInterface):
         instance = None
         try:
             instance = class_()
-        except AttributeError as e:
+        except AttributeError as _:
             print(f"Error in initialization of {class_name} class")
             return
         if instance is None or not isinstance(instance, PddlLauncher):
@@ -64,6 +66,10 @@ class PddlMain(UserInterface):
             "generate_scenario": self.pddl_launcher.generate_scenario
         }
         self.add_commands(self.pddl_commands)
+        # Info file
+        self.info_file = InfoFile(FilePaths.SCENARIO_STATISTICS.format(new_scenario))
+        self.info_file.add_allowed_commands(list(self.pddl_commands.keys()))
+        self.info_file.add_save_trigger_commands(list(self.pddl_commands.keys()))
 
 
 # Program start

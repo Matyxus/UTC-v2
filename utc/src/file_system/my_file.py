@@ -57,10 +57,7 @@ class MyFile:
         :return: Saves file to previously entered path,
         serves as interface method for custom saving
         """
-        raise NotImplementedError(
-            "Method 'save' of MyClass is interface method,"
-            "  for use it must be defined by subclasses of MyFile class !"
-        )
+        raise NotImplementedError("Method 'save' must be defined by subclasses of MyFile!")
 
     # ------------------------------------------- Utils -------------------------------------------
 

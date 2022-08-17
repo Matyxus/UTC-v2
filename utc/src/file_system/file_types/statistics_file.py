@@ -43,7 +43,7 @@ class StatisticsFile(XmlFile):
             return None
         my_stats: Dict[str, str] = self.get_vehicle_stats()
         other_stats: Dict[str, str] = other.get_vehicle_stats()
-        # Check statistics
+        # Check vehicle statistics
         if my_stats is None:
             print(f"Statistics of file: '{self.file_path}' are of type 'None', cannot compare!")
             return None

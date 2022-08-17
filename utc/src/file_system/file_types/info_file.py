@@ -11,8 +11,9 @@ class InfoFile(MyFile):
     def __init__(self, file_path: str, mode: str = "w+"):
         super().__init__(file_path, mode)
         self.default_extension = FileExtension.INFO
-        self.commands: List[Tuple[str, str]] = []
-        self.allowed_commands: Set[str] = set()
+        self.commands: List[Tuple[str, str]] = []  # List of command and their arguments inputted by user
+        self.allowed_commands: Set[str] = set()  # Commands which should be saved
+        self.save_trigger_commands: Set[str] = set()  # Command which trigger saving of file
 
     def record_command(self, command_name: str, args: str) -> None:
         """
@@ -24,13 +25,22 @@ class InfoFile(MyFile):
             # print(f"Command name: {command_name} is not allowed to be recorded!")
             return
         self.commands.append((command_name, args))
+        if command_name in self.save_trigger_commands:
+            self.save()
 
-    def allow_commands(self, commands: List[str]) -> None:
+    def add_allowed_commands(self, commands: List[str]) -> None:
         """
         :param commands: names of allowed commands which will be recorded
         :return: None
         """
-        self.allowed_commands = set(commands)
+        self.allowed_commands |= set(commands)
+
+    def add_save_trigger_commands(self, commands: List[str]) -> None:
+        """
+        :param commands: names of commands after which file should be automatically saved
+        :return: None
+        """
+        self.save_trigger_commands |= set(commands)
 
     def clear(self) -> None:
         """

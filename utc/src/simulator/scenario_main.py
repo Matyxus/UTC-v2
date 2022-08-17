@@ -1,29 +1,24 @@
 from utc.src.ui import UserInterface
 from utc.src.file_system import MyFile, FilePaths, InfoFile, SumoConfigFile
 from utc.src.simulator.scenario import Scenario
-from utc.src.simulator.simulation import SimulationLauncher
 import traci
 from typing import Dict
 from sumolib import checkBinary
 
 
-class ScenarioLauncher(UserInterface):
+class ScenarioMain(UserInterface):
     """ Class that ask user for input related to generating SUMO scenarios, generating and running scenarios """
 
     def __init__(self):
-        super().__init__()
+        super().__init__("scenario")
         self.scenario: Scenario = None
         self.commands["generate-scenario"] = self.generate_scenario_command
         self.commands["launch-scenario"] = self.launch_scenario_command
         # Commands enabled when generating scenario
         self.generating_commands: Dict[str, callable] = {}
-        # Launcher of scenarios and '.sumocfg' files,
-        # allows to use planner to generate vehicle routes while
-        # simulation runs
-        self.simulation_launcher: SimulationLauncher = None
         # Info file
         self.info_file = InfoFile("")
-        self.info_file.allow_commands(
+        self.info_file.add_allowed_commands(
             ["generate-scenario", "add-cars", "add-random-flow",
              "add-uniform-flow", "add-random-trips", "save"]
         )
@@ -111,6 +106,6 @@ class ScenarioLauncher(UserInterface):
 
 
 if __name__ == "__main__":
-    scenario_launcher: ScenarioLauncher = ScenarioLauncher()
+    scenario_launcher: ScenarioMain = ScenarioMain()
     scenario_launcher.run()
 
