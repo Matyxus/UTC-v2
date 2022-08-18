@@ -1,5 +1,5 @@
 from utc.src.ui import UserInterface
-from utc.src.file_system import MyFile, FilePaths, InfoFile, SumoConfigFile
+from utc.src.file_system import MyFile, MyDirectory, FilePaths, InfoFile, SumoConfigFile
 from utc.src.simulator.scenario import Scenario
 import traci
 from typing import Dict
@@ -14,6 +14,7 @@ class ScenarioMain(UserInterface):
         self.scenario: Scenario = None
         self.commands["generate-scenario"] = self.generate_scenario_command
         self.commands["launch-scenario"] = self.launch_scenario_command
+        self.commands["delete-scenario"] = self.delete_scenario_command
         # Commands enabled when generating scenario
         self.generating_commands: Dict[str, callable] = {}
         # Info file
@@ -42,10 +43,10 @@ class ScenarioMain(UserInterface):
         # Scenario
         self.scenario = Scenario(scenario_name, network_name)
         self.generating_commands = {
-            "add-cars": self.scenario.vehicle_generator.add_vehicles,
-            "add-random-flow": self.scenario.vehicle_generator.random_flow,
-            "add-uniform-flow": self.scenario.vehicle_generator.uniform_flow,
-            "add-random-trips": self.scenario.vehicle_generator.random_trips,
+            "add-cars": self.scenario.vehicle_factory.vehicle_trips.add_vehicles,
+            "add-random-trips": self.scenario.vehicle_factory.vehicle_trips.random_trips,
+            "add-random-flow": self.scenario.vehicle_factory.vehicle_flows.random_flow,
+            "add-uniform-flow": self.scenario.vehicle_factory.vehicle_flows.uniform_flow,
             "save": self.save_command,
             "plot": self.scenario.graph.display.plot
         }
@@ -90,6 +91,40 @@ class ScenarioMain(UserInterface):
                 print("Closed GUI, exiting ....")
             else:
                 print(f"Error occurred: {e}")
+
+    def delete_scenario_command(self, scenario_name: str) -> None:
+        """
+        Deletes scenario and associated files (pddl, routes, info)
+
+        :param scenario_name: name of scenario
+        :return: None
+        """
+        print(f"Proceeding to delete scenario: '{scenario_name}' and associated files")
+        scenario_path: str = SumoConfigFile(scenario_name).file_path
+        if not MyFile.file_exists(scenario_path):
+            return
+        # ---------------------------------- Files ----------------------------------
+        # Delete ".sumocfg" file
+        if not MyFile.delete_file(scenario_path):
+            return
+        # Delete ".rou.xml" file
+        route_paths: str = FilePaths.SCENARIO_ROUTES.format(scenario_name)
+        if MyFile.file_exists(route_paths, message=False) and not MyFile.delete_file(route_paths):
+            return
+        # Delete ".info" file
+        info_path: str = InfoFile(scenario_name).file_path
+        if MyFile.file_exists(info_path, message=False) and not MyFile.delete_file(info_path):
+            return
+        # ---------------------------------- Folders ----------------------------------
+        # Delete pddl problems folder (with files)
+        pddl_problems: str = FilePaths.PDDL_PROBLEMS + "/" + scenario_name
+        if MyDirectory.dir_exist(pddl_problems, message=False) and not MyDirectory.delete_directory(pddl_problems):
+            return
+        # Delete pddl results folder (with files)
+        pddl_results: str = FilePaths.PDDL_RESULTS + "/" + scenario_name
+        if MyDirectory.dir_exist(pddl_results, message=False) and not MyDirectory.delete_directory(pddl_results):
+            return
+        print(f"Successfully deleted scenario: '{scenario_name}' and associated files")
 
     def save_command(self) -> None:
         """

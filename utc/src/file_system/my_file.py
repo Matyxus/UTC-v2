@@ -1,5 +1,5 @@
 from typing import List, Union, Optional
-from os import rename
+from os import rename, remove
 from os.path import isfile
 from pathlib import Path
 from io import TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom
@@ -168,6 +168,22 @@ class MyFile:
         print(f"Successfully change name of file: {original} -> {target}")
         return True
 
+    @staticmethod
+    def delete_file(file_path: Union[str, 'MyFile']) -> bool:
+        """
+        :param file_path: to be deleted
+        :return: true on success, false otherwise
+        """
+        if not MyFile.file_exists(file_path):
+            return False
+        try:
+            remove(file_path)
+        except OSError as e:
+            print(f"During deletion of file: '{file_path}', error occurred: '{e}'")
+            return False
+        print(f"Successfully deleted file: '{file_path}'")
+        return True
+
     # ------------------------------------------- Magic methods -------------------------------------------
 
     def __str__(self) -> str:
@@ -195,9 +211,10 @@ class MyFile:
         """
         :return: Closes file pointer if its not None
         """
+        # Error
         if exc_type is not None:
             traceback.print_exception(exc_type, exc_value, traceback)
-
+        # Close file
         if self._file_pointer is not None:
             try:  # Check for errors
                 self._file_pointer.close()

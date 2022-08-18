@@ -1,6 +1,6 @@
 from utc.src.graph.components import Skeleton, Graph, Route
-from utc.src.plan_qd.metrics import SimilarityMetric, BottleneckMetric
-from typing import List
+from utc.src.plan_qd.metrics import SimilarityMetric, SimilarityMetric2, BottleneckMetric
+from typing import List, Dict
 
 
 class PlanQDLauncher:
@@ -11,6 +11,7 @@ class PlanQDLauncher:
         super().__init__()
         self.graph: Graph = None
         self.similarity_metric: SimilarityMetric = SimilarityMetric()
+        self.similarity_metric2: SimilarityMetric2 = SimilarityMetric2()
         self.bottleneck_metric: BottleneckMetric = BottleneckMetric()
 
     def initialize_graphs(self, network_name: str) -> None:
@@ -23,10 +24,7 @@ class PlanQDLauncher:
         self.graph.loader.load_map(network_name)
         self.graph.simplify.simplify_graph()
 
-    def subgraph(self,
-                 from_junction: str, to_junction: str,
-                 c: float, k: float, plot: bool = False
-                 ) -> None:
+    def subgraph(self, from_junction: str, to_junction: str, c: float, k: float, plot: bool = False) -> None:
         """
         :param from_junction: starting junction of sub-graph
         :param to_junction: ending junction of sub-graph
@@ -45,11 +43,11 @@ class PlanQDLauncher:
             print("Found no routes!")
             return
         print(f"Found {len(routes)} routes")
-
-        self.bottleneck_metric.calculate(routes)
-        self.bottleneck_metric.show_bottlenecks(self.graph)
-        # self.similarity_metric.calculate(routes)
-        # self.similarity_metric.show_clusters(self.graph)
+        # self.bottleneck_metric.calculate(routes)
+        # self.bottleneck_metric.show_bottlenecks(self.graph)
+        self.similarity_metric.calculate(routes)
+        self.similarity_metric2.calculate(routes)
+        # self.similarity_metric.plot_ranking(self.graph)
 
         # -------------------------------- Init --------------------------------
         sub_graph: Skeleton = self.graph.sub_graph.create_sub_graph(routes)

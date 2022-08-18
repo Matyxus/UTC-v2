@@ -1,5 +1,5 @@
 from utc.src.file_system.my_file import MyFile
-from os import listdir, mkdir
+from os import listdir, mkdir, rmdir
 from os.path import isdir
 from typing import List, Optional, Dict
 
@@ -23,6 +23,24 @@ class MyDirectory:
             mkdir(dir_path)
         except OSError as e:
             print(f"Unable to create directory: {dir_path}, got error: {e}")
+            return False
+        return True
+
+    @staticmethod
+    def delete_directory(dir_path: str) -> bool:
+        """
+        :param dir_path: of directory to be deleted (including files in directory)
+        :return: true on success, false otherwise
+        """
+        if not isinstance(dir_path, str) or not MyDirectory.dir_exist(dir_path):
+            return False
+        try:
+            for file in MyDirectory.list_directory(dir_path):
+                if not MyFile.delete_file(dir_path + "/" + file):
+                    return False
+            rmdir(dir_path)
+        except OSError as e:
+            print(f"Unable to delete directory: {dir_path}, got error: {e}")
             return False
         return True
 

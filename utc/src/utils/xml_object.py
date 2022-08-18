@@ -7,7 +7,7 @@ class XmlObject:
 
     def __init__(self, tag: str):
         self.tag = tag
-        self.attributes: Dict[str, Any] = {"id": ""}  # All xml object must have 'id' at least
+        self.attributes: Dict[str, Any] = {"id": ""}  # All xml object must have 'id'
 
     def __str__(self) -> str:
         return f"<{self.tag} {' '.join(['{0}={1}'.format(k, v) for k,v in self.attributes.items()])}/>"
@@ -17,3 +17,4 @@ class XmlObject:
         :return: xml Element representing this object
         """
         return ET.Element(self.tag, self.attributes)
+

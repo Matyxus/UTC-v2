@@ -1,5 +1,5 @@
 from utc.src.file_system import MyFile, SumoConfigFile, SumoRoutesFile
-from utc.src.simulator.simulation import VehicleGenerator
+from utc.src.simulator.vehicle import VehicleFactory
 from utc.src.file_system import FilePaths, FileExtension
 from utc.src.graph.components import Graph, Skeleton
 from typing import Optional
@@ -20,7 +20,7 @@ class Scenario:
         self.graph: Optional[Graph] = None
         self.config_generator: Optional[SumoConfigFile] = None  # ".sumocfg" file
         self.routes_generator: Optional[SumoRoutesFile] = None  # ".rou.xml" file
-        self.vehicle_generator: Optional[VehicleGenerator] = None
+        self.vehicle_factory: Optional[VehicleFactory] = None
         self.load(scenario, network)
 
     def load(self, scenario: str, network: str = "default") -> None:
@@ -49,7 +49,7 @@ class Scenario:
             print(f"Creating new scenario: {scenario} with network: {network}")
             # Check network
             if network == "default":
-                raise ValueError(f"For new scenario: {scenario} network: {network} must not equal 'default'!")
+                raise ValueError(f"For new scenario:' {scenario}', network: '{network}' must not equal 'default'!")
             self.config_generator = SumoConfigFile()
             self.config_generator.set_routes_file(scenario)
             self.config_generator.set_network_name(network)
@@ -61,7 +61,7 @@ class Scenario:
         self.graph.loader.load_map(network)  # No need to check for network existence, SumoConfig does that
         self.graph.simplify.simplify_graph()
         # Vehicle generator
-        self.vehicle_generator = VehicleGenerator(self.graph)
+        self.vehicle_factory = VehicleFactory(self.graph)
         # Sumo routes file
         self.routes_generator = SumoRoutesFile(routes_path)
         if not self.routes_generator.check_file():
@@ -87,8 +87,8 @@ class Scenario:
         if self.routes_generator is None or self.config_generator is None:
             print(f"Load scenario first, routes and/or config are 'None' !")
             return False
-        elif self.vehicle_generator is not None:  # Add vehicles to routes file
-            self.vehicle_generator.save(self.routes_generator.root)
+        elif self.vehicle_factory is not None:  # Add vehicles to routes file
+            self.vehicle_factory.save(self.routes_generator.root)
         # Create "scenario_routes.rou.xml"
         if not self.routes_generator.save(FilePaths.SCENARIO_ROUTES.format(self.name)):
             print(f"Error at creating '{self.name + FileExtension.SUMO_ROUTES}' file.")
@@ -103,11 +103,6 @@ class Scenario:
 
 # For testing purposes
 if __name__ == "__main__":
-    temp: Scenario = Scenario("test")
-    print(temp.config_generator.get_problem_files())
-    print(temp.config_generator.get_result_files())
-
-
-
+    temp: Scenario = Scenario("test", "Chodov")
 
 

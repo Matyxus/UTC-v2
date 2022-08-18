@@ -1,4 +1,4 @@
-from utc.src.graph.components import Route
+from utc.src.graph.components import Graph, Route
 from typing import List, Dict, Tuple
 
 
@@ -26,6 +26,15 @@ class Metric:
         raise NotImplementedError("Method 'calculate' must be implemented by children of Metric!")
 
     # -------------------------------------------- Utils --------------------------------------------
+
+    def plot_ranking(self, graph: Graph) -> None:
+        """
+        Shows classification / ranking of routes done by algorithm
+
+        :param graph: of ranked routes
+        :return: None
+        """
+        raise NotImplementedError("Error: method 'plot_ranking' must be implemented by children of Metric class!")
 
     def get_score(self) -> Tuple[str, Dict[int, float]]:
         """

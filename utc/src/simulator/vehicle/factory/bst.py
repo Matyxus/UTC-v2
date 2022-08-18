@@ -1,5 +1,5 @@
 from xml.etree.ElementTree import Element
-from utc.src.simulator.simulation.objects.vehicle import Vehicle
+from utc.src.simulator.vehicle import Vehicle
 
 
 class BST:

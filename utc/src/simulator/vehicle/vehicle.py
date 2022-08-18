@@ -8,10 +8,10 @@ class Vehicle(XmlObject):
 
     def __init__(self, depart: float = -1, route_id: str = ""):
         super().__init__("vehicle")
-        # ---------- Prepare vehicle attributes  ----------
+        # ---------- Prepare vehicle attributes ----------
         self.attributes["id"] = f"v{Vehicle._counter}"
         Vehicle._counter += 1
-        self.attributes["depart"] = ("" if depart < 0 else str(round(depart, 2)))
+        self.set_depart(depart)
         # Route (id) trough which cars will travel (must be defined in routes.route.xml file !)
         self.attributes["route"] = route_id
         # Average passenger car type (must be defined in routes.route.xml file !)
@@ -27,12 +27,12 @@ class Vehicle(XmlObject):
         """
         self.attributes["route"] = route_id
 
-    def set_depart(self, depart_time: int) -> None:
+    def set_depart(self, depart_time: float) -> None:
         """
         :param depart_time: time after which vehicle/s should arrive (seconds), 2 digit precision
         :return: None
         """
-        self.attributes["depart"] = str(round(depart_time, 2))
+        self.attributes["depart"] = ("" if depart_time < 0 else str(round(depart_time, 2)))
 
     # -------------------------------- Getters --------------------------------
 
@@ -46,7 +46,7 @@ class Vehicle(XmlObject):
 
     # -------------------------------- Utils --------------------------------
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: 'Vehicle') -> bool:
         if isinstance(other, Vehicle):
             return self.get_depart() < other.get_depart()
         return False
