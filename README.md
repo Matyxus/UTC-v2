@@ -168,7 +168,7 @@ to be executed, followed by filling of required arguments between "quotes" (if t
 [Prompt_toolkit](https://python-prompt-toolkit.readthedocs.io/en/master/) library is used
 to ask for input, which offers auto-completion when asking for command names, and
 history of used command names and arguments.
-![Input Example](./Images/ui_input_example.PNG)
+![Input Example](Images/ui_input_example.PNG)
 All classes have by default commands:
 1. **_help_** -> which prints all commands, their parameters and their description
 2. **_exit_** -> which quits the program.\
