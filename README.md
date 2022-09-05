@@ -196,7 +196,7 @@ There are 5 classes that can be launched:
 2. [GraphMain](./utc/src/graph) responsible for graph manipulation (creation of sub-graphs)
 3. [ScenarioMain](./utc/src/simulator) responsible for generation scenarios (".sumocfg" files)
 4. [UtcLauncher](./utc/src/pddl/utc_problem) responsible for planning scenarios
-5. [Main](./utc/src) combining all the above into one single class
+5. [Main](./utc/src) combining all the above into single class
 
 <details>
   <summary>Converter</summary>
@@ -253,12 +253,12 @@ There are 5 classes that can be launched:
 
 1. Download maps from [OpenStreetMap](https://www.openstreetmap.org/). \
 Save them in [UTC/utc/data/maps/osm/original](./utc/data/maps/osm/original) folder.
-2. Convert downloaded maps into '.net.xml' format using Converter.
-3. Generate scenario using ScenarioMain. 
-4. (Optional) Generate sub-graph for road network used in scenario using Graph. \
+2. Convert downloaded maps into '.net.xml' format using [Converter](./utc/src/converter).
+3. Generate scenario using [ScenarioMain](./utc/src/simulator). 
+4. (Optional) Generate sub-graph for road network used in scenario using [GraphMain](./utc/src/graph). \
 Planners can take long time to generate solutions if road network (or number of cars)
 is large, for that reason it is advantageous to use smaller networks (sub-graphs).
-5. Generate planned scenario using UtcLauncher.
-6. Launch scenario and compare vehicle statistics against planned simulation using ScenarioMain.
+5. Generate planned scenario using [UtcLauncher](./utc/src/pddl/utc_problem).
+6. Launch scenario and compare vehicle statistics against planned simulation using [ScenarioMain](./utc/src/simulator).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
