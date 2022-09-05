@@ -1,4 +1,5 @@
 from utc.src.graph.components import Graph, Route
+from utc.src.plan_qd.metrics.routes_struct import RoutesStruct
 from typing import List, Dict, Tuple
 
 
@@ -11,14 +12,14 @@ class Metric:
         """
         :param metric_name: name of metric
         """
-        # Score given to routes (the higher the worse), mapped by route id
-        self.score: Dict[int, float] = {}
+        # Sorted routes id's (ranked by algorithm)
+        self.score: List[int] = []
         self.name = metric_name
         print(f"Initializing metric: {self.name} class")
 
-    def calculate(self, routes: List[Route], *args, **kwargs) -> None:
+    def calculate(self, struct: RoutesStruct, *args, **kwargs) -> None:
         """
-        :param routes: list of routes to be ordered based on current metric
+        :param struct: object holding routes to be ranked and graph from which they were created
         :param args: additional args
         :param kwargs: additional args
         :return: None
@@ -27,19 +28,16 @@ class Metric:
 
     # -------------------------------------------- Utils --------------------------------------------
 
-    def plot_ranking(self, graph: Graph) -> None:
+    def plot_ranking(self, struct: RoutesStruct, *args, **kwargs) -> None:
         """
         Shows classification / ranking of routes done by algorithm
 
-        :param graph: of ranked routes
+        :param struct: object holding routes to be ranked and graph from which they were created
+        :param args: additional arguments
+        :param kwargs: additional arguments
         :return: None
         """
         raise NotImplementedError("Error: method 'plot_ranking' must be implemented by children of Metric class!")
 
-    def get_score(self) -> Tuple[str, Dict[int, float]]:
-        """
-        :return: name of metric and score given to routes
-        """
-        return self.name, self.score
 
 

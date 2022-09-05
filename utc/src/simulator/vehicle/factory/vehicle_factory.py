@@ -3,6 +3,7 @@ from utc.src.simulator.vehicle.factory.bst import BST
 from utc.src.graph.components import Graph
 from xml.etree.ElementTree import Element
 from numpy.random import seed
+from typing import Dict
 
 
 class VehicleFactory(VehicleGenerator):
@@ -48,3 +49,8 @@ class VehicleFactory(VehicleGenerator):
         # Add vehicles to xml root
         vehicles_bst.sorted_append(vehicles_bst.root, root)
         print(f"Added: {len(root.findall('vehicle'))} vehicles")
+
+    # -------------------------------------------- Utils --------------------------------------------
+
+    def get_methods(self) -> Dict[str, callable]:
+        return self.vehicle_flows.get_methods() | self.vehicle_trips.get_methods()

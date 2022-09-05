@@ -1,5 +1,5 @@
 from utc.src.simulator.vehicle.generators.vehicle_generator import VehicleGenerator, Graph, Vehicle
-from typing import Tuple, Iterator
+from typing import Tuple, Iterator, Dict
 import numpy as np
 
 
@@ -96,3 +96,8 @@ class VehicleFlows(VehicleGenerator):
         """
         for depart_time in np.linspace(time_interval[0], time_interval[1], vehicle_count):
             yield Vehicle(round(depart_time), route_id)
+
+    # -------------------------------------------- Utils --------------------------------------------
+
+    def get_methods(self) -> Dict[str, callable]:
+        return {"add-random-flow": self.random_flow, "add-uniform-flow": self.uniform_flow}

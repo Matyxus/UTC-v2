@@ -1,5 +1,5 @@
 from utc.src.graph.components import Junction, Edge, Route
-from utc.src.utils.constants import JUNCTION_START_COLOR, JUNCTION_START_END_COLOR, JUNCTION_END_COLOR
+from utc.src.graph.utils import Colors
 from utc.src.graph.modules.graph_module import GraphModule
 from utc.src.graph.components import Skeleton
 from utc.src.file_system import SumoNetworkFile
@@ -85,7 +85,7 @@ class Loader(GraphModule):
                     from_junction.add_connection(self.edge_to_route[in_edge_id], route)
             else:  # No connection to this edge, from_junction is starting
                 from_junction.add_connection(route, route)
-                from_junction.set_color(JUNCTION_START_COLOR)
+                from_junction.set_color(Colors.JUNCTION_START_COLOR)
                 self.skeleton.starting_junctions.add(from_junction.attributes["id"])
                 # print(f"Junction: {from_junction.attributes['id']} is starting !")
         # ------------------- Check -------------------
@@ -111,7 +111,7 @@ class Loader(GraphModule):
                 if out_route.get_destination() == in_route.get_start():
                     self.skeleton.starting_junctions.add(junction_id)
                     self.skeleton.ending_junctions.add(junction_id)
-                    junction.set_color(JUNCTION_START_END_COLOR)
+                    junction.set_color(Colors.JUNCTION_START_END_COLOR)
                     # print(f"Junction: {junction_id} is starting and ending!")
                     # Remove the connection between this two routes
                     junction.neighbours[in_route] = []
@@ -119,7 +119,7 @@ class Loader(GraphModule):
                     junction.add_connection(out_route, out_route)
             elif len(out_routes) == 0:  # Ending nodes, no connection out
                 self.skeleton.ending_junctions.add(junction_id)
-                self.skeleton.junctions[junction_id].set_color(JUNCTION_END_COLOR)
+                self.skeleton.junctions[junction_id].set_color(Colors.JUNCTION_END_COLOR)
                 # print(f"Junction: {junction_id} is ending!")
                 # print(junction_id, self.skeleton.junctions[junction_id].neighbours)
         print("Finished loading & creating edges, connections")
@@ -142,11 +142,10 @@ class Loader(GraphModule):
         """
         if edge.attributes["id"] in self.edge_to_route:
             return self.edge_to_route[edge.attributes["id"]]
-        route_id: int = self.skeleton.get_new_route_id()
-        assert (route_id not in self.skeleton.routes)
-        self.skeleton.routes[route_id] = Route(route_id, [edge])
-        self.edge_to_route[edge.attributes["id"]] = self.skeleton.routes[route_id]
-        return self.skeleton.routes[route_id]
+        ret_val: Route = Route([edge])
+        self.skeleton.add_route(ret_val)
+        self.edge_to_route[edge.attributes["id"]] = ret_val
+        return ret_val
 
 
 if __name__ == "__main__":

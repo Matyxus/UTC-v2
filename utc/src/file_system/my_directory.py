@@ -61,7 +61,8 @@ class MyDirectory:
     def list_directory(dir_path: str) -> Optional[List[str]]:
         """
         :param dir_path: of directory to be checked listed
-        :return: list of files in directory (with extension)
+        :return: list of files in directory (with extension), None
+        if directory does not exist
         """
         if not MyDirectory.dir_exist(dir_path, message=False):
             return None

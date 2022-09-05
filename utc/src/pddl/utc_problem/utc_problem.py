@@ -22,19 +22,24 @@ class UtcProblem(PddlProblem):
         self.pddl_vehicle = UtcVehicle()
         self.pddl_network = UtcNetwork()
 
-    def save(self, file_path: str) -> None:
+    def save(self, file_path: str) -> bool:
         # Checks
         if not self.problem_name:
             print("Problem name is not set, cannot save problem!")
-            return
+            return False
         elif not self.domain:
             print("Domain name is not set, cannot save problem!")
-            return
-        print(f"Creating pddl problem: {self.problem_name} in: {file_path}")
+            return False
+        print(f"Creating pddl problem: '{self.problem_name}' in: '{file_path}'")
         tmp: PddlProblem = self | (self.pddl_network | self.pddl_vehicle)
-        with open(file_path, "w") as pddl_problem_file:
-            pddl_problem_file.write(str(tmp))
+        try:
+            with open(file_path, "w") as pddl_problem_file:
+                pddl_problem_file.write(str(tmp))
+        except OSError as e:
+            print(f"Error: '{e}' while generating file!")
+            return False
         print(f"Successfully created pddl problem file")
+        return True
 
 
 # For testing purposes

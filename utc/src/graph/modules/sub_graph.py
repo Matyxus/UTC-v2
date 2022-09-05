@@ -1,5 +1,5 @@
 from utc.src.graph.modules.graph_module import GraphModule
-from utc.src.graph.components import Skeleton, Route, Edge
+from utc.src.graph.components import Skeleton, Route
 from utc.src.graph.modules.display import Display, plt
 from typing import List, Set, Optional
 from copy import deepcopy
@@ -20,19 +20,18 @@ class SubGraph(GraphModule):
         """
         assert (self.skeleton is not None)
         sub_graph: Skeleton = Skeleton()
-        sub_graph.map_name = deepcopy(self.skeleton.map_name)
         if len(routes) == 0 or not sub_graph.load(self.skeleton):
             return None
         # -------------------------- Cut graph --------------------------
         junctions: Set[str] = set()  # Junctions to be kept in graph
-        edges: Set[Edge] = set()  # Edges to be kept in graph
+        edges: Set[str] = set()  # Edges to be kept in graph
         # Extract junctions and edges from routes
         for route in routes:
-            edges |= set(route.edge_list)
+            edges |= set(route.get_edge_ids())
             junctions |= set(route.get_junctions())
         # Delete others edges, junctions
-        for edge in (set(self.skeleton.edges.values()) ^ edges):
-            sub_graph.remove_edge(edge.attributes["id"])
+        for edge_id in (self.skeleton.edges.keys() ^ edges):
+            sub_graph.remove_edge(edge_id)
         for junction_id in (self.skeleton.junctions.keys() ^ junctions):
             sub_graph.remove_junction(junction_id)
         return sub_graph
@@ -74,7 +73,7 @@ class SubGraph(GraphModule):
         # ------------------------ Routes ------------------------
         for route_id, route in other.routes.items():
             if route_id not in new_graph.routes:
-                new_graph.routes[route.id] = deepcopy(route)
+                new_graph.routes[route.get_id()] = deepcopy(route)
         # ------------------------ Edges ------------------------
         for edge_id, edge in other.edges.items():
             if edge_id not in new_graph.edges:

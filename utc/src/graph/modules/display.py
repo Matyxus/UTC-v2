@@ -1,11 +1,7 @@
 from utc.src.graph.modules.graph_module import GraphModule
 from utc.src.graph.components import Skeleton
 from matplotlib import pyplot as plt
-from utc.src.utils.constants import (
-    JUNCTION_END_COLOR, JUNCTION_START_END_COLOR,
-    JUNCTION_START_COLOR, JUNCTION_DEFAULT_COLOR,
-    EDGE_DEFAULT_COLOR
-)
+from utc.src.graph.utils import Colors
 
 
 class Display(GraphModule):
@@ -43,9 +39,9 @@ class Display(GraphModule):
         for junction_id in self.skeleton.ending_junctions:
             self.skeleton.junctions[junction_id].plot(ax)
         # Add different types of junctions to legend
-        self.add_label("o", color=JUNCTION_END_COLOR, label="exit")
-        self.add_label("o", color=JUNCTION_START_END_COLOR, label="entry & exit")
-        self.add_label("o", color=JUNCTION_START_COLOR, label="entry")
+        self.add_label("o", color=Colors.JUNCTION_END_COLOR, label="exit")
+        self.add_label("o", color=Colors.JUNCTION_START_END_COLOR, label="entry & exit")
+        self.add_label("o", color=Colors.JUNCTION_START_COLOR, label="entry")
         self.make_legend(3)
         self.show_plot()
 
@@ -60,10 +56,10 @@ class Display(GraphModule):
         """
         assert (self.skeleton is not None)
         ax.set_facecolor("#111111")
-        junction_color: str = (junction_color if junction_color else JUNCTION_DEFAULT_COLOR)
+        junction_color: str = (junction_color if junction_color else Colors.JUNCTION_COLOR)
         for junction in self.skeleton.junctions.values():
             junction.plot(ax, color=junction_color)
-        edge_color: str = (edge_color if edge_color else EDGE_DEFAULT_COLOR)
+        edge_color: str = (edge_color if edge_color else Colors.EDGE_COLOR)
         for edge in self.skeleton.edges.values():
             edge.plot(ax, color=edge_color)
 

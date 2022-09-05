@@ -1,6 +1,6 @@
 from utc.src.ui import UserInterface
 from utc.src.converter import Converter
-from utc.src.pddl import PddlMain
+from utc.src.pddl import UtcLauncher
 from utc.src.graph import GraphMain
 from utc.src.simulator import ScenarioMain
 from typing import Dict
@@ -17,12 +17,11 @@ class Main(UserInterface):
         self.ui_classes: Dict[str, UserInterface] = {
             "converter": Converter(),
             "graph": GraphMain(),
-            "pddl": PddlMain(),
+            "pddl": UtcLauncher(),
             "scenario": ScenarioMain()
         }
 
     def record(self, command_name: str, command_args: str) -> None:
-        super().record(command_name, command_args)
         # Record to correct info file
         for ui in self.ui_classes.values():
             if ui.info_file is not None:

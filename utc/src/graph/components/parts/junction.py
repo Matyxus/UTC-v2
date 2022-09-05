@@ -1,5 +1,5 @@
 from typing import Tuple, List, Dict
-from utc.src.utils.constants import JUNCTION_ATTRIBUTES, JUNCTION_DEFAULT_COLOR
+from utc.src.graph.utils import Attributes, Colors
 from utc.src.graph.components.parts.figure import Figure
 from utc.src.graph.components.parts.route import Route
 from utc.src.utils.xml_object import XmlObject
@@ -9,10 +9,13 @@ class Junction(Figure, XmlObject):
     """ Class representing junction from .net.xml file """
 
     def __init__(self, attributes: dict):
-        Figure.__init__(self, JUNCTION_DEFAULT_COLOR)
+        Figure.__init__(self, Colors.JUNCTION_COLOR)
         XmlObject.__init__(self, "junction")
         # Main attributes of Junction extracted from network (.net.xml) file
-        [self.attributes.update({key: value}) for key, value in attributes.items() if key in JUNCTION_ATTRIBUTES]
+        [
+            self.attributes.update({key: value}) for key, value in attributes.items()
+            if key in Attributes.JUNCTION_ATTRIBUTES
+        ]
         # Mapping incoming routes to possible out-coming routes
         self.neighbours: Dict[Route, List[Route]] = {}
         self.MARKER_SIZE: int = 8  # Size of displayed point (representing junction)
@@ -71,7 +74,7 @@ class Junction(Figure, XmlObject):
         pos: Tuple[float, float] = self.get_position()
         axes.plot(pos[0], pos[1], marker="o", markersize=self.MARKER_SIZE, color=color)
         axes.annotate(
-            self.attributes["id"], xy=(pos[0], pos[1]), color='black',
+            self.get_id(), xy=(pos[0], pos[1]), color='black',
             fontsize=self.TEXT_SIZE, weight='normal',
             horizontalalignment='center', verticalalignment='center'
         )
@@ -82,7 +85,7 @@ class Junction(Figure, XmlObject):
         """
         :return: Tuple containing (x, y) coordinates
         """
-        return float(self.attributes["x"]), float(self.attributes["y"])
+        return float(self.get_attribute("x")), float(self.get_attribute("y"))
 
     def get_in_routes(self) -> List[Route]:
         """
@@ -99,22 +102,22 @@ class Junction(Figure, XmlObject):
     # -------------------------------- Magic Methods --------------------------------
 
     def __str__(self) -> str:
-        ret_val: str = f"Junction: {self.attributes['id']}\n"
+        ret_val: str = f"Junction: {self.get_id()}\n"
         for in_route, out_routes in self.neighbours.items():
             ret_val += f"From: {in_route} to: \n"
             for out_route in out_routes:
                 ret_val += f"\t{out_route}\n"
         return ret_val
 
-    def __or__(self, other):
+    def __or__(self, other) -> 'Junction':
         """
         Merges with another junction (of same attributes), but with different connections
 
         :param other: junction
         :return: self
         """
-        assert (isinstance(other, Junction))
-        assert (self.attributes["id"] == other.attributes["id"])
+        if other != self:
+            raise TypeError(f"Expected other to be of type: 'Junction', got: '{type(other)}'")
         for in_route, out_routes in other.neighbours.items():
             if in_route not in self.neighbours:  # Add new mapping
                 self.neighbours[in_route] = out_routes
@@ -130,16 +133,3 @@ class Junction(Figure, XmlObject):
         :return: self.__or__(other)
         """
         return self.__or__(other)
-
-    def __eq__(self, another) -> bool:
-        """
-        :param another: object of comparison
-        :return: True if objects are equal, false otherwise
-        """
-        return isinstance(another, Junction) and self.attributes["id"] == another.attributes["id"]
-
-    def __hash__(self) -> int:
-        """
-        :return: Hash of attribute 'id'
-        """
-        return hash(self.attributes["id"])

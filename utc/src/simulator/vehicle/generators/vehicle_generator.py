@@ -62,6 +62,13 @@ class VehicleGenerator:
         other.routes = self.routes
         other.generators = self.generators
 
+    def get_methods(self) -> Dict[str, callable]:
+        """
+        :return: dictionary mapping method name to function which generates vehicles,
+        implemented by children of VehicleGenerator class
+        """
+        raise NotImplementedError("Method: 'get_methods' must be implemented by children of VehicleGenerator !")
+
     def check_args(
             self, from_junction_id: str = "", to_junction_id: str = "", amount: int = 1,
             start_time: float = 0, end_time: float = 1
@@ -77,7 +84,7 @@ class VehicleGenerator:
         if self.graph is None:
             print("Graph set to VehicleGenerator is of type 'None'!")
             return False
-        # Check if path exists (only if from_junction and to_junction) were given
+        # Check if path exists (only if from_junction and to_junction were given)
         elif from_junction_id and to_junction_id and not self.get_path(from_junction_id, to_junction_id):
             return False
         elif amount < 1:  # Check number of vehicles

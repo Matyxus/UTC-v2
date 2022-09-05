@@ -1,9 +1,9 @@
-from utc.src.ui import UserInterface
+from utc.src.ui import UserInterface, Command
 from utc.src.file_system import MyFile, MyDirectory, FilePaths, InfoFile, SumoConfigFile
 from utc.src.simulator.scenario import Scenario
+from utc.src.utils import TraciOptions
 import traci
-from typing import Dict
-from sumolib import checkBinary
+from typing import List
 
 
 class ScenarioMain(UserInterface):
@@ -12,19 +12,23 @@ class ScenarioMain(UserInterface):
     def __init__(self):
         super().__init__("scenario")
         self.scenario: Scenario = None
-        self.commands["generate-scenario"] = self.generate_scenario_command
-        self.commands["launch-scenario"] = self.launch_scenario_command
-        self.commands["delete-scenario"] = self.delete_scenario_command
-        # Commands enabled when generating scenario
-        self.generating_commands: Dict[str, callable] = {}
+        # Commands enabled when generating scenario + method for generating vehicles
+        self.generating_commands: List[str] = ["save-scenario", "plot"]
         # Info file
         self.info_file = InfoFile("")
         self.info_file.add_allowed_commands(
-            ["generate-scenario", "add-cars", "add-random-flow",
-             "add-uniform-flow", "add-random-trips", "save"]
+            ["generate-scenario", "save-scenario"]
         )
 
     # ---------------------------------- Commands ----------------------------------
+
+    def initialize_commands(self) -> None:
+        super().initialize_commands()
+        self.user_input.add_command([
+            ("generate-scenario", Command("generate-scenario", self.generate_scenario_command)),
+            ("launch-scenario", Command("launch-scenario", self.launch_scenario_command)),
+            ("delete-scenario", Command("delete-scenario", self.delete_scenario_command))
+        ])
 
     def generate_scenario_command(self, scenario_name: str, network_name: str) -> None:
         """
@@ -42,16 +46,22 @@ class ScenarioMain(UserInterface):
             return
         # Scenario
         self.scenario = Scenario(scenario_name, network_name)
-        self.generating_commands = {
-            "add-cars": self.scenario.vehicle_factory.vehicle_trips.add_vehicles,
-            "add-random-trips": self.scenario.vehicle_factory.vehicle_trips.random_trips,
-            "add-random-flow": self.scenario.vehicle_factory.vehicle_flows.random_flow,
-            "add-uniform-flow": self.scenario.vehicle_factory.vehicle_flows.uniform_flow,
-            "save": self.save_command,
-            "plot": self.scenario.graph.display.plot
-        }
-        self.add_commands(self.generating_commands)
+        # Add vehicle commands to generating commands and info file (only once)
+        if len(self.generating_commands) == 2:
+            vehicle_commands: List[str] = list(self.scenario.vehicle_factory.get_methods().keys())
+            self.generating_commands.extend(vehicle_commands)
+            self.info_file.add_allowed_commands(vehicle_commands)
+        # Add new commands
+        self.user_input.add_command([
+            (command_name, Command(command_name, function)) for command_name, function
+            in self.scenario.vehicle_factory.get_methods().items()
+        ])
+        self.user_input.add_command([
+            ("save-scenario", Command("save-scenario", self.save_command)),
+            ("plot-scenario", Command("plot-scenario", self.scenario.graph.display.plot))
+        ])
 
+    # noinspection PyMethodMayBeStatic
     def launch_scenario_command(self, scenario_name: str, statistics: bool = True, display: bool = True) -> None:
         """
         :param scenario_name: name of existing scenario (can be user-generated or planned)
@@ -64,24 +74,15 @@ class ScenarioMain(UserInterface):
         if not MyFile.file_exists(scenario_path, message=False):
             print(f"Scenario named: {scenario_name} does not exist!")
             return
-        sumo_run = checkBinary("sumo-gui") if display else checkBinary("sumo")
-        # Basic running options
-        options: list = [
-            "-c", scenario_path
-            # "--route-steps", "0",  # Force sumo to load all vehicles at once
-        ]
-        # Generate file containing vehicle statistics
+        traci_options: TraciOptions = TraciOptions()
+        options: List[str] = traci_options.get_options(scenario_path)
         if statistics:
-            options += [
-                "--duration-log.statistics", "true",
-                "--statistic-output", f"{FilePaths.SCENARIO_STATISTICS.format(scenario_name)}"
-                # "--tripinfo-output", "tripinfo.xml",
-                # "--summary", "summary.txt"
-            ]
+            options += traci_options.get_statistics(scenario_name)
         try:
-            traci.start([sumo_run, *options])
+            traci.start([traci_options.get_display(display), *options])
             while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
-                # TODO online planning
+                for vehicle_id in traci.simulation.getLoadedIDList():
+                    print(traci.vehicle.getVehicleClass(vehicle_id))
                 traci.simulationStep()
             traci.close()
             print(f"Simulation of scenario: '{scenario_name}' ended, exiting ...")
@@ -92,6 +93,7 @@ class ScenarioMain(UserInterface):
             else:
                 print(f"Error occurred: {e}")
 
+    # noinspection PyMethodMayBeStatic
     def delete_scenario_command(self, scenario_name: str) -> None:
         """
         Deletes scenario and associated files (pddl, routes, info)
@@ -137,7 +139,7 @@ class ScenarioMain(UserInterface):
         self.info_file.clear()
         # Reset
         self.scenario = None
-        self.remove_commands(list(self.generating_commands.keys()))
+        self.user_input.remove_command(self.generating_commands)
 
 
 if __name__ == "__main__":

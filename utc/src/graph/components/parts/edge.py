@@ -1,6 +1,6 @@
 from utc.src.graph.components.parts.figure import Figure
 from utc.src.utils.xml_object import XmlObject
-from utc.src.utils.constants import EDGE_ATTRIBUTES, LANE_ATTRIBUTES, EDGE_DEFAULT_COLOR
+from utc.src.graph.utils import Attributes, Colors
 from typing import Tuple, List
 
 
@@ -8,10 +8,13 @@ class Edge(Figure, XmlObject):
     """ Class describing Edge of road network from .net.xml file """
 
     def __init__(self, attributes: dict):
-        Figure.__init__(self, EDGE_DEFAULT_COLOR)
+        Figure.__init__(self, Colors.EDGE_COLOR)
         XmlObject.__init__(self, "edge")
         # Main attributes of Edge extracted from network (.net.xml) file
-        [self.attributes.update({key: value}) for key, value in attributes.items() if key in EDGE_ATTRIBUTES]
+        [
+            self.attributes.update({key: value}) for key, value in attributes.items()
+            if key in Attributes.EDGE_ATTRIBUTES
+        ]
         self.lanes: dict = {}
         self.LINE_WIDTH: float = 1  # Thickness of displayed line
 
@@ -20,15 +23,11 @@ class Edge(Figure, XmlObject):
         :param lane: dictionary holding attributes of lane
         :return: None
         """
-        self.lanes[lane["id"]] = {key: lane[key] for key in lane if key in LANE_ATTRIBUTES}
-        self.attributes["length"] = float(lane["length"])  # measured in meters
-        self.attributes["speed"] = float(lane["speed"])  # measured in meters/second, maximal speed on edge
+        self.lanes[lane["id"]] = {key: lane[key] for key in lane if key in Attributes.LANE_ATTRIBUTES}
+        self.attributes["length"] = lane["length"]  # measured in meters
+        self.attributes["speed"] = lane["speed"]  # measured in meters/second, maximal speed on edge
 
-    def travel(self) -> Tuple[str, float]:
-        """
-        :return: Tuple containing destination junction id and length
-        """
-        return self.attributes["to"], self.attributes["length"]
+    # ------------------------------------------ Getters ------------------------------------------
 
     def get_lane_shape(self, lane_id: str) -> List[List[float]]:
         """
@@ -41,18 +40,29 @@ class Edge(Figure, XmlObject):
 
     def get_length(self) -> float:
         """
-        :return: -1 if parameter length does not exist, else length of
-        lane (it is assumed, all lanes of edge have the same length)
+        :return: length of lane (it is assumed, all lanes of edge have the same length)
         """
-        if "length" not in self.attributes:
-            return -1
-        return self.attributes["length"]
+        return float(self.get_attribute("length"))
+
+    def get_speed(self) -> float:
+        """
+        :return: maximal allowed speed
+        """
+        return round(float(self.get_attribute("speed")), 3)
 
     def get_lane_count(self) -> int:
         """
-        :return:
+        :return: number of lanes on Edge
         """
         return len(self.lanes.keys())
+
+    # ------------------------------------------ Utils ------------------------------------------
+
+    def travel(self) -> Tuple[str, float]:
+        """
+        :return: Tuple containing destination junction id and length
+        """
+        return self.get_attribute("to"), self.get_length()
 
     def plot(self, axes, color: str = "") -> None:
         color = (color if color != "" else self.color)
@@ -63,18 +73,3 @@ class Edge(Figure, XmlObject):
                 x: list = [points[i-1][0], points[i][0]]
                 y: list = [points[i-1][1], points[i][1]]
                 axes.plot(x, y, linewidth=self.LINE_WIDTH, color=color)
-
-    # -------------------------------- Magic Methods --------------------------------
-
-    def __eq__(self, another) -> bool:
-        """
-        :param another: object of comparison
-        :return: True if objects are equal, false otherwise
-        """
-        return isinstance(another, Edge) and self.attributes["id"] == another.attributes["id"]
-
-    def __hash__(self) -> int:
-        """
-        :return: Hash of attribute 'id'
-        """
-        return hash(self.attributes["id"])

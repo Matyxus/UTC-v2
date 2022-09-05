@@ -57,10 +57,10 @@ class PddlProblem(PddlStruct):
 
     # ------------------------------------ Utils ------------------------------------
 
-    def save(self, file_path: str) -> None:
+    def save(self, file_path: str) -> bool:
         """
         :param file_path: path to file which will be created
-        :return: None
+        :return: True on success, false otherwise
         """
         raise NotImplementedError("Method: 'save' must be implemented by children of PddlProblem")
 

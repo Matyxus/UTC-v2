@@ -1,0 +1,7 @@
+load-graph map_name="Chodov"
+simplify graph_name="Chodov" plot="False"
+subgraph subgraph_name="sg1" graph_name="Chodov" from_junction="66" to_junction="77" c="1.5" plot="False"
+subgraph subgraph_name="sg1" graph_name="Chodov" from_junction="77" to_junction="66" c="1.5" plot="False"
+subgraph subgraph_name="sg2" graph_name="Chodov" from_junction="3" to_junction="10" c="1.3" plot="False"
+merge graph_name="sg3" graph_a="sg1" graph_b="sg2" plot="t"
+save-graph graph_name="sg3" file_name="test1"

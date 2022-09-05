@@ -1,6 +1,5 @@
 from utc.src.file_system import MyFile, FilePaths
-from utc.src.ui import UserInterface
-from sys import argv
+from utc.src.ui import UserInterface, Command
 
 
 class Converter(UserInterface):
@@ -8,27 +7,14 @@ class Converter(UserInterface):
 
 	def __init__(self):
 		super().__init__("converter")
-		self.commands["convert"] = self.convert
 
-	#  ----------------------------------  Input  ----------------------------------
+	#  --------------------------------------------  Commands  --------------------------------------------
 
-	def run(self) -> None:
-		# Check for command line arguments
-		if len(argv) > 1:
-			print("Launching static input, reading map names from command line arguments")
-			self.argv_input()
-		else:
-			super().run()
+	def initialize_commands(self) -> None:
+		super().initialize_commands()
+		self.user_input.add_command([("convert", Command("convert", self.convert_command))])
 
-	def argv_input(self) -> None:
-		print(f"Accepting arguments: {argv}")
-		for map_name in argv[1:]:
-			success: bool = self.convert(map_name)
-			print(f"Successfully converted: {map_name} -> {success}")
-
-	#  ----------------------------------  Utils  ----------------------------------
-
-	def convert(self, file_name: str) -> bool:
+	def convert_command(self, file_name: str) -> bool:
 		"""
 		Expecting file to be in directory defined in constants.PATH.ORIGINAL_OSM_MAPS,
 		converts osm file into '.net.xml' file, while removing all

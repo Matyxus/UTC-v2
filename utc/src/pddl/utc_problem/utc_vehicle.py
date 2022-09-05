@@ -14,7 +14,7 @@ class UtcVehicle(PddlVehicle):
         """
         Adds vehicles to ':object', adds their initial and goal states (positions)
 
-        :param vehicles: Iterable object containing vehicle id's
+        :param vehicles: dictionary mapping vehicle id to their starting and ending junctions
         :return: None
         """
         super().add_vehicles(vehicles)

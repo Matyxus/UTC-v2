@@ -61,9 +61,9 @@ class UtcNetwork(PddlNetwork):
             for predicate in self.calculate_thresholds(capacity, route_id):
                 self.add_init_state(predicate)
             # Maximum capacity (after it becomes congested)
-            self.add_init_state(f"(cap {self.route_object.format(route_id)} {self.use_object.format(capacity)})")
+            self.add_init_state(f"(cap {route_id} {self.use_object.format(capacity)})")
             # Current number of cars = 0
-            self.add_init_state(f"(using {self.route_object.format(route_id)} {self.use_object.format(0)})")
+            self.add_init_state(f"(using {route_id} {self.use_object.format(0)})")
         # Add 'use', 'next' predicate (to calculate how many cars are on road)
         for i in range(self.max_capacity):
             self.add_init_state(f"(next {self.use_object.format(i)} {self.use_object.format(i+1)})")
@@ -72,19 +72,19 @@ class UtcNetwork(PddlNetwork):
 
     # ---------------------------------------- Utils ----------------------------------------
 
-    def calculate_thresholds(self, capacity: int, route_id: int) -> List[str]:
+    def calculate_thresholds(self, capacity: int, route_id: str) -> List[str]:
         """
         :param capacity: of route
         :param route_id: of route
         :return: List of predicates -> (light/medium/heavy route_id useX)
         """
         # Default for every route (-> 0 cars on road)
-        predicates: List[str] = [f"(light {self.route_object.format(route_id)} {self.use_object.format(0)})"]
+        predicates: List[str] = [f"(light {route_id} {self.use_object.format(0)})"]
         index: int = 1
         for density_type, density in self.get_thresholds(capacity).items():
             for _ in range(density):
                 predicates.append(
-                    f"({density_type} {self.route_object.format(route_id)} {self.use_object.format(index)})"
+                    f"({density_type} {route_id} {self.use_object.format(index)})"
                 )
                 index += 1
         return predicates
@@ -97,14 +97,14 @@ class UtcNetwork(PddlNetwork):
         predicates: List[str] = []
         cost: float = (  # route_length / average_speed
                 route.traverse()[0] /
-                (sum([edge.attributes["speed"] for edge in route.edge_list]) / len(route.edge_list))
+                (sum([edge.get_speed() for edge in route.edge_list]) / len(route.edge_list))
         )
         # In case route is too short (can be traveled under second)
         if cost < 1:
             cost = 1
-        predicates.append(f"(= (length-light r{route.id}) {int(cost)})")
-        predicates.append(f"(= (length-medium r{route.id}) {int(cost * self.MEDIUM_CAPACITY_MULTIPLIER)})")
-        predicates.append(f"(= (length-heavy r{route.id}) {int(cost * self.HEAVY_CAPACITY_MULTIPLIER)})")
+        predicates.append(f"(= (length-light {route.get_id()}) {int(cost)})")
+        predicates.append(f"(= (length-medium {route.get_id()}) {int(cost * self.MEDIUM_CAPACITY_MULTIPLIER)})")
+        predicates.append(f"(= (length-heavy {route.get_id()}) {int(cost * self.HEAVY_CAPACITY_MULTIPLIER)})")
         return predicates
 
     def calculate_capacity(self, route: Route) -> int:

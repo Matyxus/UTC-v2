@@ -2,13 +2,15 @@ from utc.src.pddl.pddl_problem.pddl_problem import PddlProblem
 from utc.src.pddl.pddl_problem.pddl_result import PddlResult
 from utc.src.simulator.scenario import Scenario
 from utc.src.file_system import MyFile, MyDirectory, FilePaths, FileExtension
+from utc.src.ui import UserInterface, Command
 from typing import List, Optional
 
 
-class PddlLauncher:
+class PddlLauncher(UserInterface):
     """ Class that implements interface methods for generating pddl problems/results """
 
     def __init__(self):
+        super().__init__("PddlLauncher")
         # -------------- Pddl --------------
         self.pddl_problem: Optional[PddlProblem] = None
         self.pddl_result: Optional[PddlResult] = None
@@ -19,12 +21,18 @@ class PddlLauncher:
         self.problems_dir: str = (FilePaths.PDDL_PROBLEMS + "/{0}")
         self.results_dir: str = (FilePaths.PDDL_RESULTS + "/{0}")
 
+    def initialize_commands(self) -> None:
+        super().initialize_commands()
+        self.user_input.add_command([("initialize-pddl", Command("initialize-pddl", self.initialize))])
+
     def initialize(self, scenario: str, new_scenario: str, network: str = "default") -> bool:
         """
+        Initializes environment for generating pddl problem/result files and
+        conversion of result files to scenarios, unlocks commands
 
         :param scenario: name of scenario to load (".sumocfg" file)
-        :param new_scenario: name of scenario which will be created (after converting ".pddl"
-        result files to scenario)
+        :param new_scenario: namespace of newly generated pddl problem/result files
+        and planned scenario, routes
         :param network: name of network, if default, will be extracted from ".sumocfg" file (scenario)
         :return: None
         """
@@ -44,12 +52,24 @@ class PddlLauncher:
         self.new_scenario_name = new_scenario
         self.problems_dir = self.problems_dir.format(self.new_scenario_name)
         self.results_dir = self.results_dir.format(self.new_scenario_name)
+        # Unlock commands for generating pddl files and scenario
+        self.user_input.add_command([
+            ("generate-problems", Command("generate-problems", self.generate_problems)),
+            ("generate-problem", Command("generate-problem", self.generate_problem)),
+            ("generate-results", Command("generate-results", self.generate_results)),
+            ("generate-result", Command("generate-result", self.generate_result)),
+            ("generate-scenario", Command("generate-scenario", self.generate_scenario)),
+            ("plan-scenario", Command("plan-scenario", self.plan_scenario))
+        ])
         return True
+
+    # -------------------------------------------- Problem --------------------------------------------
 
     def generate_problems(self, domain: str, *args, **kwargs) -> None:
         """
         Generates ".pddl" problem files corresponding to loaded scenario,
-        their name must contain "new_scenario" attribute, extension must be ".pddl"
+        resulting files will be named: "new_scenario_problem[suffix].pddl",
+        where suffix is added by Subclass
 
         :param domain: name of pddl domain (must be in /utc/data/domains)
         :param args: additional arguments
@@ -58,11 +78,26 @@ class PddlLauncher:
         """
         raise NotImplementedError("Method 'generate_problems' must be implemented by children of PddlLauncher")
 
+    def generate_problem(self, domain: str, *args, **kwargs) -> None:
+        """
+        Generates single ".pddl" problem file corresponding to loaded scenario,
+        resulting file will be named: "new_scenario_problem[suffix].pddl",
+        where suffix is added by Subclass
+
+        :param domain: name of pddl domain (must be in /utc/data/domains)
+        :param args: additional arguments
+        :param kwargs: additional arguments
+        :return: None
+        """
+        raise NotImplementedError("Method 'generate_problem' must be implemented by children of PddlLauncher")
+
+    # -------------------------------------------- Result --------------------------------------------
+
     def generate_results(self, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
         """
         Generates ".pddl" results files to loaded scenario,
-        their name must contain "new_scenario" attribute, extension must be ".pdd"
-
+        the generated result files will be named: "new_scenario_result[suffix].pddl,
+        where suffix is added by Subclass
 
         :param planner: name of planner to be used (must be defined in /utc/src/util/constants -> PLANNERS)
         :param domain: name of pddl domain (must be in /utc/data/domains)
@@ -73,25 +108,58 @@ class PddlLauncher:
         """
         raise NotImplementedError("Method 'generate_results' must be implemented by children of PddlLauncher")
 
-    def generate_scenario(self, *args, **kwargs) -> None:
+    def generate_result(self, problem: str, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
+        """
+        Generates single ".pddl" result files from given problem file name,
+        the generated result file will be named: "new_scenario_result[suffix].pddl,
+        where suffix is added by Subclass
+
+        :param problem: name of problem file (must be in /utc/data/scenarios/problems/new_scenario)
+        :param planner: name of planner to be used (must be defined in /utc/src/util/constants -> PLANNERS)
+        :param domain: name of pddl domain (must be in /utc/data/domains)
+        :param timeout: seconds given to planner execution
+        :param args: additional arguments
+        :param kwargs: additional arguments
+        :return: None
+        """
+        raise NotImplementedError("Method 'generate_result' must be implemented by children of PddlLauncher")
+
+    # -------------------------------------------- Scenario --------------------------------------------
+
+    def generate_scenario(self, keep_files: bool = True, *args, **kwargs) -> None:
         """
         Generates new scenario from ".pddl" result files
 
+        :param keep_files: if pddl problem/result files should be kept (default True)
         :param args: additional arguments
         :param kwargs: additional arguments
         :return: None
         """
         raise NotImplementedError("Method 'generate_scenario' must be implemented by children of PddlLauncher")
 
+    def plan_scenario(self, domain: str, planner: str, timeout: int = 30, *args, **kwargs) -> None:
+        """
+        Plans scenario "on the go" during the simulation (displayed on SumoGUI), automatically
+        generates statistics files
+
+        :param domain: name of pddl domain (must be in /utc/data/domains)
+        :param planner: name of planner to be used (must be defined in /utc/src/util/constants -> PLANNERS)
+        :param timeout: seconds given to planner execution
+        :param args: additional arguments
+        :param kwargs: additional arguments
+        :return: None
+        """
+        raise NotImplementedError("Method 'plan_scenario' must be implemented by children of PddlLauncher")
+
     # ------------------------------------------------ Utils -----------------------------------------------
 
     def prepare_directory(self, pddl_type: str) -> bool:
         """
-        Creates directory under the name of new_scenario_attribute in
-        /utc/data/problems or /utc/data/results depending on
+        Creates directory under the name of 'new_scenario' in
+        /utc/data/scenarios/problems or /utc/data/scenarios/results depending on
         argument pddl_type
 
-        :param pddl_type: either problem/result
+        :param pddl_type: either problem or result
         :return: true on success, false otherwise
         """
         if pddl_type not in ["result", "problem"]:
@@ -113,7 +181,8 @@ class PddlLauncher:
     def check_pddl_extension(self, dir_path: str) -> None:
         """
         Checks if files in directory end with ".pddl" extension,
-        if not, renames such files.
+        if not, renames such files so that their extension
+        ends with ".pddl"
 
         :param dir_path: path to directory
         :return: None

@@ -1,6 +1,6 @@
 from typing import Dict, Set
 from utc.src.graph.components import Skeleton, Graph
-from utc.src.ui import UserInterface
+from utc.src.ui import UserInterface, Command
 from utc.src.file_system import FilePaths, InfoFile
 
 
@@ -13,18 +13,22 @@ class GraphMain(UserInterface):
         self.graph: Graph = Graph()
         # Maps names of graphs to Graph class
         self.graphs: Dict[str, Skeleton] = {}
-        # Set functions to commands (inherited from parent class)
-        self.commands["load-graph"] = self.load_command
-        self.commands["plot-graph"] = self.plot_command
-        self.commands["simplify"] = self.simplify_command
-        self.commands["subgraph"] = self.sub_graph_command
-        self.commands["merge"] = self.merge_command
-        self.commands["save-graph"] = self.save_command
-        self.commands["graphs"] = self.graphs_command
-        self.commands["delete-graph"] = self.delete_command
         # Info file
         self.info_file = InfoFile("")
         self.info_file.add_allowed_commands(["load-graph", "simplify", "subgraph", "merge", "save-graph"])
+
+    def initialize_commands(self) -> None:
+        super().initialize_commands()
+        self.user_input.add_command([
+            ("load-graph", Command("load-graph", self.load_command)),
+            ("plot-graph", Command("plot-graph", self.plot_command)),
+            ("simplify", Command("simplify", self.simplify_command)),
+            ("subgraph", Command("subgraph", self.sub_graph_command)),
+            ("merge", Command("merge", self.merge_command)),
+            ("save-graph", Command("save-graph", self.save_command)),
+            ("graphs", Command("graphs", self.graphs_command)),
+            ("delete-graph", Command("delete-graph", self.delete_command)),
+        ])
 
     # ----------------------------------------- Commands -----------------------------------------
 
@@ -45,8 +49,7 @@ class GraphMain(UserInterface):
         :param graph_name: name of graph to be displayed
         :return: None
         """
-        if graph_name not in self.graphs:
-            print(f"Graph with name: {graph_name} does not exist")
+        if not self.graph_exists(graph_name):
             return
         self.graph.set_skeleton(self.graphs[graph_name])
         self.graph.display.plot()
@@ -60,8 +63,7 @@ class GraphMain(UserInterface):
         :param plot: bool (true/false), if process should be displayed
         :return: None
         """
-        if graph_name not in self.graphs:
-            print(f"Graph with name: {graph_name} does not exist")
+        if not self.graph_exists(graph_name):
             return
         self.graph.set_skeleton(self.graphs[graph_name])
         self.graph.simplify.simplify_graph(self.graph.display if plot else None)
@@ -79,8 +81,7 @@ class GraphMain(UserInterface):
         :param plot: bool (true, false), if process should be displayed
         :return: None
         """
-        if graph_name not in self.graphs:
-            print(f"Graph with name: {graph_name} does not exist")
+        if not self.graph_exists(graph_name):
             return
         self.graph.set_skeleton(self.graphs[graph_name])
         routes = self.graph.shortest_path.top_k_a_star(
@@ -102,11 +103,10 @@ class GraphMain(UserInterface):
         :param plot: bool (true, false), if process should be displayed
         :return: None
         """
-        if graph_a not in self.graphs:
-            print(f"Graph with name: {graph_a} does not exist")
+        # Checks
+        if not self.graph_exists(graph_b):
             return
-        elif graph_b not in self.graphs:
-            print(f"Graph with name: {graph_b} does not exist")
+        elif not self.graph_exists(graph_b):
             return
         # Merge
         self.graph.set_skeleton(self.graphs[graph_a])
@@ -132,8 +132,7 @@ class GraphMain(UserInterface):
         :param graph_name: name of graph to be deleted
         :return: None
         """
-        if graph_name not in self.graphs:
-            print(f"Graph with name: {graph_name} does not exist")
+        if not self.graph_exists(graph_name):
             return
         self.graphs.pop(graph_name)
 
@@ -145,8 +144,7 @@ class GraphMain(UserInterface):
         :param file_name: name of file containing new road network
         :return: None
         """
-        if graph_name not in self.graphs:
-            print(f"Graph with name: {graph_name} does not exist")
+        if not self.graph_exists(graph_name):
             return
         path: str = FilePaths.NETWORK_SUMO_MAPS.format(file_name)
         graph: Skeleton = self.graphs[graph_name]
@@ -159,7 +157,21 @@ class GraphMain(UserInterface):
         command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {path}"
         self.run_command(command)
         # Save info file
-        self.info_file.save(FilePaths.MAPS_INFO.format(graph_name))
+        self.info_file.save(FilePaths.MAPS_INFO.format(file_name))
+
+    # ----------------------------------------- Utils -----------------------------------------
+
+    def graph_exists(self, graph_name: str, message: bool = True) -> bool:
+        """
+        :param graph_name: to be checked for existence
+        :param message: if message about graph not existing should be printed (default true)
+        :return: true if graph exists, false otherwise
+        """
+        if graph_name not in self.graphs:
+            if message:
+                print(f"Graph: '{graph_name}' does not exist!")
+            return False
+        return True
 
 
 # Program start

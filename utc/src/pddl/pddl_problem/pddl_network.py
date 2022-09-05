@@ -18,7 +18,7 @@ class PddlNetwork(PddlStruct):
         # Pddl id of route
         self.route_object: str = "r{0}"
         # Connections between junctions (by route) -> (connected from_junction_id road_id to_junction_id)
-        self.connected_state: str = "(connected j{0} r{1} j{2})"
+        self.connected_state: str = "(connected j{0} {1} j{2})"
         self.initialize_object()
 
     def initialize_object(self) -> None:
@@ -42,11 +42,11 @@ class PddlNetwork(PddlStruct):
         """
         # Remove unused junctions, etc.
         skeleton.validate_graph()
-        # Add junctions
+        # Add junctions (jr{junction_id} is used for roundabouts)
         for junction_id in skeleton.junctions.keys():
             self.add_object(self.junction_group_name, self.junction_object.format(junction_id))
         # Add roads and connections between junctions
         for route_id, route in skeleton.routes.items():
-            self.add_object(self.route_group_name, self.route_object.format(route_id))
+            self.add_object(self.route_group_name, route_id)
             # Add connections between junctions and routes -> (connected from_junction_id road_id to_junction_id)
             self.add_init_state(self.connected_state.format(route.get_start(), route_id, route.get_destination()))

@@ -1,5 +1,5 @@
 from utc.src.graph.components import Skeleton, Graph, Route
-from utc.src.plan_qd.metrics import SimilarityMetric, SimilarityMetric2, BottleneckMetric
+from utc.src.plan_qd.metrics import SimilarityMetric, BottleneckMetric, RoutesStruct
 from typing import List, Dict
 
 
@@ -9,9 +9,8 @@ class PlanQDLauncher:
     """
     def __init__(self):
         super().__init__()
-        self.graph: Graph = None
+        self.routes_struct: RoutesStruct = None
         self.similarity_metric: SimilarityMetric = SimilarityMetric()
-        self.similarity_metric2: SimilarityMetric2 = SimilarityMetric2()
         self.bottleneck_metric: BottleneckMetric = BottleneckMetric()
 
     def initialize_graphs(self, network_name: str) -> None:
@@ -20,37 +19,39 @@ class PlanQDLauncher:
         :return: None
         """
         #
-        self.graph = Graph(Skeleton())
-        self.graph.loader.load_map(network_name)
-        self.graph.simplify.simplify_graph()
+        self.routes_struct: RoutesStruct = RoutesStruct([], None)
+        graph = Graph(Skeleton())
+        graph.loader.load_map(network_name)
+        graph.simplify.simplify_graph()
+        self.routes_struct.set_graph(graph)
 
     def subgraph(self, from_junction: str, to_junction: str, c: float, k: float, plot: bool = False) -> None:
         """
         :param from_junction: starting junction of sub-graph
         :param to_junction: ending junction of sub-graph
         :param c: maximal route length (shortest_path * c), must be higher than 1
-        :param k: number of best routes to be used for subgraph (if value between 0,1 -> percentage of total routes)
+        :param k: number of best routes to be used for subgraph (if value between 0-1 -> percentage of total routes)
         :param plot:
         :return:
         """
-        if self.graph is None:
+        if self.routes_struct.graph is None:
             print("Graph is not initialized")
             return
-        routes = self.graph.shortest_path.top_k_a_star(
-            from_junction, to_junction, c, self.graph.display if plot else None
+        routes = self.routes_struct.graph.shortest_path.top_k_a_star(
+            from_junction, to_junction, c, self.routes_struct.graph.display if plot else None
         )
         if not routes:
             print("Found no routes!")
             return
-        print(f"Found {len(routes)} routes")
-        # self.bottleneck_metric.calculate(routes)
-        # self.bottleneck_metric.show_bottlenecks(self.graph)
-        self.similarity_metric.calculate(routes)
-        self.similarity_metric2.calculate(routes)
-        # self.similarity_metric.plot_ranking(self.graph)
+        self.routes_struct.set_routess(routes)
+        # Metrics
+        # self.bottleneck_metric.calculate(self.routes_struct)
+        # self.bottleneck_metric.plot_ranking(self.routes_struct)
+        self.similarity_metric.calculate(self.routes_struct)
+        self.similarity_metric.plot_ranking(self.routes_struct)
 
         # -------------------------------- Init --------------------------------
-        sub_graph: Skeleton = self.graph.sub_graph.create_sub_graph(routes)
+        sub_graph: Skeleton = self.routes_struct.graph.sub_graph.create_sub_graph(routes)
         if sub_graph is None:
             print("Could not create subgraph")
             return

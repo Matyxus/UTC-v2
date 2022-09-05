@@ -1,7 +1,7 @@
 from utc.src.graph.components.parts.figure import Figure
 from utc.src.graph.components.parts.edge import Edge
 from utc.src.utils import XmlObject
-from utc.src.utils.constants import EDGE_DEFAULT_COLOR
+from utc.src.graph.utils import Colors
 from typing import List, Tuple, Union
 
 
@@ -10,10 +10,9 @@ class Route(Figure, XmlObject):
 
     _counter: int = 0  # Variable serving to count number of class instances (to assign id's to routes)
 
-    def __init__(self, identifier: int, edges: List[Edge]):
-        Figure.__init__(self, color=EDGE_DEFAULT_COLOR)
+    def __init__(self, edges: List[Edge]):
+        Figure.__init__(self, color=Colors.EDGE_COLOR)
         XmlObject.__init__(self, tag="route")
-        self.id = identifier
         self.edge_list: List[Edge] = edges
         self.attributes["edges"] = ""
         self.attributes["id"] = f"r{Route._counter}"
@@ -36,7 +35,7 @@ class Route(Figure, XmlObject):
         """
         distance: float = 0
         for edge in self.edge_list:
-            distance += edge.attributes["length"]
+            distance += edge.get_length()
         return distance, self.get_destination()
 
     # ---------------------------- Getters ----------------------------
@@ -45,15 +44,13 @@ class Route(Figure, XmlObject):
         """
         :return: Id of junction route leads to
         """
-        assert (self.last_edge() is not None)
-        return self.last_edge().attributes["to"]
+        return self.last_edge().get_attribute("to")
 
     def get_start(self) -> str:
         """
         :return: Id of junction, route starts at
         """
-        assert (self.first_edge() is not None)
-        return self.first_edge().attributes["from"]
+        return self.first_edge().get_attribute("from")
 
     def get_junctions(self) -> List[str]:
         """
@@ -62,9 +59,9 @@ class Route(Figure, XmlObject):
         ret_val: List[str] = []
         if len(self.edge_list) == 0:
             return ret_val
-        ret_val.append(self.first_edge().attributes["from"])
+        ret_val.append(self.first_edge().get_attribute("from"))
         for edge in self.edge_list:
-            ret_val.append(edge.attributes["to"])
+            ret_val.append(edge.get_attribute("to"))
         return ret_val
 
     def get_edge_ids(self, as_int: bool = False) -> List[Union[str, int]]:
@@ -73,8 +70,8 @@ class Route(Figure, XmlObject):
         :return: List of all edge id's
         """
         if as_int:
-            return [int(edge.attributes["id"]) for edge in self.edge_list]
-        return [edge.attributes["id"] for edge in self.edge_list]
+            return [int(edge.get_id()) for edge in self.edge_list]
+        return [edge.get_id() for edge in self.edge_list]
 
     # ---------------------------- Utils ----------------------------
 
@@ -98,7 +95,7 @@ class Route(Figure, XmlObject):
 
     # -------------------------------- Magic Methods --------------------------------
 
-    def __or__(self, other):
+    def __or__(self, other: 'Route'):
         """
         :param other:
         :return:
@@ -108,7 +105,7 @@ class Route(Figure, XmlObject):
                 self.edge_list.append(edge)
         return self
 
-    def __ror__(self, other):
+    def __ror__(self, other: 'Route'):
         """
         :param other:
         :return:
@@ -119,17 +116,20 @@ class Route(Figure, XmlObject):
         """
         :return:
         """
-        return f"Route: {self.id}, path: {[edge.attributes['id'] for edge in self.edge_list]}"
+        return f"Route: {self.get_id()}, path: {[edge.get_id() for edge in self.edge_list]}"
 
-    def __eq__(self, another) -> bool:
+    def __lt__(self, other: 'Route') -> bool:
         """
-        :param another: object of comparison
-        :return: True if objects are equal, false otherwise
+        :param other:
+        :return:
         """
-        return isinstance(another, Route) and self.id == another.id
+        return int(other.get_id()[1:]) < int(self.get_id()[1:])
 
-    def __hash__(self) -> int:
+    def __le__(self, other: 'Route') -> bool:
         """
-        :return: Hash of attribute 'id'
+        :param other:
+        :return:
         """
-        return hash(self.id)
+        if self < other:
+            return True
+        return int(other.get_id()[1:]) == int(self.get_id()[1:])

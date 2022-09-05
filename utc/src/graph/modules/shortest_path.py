@@ -47,16 +47,16 @@ class ShortestPath(GraphModule):
         other_routes: List[Route] = [shortest_route]
         # -------------------------------- Algorithm --------------------------------
         while not queue.empty():
-            priority, length, in_route_id, path = queue.get()  # Removes and returns
-            junction_id: str = path[-1]
+            priority, length, in_route, path = queue.get()  # Removes and returns
+            current_junction_id: str = path[-1]
             if priority > limit:  # Priority is current length + euclidean distance to target
                 break  # End of search
-            elif junction_id == target_junction_id:
+            elif current_junction_id == target_junction_id:
                 # Found other path (satisfying path_length < c * shortest_path_length), record it
                 assert (length <= limit)
                 other_routes.append(self.skeleton.construct_route(path))
                 continue
-            for route in self.skeleton.junctions[junction_id].travel(in_route_id):
+            for route in self.skeleton.junctions[current_junction_id].travel(in_route):
                 distance, neigh_junction_id = route.traverse()
                 current_distance: float = length + distance
                 if neigh_junction_id not in path:  # Avoid loops
@@ -95,13 +95,13 @@ class ShortestPath(GraphModule):
         destination_pos: Tuple[float, float] = self.skeleton.junctions[target_junction_id].get_position()
         # priority, distance, in_route, path (list of visited junctions)
         queue: PriorityQueue[Tuple[float, float, Route, List[str]]] = PriorityQueue()
-        queue.put((0, 0, None, [start_junction_id]))
         # For node n, gScore[n] is the cost of the cheapest path from start to n currently known
         g_score: Dict[str, float] = {junction_id: float("inf") for junction_id in self.skeleton.junctions.keys()}
         g_score[start_junction_id] = 0  # id of 0 for route is reserved!
-        shortest_route: Route = None
+        shortest_route: Optional[Route] = None
         if not self.check_junctions(start_junction_id, target_junction_id):
             return queue, shortest_route
+        queue.put((0, 0, shortest_route, [start_junction_id]))
         # -------------------------- Algorithm --------------------------
         while not queue.empty():
             priority, length, in_route, path = queue.get()  # Removes and returns
@@ -123,7 +123,7 @@ class ShortestPath(GraphModule):
         print(f"Finished finding shortest route: {shortest_route} ")
         return queue, shortest_route
 
-    def dijkstra(self, start_junction_id: str, target_junction_id: str = "") -> Tuple[Dict[str, float], Dict[str, str]]:
+    def dijkstra(self, start_junction_id: str, target_junction_id: str = "") -> Optional[Route]:
         """
         Standard implementation of dijkstra's algorithm
 
@@ -141,7 +141,7 @@ class ShortestPath(GraphModule):
         # {junction_id : previous_junction_id, ...}
         prev: Dict[str, str] = {key: None for key in dist.keys()}
         if not self.check_junctions(start_junction_id, target_junction_id):
-            return dist, prev
+            return None
         # -------------------------- Algorithm --------------------------
         dist[start_junction_id] = 0
         queue.put((0, start_junction_id, None))
@@ -159,7 +159,7 @@ class ShortestPath(GraphModule):
                         dist[to_junction_id] = current_distance
                         prev[to_junction_id] = junction_id
                         queue.put((current_distance, to_junction_id, route))
-        return dist, prev
+        return self.reconstruct_path(target_junction_id, dist, prev)
 
     # -------------------------------------- Utils --------------------------------------
 

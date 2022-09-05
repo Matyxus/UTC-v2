@@ -27,7 +27,7 @@ class PddlResult:
         """
         raise NotImplementedError("Method 'parse_result' must be implemented by children of PddlResult")
 
-    def results_to_scenario(self, *args, **kwargs) -> None:
+    def results_to_scenario(self, *args, **kwargs) -> bool:
         """
         Converts folder containing pddl result files to '.sumocfg' file (in case
         of more types -> e.g. ".1.pddl", ".2.pddl" creates multiple '_type.sumocfg' files,
@@ -35,6 +35,6 @@ class PddlResult:
 
         :param args: additional arguments
         :param kwargs: additional arguments
-        :return: None
+        :return: true on success, false otherwise
         """
         raise NotImplementedError("Method 'results_to_scenario' must be implemented by children of PddlResult")

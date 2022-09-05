@@ -75,7 +75,7 @@ class Simplify(GraphModule):
                     assert (len(self.skeleton.junctions[destination_junction_id].travel(current_route)) == 1)
                     # There can only be one route, that's why junction can be removed
                     out_route: Route = self.skeleton.junctions[destination_junction_id].travel(current_route)[0]
-                    route |= self.skeleton.routes.pop(out_route.id)  # Remove route, merge it
+                    route |= self.skeleton.remove_route(out_route.get_id())
                     current_route = out_route  # Move route id to last merged one
                     destination_junction_id: str = current_route.get_destination()
                 # Change incoming route of last Junction of current route, to be the same as current route.id
@@ -83,7 +83,7 @@ class Simplify(GraphModule):
                 # print(f"Final route: {route}")
         print("Finished merging routes")
         # Remove junctions
-        removed_junctions: List[Junction] = [self.skeleton.junctions.pop(junction_id) for junction_id in connections]
+        removed_junctions: List[Junction] = [self.skeleton.remove_junction(junction_id) for junction_id in connections]
         # ------------------ Plot ------------------
         if plot is not None:
             fig, ax = plot.default_plot()
@@ -140,7 +140,7 @@ class Simplify(GraphModule):
                 starting_junction_id: str = in_route.get_destination()
                 current_junction: Junction = self.skeleton.junctions[starting_junction_id]
                 assert (starting_junction_id in roundabout)  # Sanity check
-                new_route: Route = self.skeleton.get_new_route()  # New route for new junction
+                new_route: Route = Route([])  # New route for new junction
                 # Since we entered roundabout now, the only (possible) route now leads to another roundabout junction
                 current_out_routes: Set[Route] = set(current_junction.travel(in_route))
                 assert (len(current_out_routes) == 1)  # Sanity check
@@ -157,7 +157,7 @@ class Simplify(GraphModule):
                     routes_out_roundabout: Set[Route] = (current_out_routes & out_routes)
                     # Create new routes for each path leading out of roundabout
                     for out_route in routes_out_roundabout:
-                        new_route_out: Route = (self.skeleton.get_new_route() | new_route | out_route)
+                        new_route_out: Route = (Route([]) | new_route | out_route)
                         self.skeleton.add_route(new_route_out)  # Add new route to skeleton of graph
                         new_junction.add_connection(in_route, new_route_out)  # Add new route to junction
                         # Add new incoming route to connected junction
@@ -175,7 +175,7 @@ class Simplify(GraphModule):
                 # Now current_junction is equal to starting_junction
                 # Check if starting junction has any out edges, add them as new route
                 for out_route in (set(current_junction.get_out_routes()) & out_routes):
-                    new_route_out: Route = (self.skeleton.get_new_route() | new_route | out_route)
+                    new_route_out: Route = (Route([]) | new_route | out_route)
                     # print(f"New route added to junction: {new_route_out}")
                     self.skeleton.add_route(new_route_out)  # Add new route to skeleton of graph
                     new_junction.add_connection(in_route, new_route_out)  # Add new route to junction
@@ -187,12 +187,12 @@ class Simplify(GraphModule):
             # ---------------- Remove ----------------
             # Remove routes on roundabout
             for route in roundabout_routes:
-                self.skeleton.routes.pop(route.id)
+                self.skeleton.remove_route(route)
             # Remove routes out of roundabout, connection on junctions
             for route in out_routes:
                 destination: Junction = self.skeleton.junctions[route.get_destination()]
                 destination.remove_in_route(route)
-                self.skeleton.routes.pop(route.id)
+                self.skeleton.remove_route(route)
             # Set each out coming route of roundabout attribute["from"] as new junction
             for route in new_junction.get_out_routes():
                 route.first_edge().attributes["from"] = new_junction_id
@@ -200,7 +200,9 @@ class Simplify(GraphModule):
             for route in in_routes:
                 route.last_edge().attributes["to"] = new_junction_id
             # Remove junctions forming roundabout
-            removed_junctions: List[Junction] = [self.skeleton.junctions.pop(junction_id) for junction_id in roundabout]
+            removed_junctions: List[Junction] = [
+                self.skeleton.remove_junction(junction_id) for junction_id in roundabout
+            ]
             # Add new junction
             self.skeleton.junctions[new_junction.attributes["id"]] = new_junction
             # ---------------- Plot ----------------

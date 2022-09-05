@@ -1,5 +1,5 @@
 from utc.src.simulator.vehicle.generators.vehicle_generator import VehicleGenerator, Graph, Vehicle
-from typing import List, Tuple, Iterator
+from typing import List, Tuple, Iterator, Dict
 import numpy as np
 
 
@@ -51,8 +51,8 @@ class VehicleTrips(VehicleGenerator):
 
     # -------------------------------------------- Generators --------------------------------------------
 
-    @staticmethod
-    def generate_vehicles(amount: int, depart_time: float, route_id: str) -> Iterator[Vehicle]:
+    # noinspection PyMethodMayBeStatic
+    def generate_vehicles(self, amount: int, depart_time: float, route_id: str) -> Iterator[Vehicle]:
         """
         Generates vehicles for "add_vehicles" method, does not check arguments!
 
@@ -88,3 +88,8 @@ class VehicleTrips(VehicleGenerator):
                     message=False
                 )
             yield Vehicle(i * period, route_id)
+
+    # -------------------------------------------- Utils --------------------------------------------
+
+    def get_methods(self) -> Dict[str, callable]:
+        return {"add-vehicles": self.add_vehicles, "add-random-trips": self.random_trips}

@@ -11,7 +11,7 @@ class PddlVehicle(PddlStruct):
         super().__init__()
         # Name of group used by vehicles
         self.vehicle_group_name: str = "car"
-        # Pddl if of vehicle
+        # Pddl if of vehicle (not used, since vehicles are saved by default under this id)
         self.vehicle_object: str = "v{0}"
         self.initialize_object()
 
@@ -30,4 +30,3 @@ class PddlVehicle(PddlStruct):
         """
         for vehicle_id in vehicles:
             self.add_object(self.vehicle_group_name, str(vehicle_id))
-

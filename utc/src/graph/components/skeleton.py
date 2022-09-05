@@ -1,4 +1,4 @@
-from typing import Dict, Set, List, Optional
+from typing import Dict, Set, List, Optional, Union
 from utc.src.graph.components import Route, Edge, Junction
 from copy import deepcopy
 
@@ -10,12 +10,11 @@ class Skeleton:
         print("Created 'Skeleton' class")
         self.junctions: Dict[str, Junction] = {}
         self.edges: Dict[str, Edge] = {}
-        self.routes: Dict[int, Route] = {}
+        self.routes: Dict[str, Route] = {}
         self.starting_junctions: Set[str] = set()
         self.ending_junctions: Set[str] = set()
         self.roundabouts: List[List[str]] = []
         self.map_name: str = ""
-        self.index: int = 0  # For generating new id's of routes, has to start at 0 !
 
     def validate_graph(self) -> None:
         """
@@ -26,12 +25,12 @@ class Skeleton:
         :return: None
         """
         print("Validating graph")
-        routes_to_remove: List[int] = []
+        routes_to_remove: List[str] = []
         # Check routes, find routes that have edge which are no longer in graph
         for route in self.routes.values():
             for edge in route.edge_list:
-                if edge.attributes["id"] not in self.edges.keys():
-                    routes_to_remove.append(route.id)
+                if edge.get_id() not in self.edges.keys():
+                    routes_to_remove.append(route.get_id())
                     break
         # Remove routes such routes
         for route_id in routes_to_remove:
@@ -40,51 +39,84 @@ class Skeleton:
         for junction in self.junctions.values():
             in_routes: List[Route] = junction.get_in_routes()
             for in_route in in_routes:
-                if in_route.id not in self.routes:
+                if in_route.get_id() not in self.routes:
                     junction.remove_in_route(in_route)
             out_routes: List[Route] = junction.get_out_routes()
             for out_route in out_routes:
-                if out_route.id not in self.routes:
+                if out_route.get_id() not in self.routes:
                     junction.remove_out_route(out_route)
         print("Finished validating graph")
 
-    # ------------------------------- Utils -------------------------------
+    # -------------------------------------------------- Adders --------------------------------------------------
 
-    def remove_junction(self, junction_id: str) -> None:
+    def add_junctions(self, junction: Junction) -> None:
         """
-        :param junction_id: to be removed
+        :param junction: to be added
         :return: None
         """
-        if junction_id not in self.junctions:
+        if junction.get_id() in self.junctions:
+            print(f"Junction with id: '{junction.get_id()}' is already present in Skeleton!")
             return
-        self.junctions.pop(junction_id)
-        if junction_id in self.starting_junctions:
-            self.starting_junctions.remove(junction_id)
-        if junction_id in self.ending_junctions:
-            self.ending_junctions.remove(junction_id)
+        self.junctions[junction.get_id()] = junction
+
+    def add_edge(self, edge: Edge) -> None:
+        """
+        :param edge: to be added
+        :return: None
+        """
+        if edge.get_id() in self.junctions:
+            print(f"Edge with id: '{edge.get_id()}' is already present in Skeleton!")
+            return
+        self.edges[edge.get_id()] = edge
 
     def add_route(self, route: Route) -> None:
         """
         :param route: to be added to dictionary of routes
         :return: None
         """
-        if route.id not in self.routes:
-            self.routes[route.id] = route
+        if route.get_id() in self.junctions:
+            print(f"Route with id: '{route.get_id()}' is already present in Skeleton!")
+            return
+        self.routes[route.get_id()] = route
 
-    def get_new_route_id(self) -> int:
-        """
-        :return: new id of route
-        """
-        self.index += 1
-        return self.index
+    # -------------------------------------------------- Removers --------------------------------------------------
 
-    def remove_edge(self, edge_id: str) -> None:
+    def remove_junction(self, junction: Union[str, Junction]) -> Optional[Junction]:
         """
-        :param edge_id: to be removed
-        :return: None
+        :param junction: to be removed
+        :return: removed Junction if it exists, None otherwise
         """
-        if edge_id in self.edges:
-            self.edges.pop(edge_id, None)
+        junction_id: str = junction.get_id() if isinstance(junction, Junction) else junction
+        if junction_id not in self.junctions:
+            # print(f"Cannot remove junction with id: '{junction_id}', it does not exist!")
+            return None
+        if junction_id in self.starting_junctions:
+            self.starting_junctions.remove(junction_id)
+        if junction_id in self.ending_junctions:
+            self.ending_junctions.remove(junction_id)
+        return self.junctions.pop(junction_id, None)
+
+    def remove_edge(self, edge: Union[str, Edge]) -> Optional[Edge]:
+        """
+        :param edge: to be removed (either class or id)
+        :return: removed Edge if it exists, None otherwise
+        """
+        edge_id: str = edge.get_id() if isinstance(edge, Edge) else edge
+        # if edge_id not in self.edges:
+        # print(f"Cannot remove edge with id: '{edge_id}', it does not exist!")
+        return self.edges.pop(edge_id, None)
+
+    def remove_route(self, route: Union[str, Route]) -> Optional[Route]:
+        """
+        :param route: to be removed
+        :return: removed Route if it exists, None otherwise
+        """
+        route_id: str = route.get_id() if isinstance(route, Route) else route
+        # if route_id not in self.routes:
+        # print(f"Cannot remove route with id: '{route_id}', it does not exist!")
+        return self.routes.pop(route_id, None)
+
+    # -------------------------------------------------- Utils --------------------------------------------------
 
     def construct_route(self, junction_list: List[str]) -> Optional[Route]:
         """
@@ -93,7 +125,7 @@ class Skeleton:
         """
         if len(junction_list) == 0:
             return None
-        ret_val: Route = Route(-1,  [])
+        ret_val: Route = Route([])
         in_route: Route = None
         for i in range(0, len(junction_list)-1):
             # Also sets self.route as current one
@@ -116,13 +148,7 @@ class Skeleton:
                 return route
         return None
 
-    def get_new_route(self) -> Route:
-        """
-        :return: new route, with new route_id, empty edge_list
-        """
-        return Route(self.get_new_route_id(), [])
-
-    def load(self, other) -> bool:
+    def load(self, other: 'Skeleton') -> bool:
         """
         Loads skeleton from another skeleton class
 
@@ -139,5 +165,4 @@ class Skeleton:
         self.ending_junctions = deepcopy(other.ending_junctions)
         self.roundabouts = deepcopy(other.roundabouts)
         self.map_name = deepcopy(other.map_name)
-        self.index = len(self.routes)
         return True
