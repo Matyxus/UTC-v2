@@ -62,11 +62,15 @@ class ScenarioMain(UserInterface):
         ])
 
     # noinspection PyMethodMayBeStatic
-    def launch_scenario_command(self, scenario_name: str, statistics: bool = True, display: bool = True) -> None:
+    def launch_scenario_command(
+            self, scenario_name: str, statistics: bool = True,
+            display: bool = True, traffic_lights: bool = True
+            ) -> None:
         """
         :param scenario_name: name of existing scenario (can be user-generated or planned)
         :param statistics: bool, if file containing vehicle statistics should be generated (default true)
         :param display: bool, if simulation should be launched with GUI (default true)
+        :param traffic_lights: bool, fi simulation should use traffic lights (default true)
         :return: None
         """
         # Get scenario path (can be planned or user-generated)
@@ -80,9 +84,11 @@ class ScenarioMain(UserInterface):
             options += traci_options.get_statistics(scenario_name)
         try:
             traci.start([traci_options.get_display(display), *options])
+            # Turn of traffic lights
+            if not traffic_lights:
+                for traffic_light_id in traci.trafficlight.getIDList():
+                    traci.trafficlight.setProgram(traffic_light_id, "off")
             while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
-                for vehicle_id in traci.simulation.getLoadedIDList():
-                    print(traci.vehicle.getVehicleClass(vehicle_id))
                 traci.simulationStep()
             traci.close()
             print(f"Simulation of scenario: '{scenario_name}' ended, exiting ...")
@@ -111,20 +117,20 @@ class ScenarioMain(UserInterface):
             return
         # Delete ".rou.xml" file
         route_paths: str = FilePaths.SCENARIO_ROUTES.format(scenario_name)
-        if MyFile.file_exists(route_paths, message=False) and not MyFile.delete_file(route_paths):
+        if not MyFile.delete_file(route_paths):
             return
         # Delete ".info" file
         info_path: str = InfoFile(scenario_name).file_path
-        if MyFile.file_exists(info_path, message=False) and not MyFile.delete_file(info_path):
+        if not MyFile.delete_file(info_path):
             return
         # ---------------------------------- Folders ----------------------------------
         # Delete pddl problems folder (with files)
         pddl_problems: str = FilePaths.PDDL_PROBLEMS + "/" + scenario_name
-        if MyDirectory.dir_exist(pddl_problems, message=False) and not MyDirectory.delete_directory(pddl_problems):
+        if not MyDirectory.delete_directory(pddl_problems):
             return
         # Delete pddl results folder (with files)
         pddl_results: str = FilePaths.PDDL_RESULTS + "/" + scenario_name
-        if MyDirectory.dir_exist(pddl_results, message=False) and not MyDirectory.delete_directory(pddl_results):
+        if not MyDirectory.delete_directory(pddl_results):
             return
         print(f"Successfully deleted scenario: '{scenario_name}' and associated files")
 

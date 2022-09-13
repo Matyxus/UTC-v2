@@ -1,0 +1,3 @@
+generate-scenario scenario_name="flow_test" network_name="Chodov"
+add-uniform-flow from_junction_id="77" to_junction_id="66" vehicle_count="300" start_time="0" end_time="900"
+save-scenario 

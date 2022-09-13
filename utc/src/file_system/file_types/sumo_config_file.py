@@ -18,8 +18,7 @@ class SumoConfigFile(XmlFile):
         directories 'generated' & 'planned' in utc/data/scenarios/simulation
         will be search for corresponding file, default is template of ".sumocfg" file
         """
-        super().__init__(file_path)
-        self.default_extension = FileExtension.SUMO_CONFIG
+        super().__init__(file_path, extension=FileExtension.SUMO_CONFIG)
         # Relative paths (so that simulation can be run on any OS)
         self.relative_network_path: str = "../../../maps/sumo/{0}.net.xml"
         self.relative_routes_path: str = "../../routes/{0}.rou.xml"
@@ -29,9 +28,6 @@ class SumoConfigFile(XmlFile):
             return False
         elif file_path == "default" and self.file_path == FilePaths.SUMO_CONFIG_TEMPLATE:
             print(f"Cannot overwrite template for '.sumocfg' files!")
-            return False
-        elif not file_path.endswith(self.default_extension):
-            print(f"SumoConfig file must be of type: '{self.default_extension}', received: '{file_path}' !")
             return False
         return super().save(file_path)
 
@@ -82,22 +78,18 @@ class SumoConfigFile(XmlFile):
             return SumoRoutesFile(routes_name)
         return routes_name
 
-    def get_problem_files(self, as_file: bool = True) -> Optional[List[str]]:
+    def get_problem_files(self) -> Optional[List[str]]:
         """
-        :param as_file: true if file names should be returned as PddlFile, otherwise string
-        :return: names (with extension) of pddl problem files (generated from this scenario),
-        None if directory does not exist
+        :return: names (with extension) of pddl problem files
+        (corresponding to this scenario), None if directory does not exist
         """
-        # TODO as_string parameter!
         return MyDirectory.list_directory(FilePaths.PDDL_PROBLEMS + f"/{self.get_file_name(self)}")
 
-    def get_result_files(self, as_file: bool = True) -> Optional[List[str]]:
+    def get_result_files(self) -> Optional[List[str]]:
         """
-        :param as_file: true if file names should be returned as PddlFile, otherwise string
-        :return: names of pddl result files (that generated this simulation),
+        :return: names of pddl result files (that generated this SumoConfig file),
         None if directory does not exist
         """
-        # TODO as_string parameter!
         return MyDirectory.list_directory(FilePaths.PDDL_RESULTS + f"/{self.get_file_name(self)}")
 
     # ------------------------------------------ Utils ------------------------------------------
@@ -112,7 +104,7 @@ class SumoConfigFile(XmlFile):
         elif self.root is None:
             return False
         elif self.root.find("input") is None:
-            print(f"Unable to find xml element <input> in file: {self.file_path} !")
+            print(f"Unable to find xml element <input> in file: '{self.file_path}' !")
             return False
         # Check elements in "input"
         required_elements: List[Tuple[str, str]] = [
@@ -120,12 +112,12 @@ class SumoConfigFile(XmlFile):
         ]
         for required_element in required_elements:
             if self.root.find("input").find(required_element[0]) is None:
-                print(f"Unable to find xml element <input>{required_element[0]}<input/> in file: {self.file_path} !")
+                print(f"Unable to find xml element <input>{required_element[0]}<input/> in file: '{self.file_path}' !")
                 return False
             elif not ("value" in self.root.find("input").find(required_element[0]).attrib):
                 print(
                     "Unable to find attribute 'value' in xml element "
-                    f" <input>{required_element}<input/> in file: {self.file_path} !"
+                    f" <input>{required_element}<input/> in file: '{self.file_path}' !"
                 )
                 return False
             # Check if file already exists (is not template), then check if net-file and routes-files exist
@@ -134,17 +126,12 @@ class SumoConfigFile(XmlFile):
                 if not self.file_exists(required_element[1].format(file_name), message=False):
                     print(
                         f"Unable to find file used in <input><{required_element[0]}/><input/> -> "
-                        f"{required_element[1].format(file_name)} !"
+                        f"'{required_element[1].format(file_name)}' !"
                     )
                     return False
         return True
 
     def get_known_path(self, file_name: str) -> str:
-        # Quick check
-        if not file_name:
-            return file_name
-        # Remove extension
-        file_name = file_name.replace(self.default_extension, "")
         # Search  utc/data/scenarios/simulation/generated
         if self.file_exists(FilePaths.SCENARIO_SIM_GENERATED.format(file_name), message=False):
             return FilePaths.SCENARIO_SIM_GENERATED.format(file_name)
@@ -153,8 +140,3 @@ class SumoConfigFile(XmlFile):
             return FilePaths.SCENARIO_SIM_PLANNED.format(file_name)
         # Does not exist, return original value
         return file_name
-
-
-# For testing purposes
-if __name__ == "__main__":
-    pass

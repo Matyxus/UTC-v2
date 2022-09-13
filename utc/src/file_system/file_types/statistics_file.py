@@ -5,27 +5,12 @@ from typing import Optional, Dict, Union
 
 class StatisticsFile(XmlFile):
     """
-    File class handling statistics files of scenarios (".stat.xml" extension)
+    File class handling statistics files of scenarios (".stat.xml" extension),
+    has utility methods, such as comparing different statistics files
     """
 
     def __init__(self, file_path: str):
-        super().__init__(file_path)
-        self.default_extension = FileExtension.SUMO_STATS
-
-    # ------------------------------------------ Getters ------------------------------------------
-
-    def get_vehicle_stats(self) -> Optional[Dict[str, str]]:
-        """
-        :return: Vehicle statistics (average values of speed, travel time, ... etc.), None if file is incorrect
-        """
-        if self.root is None:
-            print(f"Cannot return vehicle statistics, file: '{self.file_path}' is not loaded or does not exist!")
-        elif self.root.find("vehicleTripStatistics") is None:
-            print(f"Cannot find xml element 'vehicleTripStatistics' in file: '{self.file_path}' !")
-            return None
-        return self.root.find("vehicleTripStatistics").attrib
-
-    # ------------------------------------------ Utils  ------------------------------------------
+        super().__init__(file_path, extension=FileExtension.SUMO_STATS)
 
     def compare_vehicle_stats(self, other: Union['StatisticsFile', str]) -> Optional[Dict[str, str]]:
         """
@@ -35,12 +20,6 @@ class StatisticsFile(XmlFile):
         # check type
         if not isinstance(other, StatisticsFile):
             other = StatisticsFile(other)  # Load file
-        elif not isinstance(other, StatisticsFile):
-            print(
-                "Invalid type passed into method: 'compare_vehicle_stats', "
-                f"expected [str / StatisticsFile], got: {type(other)}"
-            )
-            return None
         my_stats: Dict[str, str] = self.get_vehicle_stats()
         other_stats: Dict[str, str] = other.get_vehicle_stats()
         # Check vehicle statistics
@@ -85,12 +64,21 @@ class StatisticsFile(XmlFile):
             print(comparison_str + diff)
         return ret_val
 
+    # ------------------------------------------ Utils  ------------------------------------------
+
+    def get_vehicle_stats(self) -> Optional[Dict[str, str]]:
+        """
+        :return: Vehicle statistics (average values of speed, travel time, ... etc.), None if file is incorrect
+        """
+        if not self.is_loaded():
+            print(f"Cannot return vehicle statistics, file: '{self.file_path}' is not loaded or does not exist!")
+            return None
+        elif self.root.find("vehicleTripStatistics") is None:
+            print(f"Cannot find xml element 'vehicleTripStatistics' in file: '{self.file_path}' !")
+            return None
+        return self.root.find("vehicleTripStatistics").attrib
+
     def get_known_path(self, file_name: str) -> str:
-        # Quick check
-        if not file_name:
-            return file_name
-        # Remove extension
-        file_name = file_name.replace(self.default_extension, "")
         # Search  uts/data/scenarios/simulation/statistics
         if self.file_exists(FilePaths.SCENARIO_STATISTICS.format(file_name), message=False):
             return FilePaths.SCENARIO_STATISTICS.format(file_name)

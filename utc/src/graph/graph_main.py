@@ -5,11 +5,11 @@ from utc.src.file_system import FilePaths, InfoFile
 
 
 class GraphMain(UserInterface):
-    """ Class that launches program, ask user for input """
+    """ Class that launches program for graph manipulation, ask user for input """
 
     def __init__(self):
         super().__init__("graph")
-        # Graph modules
+        # Graph modules set to currently used graph
         self.graph: Graph = Graph()
         # Maps names of graphs to Graph class
         self.graphs: Dict[str, Skeleton] = {}
@@ -124,8 +124,8 @@ class GraphMain(UserInterface):
         :return: None
         """
         print("Printing all graphs names:")
-        for graph_name in self.graphs:
-            print("\t" + graph_name)
+        for index, graph_name in enumerate(self.graphs.keys()):
+            print(f"{index+1}\t" + graph_name)
 
     def delete_command(self, graph_name: str) -> None:
         """

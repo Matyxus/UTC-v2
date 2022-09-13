@@ -5,15 +5,16 @@ from typing import List, Set, Tuple
 
 class InfoFile(MyFile):
     """
-    Class holding commands used to generate scenarios/graphs
+    Class representing files containing commands and their arguments
+    inputted by user (either dynamically or statically), default extension
+    is ".info"
     """
 
     def __init__(self, file_path: str, mode: str = "w+"):
-        super().__init__(file_path, mode)
-        self.default_extension = FileExtension.INFO
+        super().__init__(file_path, mode, FileExtension.INFO)
         self.commands: List[Tuple[str, str]] = []  # List of command and their arguments inputted by user
-        self.allowed_commands: Set[str] = set()  # Commands which should be saved
-        self.save_trigger_commands: Set[str] = set()  # Command which trigger saving of file
+        self.allowed_commands: Set[str] = set()  # Commands which can be recorded
+        self.save_trigger_commands: Set[str] = set()  # Command which trigger saving of file (self)
 
     def record_command(self, command_name: str, args: str) -> None:
         """
@@ -37,7 +38,7 @@ class InfoFile(MyFile):
 
     def add_save_trigger_commands(self, commands: List[str]) -> None:
         """
-        :param commands: names of commands after which file should be automatically saved
+        :param commands: names of commands after which file will be automatically saved
         :return: None
         """
         self.save_trigger_commands |= set(commands)
@@ -54,7 +55,10 @@ class InfoFile(MyFile):
         if file_path != "default":
             self.file_path = file_path
         if not self.file_path.endswith(".info"):
-            print(f"For Info file expected extension to be: {self.default_extension} !")
+            print(
+                f"For Info file expected extension to be: '{self.extension}'"
+                f", got: '{file_path}' !"
+            )
             return False
         # Save file
         self.mode = "w+"
@@ -63,7 +67,7 @@ class InfoFile(MyFile):
                 return False
             for command_name, args in self.commands:
                 info_file.write(command_name + " " + args + "\n")
-        print(f"Successfully saved '.info' file: {file_path}")
+        print(f"Successfully saved '.info' file: '{self.file_path}'")
         return True
 
     def get_known_path(self, file_name: str) -> str:

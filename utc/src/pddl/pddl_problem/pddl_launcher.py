@@ -1,7 +1,7 @@
 from utc.src.pddl.pddl_problem.pddl_problem import PddlProblem
 from utc.src.pddl.pddl_problem.pddl_result import PddlResult
 from utc.src.simulator.scenario import Scenario
-from utc.src.file_system import MyFile, MyDirectory, FilePaths, FileExtension
+from utc.src.file_system import MyFile, MyDirectory, FilePaths, FileExtension, InfoFile
 from utc.src.ui import UserInterface, Command
 from typing import List, Optional
 
@@ -61,6 +61,10 @@ class PddlLauncher(UserInterface):
             ("generate-scenario", Command("generate-scenario", self.generate_scenario)),
             ("plan-scenario", Command("plan-scenario", self.plan_scenario))
         ])
+        # Info file
+        self.info_file = InfoFile(FilePaths.SCENARIO_SIM_INFO.format(self.new_scenario_name))
+        self.info_file.add_allowed_commands(["generate-problems", "generate-results", "generate-scenario"])
+        self.info_file.add_save_trigger_commands(["generate-problems", "generate-results", "generate-scenario"])
         return True
 
     # -------------------------------------------- Problem --------------------------------------------

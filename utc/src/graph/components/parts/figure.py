@@ -1,5 +1,5 @@
 class Figure:
-    """ Super class for objects, that can be drawn """
+    """ Super class for objects that can be drawn """
 
     def __init__(self, color: str):
         self.color: str = color

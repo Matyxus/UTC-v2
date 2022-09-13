@@ -4,6 +4,7 @@ from utc.src.graph.modules import Loader, Simplify, ShortestPath, Display, SubGr
 
 class Graph:
     """ Class holding skeleton of graph and all graph modules """
+
     def __init__(self, skeleton: Skeleton = None):
         self.skeleton: Skeleton = skeleton
         self.loader: Loader = Loader(self.skeleton)
@@ -23,4 +24,3 @@ class Graph:
         self.shortest_path.set_skeleton(skeleton)
         self.display.set_skeleton(skeleton)
         self.sub_graph.set_skeleton(skeleton)
-

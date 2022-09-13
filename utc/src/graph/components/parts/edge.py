@@ -46,7 +46,7 @@ class Edge(Figure, XmlObject):
 
     def get_speed(self) -> float:
         """
-        :return: maximal allowed speed
+        :return: maximal allowed speed (m/s)
         """
         return round(float(self.get_attribute("speed")), 3)
 

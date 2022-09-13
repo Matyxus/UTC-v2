@@ -3,9 +3,7 @@ from pathlib import Path
 
 # ---------------------------------- Extension ----------------------------------
 class FileExtension:
-    """
-    Class holding extension of files
-    """
+    """ Class holding extension of files """
     PDDL: str = ".pddl"
     XML: str = ".xml"
     INFO: str = ".info"
@@ -19,7 +17,12 @@ class FileExtension:
 
 
 # ---------------------------------- Path ----------------------------------
+
 def initialize_cwd() -> str:
+    """
+    :raise ValueError: in case directory 'utc' cannot be found in path
+    :return: absolute path to project root ('UTC/utc')
+    """
     cwd: Path = Path(__file__)
     if "utc" not in str(cwd):
         raise ValueError(
@@ -32,7 +35,7 @@ def initialize_cwd() -> str:
 
 
 class FilePaths:
-    """ (static) Class holding different project paths, used with .format(args) """
+    """ Class holding different project paths, used with .format(args) """
     CWD: str = initialize_cwd()  # Project Root (UTC/utc)
     OSM_FILTER: str = (CWD + "/data/osm_filter/osmfilter")  # Path to osmfilter (executable)
     # -------------------------------------- Templates --------------------------------------
@@ -71,10 +74,11 @@ class FilePaths:
 
 
 # ---------------------------------- Planners ----------------------------------
+
 class PLANNERS:
     """
-    (static) Class defining planner calls as format string (expected
-    arguments are "domain.pddl" "problem.pddl" "result_file.pddl")
+    Class defining planner calls as format string (expected
+    arguments are "domain_file.pddl" "problem_file.pddl" "result_file.pddl")
     """
     CERBERUS: str = ("python3 " + FilePaths.PDDL_PLANERS.format("Cerberus/plan.py") + " {0} {1} {2}")
     MERWIN: str = (FilePaths.PDDL_PLANERS.format("Merwin/plan") + " {0} {1} {2}")

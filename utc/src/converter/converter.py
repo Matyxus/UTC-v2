@@ -3,7 +3,11 @@ from utc.src.ui import UserInterface, Command
 
 
 class Converter(UserInterface):
-	""" Class that uses osm_filter and netconvert to create network file for SUMO """
+	"""
+	Class converting ".osm" (OpenStreetMap) files into ".net.xml" files which SUMO can use.
+	Does so by using osm filter to filter non-road like objects (except traffic lights),
+	and afterwards uses netconvert (program from SUMO) to generate ".net.xml" file
+	"""
 
 	def __init__(self):
 		super().__init__("converter")
@@ -32,11 +36,11 @@ class Converter(UserInterface):
 
 	def osm_filter(self, map_name: str) -> bool:
 		"""
-		Uses osm filter to filter ".osm" file, removing everything apart from highways,
-		filtered file will be saved in directory defined in /utc/data/maps/osm/filtered
-		the same name (with '_filtered' suffix added)
+		Uses osm filter to filter ".osm" file, removing all non-road like objects
+		(except traffic lights). Filtered file will be saved in directory
+		'/utc/data/maps/osm/filtered' under the same name (with '_filtered' suffix added)
 
-		:param map_name: name of ".osm" map
+		:param map_name: name of ".osm" map (located in '/utc/data/maps/osm/original')
 		:return: True if successful, false otherwise
 		"""
 		print("Filtering osm file with osm_filter")
@@ -54,14 +58,15 @@ class Converter(UserInterface):
 		command += filtered_file_path
 		success, output = self.run_command(command)
 		if success:
-			print(f"Done filtering osm file, saved in: {filtered_file_path}")
+			print(f"Done filtering osm file: '{map_name}', saved in: '{filtered_file_path}'")
 		return success
 
 	def net_convert(self, map_name: str) -> bool:
 		"""
-		Uses netconvert to convert ".osm" file into ".net.xml", expecting ".osm" file to be in
-		directory /utc/data/maps/osm/filtered, resulting file will be
-		saved in directory /utc/data/maps/sumo
+		Uses netconvert to convert ".osm" files into ".net.xml",
+		expecting ".osm" file to be already filtered (by 'osm_filter' method),
+		located in directory '/utc/data/maps/osm/filtered'. Resulting network file will be
+		saved in directory '/utc/data/maps/sumo'
 
 		:param map_name: name of OSM map (filtered by osmfilter)
 		:return: True if successful, false otherwise
@@ -85,7 +90,7 @@ class Converter(UserInterface):
 		command += (" -o " + net_file_path)
 		success, output = self.run_command(command)
 		if success:
-			print(f"Done creating '{map_name}.net.xml' file, saved in: {net_file_path}")
+			print(f"Done creating network file: '{map_name}, saved in: {net_file_path}")
 		return success
 
 

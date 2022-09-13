@@ -5,29 +5,24 @@ from typing import Tuple, Dict
 
 class SumoRoutesFile(XmlFile):
     """
-    File class handling ".rou.xml" files, provides
-    utility methods
+    File class handling ".rou.xml" files, provides utility methods
     """
 
     def __init__(self, file_path: str = FilePaths.SUMO_ROUTES_TEMPLATE):
         """
         :param file_path: to ".rou.xml" file, can be name (in such case
-        directory utc/data/scenarios/routes  will be search for corresponding file,
-         default is template of ".rou.xml" file
+        directory 'utc/data/scenarios/routes' will be search for corresponding file),
+        default is template of ".rou.xml" file
         """
-        super().__init__(file_path)
+        super().__init__(file_path, extension=FileExtension.SUMO_ROUTES)
         # Memory of previously searched vehicles (end_time, index)
         self.previous_search: Tuple[int, int] = (0, 0)
-        self.default_extension = FileExtension.SUMO_ROUTES
 
     def save(self, file_path: str = "default") -> bool:
         if not self.check_file():
             return False
         elif file_path == "default" and self.file_path == FilePaths.SUMO_ROUTES_TEMPLATE:
-            print(f"Cannot overwrite template for '{self.default_extension}' files!")
-            return False
-        elif not file_path.endswith(self.default_extension):
-            print(f"SumoRoutes file must be of type: '{self.default_extension}', received: '{file_path}' !")
+            print(f"Cannot overwrite template for '{self.extension}' files!")
             return False
         return super().save(file_path)
 

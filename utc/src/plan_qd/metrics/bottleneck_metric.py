@@ -49,8 +49,6 @@ class BottleneckMetric(Metric):
                 print(f"From edge: {edge_id}, incoming routes: {len(self.bottlenecks[junction_id][edge_id])}")
         # penalize
 
-    def plot_ranking(self, routes_struct: RoutesStruct) -> None:
-        fig, ax = routes_struct.graph.display.default_plot()
-        for junction_id in self.bottlenecks:
-            routes_struct.graph.skeleton.junctions[junction_id].plot(ax, color="red")
-        routes_struct.graph.display.show_plot()
+
+    def plot_ranking(self, routes_struct: RoutesStruct, *args, **kwargs) -> None:
+        pass

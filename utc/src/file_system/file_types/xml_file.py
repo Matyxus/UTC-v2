@@ -9,10 +9,10 @@ class XmlFile(MyFile):
     Class handling xml type files
     """
 
-    def __init__(self, file_path: str):
+    def __init__(self, file_path: str, mode: str = "w+", extension: str = ""):
         self.tree: Optional[ElementTree] = None
         self.root: Optional[Element] = None
-        super().__init__(file_path)  # Super call needs to happen after var declaration
+        super().__init__(file_path, mode, extension)  # Super call needs to happen after var declaration
 
     def load(self, file_path: str) -> None:
         super().load(file_path)
@@ -34,6 +34,10 @@ class XmlFile(MyFile):
             print(f"Error cannot save file, 'root' of xml file is of type: 'None' !")
             return False
         file_path = (self.file_path if file_path == "default" else file_path)
+        # Check extension
+        if not file_path.endswith(self.extension):
+            print(f"Expected default extension: '{self.extension}', got: '{file_path}' !")
+            return False
         try:
             tree = ET.ElementTree(self.root)
             ET.indent(tree, space="\t", level=0)  # Et.indent is Python3.9 !
@@ -45,6 +49,9 @@ class XmlFile(MyFile):
         return True
 
     # ------------------------------------------ Utils ------------------------------------------
+
+    def is_loaded(self) -> bool:
+        return super().is_loaded() and self.root is not None
 
     def get_known_path(self, file_name: str) -> str:
         raise NotImplementedError(

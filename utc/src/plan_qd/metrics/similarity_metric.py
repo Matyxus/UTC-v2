@@ -19,11 +19,16 @@ class SimilarityMetric(Metric):
             # ...
         }
 
-    def calculate(self, struct: RoutesStruct, eps: float = 0.26, min_samples: int = 4, *args, **kwargs) -> None:
+    def calculate(
+            self, struct: RoutesStruct, eps: float = 0.26,
+            min_samples: int = 4, sort_by: str = "",
+            *args, **kwargs
+            ) -> None:
         """
         :param struct:
         :param eps: minimal similarity between two routes for them to be added into same cluster
         :param min_samples: minimal amount of routes similar enough to be considered cluster
+        :param sort_by:
         :param args: additional args
         :param kwargs: additional args
         :return: None
@@ -46,15 +51,32 @@ class SimilarityMetric(Metric):
             if label not in temp_clusters:
                 temp_clusters[label] = []
             temp_clusters[label].append(index)
+        # ----------------------- Sort -----------------------
+        if sort_by == "average":
+            self.average_similarity_sort(similarity_matrix, temp_clusters)
+
+    # -------------------------------------------- Sort --------------------------------------------
+
+    def average_similarity_sort(self, sim_matrix: np.array, clusters: Dict[int, List[int]]) -> None:
+        """
+        :param sim_matrix:
+        :param clusters:
+        :return:
+        """
+        self.clusters: Dict[int, Tuple[float, List[Tuple[float, int]]]] = {
+            # cluster_index: (average_similarity of all routes, [average_similarity of this route, route index]),
+            # ...
+        }
+        print(f"Sorting cluster by 'average similarity' between cluster-routes and clusters")
         # Calculate avg. similarity of routes in clusters and avg. cluster similarity
-        for cluster_id, routes_indexes in temp_clusters.items():
+        for cluster_id, routes_indexes in clusters.items():
             # For each route calculate its similarity compared to other routes in the same cluster
             cluster_size: int = len(routes_indexes)
             average_similarities: List[Tuple[float, int]] = []
             for route_index in routes_indexes:
                 average_similarities.append((
                     # Average similarity of other routes (subtract itself -> similarity of 1) / number of routes
-                    round((similarity_matrix[route_index][routes_indexes].sum() - 1) / cluster_size, 3),
+                    round((sim_matrix[route_index][routes_indexes].sum() - 1) / (cluster_size - 1), 3),
                     route_index
                 ))
             self.clusters[cluster_id] = (
@@ -68,7 +90,6 @@ class SimilarityMetric(Metric):
             for average_similarity, route_id in value[1]:
                 print(f"Route: {route_id} has similarity of {average_similarity}")
         print(f"Clusters number: {len(self.clusters)}")
-        temp_clusters.clear()
         # Sort clusters by average similarity
         sorted_clusters_ids: list = sorted(list(self.clusters.items()), key=lambda tup: tup[1])
         # Rank by most diverse
@@ -83,11 +104,7 @@ class SimilarityMetric(Metric):
             index += 1
             if index >= len(sorted_clusters_ids):
                 index = 0
-        # print
-        # for cluster_id, value in self.clusters.items():
-        #    print(f"Cluster: {cluster_id} has average similarity of: {value[0]}")
-        #    for average_similarity, route_id in value[1]:
-        #        print(f"Route: {route_id} has similarity of {average_similarity}")
+
     # -------------------------------------------- Jaccard --------------------------------------------
 
     def get_jaccard_distance(self, matrix: np.array) -> np.array:
@@ -141,28 +158,6 @@ class SimilarityMetric(Metric):
                 print("{:8.3f}".format(col).lstrip(), end="  ")
             print("")
 
-    def plot_ranking(self, struct: RoutesStruct, most_similar: bool = True, *args, **kwargs) -> None:
-        temp_colors: List[str] = ["red", "blue", "purple", "green", "yellow", "pink", "brown"]
-        if len(self.clusters) > len(temp_colors):
-            print(f"Not enough colors: {len(temp_colors)} for all clusters: {len(self.clusters)}")
-            return
-        fig, ax = struct.graph.display.default_plot()
-        for i in range(7):
-            struct.graph.display.add_label("o", temp_colors[i], f"C{i}")
-            struct.routes[self.score[i]].plot(ax, color=temp_colors[i])
-        struct.graph.display.make_legend(7)
-        struct.graph.display.show_plot()
-        """
-        # Plot most similar/di-similar routes in clusters
-        for index, cluster_id in enumerate(self.clusters.keys()):
-            fig, ax = struct.graph.display.default_plot()
-         
-            if most_similar:
-                highest_avg_similarity, route_index = max(self.clusters[cluster_id][1], key=lambda item: item[0])
-            else:
-                highest_avg_similarity, route_index = min(self.clusters[cluster_id][1], key=lambda item: item[0])
-            struct.routes[route_index].plot(ax, color=temp_colors[index])
-            struct.graph.display.make_legend(len(self.clusters))
-            struct.graph.display.show_plot()
-        """
+    def plot_ranking(self, struct: RoutesStruct, *args, **kwargs) -> None:
+        pass
 

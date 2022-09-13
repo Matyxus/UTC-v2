@@ -7,13 +7,13 @@ from io import TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom
 
 class MyFile:
     """"
-    Class handling file behaviour, enable opening files
-    accordingly: "with MyFile(file_path, mode) as file ..",
+    Class handling file behaviour, enables opening of files
+    ("with MyFile(file_path, mode) as file .."),
     provides static and utility functions, acts as an
-    super class to other file classes.
+    super class to other file classes
     """
 
-    def __init__(self, file_path: str, mode: str = "w+"):
+    def __init__(self, file_path: str, mode: str = "w+", extension: str = ""):
         """
         :param file_path: path to file (can be either full path, or file_name,
         for file_name Subclasses of MyFile must implement 'get_file_path' method)
@@ -22,7 +22,7 @@ class MyFile:
         """
         self.file_path: str = ""
         self.mode: str = mode  # Mode for opening file
-        self.default_extension: str = ""  # Default file extension
+        self.extension: str = extension  # Default file extension
         self.load(file_path)
 
     # ------------------------------------------- Load & Save -------------------------------------------
@@ -39,7 +39,7 @@ class MyFile:
         self.file_path = file_path
         # Load existing file
         if self.file_exists(self.file_path, message=False):
-            print(f"Loading existing file: {self.file_path}")
+            print(f"Loading existing file: '{self.file_path}'")
             return
         try:
             # File does not exist, try to load from name (class specific)
@@ -76,8 +76,9 @@ class MyFile:
 
     def get_known_path(self, file_name: str) -> str:
         """
-        :param file_name: name of file (automatically called with name of file)
-        :return: full path to file (Subclass specific)
+        :param file_name: name of file (automatically called with name of file in 'load' method)
+        :return: full path to file (Subclass specific),
+        original parameter if file was not found
         """
         raise NotImplementedError(
             "Error, to load file from specific file names, method"
@@ -198,8 +199,8 @@ class MyFile:
         """
         # Make file_pointer inaccessible outside
         self._file_pointer: Optional[Union[TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom]] = None
-        if self.default_extension and self.default_extension not in self.file_path:
-            print(f"Expecting path to contain file extension: '{self.default_extension}', got: {self.file_path} !")
+        if not self.file_path.endswith(self.extension):
+            print(f"Expecting file to be of type: '{self.extension}', got: '{self.file_path}' !")
             return self._file_pointer
         try:  # Check for errors
             self._file_pointer = open(self.file_path, self.mode)

@@ -8,6 +8,13 @@ class VehicleFlows(VehicleGenerator):
 
     def __init__(self, graph: Graph = None):
         super().__init__(graph)
+        # Type of flow mapped to expected value (number of seconds) per vehicle send
+        self.flow_types: Dict[str, int] = {
+            "light":  7,
+            "medium": 5,
+            "heavy":  3,
+            "congested": 2
+        }
         print("Initialized VehicleFlows")
 
     # -------------------------------------------- Interface --------------------------------------------
@@ -29,7 +36,6 @@ class VehicleFlows(VehicleGenerator):
         :param end_time: of flow (seconds)
         :return: None
         """
-        print("Generating random flow..")
         # ---------------------- Checks ----------------------
         if not self.check_args(from_junction_id, to_junction_id, start_time=start_time, end_time=end_time):
             return
@@ -39,6 +45,7 @@ class VehicleFlows(VehicleGenerator):
         elif not minimal >= 1:
             print(f"Expected arguments 'minimal' to be at least one, got: {minimal} !")
             return
+        print("Generating random flow...")
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         self.generators.append(self.generate_random_flow((minimal, maximal), period, route_id, (start_time, end_time)))
 
@@ -58,33 +65,64 @@ class VehicleFlows(VehicleGenerator):
         if not self.check_args(from_junction_id, to_junction_id, vehicle_count, start_time, end_time):
             return
         route_id: str = self.get_path(from_junction_id, to_junction_id)
-        print("Generating uniform flow..")
+        print("Generating uniform flow...")
         self.generators.append(self.generate_uniform_flow((start_time, end_time), route_id, vehicle_count))
+
+    def exponential_flow(
+            self, from_junction_id: str, to_junction_id: str,
+            start_time: int, end_time: int,
+            mode: str = "random"
+            ) -> None:
+        """
+        Generates flow depending on parameter 'flow_type',
+        'light' sends (0-10)vehicles/minute -> 5 on average,
+        'medium' sends (5-15) vehicles/minute -> ~8 on average,
+        'heavy' sends (10-20) vehicles/minute -> 15 on average
+
+        :param from_junction_id: starting junction of cars
+        :param to_junction_id: destination junction of cars
+        :param start_time: of flow (seconds)
+        :param end_time: of flow (seconds)
+        :param mode: 'random' or 'uniform'
+        :return: None
+        """
+        # ---------------------- Checks ----------------------
+        if not self.check_args(from_junction_id, to_junction_id, start_time=start_time, end_time=end_time):
+            return
+        elif mode not in {"random", "uniform"}:
+            print(f"Expected parameter mode to be one of: (random, uniform), got: {mode} !")
+            return
+        elif (end_time - start_time) < 300:
+            print(f"Duration of exponential flow has to be at least 300 seconds (5minutes), got: {end_time-start_time}")
+            return
+        route_id: str = self.get_path(from_junction_id, to_junction_id)
+        print("Generating exponential flow...")
+        self.generators.append(self.generate_exponential_flow((start_time, end_time), route_id))
 
     # -------------------------------------------- Generators --------------------------------------------
 
     @staticmethod
     def generate_random_flow(
-            vehicle_interval: Tuple[int, int], _period: int,
-            _route_id: str, time_interval: Tuple[int, int]
+            vehicle_interval: Tuple[int, int], period: int,
+            route_id: str, time_interval: Tuple[int, int]
             ) -> Iterator[Vehicle]:
         """
         :param vehicle_interval: minimal and maximal value of vehicles
-        :param _period: how often should vehicles be generated
-        :param _route_id: id of route used by vehicles
+        :param period: how often should vehicles be generated
+        :param route_id: id of route used by vehicles
         :param time_interval: of vehicles arrival time (start_time, end_time)
         :return: Iterator of vehicles
         """
-        starting_time: int = time_interval[0] - _period
+        starting_time: int = time_interval[0] - period
         ending_time: int = time_interval[0]
         # Generate random vehicle_counts N times (generating_time / period)
-        episodes: int = int((time_interval[0] + time_interval[1]) / _period)
+        episodes: int = int((time_interval[1] - time_interval[0]) / period)
         for vehicle_count in np.random.randint(vehicle_interval[0], vehicle_interval[1] + 1, episodes):
-            starting_time += _period
-            ending_time += _period
+            starting_time += period
+            ending_time += period
             # Generate random departing times for vehicles
             for depart_time in np.random.randint(starting_time, ending_time, vehicle_count):
-                yield Vehicle(depart_time, _route_id)
+                yield Vehicle(depart_time, route_id)
 
     @staticmethod
     def generate_uniform_flow(time_interval: Tuple[int, int], route_id: str, vehicle_count: int) -> Iterator[Vehicle]:
@@ -95,9 +133,47 @@ class VehicleFlows(VehicleGenerator):
         :return: Iterator of vehicles
         """
         for depart_time in np.linspace(time_interval[0], time_interval[1], vehicle_count):
-            yield Vehicle(round(depart_time), route_id)
+            yield Vehicle(round(depart_time, 2), route_id)
+
+    def generate_exponential_flow(self, time_interval: Tuple[int, int], route_id: str) -> Iterator[Vehicle]:
+        """
+        :param time_interval:
+        :param route_id:
+        :return:
+        """
+        duration: int = time_interval[1] - time_interval[0]
+        flow_time: int = int((1/3) * duration)
+        half_time: int = int(0.5 * flow_time)
+        current_time: Tuple[int, int] = (time_interval[0], time_interval[0] + flow_time)
+        # --------- Low flow ---------
+        yield from self.generate_uniform_flow(current_time, route_id, (flow_time // self.flow_types["light"]))
+        # Transition
+        # Vehicle difference per second between flows, multiplied by duration of transition
+        vehicle_diff: int = int(((1 / self.flow_types["medium"]) - (1 / self.flow_types["light"])) * half_time)
+        yield from self.generate_random_flow(
+            (vehicle_diff, vehicle_diff + 1), half_time, route_id, (current_time[0]+half_time, current_time[1])
+        )
+        # --------- Medium flow ---------
+        current_time = (current_time[1], current_time[1] + flow_time)
+        yield from self.generate_uniform_flow(current_time, route_id, (flow_time // self.flow_types["medium"]))
+        # Transition
+        vehicle_diff: int = int(((1 / self.flow_types["heavy"]) - (1 / self.flow_types["medium"])) * half_time)
+        yield from self.generate_random_flow(
+            (vehicle_diff, vehicle_diff + 1), half_time, route_id, (current_time[0] + half_time, current_time[1])
+        )
+        # --------- High flow ---------
+        current_time = (current_time[1], current_time[1] + flow_time)
+        yield from self.generate_uniform_flow(current_time, route_id, (flow_time // self.flow_types["heavy"]))
+        # Transition
+        vehicle_diff: int = int(((1 / self.flow_types["congested"]) - (1 / self.flow_types["heavy"])) * half_time)
+        yield from self.generate_random_flow(
+            (vehicle_diff, vehicle_diff + 1), half_time, route_id, (current_time[0] + half_time, current_time[1])
+        )
 
     # -------------------------------------------- Utils --------------------------------------------
 
     def get_methods(self) -> Dict[str, callable]:
-        return {"add-random-flow": self.random_flow, "add-uniform-flow": self.uniform_flow}
+        return {
+            "add-random-flow": self.random_flow, "add-uniform-flow": self.uniform_flow,
+            "add-exponential-flow": self.exponential_flow
+        }

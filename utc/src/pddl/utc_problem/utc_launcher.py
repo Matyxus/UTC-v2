@@ -183,11 +183,17 @@ class UtcLauncher(PddlLauncher):
             return
         self.pddl_result = UtcResult(self.scenario, self.new_scenario_name)
         success: bool = self.pddl_result.results_to_scenario()
+        self.info_file.clear()
         # Delete files
-        if success and not keep_files:
-            print(f"Deleting pddl problem and result files")
-            MyDirectory.delete_directory(FilePaths.PDDL_PROBLEMS + f"/{self.new_scenario_name}")
-            MyDirectory.delete_directory(FilePaths.PDDL_RESULTS + f"/{self.new_scenario_name}")
+        if success:
+            # Reset commands
+            self.user_input.remove_command(
+                list(self.user_input.commands.keys() ^ ("help", "exit", "initialize"))
+            )
+            if not keep_files:
+                print(f"Deleting pddl problem and result files")
+                MyDirectory.delete_directory(FilePaths.PDDL_PROBLEMS + f"/{self.new_scenario_name}")
+                MyDirectory.delete_directory(FilePaths.PDDL_RESULTS + f"/{self.new_scenario_name}")
 
     def plan_scenario(self, domain: str, planner: str, timeout: int = 30, window: int = 20,  *args, **kwargs) -> None:
         """
@@ -212,7 +218,7 @@ class UtcLauncher(PddlLauncher):
             traci.start(
                 [traci_options.get_display(True), *traci_options.get_all(SumoConfigFile(self.scenario.name).file_path)]
             )
-            step: int = window  # Start planning at time 0
+            step: int = window  # Start step at time equal to window
             generated: int = 0  # How many pddl problem files were already generated
             vehicles: Dict[str, str] = {}  # Vehicles and their paths
             result_files: Set[str] = set()  # Empty at start
@@ -228,18 +234,13 @@ class UtcLauncher(PddlLauncher):
                     self.generate_result(self.pddl_problem.problem_name, planner, domain, timeout)
                     # Extract new files (no need to check against non-existing directory)
                     result_files ^= set(MyDirectory.list_directory(self.results_dir))
-                    result_name: str = ""
-                    # (If multiple were generated, picks best one -> should be last, since set is ordered)
-                    if len(result_files) > 1:
-                        result_name = list(result_files)[-1]
-                    elif not len(result_files):
+                    if not len(result_files):
                         print(
                             f"Unable to generate result file from: '{self.pddl_problem.problem_name}',"
                             f" try increasing timeout"
                         )
                         break
-                    else:
-                        result_name = result_files.pop()
+                    result_name: str = list(result_files)[-1]
                     # Get vehicle paths from generated pddl result file
                     vehicles |= self.pddl_result.parse_result(result_name.replace(FileExtension.PDDL, ""))
                     generated += 1
@@ -248,7 +249,7 @@ class UtcLauncher(PddlLauncher):
                 for vehicle_id in traci.simulation.getLoadedIDList():  # Id list is empty most of the time
                     if vehicle_id in vehicles:
                         print(f"Changing route of vehicle: '{vehicle_id}'")
-                        traci.vehicle.setRoute(vehicle_id, vehicles.pop(vehicle_id).rstrip().split())
+                        traci.vehicle.setRoute(vehicle_id, vehicles.pop(vehicle_id).split())
                 # Simulation step
                 traci.simulationStep()
                 step += 1

@@ -1,0 +1,5 @@
+generate-scenario scenario_name="london_scenario" network_name="London"
+add-random-flow from_junction_id="226" to_junction_id="68" minimal="5" maximal="15" period="30" start_time="0" end_time="600"
+add-random-flow from_junction_id="246" to_junction_id="139" minimal="7" maximal="10" period="20" start_time="0" end_time="500"
+add-random-flow from_junction_id="243" to_junction_id="227" minimal="5" maximal="20" period="30" start_time="0" end_time="400"
+save-scenario 

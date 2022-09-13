@@ -7,6 +7,10 @@ class Vehicle(XmlObject):
     _counter: int = 0  # Variable serving to count number of class instances (to assign id's to vehicles)
 
     def __init__(self, depart: float = -1, route_id: str = ""):
+        """
+        :param depart: time of vehicle
+        :param route_id: which vehicle traverses (must be defined in ".rou.xml" file)
+        """
         super().__init__("vehicle")
         # ---------- Prepare vehicle attributes ----------
         self.attributes["id"] = f"v{Vehicle._counter}"

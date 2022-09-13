@@ -87,7 +87,7 @@ class Display(GraphModule):
 
     def make_legend(self, columns: int) -> None:
         """
-        Creates legend on top of plot
+        Creates legend on top of a plot
 
         :param columns: number of items that will be added to legend
         :return: None

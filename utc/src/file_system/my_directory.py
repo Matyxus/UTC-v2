@@ -6,7 +6,7 @@ from typing import List, Optional, Dict
 
 class MyDirectory:
     """
-    Class for handling directories
+    Class for handling directories, provides static utility methods
     """
 
     # ------------------------------------------- Static methods -------------------------------------------
@@ -73,7 +73,7 @@ class MyDirectory:
         """
         :param files: to be grouped
         :param group_by: by what should files be grouped (extension default)
-        :return:
+        :return: dictionary mapping extension to corresponding file names
         """
         if not len(files):
             print("Files to be grouped are empty!")
@@ -93,8 +93,3 @@ class MyDirectory:
             # Add file_name to its extension group
             ret_val[file_extension].append(file_name.replace(file_extension, ""))
         return ret_val
-
-
-if __name__ == "__main__":
-    pass
-

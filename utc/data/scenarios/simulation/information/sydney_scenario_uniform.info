@@ -1,0 +1,6 @@
+generate-scenario scenario_name="sydney_scenario_uniform" network_name="Sydney"
+add-uniform-flow from_junction_id="357" to_junction_id="248" vehicle_count="135" start_time="0" end_time="480"
+add-uniform-flow from_junction_id="241" to_junction_id="316" vehicle_count="170" start_time="0" end_time="480"
+add-uniform-flow from_junction_id="87" to_junction_id="315" vehicle_count="110" start_time="0" end_time="480"
+add-uniform-flow from_junction_id="77" to_junction_id="358" vehicle_count="140" start_time="0" end_time="480"
+save-scenario 

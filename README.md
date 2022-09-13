@@ -236,7 +236,7 @@ There are 5 classes that can be launched:
   and name for new scenario (which is used for pddl problem/result folder names and 
   prefix of such files), network on which user wants the planner to plan vehicle
   routes on (sub-graph of original network is recommended, since the larger the network, 
-  the more time is required for planner for find solution).
+  the more time is required for planner to find solution).
   After initialization is finished, user can generate problem files, describing
   the simulation in ".pddl" format in given time frame (e.g. from 0-20 step, 20-40, ...).
   If problem files are generated, it is possible to generate result files (at least 

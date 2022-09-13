@@ -127,7 +127,7 @@ class Junction(Figure, XmlObject):
                         self.neighbours[in_route].append(out_route_id)
         return self
 
-    def __ror__(self, other):
+    def __ror__(self, other) -> 'Junction':
         """
         :param other: junction
         :return: self.__or__(other)

@@ -95,20 +95,20 @@ class Route(Figure, XmlObject):
 
     # -------------------------------- Magic Methods --------------------------------
 
-    def __or__(self, other: 'Route'):
+    def __or__(self, other: 'Route') -> 'Route':
         """
-        :param other:
-        :return:
+        :param other: route to be merged with
+        :return: self merged with other Route
         """
         if isinstance(other, Route):
             for edge in other.edge_list:
                 self.edge_list.append(edge)
         return self
 
-    def __ror__(self, other: 'Route'):
+    def __ror__(self, other: 'Route') -> 'Route':
         """
-        :param other:
-        :return:
+        :param other: route to be merged with
+        :return: self merged with other Route
         """
         return self.__or__(other)
 
@@ -120,15 +120,15 @@ class Route(Figure, XmlObject):
 
     def __lt__(self, other: 'Route') -> bool:
         """
-        :param other:
-        :return:
+        :param other: route to compare with
+        :return: true if other route id is less than self
         """
         return int(other.get_id()[1:]) < int(self.get_id()[1:])
 
     def __le__(self, other: 'Route') -> bool:
         """
-        :param other:
-        :return:
+        :param other: route to compare with
+        :return: true if other route id is less than or equal to  self
         """
         if self < other:
             return True

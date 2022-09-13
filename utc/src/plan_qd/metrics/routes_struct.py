@@ -12,18 +12,18 @@ class RoutesStruct:
 
     def set_graph(self, graph: Graph) -> None:
         """
-        :param graph:
-        :return:
+        :param graph: graph to be set
+        :return: None
         """
         if graph is None:
             print(f"Cannot set graph of type 'None' !")
             return
         self.graph = graph
 
-    def set_routess(self, routes: List[Route]) -> None:
+    def set_routes(self, routes: List[Route]) -> None:
         """
-        :param routes:
-        :return:
+        :param routes: list of routes to be set
+        :return: None
         """
         if not routes:
             print(f"Cannot set routes which are empty!")
