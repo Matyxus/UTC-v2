@@ -1,0 +1,3 @@
+generate-problems domain="utc" window="20"
+generate-results planner="Merwin" domain="utc" timeout="30"
+generate-scenario keep_files="True"

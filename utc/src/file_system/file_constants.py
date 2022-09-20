@@ -7,6 +7,7 @@ class FileExtension:
     PDDL: str = ".pddl"
     XML: str = ".xml"
     INFO: str = ".info"
+    PROB: str = ".prob"
     # ------- Simulation -------
     SUMO_ROUTES: str = ".rou.xml"
     SUMO_CONFIG: str = ".sumocfg"  # (is of xml type)
@@ -51,6 +52,7 @@ class FilePaths:
     # Path to folder containing .net.xml maps for SUMO
     NETWORK_SUMO_MAPS: str = (CWD + "/data/maps/sumo/{0}" + FileExtension.SUMO_NETWORK)
     MAPS_INFO: str = (CWD + "/data/maps/information/{0}" + FileExtension.INFO)
+    MAPS_PROB: str = (CWD + "/data/maps/probability/{0}" + FileExtension.PROB)
     # --------------------------------------  Pddl --------------------------------------
     PDDL_DOMAINS: str = (CWD + "/data/domains/{0}" + FileExtension.PDDL)  # Path to folder containing pddl domains
     PDDL_PLANERS: str = (CWD + "/data/planners/{0}")   # Path to folder containing pddl planners

@@ -51,10 +51,10 @@ class UtcResult(PddlResult):
             # Missing result files
             if len(result_files) != problem_files_count:
                 print(
-                    f"Unable to generate scenario, missing result files with extension: '{extension}', "
-                    f"got: '{len(result_files)}', expected: '{problem_files_count}'(number of problem files)"
+                    f"Missing result files with extension: '{extension}', "
+                    f"got: '{len(result_files)}', expected: '{problem_files_count}'(number of problem files) "
+                    f"for missing vehicle paths setting shortest path by default"
                 )
-                continue
             extension = extension.replace(FileExtension.PDDL, "")  # Remove ".pddl" extension from files
             print(
                 f"Generating scenario for extension: '{FileExtension.PDDL if not extension else extension}',"
@@ -63,10 +63,11 @@ class UtcResult(PddlResult):
             # ------------------------------ Initialize ------------------------------
             unique_routes: Dict[str, str] = {}
             vehicles: Dict[str, str] = {}
+            # original_routes: Dict[str, str] = {}
             # ------------------------------ Parse result files -----------------------------
             # Remove all routes, they will be replaced by new routes
-            for xml_route in self.scenario.routes_generator.root.findall("route"):
-                self.scenario.routes_generator.root.remove(xml_route)
+            # for xml_route in self.scenario.routes_generator.root.findall("route"):
+            #    self.scenario.routes_generator.root.remove(xml_route)
             # Parse all result files (names of result files)
             for result_file in result_files:
                 # Get dict mapping vehicles to their
@@ -87,12 +88,15 @@ class UtcResult(PddlResult):
             if len(self.scenario.routes_generator.root.findall("vehicle")) != len(vehicles.keys()):
                 print(
                     f"Missing planned path for vehicles, got: '{len(vehicles.keys())}'"
-                    f", expected: {len(self.scenario.routes_generator.root.findall('vehicle'))}, check result files!"
+                    f", expected: {len(self.scenario.routes_generator.root.findall('vehicle'))}, "
+                    f"substituting path for missing vehicles by shortest path!"
                 )
-                continue
             # Change cars routes
             for xml_vehicle in self.scenario.routes_generator.root.findall("vehicle"):
-                xml_vehicle.attrib["route"] = vehicles[xml_vehicle.attrib["id"]]
+                if xml_vehicle.attrib["id"] in vehicles: # Planned path
+                    xml_vehicle.attrib["route"] = vehicles[xml_vehicle.attrib["id"]]
+                else:  # Shortest path
+                    pass
             # ------------------------------ Save -----------------------------
             new_scenario: str = self.new_scenario + extension.replace(".", "_")
             if not self.scenario.routes_generator.save(FilePaths.SCENARIO_ROUTES.format(new_scenario)):

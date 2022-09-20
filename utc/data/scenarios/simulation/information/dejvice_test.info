@@ -1,0 +1,7 @@
+generate-scenario scenario_name="dejvice_test" network_name="Dejvice"
+add-uniform-flow from_junction_id="83" to_junction_id="73" vehicle_count="65" start_time="0" end_time="300"
+add-random-flow from_junction_id="15" to_junction_id="73" minimal="1" maximal="3" period="20" start_time="0" end_time="300"
+add-uniform-flow from_junction_id="70" to_junction_id="73" vehicle_count="63" start_time="0" end_time="300"
+add-exponential-flow from_junction_id="69" to_junction_id="15" start_time="0" end_time="300" mode="random"
+add-exponential-flow from_junction_id="78" to_junction_id="8" start_time="0" end_time="300" mode="random"
+save-scenario 

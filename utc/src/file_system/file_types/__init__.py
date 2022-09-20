@@ -4,5 +4,5 @@ from utc.src.file_system.file_types.sumo_config_file import SumoConfigFile
 from utc.src.file_system.file_types.sumo_network_file import SumoNetworkFile
 from utc.src.file_system.file_types.info_file import InfoFile
 from utc.src.file_system.file_types.statistics_file import StatisticsFile
-
+from utc.src.file_system.file_types.probability_file import ProbabilityFile
 # Forward imports

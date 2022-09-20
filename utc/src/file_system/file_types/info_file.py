@@ -54,7 +54,7 @@ class InfoFile(MyFile):
     def save(self, file_path: str = "default") -> bool:
         if file_path != "default":
             self.file_path = file_path
-        if not self.file_path.endswith(".info"):
+        if not self.file_path.endswith(self.extension):
             print(
                 f"For Info file expected extension to be: '{self.extension}'"
                 f", got: '{file_path}' !"

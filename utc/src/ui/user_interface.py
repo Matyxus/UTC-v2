@@ -19,6 +19,8 @@ class UserInterface:
         self.info_file: InfoFile = None
         self.user_input: UserInput = None
 
+    # ----------------------------------------- Input -----------------------------------------
+
     def run(self) -> None:
         """
         Handles input passed from user using prompt_toolkit to ask for
@@ -41,26 +43,47 @@ class UserInterface:
         self.running = True
         while self.running:
             command_name, command_args = self.user_input.get_input()
-            converted_args: list = []
-            # Convert argument to their correct type (add default values if missing)
-            if command_args:
-                doc: Document = Document(command_args)
-                try:
-                    converted_args = self.user_input.argument_validator.convert_args(
-                        self.user_input.argument_validator.parse_input(doc), doc
-                    )
-                except ValidationError as e:
-                    print(f"Error: {e.message}")
-                    break
-            # Update info file
-            self.record(command_name, command_args)
-            # Execute
-            self.current_ret_val = self.user_input.commands[command_name].exec(converted_args, command_args)
+            if not self.process_input(command_name, command_args):
+                break
         print("Exiting ...")
+
+    def process_input(self, command_name: str, command_args: str) -> bool:
+        """
+        :param command_name: name of command
+        :param command_args: arguments of command
+        :return: True on success (command execution is not checked),
+        false otherwise
+        """
+        if self.user_input is None or not self.user_input.is_initialized():
+            print(f"Cannot process input, call 'initialize_input' first !")
+            return False
+        elif not self.user_input.command_exists(command_name):
+            return False
+        converted_args: list = []
+        # Convert argument to their correct type (add default values if missing)
+        if command_args:
+            doc: Document = Document(command_args)
+            try:
+                self.user_input.argument_validator.set_command(
+                    self.user_input.commands[command_name]
+                )
+                converted_args = self.user_input.argument_validator.convert_args(
+                    self.user_input.argument_validator.parse_input(doc), doc
+                )
+            except ValidationError as e:
+                print(f"Error: {e.message}")
+                return False
+        # Update info file
+        self.record(command_name, command_args)
+        # Execute
+        self.current_ret_val = self.user_input.commands[command_name].exec(converted_args, command_args)
+        return True
 
     def initialize_input(self) -> None:
         """
-        :return:
+        Initializes UserInput class, calls "initialize_commands"
+
+        :return: Non
         """
         # Already initialized
         if self.user_input is not None and self.user_input.is_initialized():

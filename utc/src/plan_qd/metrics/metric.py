@@ -1,6 +1,6 @@
 from utc.src.graph.components import Graph, Route
 from utc.src.plan_qd.metrics.routes_struct import RoutesStruct
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Union
 
 
 class Metric:
@@ -16,6 +16,15 @@ class Metric:
         self.score: List[int] = []
         self.name = metric_name
         print(f"Initializing metric: {self.name} class")
+
+    def get_score(self, k: Union[int, float]) -> List[int]:
+        """
+        :param k:
+        :return:
+        """
+        if type(k) == float:
+            return self.score[0: max(int(len(self.score) * k), 1)]
+        return self.score[0:min(k, len(self.score))]
 
     def calculate(self, struct: RoutesStruct, *args, **kwargs) -> None:
         """

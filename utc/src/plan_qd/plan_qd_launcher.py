@@ -1,8 +1,9 @@
 from utc.src.graph.components import Skeleton, Graph, Route
 from utc.src.plan_qd.metrics import SimilarityMetric, BottleneckMetric, RoutesStruct
-from utc.src.file_system import MyFile, InfoFile, FilePaths
+from utc.src.plan_qd.factories import FlowFactory, GraphFactory, ScenarioFactory
+from utc.src.file_system import MyFile, InfoFile, FilePaths, ProbabilityFile
 from utc.src.ui import UserInterface
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 
 class PlanQDLauncher(UserInterface):
@@ -14,98 +15,81 @@ class PlanQDLauncher(UserInterface):
         self.routes_struct: RoutesStruct = None
         self.similarity_metric: SimilarityMetric = SimilarityMetric()
         self.bottleneck_metric: BottleneckMetric = BottleneckMetric()
+        # Factories
+        self.flow_factory: FlowFactory = FlowFactory()
+        self.graph_factory: GraphFactory = GraphFactory()
+        self.scenario_factory: ScenarioFactory = ScenarioFactory()
         self.graphs: Dict[str, Skeleton] = {}
         self.info_file = InfoFile("")
 
     def initialize_commands(self) -> None:
         super().initialize_commands()
 
-    # -------------------------------------------- Commands --------------------------------------------
-
-    def load_graph(self, network_name: str) -> None:
-        """
-        :param network_name: name of network
-        :return: None
-        """
-        if not MyFile.file_exists(FilePaths.NETWORK_SUMO_MAPS.format(network_name)):
-            return
-        self.routes_struct: RoutesStruct = RoutesStruct([], None)
-        graph = Graph(Skeleton())
-        graph.loader.load_map(network_name)
-        graph.simplify.simplify_graph()
-        self.routes_struct.set_graph(graph)
-
-    def subgraph(
-            self, name: str, from_junction: str, to_junction: str,
-            c: float, k: float, plot: bool = False, metrics=None
-            ) -> None:
-        """
-        :param name:
-        :param from_junction: starting junction of sub-graph
-        :param to_junction: ending junction of sub-graph
-        :param c: maximal route length (shortest_path * c), must be higher than 1
-        :param k: number of best routes to be used for subgraph (if value between 0-1 -> percentage of total routes)
-        :param metrics:
-        :param plot:
-        :return:
-        """
-        if metrics is None:
-            metrics = ["all"]
-        if self.routes_struct.graph is None:
-            print("Graph is not initialized")
-            return
-        routes = self.routes_struct.graph.shortest_path.top_k_a_star(
-            from_junction, to_junction, c, self.routes_struct.graph.display if plot else None
-        )
-        if not routes:
-            print("Found no routes!")
-            return
-        self.routes_struct.set_routes(routes)
-        # Metrics
-        # self.bottleneck_metric.calculate(self.routes_struct)
-        # self.bottleneck_metric.plot_ranking(self.routes_struct)
-        self.similarity_metric.calculate(self.routes_struct)
-        self.similarity_metric.plot_ranking(self.routes_struct)
-        # -------------------------------- Sub-graphs --------------------------------
-        sub_graph: Skeleton = self.routes_struct.graph.sub_graph.create_sub_graph(routes)
-        if sub_graph is None:
-            print("Could not create subgraph")
-            return
-        self.graphs[name] = sub_graph
-        # Plot the basic graph
-        graph: Graph = Graph(sub_graph)
-        print("Plotting default sub-graph")
-        graph.display.plot()
-        # Plot graph\s made with metrics
-
-
-
-
-    def merge(self, graph_name: str, graph_a: str, graph_b: str, plot: bool = False) -> None:
-        """
-        :param graph_name: new name of created graph
-        :param graph_a: name of first graph (which will be merged)
-        :param graph_b: name of second graph (which will be merged)
-        :param plot: bool (true, false), if process should be displayed
-        :return: None
-        """
-        # Checks
-        if not self.graph_exists(graph_b):
-            return
-        elif not self.graph_exists(graph_b):
-            return
-        # Merge
-        self.graph.set_skeleton(self.graphs[graph_a])
-        new_graph: Skeleton = self.graph.sub_graph.merge(self.graphs[graph_b], self.graph.display if plot else None)
-        if new_graph is None:
-            print("Could not merge graphs")
-            return
-        self.graphs[graph_name] = new_graph
-        print(f"Finished merging graphs: {graph_a} with {graph_b}, created graph: {graph_name}")
-
 
 if __name__ == "__main__":
-    temp: PlanQDLauncher = PlanQDLauncher()
-    temp.initialize_graphs("Rome")
-    temp.subgraph("54", "75", 1.6, 0, False)
+    scenario_name: str = "dejvice_test"
+    network_name: str = "Dejvice"
+    probability_file: str = "dejvice"
+    # Scenario
+    # scenario_factory: ScenarioFactory = ScenarioFactory()
+    # scenario_factory.initialize(scenario_name, network_name)
+    # Graph
+    graph_factory: GraphFactory = GraphFactory()
+    graph_factory.initialize(network_name)
+    # Flows
+    flow_factory: FlowFactory = FlowFactory(
+        Graph(graph_factory.graph_main.graphs[network_name]),
+        ProbabilityFile(probability_file)
+    )
+    flows: List[Tuple[str, str]] = flow_factory.generate_flows(0, 0, 300)
 
+    # scenario_factory.add_flows(flows)
+    # Create scenario
+
+    # Create sub-graph
+    similarity_metric: SimilarityMetric = SimilarityMetric()
+    bottleneck_metric: BottleneckMetric = BottleneckMetric()
+    graph: Graph = Graph(graph_factory.graph_main.graphs[network_name])
+    for index, (flow_name, flow_args) in enumerate(flows):
+        curr_args: Dict[str, str] = {
+            i.split("=")[0]: i.split("=")[1] for i in flow_args.replace("\"", "").split()
+        }
+        print(flow_name, curr_args)
+        graph_factory.generate_sub_graph(
+            f"sg{index}", network_name, curr_args["from_junction_id"],
+            curr_args["to_junction_id"], 1.5, "f"
+        )
+        routes: List[Route] = graph_factory.graph_main.current_ret_val
+        if routes is None:
+            print(f"Routes is of type: 'None'")
+            break
+        print(f"Found: {len(routes)} routes for sub-graph: {index}")
+        routes_struct: RoutesStruct = RoutesStruct(routes, graph)
+        similarity_metric.calculate(routes_struct, sort_by="average")
+        print(f"Creating sub-graph from: {len([routes[i] for i in similarity_metric.get_score(0.5)])}")
+        graph_factory.graph_main.graphs[f"msg{index}"] = graph.sub_graph.create_sub_graph(
+            [routes[i] for i in similarity_metric.get_score(0.35)]
+        )
+        if graph_factory.graph_main.graphs[f"msg{index}"] is None:
+            print(f"Error when generating subgraph")
+            exit(0)
+        similarity_metric.clear()
+        # bottleneck_metric.calculate(routes_struct)
+        # Take routes from generated sub-graph, pass it to Metrics
+
+    for i in range(1, len(flows)):
+        graph_factory.merge_command(
+           "msg0", f"msg0", f"msg{i}", "f"
+        )
+        # Delete subgraph ?
+    graph_factory.graph_main.process_input(
+        "save-graph", f'graph_name="msg0" file_name="{scenario_name}_similarity_subgraph"'
+    )
+
+"""
+uniform-flow ['from_junction_id', '"83" to_junction_id', '"73" vehicle_count', '"65" start_time', '"0" end_time', '"300"']
+random-flow ['from_junction_id', '"15" to_junction_id', '"73" minimal', '"1" maximal', '"3" period', '"20" start_time', '"0" end_time', '"300"']
+uniform-flow ['from_junction_id', '"70" to_junction_id', '"73" vehicle_count', '"63" start_time', '"0" end_time', '"300"']
+exponential-flow ['from_junction_id', '"69" to_junction_id', '"15" start_time', '"0" end_time', '"300" mode', '"random"']
+exponential-flow ['from_junction_id', '"78" to_junction_id', '"8" start_time', '"0" end_time', '"300" mode', '"random"']
+"""

@@ -1,7 +1,7 @@
 from utc.src.graph.components import Route, Graph
 from utc.src.plan_qd.metrics.metric import Metric
 from utc.src.plan_qd.metrics.routes_struct import RoutesStruct
-from typing import List, Dict, Tuple, Iterator
+from typing import List, Dict, Tuple, Iterator, Optional
 import numpy as np
 from sklearn.cluster import DBSCAN
 
@@ -34,7 +34,11 @@ class SimilarityMetric(Metric):
         :return: None
         """
         # Compare based on edge id's using jaccard similarity, (with similarity boundary of 75% or higher)
-        similarity_matrix: np.array = self.create_jaccard_matrix(struct.routes)
+        similarity_matrix: Optional[np.array] = self.create_jaccard_matrix(struct.routes)
+        if similarity_matrix is None:
+            print(f"Cannot continue with DBSCAN, error at creating similarity matrix")
+            self.score = [i for i in range(len(struct.routes))]
+            return
         # self.pretty_print(similarity_matrix)
         reduced_dataset = DBSCAN(metric='precomputed', eps=eps, min_samples=min_samples).fit(
             self.get_jaccard_distance(similarity_matrix)
@@ -89,7 +93,7 @@ class SimilarityMetric(Metric):
             print(f"Cluster: {cluster_id} has average similarity of: {value[0]}")
             for average_similarity, route_id in value[1]:
                 print(f"Route: {route_id} has similarity of {average_similarity}")
-        print(f"Clusters number: {len(self.clusters)}")
+        print(f"Created clusters: {len(self.clusters)}")
         # Sort clusters by average similarity
         sorted_clusters_ids: list = sorted(list(self.clusters.items()), key=lambda tup: tup[1])
         # Rank by most diverse
@@ -104,6 +108,7 @@ class SimilarityMetric(Metric):
             index += 1
             if index >= len(sorted_clusters_ids):
                 index = 0
+        print(f"Finished sorting routes, result: {self.score}")
 
     # -------------------------------------------- Jaccard --------------------------------------------
 
@@ -130,7 +135,7 @@ class SimilarityMetric(Metric):
         """
         return (len(np.intersect1d(v1, v2)) + 0.0) / len(np.union1d(v1, v2))
 
-    def create_jaccard_matrix(self, routes: List[Route]) -> np.array:
+    def create_jaccard_matrix(self, routes: List[Route]) -> Optional[np.array]:
         """
         :param routes: list of routes
         :return: array containing similarity between each route (2D symmetric matrix)
@@ -139,7 +144,7 @@ class SimilarityMetric(Metric):
         length: int = len(routes)
         if length < 2:
             print("Cannot create similarity matrix, length of routes list must be at least 2")
-            return np.array([[]])
+            return None
         jaccard_matrix: np.array = np.zeros([length, length])
         # -1, since we want to skip diagonal (route has similarity of "1" to itself)
         for i in range(length-1):
@@ -157,6 +162,10 @@ class SimilarityMetric(Metric):
             for col in row:
                 print("{:8.3f}".format(col).lstrip(), end="  ")
             print("")
+
+    def clear(self) -> None:
+        self.clusters.clear()
+        self.score.clear()
 
     def plot_ranking(self, struct: RoutesStruct, *args, **kwargs) -> None:
         pass

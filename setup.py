@@ -18,6 +18,7 @@ finally:
         data_path + "/maps/osm/filtered",  # Folder containing ".osm" maps filtered by osm_filter (only road network)
         data_path + "/maps/sumo",  # Folder containing ".net.xml" maps created by netedit from "_filtered.osm" maps
         data_path + "/maps/information",  # Folder containing ".info" files recording how graph was created
+        data_path + "/maps/probability",  # Folder containing ".prob" files mapping flow probabilities to junctions
         # Planners
         data_path + "/planners",  # Folder containing pddl planners (must be added by user)
         # Scenarios

@@ -1,7 +1,8 @@
 from typing import Dict, Set
-from utc.src.graph.components import Skeleton, Graph
+from utc.src.graph.components import Skeleton, Graph, Route
 from utc.src.ui import UserInterface, Command
 from utc.src.file_system import FilePaths, InfoFile
+from typing import List, Optional
 
 
 class GraphMain(UserInterface):
@@ -71,7 +72,7 @@ class GraphMain(UserInterface):
     def sub_graph_command(
             self, subgraph_name: str, graph_name: str, from_junction: str,
             to_junction: str, c: float, plot: bool = False
-         ) -> None:
+         ) -> Optional[List[Route]]:
         """
         :param subgraph_name: new name of created sub-graph
         :param graph_name: name of graph from which sub-graph will be made
@@ -84,16 +85,17 @@ class GraphMain(UserInterface):
         if not self.graph_exists(graph_name):
             return
         self.graph.set_skeleton(self.graphs[graph_name])
-        routes = self.graph.shortest_path.top_k_a_star(
+        routes: List[Route] = self.graph.shortest_path.top_k_a_star(
             from_junction, to_junction, c, self.graph.display if plot else None
         )
         # -------------------------------- Init --------------------------------
         sub_graph: Skeleton = self.graph.sub_graph.create_sub_graph(routes)
         if sub_graph is None:
             print("Could not create subgraph")
-            return
+            return None
         self.graphs[subgraph_name] = sub_graph
         print(f"Finished creating sub-graph: {subgraph_name}")
+        return routes
     
     def merge_command(self, graph_name: str, graph_a: str, graph_b: str, plot: bool = False) -> None:
         """
