@@ -8,6 +8,7 @@ class FileExtension:
     XML: str = ".xml"
     INFO: str = ".info"
     PROB: str = ".prob"
+    JSON: str = ".json"
     # ------- Simulation -------
     SUMO_ROUTES: str = ".rou.xml"
     SUMO_CONFIG: str = ".sumocfg"  # (is of xml type)
@@ -44,6 +45,9 @@ class FilePaths:
     SUMO_CONFIG_TEMPLATE: str = (CWD + "/data/templates/sumo_config" + FileExtension.SUMO_CONFIG)
     # Template for '.ruo.xml' file
     SUMO_ROUTES_TEMPLATE: str = (CWD + "/data/templates/sumo_routes" + FileExtension.SUMO_ROUTES)
+    FLOW_TEMPLATES: str = (CWD + "/data/templates/session/flows/{0}" + FileExtension.JSON)
+    PDDL_TEMPLATES: str = (CWD + "/data/templates/session/pddl/{0}" + FileExtension.JSON)
+    SUBGRAPH_TEMPLATES: str = (CWD + "/data/templates/session/subgraph/{0}" + FileExtension.JSON)
     # -------------------------------------- Maps --------------------------------------
     # Path to folder containing maps from open street map (.osm)
     ORIGINAL_OSM_MAPS: str = (CWD + "/data/maps/osm/original/{0}" + FileExtension.OSM)
@@ -73,6 +77,8 @@ class FilePaths:
     SCENARIO_SIM_INFO: str = (CWD + "/data/scenarios/simulation/information/{0}" + FileExtension.INFO)
     # Path to generate statistics
     SCENARIO_STATISTICS: str = (CWD + "/data/scenarios/simulation/statistics/{0}" + FileExtension.SUMO_STATS)
+    # Path to session json files
+    SCENARIO_SESSION: str = (CWD + "/data/scenarios/sessions/{0}" + FileExtension.JSON)
 
 
 # ---------------------------------- Planners ----------------------------------

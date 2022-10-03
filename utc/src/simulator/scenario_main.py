@@ -2,37 +2,35 @@ from utc.src.ui import UserInterface, Command
 from utc.src.file_system import MyFile, MyDirectory, FilePaths, InfoFile, SumoConfigFile
 from utc.src.simulator.scenario import Scenario
 from utc.src.utils import TraciOptions
+from typing import List, Optional
 import traci
-from typing import List
 
 
 class ScenarioMain(UserInterface):
     """ Class that ask user for input related to generating SUMO scenarios, generating and running scenarios """
 
-    def __init__(self):
-        super().__init__("scenario")
-        self.scenario: Scenario = None
-        # Commands enabled when generating scenario + method for generating vehicles
-        self.generating_commands: List[str] = ["save-scenario", "plot"]
-        # Info file
-        self.info_file = InfoFile("")
-        self.info_file.add_allowed_commands(
-            ["generate-scenario", "save-scenario"]
-        )
+    def __init__(self, log_commands: bool = True):
+        super().__init__("scenario", log_commands)
+        self.scenario: Optional[Scenario] = None
 
     # ---------------------------------- Commands ----------------------------------
 
     def initialize_commands(self) -> None:
         super().initialize_commands()
         self.user_input.add_command([
-            ("generate-scenario", Command("generate-scenario", self.generate_scenario_command)),
-            ("launch-scenario", Command("launch-scenario", self.launch_scenario_command)),
-            ("delete-scenario", Command("delete-scenario", self.delete_scenario_command))
+            Command("generate_scenario", self.generate_scenario_command),
+            Command("launch_scenario", self.launch_scenario_command),
+            Command("delete_scenario", self.delete_scenario_command)
         ])
 
+    @UserInterface.log_command
     def generate_scenario_command(self, scenario_name: str, network_name: str) -> None:
         """
-        :param scenario_name: name of scenario folder
+        Initializes the process of creating new scenario, enables
+        new commands to add vehicles to scenario and command to save it
+
+        :param scenario_name: name of scenario (will be used as namespace
+        for other files related to scenario, e.g.: pddl files, routes, ..)
         :param network_name: name of network on which simulation will be displayed
         :return: None
         """
@@ -46,20 +44,22 @@ class ScenarioMain(UserInterface):
             return
         # Scenario
         self.scenario = Scenario(scenario_name, network_name)
-        # Add vehicle commands to generating commands and info file (only once)
-        if len(self.generating_commands) == 2:
-            vehicle_commands: List[str] = list(self.scenario.vehicle_factory.get_methods().keys())
-            self.generating_commands.extend(vehicle_commands)
-            self.info_file.add_allowed_commands(vehicle_commands)
-        # Add new commands
-        self.user_input.add_command([
-            (command_name, Command(command_name, function)) for command_name, function
-            in self.scenario.vehicle_factory.get_methods().items()
-        ])
-        self.user_input.add_command([
-            ("save-scenario", Command("save-scenario", self.save_command)),
-            ("plot-scenario", Command("plot-scenario", self.scenario.graph.display.plot))
-        ])
+        # Add vehicle flow methods to logging
+        for cls, methods in self.scenario.vehicle_factory.get_methods():
+            if self.logging_enabled:
+                self.set_logger(cls, list(methods.values()))
+        # Add new commands for user input
+        if self.user_input is not None:
+            # Add new commands
+            # ! flows needs to be added separately from logging loop (new pointers) !
+            for cls, methods in self.scenario.vehicle_factory.get_methods():
+                self.user_input.add_command([
+                    Command(command_name, method) for command_name, method in methods.items()
+                ])
+            self.user_input.add_command([
+                Command("save_scenario", self.save_scenario_command),
+                Command("plot", self.scenario.graph.display.plot)
+            ])
 
     # noinspection PyMethodMayBeStatic
     def launch_scenario_command(
@@ -88,6 +88,7 @@ class ScenarioMain(UserInterface):
             if not traffic_lights:
                 for traffic_light_id in traci.trafficlight.getIDList():
                     traci.trafficlight.setProgram(traffic_light_id, "off")
+            # Main loop
             while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
                 traci.simulationStep()
             traci.close()
@@ -126,26 +127,39 @@ class ScenarioMain(UserInterface):
         # ---------------------------------- Folders ----------------------------------
         # Delete pddl problems folder (with files)
         pddl_problems: str = FilePaths.PDDL_PROBLEMS + "/" + scenario_name
-        if not MyDirectory.delete_directory(pddl_problems):
+        if not MyDirectory.delete_directory(pddl_problems, False):
             return
         # Delete pddl results folder (with files)
         pddl_results: str = FilePaths.PDDL_RESULTS + "/" + scenario_name
-        if not MyDirectory.delete_directory(pddl_results):
+        if not MyDirectory.delete_directory(pddl_results, False):
             return
         print(f"Successfully deleted scenario: '{scenario_name}' and associated files")
 
-    def save_command(self) -> None:
+    @UserInterface.log_command
+    def save_scenario_command(self) -> None:
         """
-        :return:
+        Saves scenario -> '.sucmofg' (executable) file and
+        '.rou.xml' file (containing vehicles and their routes),
+        saves logged commands (if enabled) and
+        removes all commands except initial ones
+
+        :return: None
         """
         # Save scenario
         self.scenario.save()
         # Save info file
-        self.info_file.save(FilePaths.SCENARIO_SIM_INFO.format(self.scenario.name))
-        self.info_file.clear()
+        if self.logging_enabled:
+            self.save_log(FilePaths.SCENARIO_SIM_INFO.format(self.scenario.name))
+            self.clear_log()
         # Reset
         self.scenario = None
-        self.user_input.remove_command(self.generating_commands)
+        if self.user_input is not None:
+            # Remove commands enabled only after generating scenario
+            self.user_input.remove_command(
+                list(self.user_input.commands.keys() ^ {
+                    "generate_scenario", "launch_scenario", "delete_scenario", "help", "exit"
+                })
+            )
 
 
 if __name__ == "__main__":

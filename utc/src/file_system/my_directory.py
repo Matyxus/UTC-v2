@@ -27,12 +27,13 @@ class MyDirectory:
         return True
 
     @staticmethod
-    def delete_directory(dir_path: str) -> bool:
+    def delete_directory(dir_path: str, message: bool = True) -> bool:
         """
         :param dir_path: of directory to be deleted (including files in directory)
+        :param message: if message about directory not existing should be printed, default true
         :return: true on success, false otherwise
         """
-        if not isinstance(dir_path, str) or not MyDirectory.dir_exist(dir_path):
+        if not isinstance(dir_path, str) or not MyDirectory.dir_exist(dir_path, message):
             return False
         try:
             for file in MyDirectory.list_directory(dir_path):
@@ -73,13 +74,14 @@ class MyDirectory:
         """
         :param files: to be grouped
         :param group_by: by what should files be grouped (extension default)
-        :return: dictionary mapping extension to corresponding file names
+        :return: dictionary mapping extension to corresponding file names,
+        sorted by extension
         """
         if not len(files):
             print("Files to be grouped are empty!")
             return None
-        if group_by != "extension":
-            print(f"Unknown grouping method: {group_by}")
+        elif group_by != "extension":
+            print(f"Unknown grouping method: '{group_by}'")
             return None
         ret_val: Dict[str, List[str]] = {
             # extension : [file1, ....],
@@ -92,4 +94,4 @@ class MyDirectory:
                 ret_val[file_extension] = []
             # Add file_name to its extension group
             ret_val[file_extension].append(file_name.replace(file_extension, ""))
-        return ret_val
+        return {key: ret_val[key] for key in sorted(ret_val.keys())}

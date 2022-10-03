@@ -12,7 +12,7 @@ class TraciOptions:
         # "--route-steps", "0",  # Force sumo to load all vehicles at once
         self._statistics: List[str] = [
             "--duration-log.statistics", "true",
-            "--statistic-output", f"{FilePaths.SCENARIO_STATISTICS}"
+            "--statistic-output",  # Path to file
             # "--tripinfo-output", "tripinfo.xml",
             # "--summary", "summary.txt"
         ]
@@ -46,8 +46,7 @@ class TraciOptions:
         :param scenario_name: name of scenario
         :return: list containing commands for traci to generate statistics file
         """
-        self._statistics[3] = self._statistics[3].format(scenario_name)
-        return self._statistics
+        return self._statistics + [FilePaths.SCENARIO_STATISTICS.format(scenario_name)]
 
 
 

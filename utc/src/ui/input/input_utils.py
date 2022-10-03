@@ -2,13 +2,18 @@ from utc.src.ui.command import ArgumentValidator
 from prompt_toolkit.history import InMemoryHistory
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.validation import Validator
-from typing import Optional, Dict, List
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.key_binding.key_processor import KeyPressEvent
+from typing import Optional
 
 
 class InputUtils:
     """
-
+    Class holding utility methods for user input (command history, keybind ings ..)
     """
+
+    bindings: KeyBindings = KeyBindings()
+
     def __init__(self):
         # Classes for prompt_toolkit 'prompt' method
         self.command_history: Optional[InMemoryHistory] = None
@@ -25,10 +30,12 @@ class InputUtils:
             self.command_validator and self.argument_validator) is not None
         )
 
+    @bindings.add('escape')
+    def escape_input(event: KeyPressEvent) -> None:
+        """
+        Cancels the current prompt
 
-
-
-
-
-
-
+        :return: None
+        """
+        print("\nCaught 'esc' press, abandoning prompt!\n")
+        event.app.exit()

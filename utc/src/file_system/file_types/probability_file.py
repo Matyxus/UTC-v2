@@ -58,10 +58,11 @@ class ProbabilityFile(MyFile):
         """
         lines: List[str] = []
         # Read file
-        self.mode = "r"
+        self.mode = "r+"
         with self as probability_file:
             if probability_file is None:
                 print(f"File '{self.file_path}' does not exist!")
+                self.mode = "w+"
                 return None
             lines = probability_file.readlines()
         self.mode = "w+"
@@ -102,7 +103,6 @@ class ProbabilityFile(MyFile):
             )
             return False
         # Save file
-        self.mode = "w+"
         with self as probability_file:
             if probability_file is None:
                 return False

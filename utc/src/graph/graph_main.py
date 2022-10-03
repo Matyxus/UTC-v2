@@ -1,39 +1,39 @@
 from typing import Dict, Set
 from utc.src.graph.components import Skeleton, Graph, Route
 from utc.src.ui import UserInterface, Command
-from utc.src.file_system import FilePaths, InfoFile
+from utc.src.file_system import FilePaths
 from typing import List, Optional
 
 
 class GraphMain(UserInterface):
     """ Class that launches program for graph manipulation, ask user for input """
 
-    def __init__(self):
-        super().__init__("graph")
+    def __init__(self, log_commands: bool = True):
+        super().__init__("graph", log_commands)
         # Graph modules set to currently used graph
         self.graph: Graph = Graph()
         # Maps names of graphs to Graph class
         self.graphs: Dict[str, Skeleton] = {}
-        # Info file
-        self.info_file = InfoFile("")
-        self.info_file.add_allowed_commands(["load-graph", "simplify", "subgraph", "merge", "save-graph"])
 
     def initialize_commands(self) -> None:
         super().initialize_commands()
         self.user_input.add_command([
-            ("load-graph", Command("load-graph", self.load_command)),
-            ("plot-graph", Command("plot-graph", self.plot_command)),
-            ("simplify", Command("simplify", self.simplify_command)),
-            ("subgraph", Command("subgraph", self.sub_graph_command)),
-            ("merge", Command("merge", self.merge_command)),
-            ("save-graph", Command("save-graph", self.save_command)),
-            ("graphs", Command("graphs", self.graphs_command)),
-            ("delete-graph", Command("delete-graph", self.delete_command)),
+            Command("load_graph", self.load_graph_command),
+            Command("plot_graph", self.plot_graph_command),
+            Command("simplify", self.simplify_command),
+            Command("subgraph", self.subgraph_command),
+            Command("merge", self.merge_command),
+            Command("save_graph", self.save_graph_command),
+            Command("print_graphs", self.print_graphs_command),
+            Command("delete_graph", self.delete_command),
         ])
 
     # ----------------------------------------- Commands -----------------------------------------
 
-    def load_command(self, map_name: str) -> None:
+    # ----------- Logging -----------
+
+    @UserInterface.log_command
+    def load_graph_command(self, map_name: str) -> None:
         """
         :param map_name: load map from /Maps/sumo/map_name.net.xml and creates graph named map_name
         :return: None
@@ -45,16 +45,7 @@ class GraphMain(UserInterface):
             return
         self.graphs[map_name] = temp
 
-    def plot_command(self, graph_name: str) -> None:
-        """
-        :param graph_name: name of graph to be displayed
-        :return: None
-        """
-        if not self.graph_exists(graph_name):
-            return
-        self.graph.set_skeleton(self.graphs[graph_name])
-        self.graph.display.plot()
-
+    @UserInterface.log_command
     def simplify_command(self, graph_name: str, plot: bool = False) -> None:
         """
         Replaces junctions forming roundabouts with single junction,
@@ -69,7 +60,8 @@ class GraphMain(UserInterface):
         self.graph.set_skeleton(self.graphs[graph_name])
         self.graph.simplify.simplify_graph(self.graph.display if plot else None)
 
-    def sub_graph_command(
+    @UserInterface.log_command
+    def subgraph_command(
             self, subgraph_name: str, graph_name: str, from_junction: str,
             to_junction: str, c: float, plot: bool = False
          ) -> Optional[List[Route]]:
@@ -96,7 +88,8 @@ class GraphMain(UserInterface):
         self.graphs[subgraph_name] = sub_graph
         print(f"Finished creating sub-graph: {subgraph_name}")
         return routes
-    
+
+    @UserInterface.log_command
     def merge_command(self, graph_name: str, graph_a: str, graph_b: str, plot: bool = False) -> None:
         """
         :param graph_name: new name of created graph
@@ -119,26 +112,8 @@ class GraphMain(UserInterface):
         self.graphs[graph_name] = new_graph
         print(f"Finished merging graphs: {graph_a} with {graph_b}, created graph: {graph_name}")
 
-    def graphs_command(self) -> None:
-        """
-        Prints names of all created sub-graphs
-
-        :return: None
-        """
-        print("Printing all graphs names:")
-        for index, graph_name in enumerate(self.graphs.keys()):
-            print(f"{index+1}\t" + graph_name)
-
-    def delete_command(self, graph_name: str) -> None:
-        """
-        :param graph_name: name of graph to be deleted
-        :return: None
-        """
-        if not self.graph_exists(graph_name):
-            return
-        self.graphs.pop(graph_name)
-
-    def save_command(self, graph_name: str, file_name: str) -> None:
+    @UserInterface.log_command
+    def save_graph_command(self, graph_name: str, file_name: str) -> None:
         """
         Saves graph into /Maps/sumo/file_name.net.xml
 
@@ -157,9 +132,41 @@ class GraphMain(UserInterface):
             for edge in route.edge_list:
                 edges.add(edge.attributes["id"])
         command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {path}"
-        self.run_command(command)
-        # Save info file
-        self.info_file.save(FilePaths.MAPS_INFO.format(file_name))
+        self.call_shell(command)
+        # Save info file if logging is enabled
+        if self.logging_enabled:
+            self.save_log(FilePaths.MAPS_INFO.format(file_name))
+
+    # ----------- Not logged -----------
+
+    def plot_graph_command(self, graph_name: str) -> None:
+        """
+        :param graph_name: name of graph to be displayed
+        :return: None
+        """
+        if not self.graph_exists(graph_name):
+            return
+        self.graph.set_skeleton(self.graphs[graph_name])
+        self.graph.display.plot()
+
+    def print_graphs_command(self) -> None:
+        """
+        Prints names of all created sub-graphs
+
+        :return: None
+        """
+        print("Printing all graphs names:")
+        for index, graph_name in enumerate(self.graphs.keys()):
+            print(f"{index+1}\t" + graph_name)
+
+    def delete_command(self, graph_name: str) -> None:
+        """
+        :param graph_name: name of graph to be deleted
+        :return: None
+        """
+        if not self.graph_exists(graph_name):
+            return
+        self.graphs.pop(graph_name)
 
     # ----------------------------------------- Utils -----------------------------------------
 
@@ -178,5 +185,5 @@ class GraphMain(UserInterface):
 
 # Program start
 if __name__ == "__main__":
-    launcher: GraphMain = GraphMain()
+    launcher: GraphMain = GraphMain(log_commands=True)
     launcher.run()

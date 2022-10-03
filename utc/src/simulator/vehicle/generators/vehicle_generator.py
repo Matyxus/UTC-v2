@@ -1,6 +1,6 @@
 from utc.src.simulator.vehicle.vehicle import Vehicle
 from utc.src.graph.components import Graph, Route
-from typing import Dict, List, Iterator
+from typing import Dict, List, Tuple, Iterator
 
 
 class VehicleGenerator:
@@ -42,6 +42,8 @@ class VehicleGenerator:
                 print(f"Path between {from_junction_id} and {to_junction_id} does not exist!")
             self.recorded_paths[from_junction_id][to_junction_id] = ""
             return ""
+        # Adds "s" for "shortest", avoids conflict in pddl
+        path.attributes["id"] = ("s" + path.attributes["id"])
         self.recorded_paths[from_junction_id][to_junction_id] = path.attributes["id"]
         self.routes.append(path)
         return path.attributes["id"]
@@ -62,9 +64,10 @@ class VehicleGenerator:
         other.routes = self.routes
         other.generators = self.generators
 
-    def get_methods(self) -> Dict[str, callable]:
+    def get_methods(self) -> List[Tuple['VehicleGenerator', Dict[str, callable]]]:
         """
-        :return: dictionary mapping method name to function which generates vehicles,
+        :return: tuple containing class to which methods belong to and
+        dictionary mapping method name to function which generates vehicles,
         implemented by children of VehicleGenerator class
         """
         raise NotImplementedError("Method: 'get_methods' must be implemented by children of VehicleGenerator !")

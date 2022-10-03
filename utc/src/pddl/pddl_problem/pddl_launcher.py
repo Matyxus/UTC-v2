@@ -1,7 +1,7 @@
 from utc.src.pddl.pddl_problem.pddl_problem import PddlProblem
 from utc.src.pddl.pddl_problem.pddl_result import PddlResult
 from utc.src.simulator.scenario import Scenario
-from utc.src.file_system import MyFile, MyDirectory, FilePaths, FileExtension, InfoFile
+from utc.src.file_system import MyFile, MyDirectory, FilePaths, FileExtension
 from utc.src.ui import UserInterface, Command
 from typing import List, Optional
 
@@ -9,23 +9,26 @@ from typing import List, Optional
 class PddlLauncher(UserInterface):
     """ Class that implements interface methods for generating pddl problems/results """
 
-    def __init__(self):
-        super().__init__("PddlLauncher")
+    def __init__(self, log_commands: bool = True):
+        super().__init__("PddlLauncher", log_commands)
         # -------------- Pddl --------------
         self.pddl_problem: Optional[PddlProblem] = None
         self.pddl_result: Optional[PddlResult] = None
         # Scenario
         self.scenario: Optional[Scenario] = None
         self.new_scenario_name: str = ""
-        # Directories for pddl problem/result files (format string, formatted by initialize)
-        self.problems_dir: str = (FilePaths.PDDL_PROBLEMS + "/{0}")
-        self.results_dir: str = (FilePaths.PDDL_RESULTS + "/{0}")
+        # Directories for pddl problem/result files (set by method 'initialize')
+        self.problems_dir: str = ""
+        self.results_dir: str = ""
+
+    # ---------------------------------- Commands ----------------------------------
 
     def initialize_commands(self) -> None:
         super().initialize_commands()
-        self.user_input.add_command([("initialize-pddl", Command("initialize-pddl", self.initialize))])
+        self.user_input.add_command([Command("initialize", self.initialize_command)])
 
-    def initialize(self, scenario: str, new_scenario: str, network: str = "default") -> bool:
+    @UserInterface.log_command
+    def initialize_command(self, scenario: str, new_scenario: str, network: str = "default") -> bool:
         """
         Initializes environment for generating pddl problem/result files and
         conversion of result files to scenarios, unlocks commands
@@ -50,26 +53,23 @@ class PddlLauncher(UserInterface):
         except (FileNotFoundError, ValueError) as _:  # Error occurred during loading of scenario
             return False
         self.new_scenario_name = new_scenario
-        self.problems_dir = self.problems_dir.format(self.new_scenario_name)
-        self.results_dir = self.results_dir.format(self.new_scenario_name)
+        self.problems_dir = (FilePaths.PDDL_PROBLEMS + "/" + self.new_scenario_name)
+        self.results_dir = (FilePaths.PDDL_RESULTS + "/" + self.new_scenario_name)
         # Unlock commands for generating pddl files and scenario
-        self.user_input.add_command([
-            ("generate-problems", Command("generate-problems", self.generate_problems)),
-            ("generate-problem", Command("generate-problem", self.generate_problem)),
-            ("generate-results", Command("generate-results", self.generate_results)),
-            ("generate-result", Command("generate-result", self.generate_result)),
-            ("generate-scenario", Command("generate-scenario", self.generate_scenario)),
-            ("plan-scenario", Command("plan-scenario", self.plan_scenario))
-        ])
-        # Info file
-        self.info_file = InfoFile(FilePaths.SCENARIO_SIM_INFO.format(self.new_scenario_name))
-        self.info_file.add_allowed_commands(["generate-problems", "generate-results", "generate-scenario"])
-        self.info_file.add_save_trigger_commands(["generate-problems", "generate-results", "generate-scenario"])
+        if self.user_input is not None:
+            self.user_input.add_command([
+                Command("generate_problems", self.generate_problems_command),
+                Command("generate_problem", self.generate_problem_command),
+                Command("generate_results", self.generate_results_command),
+                Command("generate_result", self.generate_result_command),
+                Command("generate_scenario", self.generate_scenario_command),
+                Command("plan_scenario", self.plan_scenario_command)
+            ])
         return True
 
     # -------------------------------------------- Problem --------------------------------------------
 
-    def generate_problems(self, domain: str, *args, **kwargs) -> None:
+    def generate_problems_command(self, domain: str, *args, **kwargs) -> None:
         """
         Generates ".pddl" problem files corresponding to loaded scenario,
         resulting files will be named: "new_scenario_problem[suffix].pddl",
@@ -82,7 +82,7 @@ class PddlLauncher(UserInterface):
         """
         raise NotImplementedError("Method 'generate_problems' must be implemented by children of PddlLauncher")
 
-    def generate_problem(self, domain: str, *args, **kwargs) -> None:
+    def generate_problem_command(self, domain: str, *args, **kwargs) -> None:
         """
         Generates single ".pddl" problem file corresponding to loaded scenario,
         resulting file will be named: "new_scenario_problem[suffix].pddl",
@@ -97,7 +97,11 @@ class PddlLauncher(UserInterface):
 
     # -------------------------------------------- Result --------------------------------------------
 
-    def generate_results(self, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
+    def generate_results_command(
+            self, planner: str, domain: str,
+            timeout: int = 30, thread_count: int = 1,
+            *args, **kwargs
+            ) -> None:
         """
         Generates ".pddl" results files to loaded scenario,
         the generated result files will be named: "new_scenario_result[suffix].pddl,
@@ -106,13 +110,17 @@ class PddlLauncher(UserInterface):
         :param planner: name of planner to be used (must be defined in /utc/src/util/constants -> PLANNERS)
         :param domain: name of pddl domain (must be in /utc/data/domains)
         :param timeout: seconds given to planner execution
+        :param thread_count: number of parallel planner calls (default one -> current process)
         :param args: additional arguments
         :param kwargs: additional arguments
         :return: None
         """
         raise NotImplementedError("Method 'generate_results' must be implemented by children of PddlLauncher")
 
-    def generate_result(self, problem: str, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
+    def generate_result_command(
+            self, problem: str, planner: str,
+            domain: str, timeout: int = 30, *args, **kwargs
+            ) -> bool:
         """
         Generates single ".pddl" result files from given problem file name,
         the generated result file will be named: "new_scenario_result[suffix].pddl,
@@ -124,13 +132,13 @@ class PddlLauncher(UserInterface):
         :param timeout: seconds given to planner execution
         :param args: additional arguments
         :param kwargs: additional arguments
-        :return: None
+        :return: true on success, false otherwise
         """
         raise NotImplementedError("Method 'generate_result' must be implemented by children of PddlLauncher")
 
     # -------------------------------------------- Scenario --------------------------------------------
 
-    def generate_scenario(self, keep_files: bool = True, *args, **kwargs) -> None:
+    def generate_scenario_command(self, keep_files: bool = True, *args, **kwargs) -> None:
         """
         Generates new scenario from ".pddl" result files
 
@@ -141,7 +149,7 @@ class PddlLauncher(UserInterface):
         """
         raise NotImplementedError("Method 'generate_scenario' must be implemented by children of PddlLauncher")
 
-    def plan_scenario(self, domain: str, planner: str, timeout: int = 30, *args, **kwargs) -> None:
+    def plan_scenario_command(self, domain: str, planner: str, timeout: int = 30, *args, **kwargs) -> None:
         """
         Plans scenario "on the go" during the simulation (displayed on SumoGUI), automatically
         generates statistics files

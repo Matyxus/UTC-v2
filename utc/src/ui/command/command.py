@@ -1,27 +1,24 @@
-from typing import List, Any, Mapping, Optional
+from utc.src.ui.command.command_parser import CommandParser
+from typing import List, Any, Dict, Optional, Union
 from inspect import Parameter, signature, getdoc
 
 
 class Command:
     """
-
+    Class representing command for UserInput
     """
     def __init__(self, command_name: str, method: callable):
         """
         :param command_name: name of method (used for input)
-        :param method: function representing this class
+        :param method: function representing this class (default none)
         """
-        # History of filled arguments for this command
-        self.stored_arguments:  List[str] = []
-        self.args: Mapping[str, Parameter] = {
-            key: value for key, value in signature(method).parameters.items()
-            # Remove '*args' and '**kwargs' from function parameters
-            if value.kind not in {Parameter.VAR_KEYWORD, Parameter.VAR_POSITIONAL}
-        }
+        self.name: str = command_name
+        self.args: Dict[str, Parameter] = CommandParser.get_mapping(method)
+        self.method: callable = method
         # Number of arguments, which values must be filled by user (or in file)
         self.required_args: int = sum(1 for arg in self.args.values() if arg.default == Parameter.empty)
-        self.name: str = command_name
-        self.method: callable = method
+        # History of filled arguments for this command
+        self.stored_arguments: List[str] = []
 
     def exec(self, args: List[Any], args_text: str = "") -> Any:
         """
@@ -61,8 +58,4 @@ class Command:
             for arg_name, arg in self.args.items()
         )
         return ret_val
-
-
-if __name__ == "__main__":
-    pass
 

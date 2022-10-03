@@ -46,10 +46,10 @@ class Scenario:
             routes_path = FilePaths.SCENARIO_ROUTES.format(scenario)
         # ---------------------------- Create new scenario ----------------------------
         else:
-            print(f"Creating new scenario: {scenario} with network: {network}")
+            print(f"Creating new scenario: '{scenario}' with network: '{network}'")
             # Check network
             if network == "default":
-                raise ValueError(f"For new scenario:' {scenario}', network: '{network}' must not equal 'default'!")
+                raise ValueError(f"For new scenario: '{scenario}', network: '{network}' must not equal 'default'!")
             self.config_generator = SumoConfigFile()
             self.config_generator.set_routes_file(scenario)
             self.config_generator.set_network_name(network)

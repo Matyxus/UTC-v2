@@ -148,6 +148,15 @@ class Skeleton:
                 return route
         return None
 
+    def get_network_length(self) -> int:
+        """
+        :return: length of all edges in network
+        """
+        ret_val: int = 0
+        for edge in self.edges.values():
+            ret_val += round(edge.get_length())
+        return ret_val
+
     def load(self, other: 'Skeleton') -> bool:
         """
         Loads skeleton from another skeleton class

@@ -1,5 +1,5 @@
 from utc.src.simulator.vehicle.generators.vehicle_generator import VehicleGenerator, Graph, Vehicle
-from typing import Tuple, Iterator, Dict
+from typing import Tuple, Iterator, Dict, List
 import numpy as np
 
 
@@ -92,8 +92,8 @@ class VehicleFlows(VehicleGenerator):
         elif mode not in {"random", "uniform"}:
             print(f"Expected parameter mode to be one of: (random, uniform), got: {mode} !")
             return
-        elif (end_time - start_time) < 300:
-            print(f"Duration of exponential flow has to be at least 300 seconds (5minutes), got: {end_time-start_time}")
+        elif (end_time - start_time) < 120:
+            print(f"Duration of exponential flow has to be at least 120 seconds (2minutes), got: {end_time-start_time}")
             return
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         print("Generating exponential flow...")
@@ -172,8 +172,8 @@ class VehicleFlows(VehicleGenerator):
 
     # -------------------------------------------- Utils --------------------------------------------
 
-    def get_methods(self) -> Dict[str, callable]:
-        return {
-            "add-random-flow": self.random_flow, "add-uniform-flow": self.uniform_flow,
-            "add-exponential-flow": self.exponential_flow
-        }
+    def get_methods(self) -> List[Tuple['VehicleGenerator', Dict[str, callable]]]:
+        return [(self, {
+            "random_flow": self.random_flow, "uniform_flow": self.uniform_flow,
+            "exponential_flow": self.exponential_flow
+        })]

@@ -1,0 +1,10 @@
+initialize scenario="20_57_06_Dejvice" new_scenario="20_57_06_Dejvice_bottleneck_planned" network="20_57_06_Dejvice_bottleneck_sg"
+generate_problems domain="utc" window="20"
+generate_results planner="Merwin" domain="utc" timeout="30" thread_count="1"
+; Planning 20_57_06_Dejvice_bottleneck_planned_result60_80 at 2022-10-02 21:12:08.244066
+; Planning 20_57_06_Dejvice_bottleneck_planned_result0_20 at 2022-10-02 21:12:38.247769
+; Planning 20_57_06_Dejvice_bottleneck_planned_result40_60 at 2022-10-02 21:13:08.251845
+; Planning 20_57_06_Dejvice_bottleneck_planned_result100_120 at 2022-10-02 21:13:38.256022
+; Planning 20_57_06_Dejvice_bottleneck_planned_result80_100 at 2022-10-02 21:14:08.260244
+; Planning 20_57_06_Dejvice_bottleneck_planned_result20_40 at 2022-10-02 21:14:38.263991
+generate_scenario keep_files="True"

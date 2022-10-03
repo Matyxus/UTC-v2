@@ -20,6 +20,7 @@ class Junction(Figure, XmlObject):
         self.neighbours: Dict[Route, List[Route]] = {}
         self.MARKER_SIZE: int = 8  # Size of displayed point (representing junction)
         self.TEXT_SIZE: int = 6  # Size of annotated text written on junction (its id)
+        self.traffic_lights: bool = False
     
     def add_connection(self, from_route: Route, out_route: Route) -> None:
         """
@@ -68,6 +69,19 @@ class Junction(Figure, XmlObject):
             return self.get_out_routes()
         assert (from_route in self.neighbours)
         return self.neighbours[from_route]
+
+    def set_traffic_lights(self, has: bool) -> None:
+        """
+        :param has: true if junction has traffic lights
+        :return: None
+        """
+        self.traffic_lights = has
+
+    def is_traffic_light(self) -> bool:
+        """
+        :return: true if junction has traffic lights, false otherwise
+        """
+        return self.traffic_lights
 
     def plot(self, axes, color: str = "") -> None:
         color = (color if color != "" else self.color)

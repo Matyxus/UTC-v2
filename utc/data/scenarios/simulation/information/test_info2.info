@@ -1,4 +1,0 @@
-generate-scenario scenario_name="test_info2" network_name="Chodov"
-add-uniform-flow from_junction_id="77" to_junction_id="0" vehicle_count="200" start_time="0" end_time="600"
-add-uniform-flow from_junction_id="34" to_junction_id="10" vehicle_count="200" start_time="0" end_time="600"
-save 

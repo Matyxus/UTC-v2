@@ -1,0 +1,6 @@
+generate_scenario scenario_name="12_50_21_Dejvice" network_name="Dejvice"
+random_flow from_junction_id="69" to_junction_id="70" minimal="3" maximal="12" period="20" start_time="0" end_time="120"
+random_flow from_junction_id="29" to_junction_id="70" minimal="2" maximal="6" period="20" start_time="0" end_time="120"
+exponential_flow from_junction_id="15" to_junction_id="93" start_time="0" end_time="120" mode="random"
+uniform_flow from_junction_id="20" to_junction_id="73" vehicle_count="25" start_time="0" end_time="120"
+save_scenario 

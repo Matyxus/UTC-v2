@@ -91,5 +91,5 @@ class VehicleTrips(VehicleGenerator):
 
     # -------------------------------------------- Utils --------------------------------------------
 
-    def get_methods(self) -> Dict[str, callable]:
-        return {"add-vehicles": self.add_vehicles, "add-random-trips": self.random_trips}
+    def get_methods(self) -> List[Tuple['VehicleGenerator', Dict[str, callable]]]:
+        return [(self, {"add_vehicles": self.add_vehicles, "random_trips": self.random_trips})]

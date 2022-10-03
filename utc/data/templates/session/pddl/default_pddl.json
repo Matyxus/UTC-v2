@@ -1,0 +1,6 @@
+{
+  "planner": "Merwin",
+  "timeout": 30,
+  "domain": "utc",
+  "window": 20
+}

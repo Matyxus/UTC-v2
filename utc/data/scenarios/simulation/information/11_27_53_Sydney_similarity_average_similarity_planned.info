@@ -1,0 +1,10 @@
+initialize scenario="11_27_53_Sydney" new_scenario="11_27_53_Sydney_similarity_average_similarity_planned" network="11_27_53_Sydney_similarity_average_similarity_sg"
+generate_problems domain="utc" window="20"
+generate_results planner="Merwin" domain="utc" timeout="60" thread_count="1"
+; Planning 11_27_53_Sydney_similarity_average_similarity_planned_result80_100 at 2022-10-03 12:33:22.229840
+; Planning 11_27_53_Sydney_similarity_average_similarity_planned_result20_40 at 2022-10-03 12:34:22.235509
+; Planning 11_27_53_Sydney_similarity_average_similarity_planned_result60_80 at 2022-10-03 12:35:22.240680
+; Planning 11_27_53_Sydney_similarity_average_similarity_planned_result100_120 at 2022-10-03 12:36:22.245948
+; Planning 11_27_53_Sydney_similarity_average_similarity_planned_result40_60 at 2022-10-03 12:37:22.251019
+; Planning 11_27_53_Sydney_similarity_average_similarity_planned_result0_20 at 2022-10-03 12:38:22.256527
+generate_scenario keep_files="True"

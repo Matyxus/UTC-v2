@@ -1,6 +1,6 @@
 from typing import List, Union, Optional
 from os import rename, remove
-from os.path import isfile
+from os.path import isfile, getmtime
 from pathlib import Path
 from io import TextIOWrapper, BufferedWriter, BufferedReader, BufferedRandom
 
@@ -18,7 +18,7 @@ class MyFile:
         :param file_path: path to file (can be either full path, or file_name,
         for file_name Subclasses of MyFile must implement 'get_file_path' method)
         :param mode: mode to open file with, only necessary when opening the file:
-        e.g. "with MyFile(path, 'r') as file", default -> "w+" (read & write)
+        e.g. "with MyFile(path, 'r') as file", default -> "r+" (read & write)
         """
         self.file_path: str = ""
         self.mode: str = mode  # Mode for opening file
@@ -96,8 +96,7 @@ class MyFile:
         if not (isinstance(file_path, str) or isinstance(file_path, MyFile)):
             raise TypeError("Parameter 'file_path' bust be either string or subclass of 'MyFile' class!")
         # Convert to string if file_path is MyFile class instance
-        file_path = str(file_path)
-        return Path(file_path).suffixes
+        return Path(str(file_path)).suffixes
 
     @staticmethod
     def get_file_name(file_path: Union[str, 'MyFile']) -> str:
@@ -145,10 +144,11 @@ class MyFile:
         return ret_val
 
     @staticmethod
-    def rename_file(original: Union[str, 'MyFile'], target: Union[str, 'MyFile']) -> bool:
+    def rename_file(original: Union[str, 'MyFile'], target: Union[str, 'MyFile'], message: bool = False) -> bool:
         """
         :param original: path to existing file (either string or MyFile class)
         :param target: name of new file
+        :param message: true if message about success renaming should be printed, default false
         :return: true if renaming was successful, false otherwise
         :raises TypeError if argument original or target is not of type string or MyFile class
         :raises FileNotFoundError if file "original" does not exist
@@ -166,7 +166,8 @@ class MyFile:
         except OSError as e:
             print(f"Error: {e} occurred during renaming of file: {original}")
             return False
-        print(f"Successfully change name of file: {original} -> {target}")
+        if message:
+            print(f"Successfully change name of file: {original} -> {target}")
         return True
 
     @staticmethod
@@ -184,6 +185,16 @@ class MyFile:
             return False
         print(f"Successfully deleted file: '{file_path}'")
         return True
+
+    @staticmethod
+    def get_edit_time(file_path: Union[str, 'MyFile']) -> Optional[float]:
+        """
+        :param file_path:
+        :return:
+        """
+        if not MyFile.file_exists(file_path):
+            return None
+        return getmtime(str(file_path))
 
     # ------------------------------------------- Magic methods -------------------------------------------
 

@@ -4,18 +4,21 @@ from utc.src.pddl.utc_problem.utc_result import UtcResult
 from utc.src.file_system import MyFile, MyDirectory, FilePaths, PLANNERS, FileExtension, SumoConfigFile
 from utc.src.utils import TraciOptions
 import traci
+import multiprocessing
+from datetime import datetime
 from typing import List, Optional, Dict, Set
 
 
 class UtcLauncher(PddlLauncher):
     """ Class that implements interface methods for generating pddl problems/results """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, log_commands: bool = True):
+        super().__init__(log_commands)
 
     # ----------------------------------------- Commands -----------------------------------------
 
-    def generate_problems(self, domain: str, window: int = 20, *args, **kwargs) -> None:
+    @PddlLauncher.log_command
+    def generate_problems_command(self, domain: str, window: int = 20, *args, **kwargs) -> None:
         """
         Generates all ".pddl" problem files corresponding to loaded scenario
 
@@ -54,7 +57,7 @@ class UtcLauncher(PddlLauncher):
             end_time += window
         print("Finished generating problem files")
 
-    def generate_problem(self, domain: str, start: int = 0, window: int = 20, *args, **kwargs) -> None:
+    def generate_problem_command(self, domain: str, start: int = 0, window: int = 20, *args, **kwargs) -> None:
         """
         Generates single ".pddl" problem corresponding to loaded scenario
 
@@ -95,10 +98,24 @@ class UtcLauncher(PddlLauncher):
         self.pddl_problem.pddl_vehicle.clear()
         print(f"Finished generating problem file: {self.pddl_problem.problem_name}")
 
-    def generate_results(self, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
+    @PddlLauncher.log_command
+    def generate_results_command(
+            self, planner: str, domain: str,
+            timeout: int = 30, thread_count: int = 1,
+            *args, **kwargs
+            ) -> None:
         # Checks
         if not self.initialize_result(domain, planner):
             return
+        elif thread_count < 1:
+            print(f"Invalid thread count: '{thread_count}', must be at least 1, defaulting to 1")
+            thread_count = 1
+        elif thread_count > multiprocessing.cpu_count():
+            print(
+                f"Invalid thread count: '{thread_count}', "
+                f"must be lower than: {multiprocessing.cpu_count()}, defaulting to 1"
+            )
+            thread_count = 1
         problem_files: Optional[List[str]] = MyDirectory.list_directory(self.problems_dir)
         if not problem_files:  # Checks against None and empty list
             print(f"Pddl problem files must be generated before calling 'generate_results'!")
@@ -108,94 +125,98 @@ class UtcLauncher(PddlLauncher):
         if result_count != 0:
             print(f"Pddl result files already exist in: {self.results_dir}")
             return
-        print(f"Generating {len(problem_files)} pddl result files from: {problem_files}")
-        for index, pddl_problem in enumerate(problem_files):
-            assert (
-                    pddl_problem.endswith(FileExtension.PDDL) and
-                    "problem" in pddl_problem and pddl_problem.startswith(self.new_scenario_name)
-            )
-            pddl_problem = MyFile.get_file_name(pddl_problem)
-            result_name: str = pddl_problem.replace("problem", "result")
-            print(f"Generating: {result_name}")
-            planner_call: str = PLANNERS.get_planner(planner).format(
-                FilePaths.PDDL_DOMAINS.format(domain),
-                FilePaths.SCENARIO_PROBLEMS.format(self.new_scenario_name, pddl_problem),
-                FilePaths.SCENARIO_RESULTS.format(self.new_scenario_name, result_name)
-            )
-            success, output = self.run_command(planner_call, timeout)
-            # If file was not generated, return (possibly low timeout)
-            current_count: int = len(MyDirectory.list_directory(self.results_dir))
-            if not success or not (current_count > result_count):
-                print(f"Error at generating result file: {result_name}, try to increase timeout: {timeout}")
-                return
-            result_count = current_count
-            print(f"Finished generating '{index+1}' result file: '{result_name}'")
+        print(f"Generating '{len(problem_files)}' pddl result files from: '{problem_files}'")
+        print(
+            f"Number of allowed threads: '{thread_count}', "
+            f"estimated time taken: {(len(problem_files) * timeout) // (60 * thread_count)} minutes."
+        )
+        if thread_count > 1:
+            # Create pool
+            print(f"Starting pool !!!")
+            pool: multiprocessing.Pool = multiprocessing.Pool(thread_count)
+            for pddl_problem in problem_files:
+                pool.apply_async(self.generate_result_command, args=(pddl_problem, planner, domain, timeout, False))
+            pool.close()
+            pool.join()
+        else:
+            for index, pddl_problem in enumerate(problem_files):
+                self.generate_result_command(pddl_problem, planner, domain, timeout, check=False)
+                print(f"Finished generating '{index + 1}' result file")
         # Check result directory, Cerberus planner adds its own extension at the end of file
         self.check_pddl_extension(self.results_dir)
         print("Finished generating result files")
 
-    def generate_result(self, problem: str, planner: str, domain: str, timeout: int = 30, *args, **kwargs) -> None:
-        # Checks
-        if not self.initialize_result(domain, planner):
-            return
+    def generate_result_command(
+            self, problem: str, planner: str,
+            domain: str, timeout: int = 30,
+            check: bool = True,
+            *args, **kwargs
+         ) -> bool:
+        # ------------------- Checks -------------------
         problem = MyFile.get_file_name(problem)
-        problem_files: Optional[List[str]] = MyDirectory.list_directory(self.problems_dir)
-        if not problem_files:  # Checks against None and empty list
-            print(f"Pddl problem files must be generated before calling 'generate_results'!")
-            return
-        elif (problem + FileExtension.PDDL) not in problem_files:
-            print(
-                f"Cannot find pddl problem file: '{problem + FileExtension.PDDL}'"
-                f" in problem files directory: '{problem_files}'"
-            )
-            return
-        elif "problem" not in problem:
-            print(f"Invalid problem name: '{problem}', does not contain 'problem' in name!")
-            return
+        if check:
+            if not self.initialize_result(domain, planner):
+                return False
+            elif not MyFile.file_exists(self.problems_dir + f"/{problem}{FileExtension.PDDL}"):
+                return False
+            elif "problem" not in problem:
+                print(f"Invalid problem name: '{problem}', does not contain 'problem' in name!")
+                return False
+            elif not problem.startswith(self.new_scenario_name):
+                print(
+                    f"Invalid problem name: '{problem}', does start with "
+                    f"scenario name: '{self.new_scenario_name}' in name!"
+                )
+                return False
+        # ------------------- Init -------------------
         result_name: str = problem.replace("problem", "result")
-        # Check if file exists (ignore extension, cannot be None, since there is check in "initialize_result")
-        result_files: List[str] = MyDirectory.list_directory(self.results_dir)
-        for result_file in result_files:
-            if MyFile.get_file_name(result_file) == result_name:
-                print(f"Pddl result file: '{result_file}' already exists in results folder")
-                return
-        print(f"Generating: {result_name}")
+        # TODO Check if file already  exists
+        # (ignore extension, cannot be None, since there is check in "initialize_result")
+        print(f"Generating '{FileExtension.PDDL}' result: '{result_name}' from: '{problem}'")
         planner_call: str = PLANNERS.get_planner(planner).format(
             FilePaths.PDDL_DOMAINS.format(domain),
             FilePaths.SCENARIO_PROBLEMS.format(self.new_scenario_name, problem),
             FilePaths.SCENARIO_RESULTS.format(self.new_scenario_name, result_name)
         )
-        success, output = self.run_command(planner_call, timeout)
+        # ------------------- Generate -------------------
+        if self.logging_enabled:
+            self.add_comment(f"Planning {result_name} at {datetime.now()}")
+        success, output = self.call_shell(planner_call, timeout, message=False)
         # If file was not generated, return (possibly low timeout)
-        current_count: int = len(MyDirectory.list_directory(self.results_dir))
-        if not success or not (current_count > len(result_files)):
+        if not success:
             print(f"Error at generating result file: '{result_name}', try to increase timeout: '{timeout}'")
-            return
+            return False
         print(f"Finished generating result file: {result_name}")
-        # Check result directory, Cerberus planner adds its own extension at the end of file
-        self.check_pddl_extension(self.results_dir)
-        print("Finished generating result files")
+        # TODO Check result directory, Merwin planner adds its own extension at the end of file
+        return True
 
-    def generate_scenario(self, keep_files: bool = True, *args, **kwargs) -> None:
+    @PddlLauncher.log_command
+    def generate_scenario_command(self, keep_files: bool = True, *args, **kwargs) -> None:
         # Checks
         if not self.is_initialized():
             print("UtcLauncher must be initialized with method: 'initialize' !")
             return
         self.pddl_result = UtcResult(self.scenario, self.new_scenario_name)
         success: bool = self.pddl_result.results_to_scenario()
-        self.info_file.clear()
+        if self.logging_enabled:
+            self.save_log(FilePaths.SCENARIO_SIM_INFO.format(self.new_scenario_name))
+            self.clear_log()
         # Delete files
-        if success:
+        if success and self.user_input is not None:
             # Reset commands
             self.user_input.remove_command(
-                list(self.user_input.commands.keys() ^ ("help", "exit", "initialize"))
+                list(self.user_input.commands.keys() ^ {"help", "exit", "initialize_pddl"})
             )
             if not keep_files:
                 print(f"Deleting pddl problem and result files")
                 MyDirectory.delete_directory(FilePaths.PDDL_PROBLEMS + f"/{self.new_scenario_name}")
                 MyDirectory.delete_directory(FilePaths.PDDL_RESULTS + f"/{self.new_scenario_name}")
 
-    def plan_scenario(self, domain: str, planner: str, timeout: int = 30, window: int = 20,  *args, **kwargs) -> None:
+    def plan_scenario_command(
+            self, domain: str, planner: str,
+            timeout: int = 30, window: int = 20,
+            *args, **kwargs
+            ) -> None:
         """
         Plans scenario "on the go" during the simulation (displayed on SumoGUI), automatically
         generates statistics files
@@ -225,13 +246,13 @@ class UtcLauncher(PddlLauncher):
             while traci.simulation.getMinExpectedNumber() > 0:  # -> "while running.."
                 if step == window:
                     # Generate pddl files
-                    self.generate_problem(domain, start=generated*window, window=window)
+                    self.generate_problem_command(domain, start=generated*window, window=window)
                     # Pddl problem file was not generated
                     if not MyFile.file_exists(
                             FilePaths.SCENARIO_PROBLEMS.format(self.new_scenario_name, self.pddl_problem.problem_name)
                             ):
                         break
-                    self.generate_result(self.pddl_problem.problem_name, planner, domain, timeout)
+                    self.generate_result_command(self.pddl_problem.problem_name, planner, domain, timeout)
                     # Extract new files (no need to check against non-existing directory)
                     result_files ^= set(MyDirectory.list_directory(self.results_dir))
                     if not len(result_files):

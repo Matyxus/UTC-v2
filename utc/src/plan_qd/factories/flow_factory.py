@@ -1,41 +1,29 @@
 from utc.src.graph.components import Skeleton, Graph, Route
-from utc.src.file_system import MyFile, InfoFile, FilePaths, ProbabilityFile
+from utc.src.file_system import ProbabilityFile
 from numpy.random import choice, seed
-from typing import Dict, Tuple, List, Set, Optional
+from typing import Dict, Tuple, List, Set, Optional, Any
 
 
 class FlowFactory:
     """
 
     """
-    def __init__(self, graph: Graph, prob_file: ProbabilityFile):
+    def __init__(self, graph: Graph, prob_file: ProbabilityFile, allowed_flows: List[str] = None, seed_num: int = 42):
+        """
+        :param graph: graph of probability file
+        :param prob_file: probability file for junction to junction flow existence
+        :param allowed_flows: names of allowed flows
+        :param seed_num: seed for random choice
+        """
+        seed(seed_num)
         self.graph: Graph = graph
-        seed(42)
         # Flows and their arguments, format strings
-        self.flows: List[Tuple[str, str]] = [
-            (
-                "random-flow",
-                'from_junction_id="{0}" to_junction_id="{1}" '
-                'minimal="{2}" maximal="{3}" period="{4}" '
-                'start_time="{5}" end_time="{6}"'
-            ),
-            (
-                "uniform-flow",
-                'from_junction_id="{0}" to_junction_id="{1}" '
-                'vehicle_count="{2}" '
-                'start_time="{3}" end_time="{4}"'
-            ),
-            (
-                "exponential-flow",
-                'from_junction_id="{0}" to_junction_id="{1}" '
-                'start_time="{2}" end_time="{3}" '
-                'mode="{4}"'
-
-            )
-        ]
+        self.allowed_flows: List[str] = (
+            allowed_flows if allowed_flows is not None else ["random_flow", "exponential_flow", "uniform_flow"]
+        )
         # Probability matrix of flows
-        self.prob_matrix: Dict[str, Dict[str, int]] = prob_file.read_file()
-        self.flow_range: Tuple[int, int] = (2, 8)  # Min, Max amount of flows
+        self.prob_matrix: Dict[str, Dict[str, int]] = prob_file.probability_matrix
+        self.flow_range: Tuple[int, int] = (2, 6)  # Min, Max amount of flows
         self.junctions: Set[str] = set()  # Junctions of currently selected flows
         self.routes: Dict[str, Dict[str, Route]] = {
             # from_junction : {to_junction : Route, ...}, ..
@@ -43,50 +31,49 @@ class FlowFactory:
         # Maximal amount of tries to choose destination junction
         self.max_tries: int = 20
 
-    def generate_flows(self, amount: int, start_time: int, end_time: int) -> List[Tuple[str, str]]:
+    def generate_flows(self, start_time: int, end_time: int, amount: int = 0) -> List[Tuple[str, List[Any]]]:
         """
-
-        :param amount: number of flows to be generated
         :param start_time: starting time of flows
         :param end_time: ending time of flows
+        :param amount: number of flows to be generated (default 0 -> randomly selected)
         :return: List of tuples (flow_type, flow_arguments) in
         format passed from command line
         """
         if not self.check_prob_matrix():
             return []
+        elif amount < 0:
+            print(f"Amount has to be at least '0', got: '{amount}'")
+            return []
 
-        def generate_flow(path: Tuple[str, str], time_interval: Tuple[int, int]) -> Tuple[str, str]:
+        def generate_flow(path: Tuple[str, str], time_interval: Tuple[int, int]) -> Tuple[str, List[Any]]:
             """
             :param path: tuple (from_junction, to_junction)
             :param time_interval: tuple (starting_time, ending_time)
-            :param flow_type: type of flow
-            :return: arguments (in command line input format)
+            :return: tuple (flow_name, flow_args as list)
             """
-            flow: Tuple[str, str] = self.flows[choice(range(len(self.flows)))]
-            flow_type: str = flow[0]
-            formatted_args: str = flow[1]
-            if flow_type == "random-flow":
-                formatted_args = formatted_args.format(
-                    *[*path, *sorted(choice(range(0, 15), size=2)), 20, *time_interval]
-                )
-            elif flow_type == "uniform-flow":
+            flow_name: str = choice(self.allowed_flows)
+            args: List[Any] = []
+            if flow_name == "random_flow":
+                args = [*path, *sorted(choice(range(0, 15), size=2)), 20, *time_interval]
+            elif flow_name == "uniform_flow":
                 duration: int = end_time-start_time
-                formatted_args = formatted_args.format(
-                    *[*path, choice(range(duration//7, duration//3)), *time_interval]
-                )
-            elif flow_type == "exponential-flow":
-                formatted_args = formatted_args.format(*[*path, *time_interval, "random"])
-            return flow_type, formatted_args
+                args = [*path, choice(range(duration//7, duration//3)), *time_interval]
+            elif flow_name == "exponential_flow":
+                args = [*path, *time_interval, "random"]
+            return flow_name, args
 
         # Random assigned
         if amount == 0:
             amount = choice(range(*self.flow_range))
-        ret_val: List[Tuple[str, str]] = []
+            print(f"Chose random number of flow: {amount}")
+        ret_val: List[Tuple[str, List[Any]]] = []
+        print(f"Generating {amount} flows")
         for route in self.generate_paths(amount):
             ret_val.append(generate_flow(
                 (route.get_start(), route.get_destination()),
                 (start_time, end_time)
             ))
+        print(f"Finished generating flows")
         return ret_val
 
     def generate_paths(self, amount: int) -> List[Route]:
@@ -153,24 +140,26 @@ class FlowFactory:
             print(f"Unable to find route, increase 'max_tries' variable or check probability file !")
             return []
         discovered = set(routes[0].get_junctions())
+        print(f"Generating routes with conflict (overlaps) for flows")
         for i in range(amount-1):
             # print(f"Generating {i}-th path")
             result: Route = generate_path()
             if result is None:
-                print(f"Unable to find route, increase 'max_tries' variable or check probability file !")
-                return routes
+                print(f"Unable to find route, increase 'max_tries' variable or check probability file!")
+                continue
             routes.append(result)
             # print(f"Found route: {result}")
             # print(f"Has conflict: {(set(result.get_junctions()) & discovered)}")
             discovered |= set(result.get_junctions())
             # print(f"Discovered: {discovered}")
+        print(f"Finished generating routes")
         return routes
 
     # -------------------------------------- Utils --------------------------------------
 
     def check_prob_matrix(self) -> bool:
         """
-        :return:
+        :return: true if probability matrix is correct, false otherwise
         """
         if self.graph is None:
             print(f"Graph is None, cannot check probability matrix!")
@@ -200,7 +189,7 @@ if __name__ == "__main__":
     graph.loader.load_map("Dejvice")
     graph.simplify.simplify_graph()
     temp: FlowFactory = FlowFactory(graph, ProbabilityFile("dejvice"))
-    for flow_name, flow_args in temp.generate_flows(0, 0, 300):
+    for flow_name, flow_args in temp.generate_flows(0, 300, amount=4):
         print(flow_name, flow_args)
 
 

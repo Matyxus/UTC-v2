@@ -1,0 +1,26 @@
+{
+  "templates": "default",
+  "scenario_name": "default",
+  "duration": 300,
+  "seed": 42,
+  "num_scenario": 0,
+  "probability_file": null,
+  "network": "default",
+  "num_cpus": 1,
+  "num_threads": 1,
+  "time_limit": null,
+  "run_mode": "sequential",
+  "save_folder": "default",
+  "metrics": [
+    "all"
+  ],
+  "k": [
+    0.1,
+    0.2,
+    0.3
+  ],
+  "flows": [
+    "all"
+  ],
+  "c": 1.35
+}

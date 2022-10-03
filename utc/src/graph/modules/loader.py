@@ -56,12 +56,6 @@ class Loader(GraphModule):
         :return: None
         """
         print("Loading & creating edges, connections")
-        connections: Dict[str, set] = {}
-        # ----------------- Connections -----------------
-        for connection in self.network_file.get_connections():
-            if connection.attrib["to"] not in connections:
-                connections[connection.attrib["to"]] = set()
-            connections[connection.attrib["to"]].add(connection.attrib["from"])
         # ------------------- Edges -----------------
         for edge in self.network_file.get_edges():
             edge_id: str = edge.attrib["id"]
@@ -73,6 +67,17 @@ class Loader(GraphModule):
             route: Route = self.get_route(self.skeleton.edges[edge_id])
             # Set destination junction in_route as this one
             self.skeleton.junctions[edge.attrib["to"]].neighbours[route] = []
+        # ----------------- Connections -----------------
+        connections: Dict[str, set] = {
+            # to_edge_id: {from_edge_id, ..}, ..
+        }
+        for connection in self.network_file.get_connections():
+            if connection.attrib["to"] not in connections:
+                connections[connection.attrib["to"]] = set()
+            if "tl" in connection.attrib:
+                junction_id: str = self.skeleton.edges[connection.attrib['from']].attributes['to']
+                self.skeleton.junctions[junction_id].set_traffic_lights(True)
+            connections[connection.attrib["to"]].add(connection.attrib["from"])
         # ------------------- Assign routes, to junctions -------------------
         for route in self.skeleton.routes.values():
             # Routes only have 1 edge each
@@ -149,6 +154,7 @@ class Loader(GraphModule):
 
 
 if __name__ == "__main__":
-    pass
+    temp: Loader = Loader(Skeleton())
+    temp.load_map("Sydney")
 
 

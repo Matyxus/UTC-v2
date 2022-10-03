@@ -42,7 +42,7 @@ class PermissionTest(unittest.TestCase):
         :return: None
         """
         temp: UserInterface = UserInterface()
-        success, output = temp.run_command("netconvert --help")
+        success, output = temp.call_shell("netconvert --help")
         assert (success and output is not None)
 
 

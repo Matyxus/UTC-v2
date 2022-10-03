@@ -26,12 +26,17 @@ class ArgumentValidator(Validator):
 
     # ----------------------------------------------- Utils -----------------------------------------------
 
-    def convert_args(self, inputted_args: Dict[str, str], document: Document) -> Union[ValidationError, list]:
+    def convert_args(
+            self, inputted_args: Dict[str, str],
+            document: Union[Document, str]
+            ) -> Union[ValidationError, list]:
         """
         :param inputted_args: inputted args by user in dictionary mapping arg_name to arg_value
         :param document: of command line
         :return: List of arguments in their correct type, or ValidationError in case of error
         """
+        if isinstance(document, str):
+            document = Document(document)
         ret_val: list = []  # List of arguments in correct type
         # Check type of arguments and required arguments
         for arg_name, arg in self.command.args.items():
@@ -67,11 +72,13 @@ class ArgumentValidator(Validator):
                     )
         return ret_val
 
-    def parse_input(self, document: Document) -> Union[ValidationError, Dict[str, str]]:
+    def parse_input(self, document: Union[Document, str]) -> Union[ValidationError, Dict[str, str]]:
         """
         :param document: document containing text of command line, mouse position etc..
         :return: Dictionary mapping arg_name to arg_value, Validation error in case of bad form of argument
         """
+        if isinstance(document, str):
+            document = Document(document)
         ret_val: Dict[str, str] = {arg_name: "" for arg_name in self.command.args.keys()}
         cursor_position: int = 0
         for arg in document.text.split():

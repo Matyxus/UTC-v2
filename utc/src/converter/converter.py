@@ -6,18 +6,20 @@ class Converter(UserInterface):
 	"""
 	Class converting ".osm" (OpenStreetMap) files into ".net.xml" files which SUMO can use.
 	Does so by using osm filter to filter non-road like objects (except traffic lights),
-	and afterwards uses netconvert (program from SUMO) to generate ".net.xml" file
+	and afterwards uses netconvert (program from SUMO) to generate ".net.xml" file,
+	Converter does not support logging of commands (since they are the same every time)
 	"""
 
-	def __init__(self):
-		super().__init__("converter")
+	def __init__(self, log_commands: bool = False):
+		super().__init__("converter", log_commands)
 
 	#  --------------------------------------------  Commands  --------------------------------------------
 
 	def initialize_commands(self) -> None:
 		super().initialize_commands()
-		self.user_input.add_command([("convert", Command("convert", self.convert_command))])
+		self.user_input.add_command([Command("convert", self.convert_command)])
 
+	@UserInterface.log_command
 	def convert_command(self, file_name: str) -> bool:
 		"""
 		Expecting file to be in directory defined in constants.PATH.ORIGINAL_OSM_MAPS,
@@ -56,7 +58,7 @@ class Converter(UserInterface):
 		)
 		filtered_file_path: str = FilePaths.FILTERED_OSM_MAPS.format(map_name)
 		command += filtered_file_path
-		success, output = self.run_command(command)
+		success, output = self.call_shell(command)
 		if success:
 			print(f"Done filtering osm file: '{map_name}', saved in: '{filtered_file_path}'")
 		return success
@@ -88,12 +90,12 @@ class Converter(UserInterface):
 		)
 		net_file_path: str = FilePaths.NETWORK_SUMO_MAPS.format(map_name)
 		command += (" -o " + net_file_path)
-		success, output = self.run_command(command)
+		success, output = self.call_shell(command)
 		if success:
 			print(f"Done creating network file: '{map_name}, saved in: {net_file_path}")
 		return success
 
 
 if __name__ == "__main__":
-	converter: Converter = Converter()
+	converter: Converter = Converter(log_commands=True)
 	converter.run()
