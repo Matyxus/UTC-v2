@@ -6,7 +6,9 @@ from typing import Dict, Tuple, List, Set, Optional, Any
 
 class FlowFactory:
     """
-
+    Class producing flows randomly, which entry and exit points are
+    randomly selected from ProbabilityFile (weighted randomness), creates flows
+    that have conflict (common junction) with at least one other.
     """
     def __init__(self, graph: Graph, prob_file: ProbabilityFile, allowed_flows: List[str] = None, seed_num: int = 42):
         """
@@ -65,7 +67,7 @@ class FlowFactory:
         # Random assigned
         if amount == 0:
             amount = choice(range(*self.flow_range))
-            print(f"Chose random number of flow: {amount}")
+            print(f"Chose random number of flows: {amount}")
         ret_val: List[Tuple[str, List[Any]]] = []
         print(f"Generating {amount} flows")
         for route in self.generate_paths(amount):

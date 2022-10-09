@@ -64,8 +64,8 @@ class JsonFile(MyFile):
 
     def get_known_path(self, file_name: str) -> str:
         # Know folder path to session files
-        if MyFile.file_exists(FilePaths.SCENARIO_SESSION.format(file_name), message=False):
-            return FilePaths.SCENARIO_SESSION.format(file_name)
+        if MyFile.file_exists(FilePaths.SESSION.format(file_name), message=False):
+            return FilePaths.SESSION.format(file_name)
         return file_name  # No default path
 
 

@@ -20,7 +20,6 @@ class XmlFile(MyFile):
             try:  # Check for parsing error
                 self.tree = ET.parse(self.file_path)
                 self.root = self.tree.getroot()
-                print(f"Initialized XML file: {self.file_path}")
             except ParseError as e:
                 print(
                     f"Unable to parse xml file: {self.file_path}\n"
@@ -30,10 +29,10 @@ class XmlFile(MyFile):
             print(f"Unable to initialize XML file: '{self.file_path}', file does not exist!")
 
     def save(self, file_path: str = "default") -> bool:
-        if self.root is None:
-            print(f"Error cannot save file, 'root' of xml file is of type: 'None' !")
-            return False
         file_path = (self.file_path if file_path == "default" else file_path)
+        if self.root is None:
+            print(f"Error cannot save file: {file_path}, 'root' of xml file is of type: 'None' !")
+            return False
         # Check extension
         if not file_path.endswith(self.extension):
             print(f"Expected default extension: '{self.extension}', got: '{file_path}' !")

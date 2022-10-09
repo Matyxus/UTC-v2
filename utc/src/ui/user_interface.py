@@ -1,9 +1,7 @@
 from utc.src.ui.input import UserInput, FileInput, MyInput
 from utc.src.ui.command import Command, CommandLogger
 from typing import Dict, Tuple, Any, Optional
-from time import sleep
-import os
-import signal
+from psutil import Process
 import subprocess
 import shlex
 
@@ -142,7 +140,7 @@ class UserInterface(CommandLogger):
     def merge(self, other: 'UserInterface') -> None:
         """
         Merges other UserInterface subclasses to current one,
-        taking their UserInput class and changing it for this one
+        taking their UserInput class and logging list and changing it for this one
 
         :param other: different UserInterface subclass
         :return: None
@@ -155,51 +153,57 @@ class UserInterface(CommandLogger):
             print(f"Cannot merge with other UserInterface, UserInput is not initialized!")
             return
         # Change pointer and add commands
+        other.commands_log = self.commands_log
         other.user_input = self.user_input
         other.initialize_commands()
 
     @staticmethod
     def call_shell(
             command: str, timeout: int = None,
-            encoding: str = "utf-8", message: bool = True
-            ) -> Tuple[bool, str]:
+            encoding: str = "utf-8", message: bool = True,
+            working_dir: str = None
+            ) -> Tuple[bool, int]:
         """
-        https://stackoverflow.com/questions/41094707/setting-timeout-when-using-os-system-function
+        https://stackoverflow.com/questions/41094707/setting-timeout-when-using-os-system-function,
+        used Popen from subprocess module to enable multiple processes running in parallel
 
         :param command: console/terminal command string
         :param timeout: wait max timeout (seconds) for run console command (default None)
         :param encoding: console output encoding, default is utf-8
         :param message: true if called command should be printed & its success result, default true
-        :return: True/False on success/failure, console output as string
+        :param working_dir: directory from which command should be called from (default is current)
+        :return: True/False on success/failure, return value of process
         """
         success: bool = False
-        console_output: str = ""
+        ret_val: int = -1
         if message:
-            print(f"Calling command: '{command}' with timeout: '{timeout}'")
-        if timeout is None:
-            print(f"Timeout is 'None', setting limit to 5sec.")
-            timeout = 5
+            print(f"Calling command: '{shlex.split(command)}' with timeout: '{timeout}', from: {working_dir}")
         proc = None
         try:
             proc = subprocess.Popen(
                 shlex.split(command),
-                stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL,
-                preexec_fn=os.setsid
+                stdout=subprocess.DEVNULL,
+                stdin=subprocess.DEVNULL,
+                cwd=working_dir,
+                encoding=encoding
             )
-            proc.wait(timeout)
+            ret_val = proc.wait(timeout)
             if proc.poll() is not None:
-                print(f"Process finished in given time")
                 success = True
         except subprocess.SubprocessError as callProcessErr:
             if proc is not None:
-                print(f"Killing process!")
-                os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+                print(f"Process did not finish in given time, killing process ..")
+                process = Process(proc.pid)
+                for proc in process.children(recursive=True):
+                    proc.kill()
+                process.kill()
+                # killpg(getpgid(proc.pid), SIGTERM), alternative for UnixSystems
             # Catch other errors, apart from timeout ...
             if not isinstance(callProcessErr, subprocess.TimeoutExpired):
                 print(f"Error:! {callProcessErr}")
             else:
                 success = True
         if message:
-            print(f"Success: '{success}'")
-        return success, console_output
+            print(f"Successfully executed command: {success}")
+        return success, ret_val
 

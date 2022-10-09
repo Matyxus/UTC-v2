@@ -44,7 +44,7 @@ class PddlProblem(PddlStruct):
         :param domain: name of pddl domain file
         :return: None
         """
-        if not MyFile.file_exists(FilePaths.PDDL_DOMAINS.format(domain)):
+        if not MyFile.file_exists(FilePaths.PDDL_DOMAIN.format(domain)):
             return
         self.domain = domain
 

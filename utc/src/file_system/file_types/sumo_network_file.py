@@ -79,7 +79,4 @@ class SumoNetworkFile(XmlFile):
     # ------------------------------------------ Utils  ------------------------------------------
 
     def get_known_path(self, file_name: str) -> str:
-        # Search  utc/data/maps/osm
-        if self.file_exists(FilePaths.NETWORK_SUMO_MAPS.format(file_name), message=False):
-            return FilePaths.NETWORK_SUMO_MAPS.format(file_name)
         return file_name

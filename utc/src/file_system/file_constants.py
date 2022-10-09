@@ -9,6 +9,7 @@ class FileExtension:
     INFO: str = ".info"
     PROB: str = ".prob"
     JSON: str = ".json"
+    CSV: str = ".csv"
     # ------- Simulation -------
     SUMO_ROUTES: str = ".rou.xml"
     SUMO_CONFIG: str = ".sumocfg"  # (is of xml type)
@@ -18,7 +19,7 @@ class FileExtension:
     OSM: str = ".osm"
 
 
-# ---------------------------------- Path ----------------------------------
+# ---------------------------------- CWD ----------------------------------
 
 def initialize_cwd() -> str:
     """
@@ -35,61 +36,115 @@ def initialize_cwd() -> str:
         cwd = cwd.parent
     return str(cwd)
 
+# -------------------------------------------- Paths --------------------------------------------
+
+
+class DirPaths:
+    """
+    Class holding different project paths for directories, used with .format(args) (not always),
+    where args is the name of directory
+    """
+    CWD: str = initialize_cwd()  # Project Root (UTC/utc)
+    # -------------------------------------- Maps --------------------------------------
+    MAPS: str = (CWD + "/data/maps")  # Path to folder containing folders related to maps
+    MAPS_INFO: str = (MAPS + "/information")  # Path to folder containing '.info' files
+    MAPS_PROB: str = (MAPS + "/probability")  # Path to folder containing '.prob' probability files
+    MAPS_OSM: str = (MAPS + "/osm")  # Path to folder containing maps from open street map (".osm")
+    MAPS_FILTERED: str = (MAPS + "/filtered")  # Path to folder containing filtered ".osm" maps
+    MAPS_SUMO: str = (MAPS + "/sumo")  # Path to folder containing ".net.xml" maps for SUMO
+    # -------------------------------------- Sessions --------------------------------------
+    SESSIONS: str = (CWD + "/data/sessions")
+    # -------------------------------------- Scenarios --------------------------------------
+    SCENARIO: str = (CWD + "/data/scenarios/{0}")
+    # Pddl
+    PDDL_DOMAINS: str = (CWD + "/data/domains")
+    PDDL_PLANNERS: str = (CWD + "/data/planners/{0}")
+    PDDL_PROBLEMS: str = (SCENARIO + "/problems")
+    SCENARIO_PROBLEMS: str = (PDDL_PROBLEMS + "/{1}")  # Path to specific scenario folder in problems directory
+    PDDL_RESULTS: str = (SCENARIO + "/results")
+    SCENARIO_RESULTS: str = (PDDL_RESULTS + "/{1}")  # Path to specific scenario folder in results directory
+    # Maps (specific to scenarios)
+    SCENARIO_MAPS: str = (SCENARIO + "/maps")
+    SCENARIO_MAPS_INFOS: str = (SCENARIO_MAPS + "/information")
+    SCENARIO_MAPS_NETWORKS: str = (SCENARIO_MAPS + "/networks")
+    # Routes
+    SCENARIO_ROUTES: str = (SCENARIO + "/routes")
+    # Simulation
+    SCENARIO_SIMULATIONS: str = (SCENARIO + "/simulation")
+    SCENARIO_STATISTICS: str = (SCENARIO_SIMULATIONS + "/statistics")
+    SCENARIO_CONFIGS: str = (SCENARIO_SIMULATIONS + "/config")
+    SCENARIO_INFOS: str = (SCENARIO_SIMULATIONS + "/information")
+    # Planner output
+    SCENARIO_PLANNER_OUTS: str = (SCENARIO + "/output")
+
 
 class FilePaths:
-    """ Class holding different project paths, used with .format(args) """
-    CWD: str = initialize_cwd()  # Project Root (UTC/utc)
-    OSM_FILTER: str = (CWD + "/data/osm_filter/osmfilter")  # Path to osmfilter (executable)
+    """
+    Class holding different project paths for files, used with .format(args) (not always),
+    where args is usually the name of file (without extension)
+    """
+    OSM_FILTER: str = (DirPaths.CWD + "/data/osm_filter/osmfilter")  # Path to osmfilter (executable)
     # -------------------------------------- Templates --------------------------------------
     # Template for '.sumocfg' file
-    SUMO_CONFIG_TEMPLATE: str = (CWD + "/data/templates/sumo_config" + FileExtension.SUMO_CONFIG)
+    SUMO_CONFIG_TEMPLATE: str = (DirPaths.CWD + "/data/templates/sumo_config" + FileExtension.SUMO_CONFIG)
     # Template for '.ruo.xml' file
-    SUMO_ROUTES_TEMPLATE: str = (CWD + "/data/templates/sumo_routes" + FileExtension.SUMO_ROUTES)
-    FLOW_TEMPLATES: str = (CWD + "/data/templates/session/flows/{0}" + FileExtension.JSON)
-    PDDL_TEMPLATES: str = (CWD + "/data/templates/session/pddl/{0}" + FileExtension.JSON)
-    SUBGRAPH_TEMPLATES: str = (CWD + "/data/templates/session/subgraph/{0}" + FileExtension.JSON)
+    SUMO_ROUTES_TEMPLATE: str = (DirPaths.CWD + "/data/templates/sumo_routes" + FileExtension.SUMO_ROUTES)
+    SESSSION_TEMPLATE: str = (DirPaths.CWD + "/data/templates/template_session" + FileExtension.JSON)
     # -------------------------------------- Maps --------------------------------------
-    # Path to folder containing maps from open street map (.osm)
-    ORIGINAL_OSM_MAPS: str = (CWD + "/data/maps/osm/original/{0}" + FileExtension.OSM)
-    # Path to folder containing filtered .osm maps
-    FILTERED_OSM_MAPS: str = (CWD + "/data/maps/osm/filtered/{0}_filtered" + FileExtension.OSM)
-    # Path to folder containing .net.xml maps for SUMO
-    NETWORK_SUMO_MAPS: str = (CWD + "/data/maps/sumo/{0}" + FileExtension.SUMO_NETWORK)
-    MAPS_INFO: str = (CWD + "/data/maps/information/{0}" + FileExtension.INFO)
-    MAPS_PROB: str = (CWD + "/data/maps/probability/{0}" + FileExtension.PROB)
+    MAP_INFO: str = (DirPaths.MAPS_INFO + "/{0}" + FileExtension.INFO)
+    MAP_PROB: str = (DirPaths.MAPS_PROB + "/{0}" + FileExtension.PROB)
+    # Path to file from open street map (".osm")
+    MAP_OSM: str = (DirPaths.MAPS_OSM + "/{0}" + FileExtension.OSM)
+    # Path to file of ".osm" map
+    MAP_FILTERED: str = (DirPaths.MAPS_FILTERED + "/{0}" + FileExtension.OSM)
+    # Path to '.net.xml' file map for SUMO
+    MAP_SUMO: str = (DirPaths.MAPS_SUMO + "/{0}" + FileExtension.SUMO_NETWORK)
     # --------------------------------------  Pddl --------------------------------------
-    PDDL_DOMAINS: str = (CWD + "/data/domains/{0}" + FileExtension.PDDL)  # Path to folder containing pddl domains
-    PDDL_PLANERS: str = (CWD + "/data/planners/{0}")   # Path to folder containing pddl planners
-    PDDL_PROBLEMS: str = (CWD + "/data/scenarios/problems")  # Path to folder containing pddl problems
-    PDDL_RESULTS: str = (CWD + "/data/scenarios/results")  # Path to folder containing pddl results
+    PDDL_DOMAIN: str = (DirPaths.PDDL_DOMAINS + "/{0}" + FileExtension.PDDL)
+    # Path scenarios specific pddl problem file
+    PDDL_PROBLEM: str = (DirPaths.SCENARIO_PROBLEMS + "/{2}" + FileExtension.PDDL)
+    # Path scenarios specific pddl result file
+    PDDL_RESULT: str = (DirPaths.SCENARIO_RESULTS + "/{2}" + FileExtension.PDDL)
     # -------------------------------------- Scenarios --------------------------------------
-    # Path to folder with pddl problems (specific to scenario)
-    SCENARIO_PROBLEMS: str = (CWD + "/data/scenarios/problems/{0}/{1}" + FileExtension.PDDL)
-    # Path to folder with pddl results (specific to scenario)
-    SCENARIO_RESULTS: str = (CWD + "/data/scenarios/results/{0}/{1}" + FileExtension.PDDL)
-    # Path to generated '.rou.xml' file
-    SCENARIO_ROUTES: str = (CWD + "/data/scenarios/routes/{0}" + FileExtension.SUMO_ROUTES)
-    # Path to user-generated '.sumocfg' file (with ScenarioLauncher class)
-    SCENARIO_SIM_GENERATED: str = (CWD + "/data/scenarios/simulation/generated/{0}" + FileExtension.SUMO_CONFIG)
-    # Path to '.sumocfg' files made from ".pddl" result files generated by planner
-    SCENARIO_SIM_PLANNED: str = (CWD + "/data/scenarios/simulation/planned/{0}" + FileExtension.SUMO_CONFIG)
-    # Path to '.info' files (same name as ".sumocfg") describing used commands to generate original/planned scenarios
-    SCENARIO_SIM_INFO: str = (CWD + "/data/scenarios/simulation/information/{0}" + FileExtension.INFO)
-    # Path to generate statistics
-    SCENARIO_STATISTICS: str = (CWD + "/data/scenarios/simulation/statistics/{0}" + FileExtension.SUMO_STATS)
-    # Path to session json files
-    SCENARIO_SESSION: str = (CWD + "/data/scenarios/sessions/{0}" + FileExtension.JSON)
+    # Path to '.rou.xml' file specific to scenario
+    SCENARIO_ROUTES: str = (DirPaths.SCENARIO_ROUTES + "/{1}" + FileExtension.SUMO_ROUTES)
+    # Path to '.sumocfg' file specific to scenario
+    SCENARIO_CONFIG: str = (DirPaths.SCENARIO_CONFIGS + "/{1}" + FileExtension.SUMO_CONFIG)
+    # Path to '.info' file specific to scenario
+    SCENARIO_INFO: str = (DirPaths.SCENARIO_INFOS + "/{1}" + FileExtension.INFO)
+    # Path to '.stat.xml' file specific to scenario
+    SCENARIO_STATISTICS: str = (DirPaths.SCENARIO_STATISTICS + "/{1}" + FileExtension.SUMO_STATS)
+    # Path to '.net.xml' file specific to scenario
+    SCENARIO_MAP: str = (DirPaths.SCENARIO_MAPS_NETWORKS + "/{1}" + FileExtension.SUMO_NETWORK)
+    # Path to '.info' file specific '.net.xml' in scenario directory
+    SCENARIO_MAP_INFO: str = (DirPaths.SCENARIO_MAPS_INFOS + "/{1}" + FileExtension.INFO)
+    # Path to '.?' file specific to scenario
+    SCENARIO_SESSION: str = (DirPaths.SCENARIO + "/{1}" + "?")
+    # Path to '.csv' file containing comparison of scenarios in folder
+    SCENARIO_COMPARISON: str = (DirPaths.SCENARIO + "/{1}" + FileExtension.CSV)
+    # -------------------------------------- Session --------------------------------------
+    # Path to '.json' session file
+    SESSION: str = (DirPaths.SESSIONS + "/{0}" + FileExtension.JSON)
+
+
+def resolve_relative(path: str) -> str:
+    """
+    :param path: relative path to file (e.g. ../../data)
+    :return: transformed relative path to absolute
+    """
+    return str(Path(path).resolve())
 
 
 # ---------------------------------- Planners ----------------------------------
+
 
 class PLANNERS:
     """
     Class defining planner calls as format string (expected
     arguments are "domain_file.pddl" "problem_file.pddl" "result_file.pddl")
     """
-    CERBERUS: str = ("python3 " + FilePaths.PDDL_PLANERS.format("Cerberus/plan.py") + " {0} {1} {2}")
-    MERWIN: str = (FilePaths.PDDL_PLANERS.format("Merwin/plan") + " {0} {1} {2}")
+    CERBERUS: str = ("python3 " + DirPaths.PDDL_PLANNERS.format("Cerberus/plan.py") + " {0} {1} {2}")
+    MERWIN: str = (DirPaths.PDDL_PLANNERS.format("Merwin/plan") + " {0} {1} {2}")
 
     @staticmethod
     def get_planner(planner_name: str) -> str:
@@ -101,3 +156,8 @@ class PLANNERS:
         if not planer:
             print(f"Planner: {planner_name} is not defined in PLANNERS!")
         return planer
+
+
+if __name__ == "__main__":
+    print(FilePaths.PDDL_DOMAIN.format("utc"))
+

@@ -1,5 +1,6 @@
-from utc.src.file_system import MyFile, FilePaths
+from utc.src.file_system import MyFile, FilePaths, DirPaths, MyDirectory
 from utc.src.ui import UserInterface, Command
+from typing import Set
 
 
 class Converter(UserInterface):
@@ -20,44 +21,57 @@ class Converter(UserInterface):
 		self.user_input.add_command([Command("convert", self.convert_command)])
 
 	@UserInterface.log_command
-	def convert_command(self, file_name: str) -> bool:
+	def convert_command(self, file_name: str) -> None:
 		"""
-		Expecting file to be in directory defined in constants.PATH.ORIGINAL_OSM_MAPS,
+		Expecting file to be in directory defined in constants.PATH.ORIGINAL_OSM_MAP,
 		converts osm file into '.net.xml' file, while removing all
 		non-highway elements from original osm file.
 
-		:param file_name: name of '.osm' file, to convert
-		:return: True if successful, false otherwise
+		:param file_name: name of '.osm' file, to convert (if used 'all', whole
+		directory will be converted)
+		:return: None
 		"""
-		print(f"Converting map: '{file_name}'")
-		# Remove file type from file_name
-		map_name: str = MyFile.get_file_name(file_name)
-		if not self.osm_filter(map_name):
-			return False
-		return self.net_convert(map_name)
+		to_convert: Set[str] = set()
+		if file_name == "all":
+			to_convert = set(MyDirectory.list_directory(DirPaths.MAPS_OSM, keep_extension=False))
+			if not to_convert:
+				print(f"Directory of {DirPaths.MAPS_OSM} is either empty or does not exist!")
+				return
+		else:
+			to_convert = {file_name}
+		# Convert files
+		for file_name in to_convert:
+			print(f"Converting map: '{file_name}'")
+			if not self.osm_filter(file_name):
+				continue
+			self.net_convert(file_name)
 
 	def osm_filter(self, map_name: str) -> bool:
 		"""
 		Uses osm filter to filter ".osm" file, removing all non-road like objects
 		(except traffic lights). Filtered file will be saved in directory
-		'/utc/data/maps/osm/filtered' under the same name (with '_filtered' suffix added)
+		'/utc/data/maps/filtered' under the same name
 
-		:param map_name: name of ".osm" map (located in '/utc/data/maps/osm/original')
+		:param map_name: name of ".osm" map (located in '/utc/data/maps/osm')
 		:return: True if successful, false otherwise
 		"""
 		print("Filtering osm file with osm_filter")
-		file_path: str = FilePaths.ORIGINAL_OSM_MAPS.format(map_name)
+		file_path: str = FilePaths.MAP_OSM.format(map_name)
+		print(f"File path: {file_path}")
 		if not MyFile.file_exists(file_path):
 			return False
+		filtered_file_path: str = FilePaths.MAP_FILTERED.format(map_name)
+		if MyFile.file_exists(filtered_file_path, message=False):
+			print(f"Filtered file of: {map_name} already exists")
+			return True
 		command: str = (FilePaths.OSM_FILTER + " " + file_path)
 		# osmfilter arguments
 		command += (
 			' --hash-memory=720 --keep-ways="highway=primary =tertiary '
 			'=residential =primary_link =secondary =secondary_link =trunk =trunk_link =motorway =motorway_link" '
-			'--keep-nodes= --keep-relations= > '
+			'--keep-nodes= --keep-relations='
 		)
-		filtered_file_path: str = FilePaths.FILTERED_OSM_MAPS.format(map_name)
-		command += filtered_file_path
+		command += (" -o=" + filtered_file_path)
 		success, output = self.call_shell(command)
 		if success:
 			print(f"Done filtering osm file: '{map_name}', saved in: '{filtered_file_path}'")
@@ -67,16 +81,20 @@ class Converter(UserInterface):
 		"""
 		Uses netconvert to convert ".osm" files into ".net.xml",
 		expecting ".osm" file to be already filtered (by 'osm_filter' method),
-		located in directory '/utc/data/maps/osm/filtered'. Resulting network file will be
+		located in directory '/utc/data/maps/filtered'. Resulting network file will be
 		saved in directory '/utc/data/maps/sumo'
 
 		:param map_name: name of OSM map (filtered by osmfilter)
 		:return: True if successful, false otherwise
 		"""
 		print("Creating '.net.xml' file for SUMO with netconvert on filtered file")
-		file_path: str = FilePaths.FILTERED_OSM_MAPS.format(map_name)
+		file_path: str = FilePaths.MAP_FILTERED.format(map_name)
 		if not MyFile.file_exists(file_path):
 			return False
+		net_file_path: str = FilePaths.MAP_SUMO.format(map_name)
+		if MyFile.file_exists(net_file_path, message=False):
+			print(f"Network file of: {map_name} already exists")
+			return True
 		command: str = "netconvert --osm "
 		command += file_path
 		# Net convert arguments
@@ -88,7 +106,6 @@ class Converter(UserInterface):
 			" --numerical-ids.node-start 0"  # Junction id's will be numerical, starting from 0 to n
 			" --numerical-ids.edge-start 0"  # Edge id's will be numerical, starting from 0 to n
 		)
-		net_file_path: str = FilePaths.NETWORK_SUMO_MAPS.format(map_name)
 		command += (" -o " + net_file_path)
 		success, output = self.call_shell(command)
 		if success:

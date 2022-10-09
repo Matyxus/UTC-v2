@@ -69,12 +69,6 @@ class InfoFile(MyFile):
         return ret_val
 
     def get_known_path(self, file_name: str) -> str:
-        # Info files for graphs
-        if self.file_exists(FilePaths.MAPS_INFO.format(file_name), message=False):
-            return FilePaths.MAPS_INFO.format(file_name)
-        # Info files for scenarios
-        elif self.file_exists(FilePaths.SCENARIO_SIM_INFO.format(file_name), message=False):
-            return FilePaths.SCENARIO_SIM_INFO.format(file_name)
         return file_name  # No default path
 
 

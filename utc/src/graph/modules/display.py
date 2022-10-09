@@ -9,7 +9,6 @@ class Display(GraphModule):
 
     def __init__(self, skeleton: Skeleton = None):
         super().__init__(skeleton)
-        print("Created 'Display' class")
 
     def default_plot(self):
         """

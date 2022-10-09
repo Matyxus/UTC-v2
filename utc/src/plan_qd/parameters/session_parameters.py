@@ -1,7 +1,6 @@
-from utc.src.file_system import JsonFile, FilePaths
+from utc.src.file_system import FilePaths
 from utc.src.plan_qd.parameters.parameter import Parameter
-from utc.src.file_system import FilePaths, MyFile
-from typing import List, Union
+from typing import List, Dict, Union
 
 
 class SessionParameters(Parameter):
@@ -12,25 +11,42 @@ class SessionParameters(Parameter):
     def __init__(self, file_path: str):
         super().__init__(file_path)
 
-    # ------------------------------ Utils ------------------------------
+    # ------------------------------ Getters ------------------------------
 
-    def get_pddl_template(self) -> str:
-        """
-        :return: pddl template for planning
-        """
-        return self.objects["pddl_template"]
+    # --- Cpu related ---
 
-    def get_metrics(self) -> List[str]:
+    def get_process_count(self) -> int:
         """
-        :return: allowed metrics
+        :return: the maximal number of processes to be run
+        in parallel at the same time
         """
-        return self.objects["metrics"]
+        return self.objects["num_processes"]
 
-    def get_flow_count(self) -> int:
+    def get_thread_count(self) -> int:
         """
-        :return: number of flows in scenario
+        :return: number of allowed threads for multi-threading
         """
-        return self.objects["flow_count"]
+        return self.objects["num_threads"]
+
+    def get_time_limit(self) -> int:
+        """
+        :return: time limit for scenario generation
+        """
+        return self.objects["timeout"]
+
+    # --- Scenario related ---
+
+    def get_scenario_name(self) -> str:
+        """
+        :return:
+        """
+        return self.objects["scenario_name"]
+
+    def get_scenario_count(self) -> int:
+        """
+        :return: number of scenarios to be generated
+        """
+        return self.objects["num_scenarios"]
 
     def get_network(self) -> str:
         """
@@ -41,11 +57,23 @@ class SessionParameters(Parameter):
             return self.objects["probability_file"]
         return self.objects["network"]
 
-    def get_scenario_count(self) -> int:
+    def get_seed(self) -> int:
         """
-        :return: number of scenarios to be generated
+        :return:
         """
-        return self.objects["num_scenario"]
+        return self.objects["seed"]
+
+    def get_allowed_flows(self) -> List[str]:
+        """
+        :return:
+        """
+        return self.objects["flows"]
+
+    def get_flow_count(self) -> int:
+        """
+        :return: number of flows in scenario
+        """
+        return self.objects["flow_count"]
 
     def get_probability_file(self) -> str:
         """
@@ -59,41 +87,52 @@ class SessionParameters(Parameter):
         """
         return self.objects["duration"]
 
+    # --- Metrics & Graphs related ---
+
+    def get_metrics(self) -> Dict[str, List[str]]:
+        """
+        :return: allowed metrics
+        """
+        return self.objects["metrics"]
+
     def get_c_parameter(self) -> float:
         """
         :return: 'c' parameter of subgraph generation
         """
         return self.objects["c"]
 
-    def get_k_parameter(self) -> List[Union[int, float]]:
+    def get_k_parameter(self) -> Union[int, float, None]:
         """
         :return: 'k' parameter for metrics (list)
         """
         return self.objects["k"]
 
-    def get_timeout(self) -> int:
-        """
-        :return: timeout for planner
-        """
-        return self.objects["timeout"]
+    # ----- Pddl ----
 
-    def get_thread_count(self) -> int:
+    def get_pddl_parameters(self) -> dict:
         """
-        :return: number of allowed threads for multi-threading
+        :return: pddl template for planning
         """
-        return self.objects["num_threads"]
-
-    def get_planner(self) -> str:
-        """
-        :return: name of pddl planner
-        """
-        return self.objects["planner"]
+        return self.objects["pddl_params"]
 
     def check_data(self) -> bool:
         if not self.objects:
-            print(f"Session parameters: {self.file_path} must be loaded first!")
+            print(f"Session parameters: '{self.file_path}' must be loaded first!")
             return False
         # Compare against template for missing parameters
+        template: Parameter = Parameter(FilePaths.SESSSION_TEMPLATE)
+        if not template.file_exists(template.file_path):
+            print(f"Cannot check data of session parameters: {self.file_path}")
+            print(f"Session template file: {FilePaths.SESSSION_TEMPLATE} does not exist!")
+            return False
+        objects = template.load_data()
+        if not objects:
+            print(f"Template file is empty!")
+            return False
+        for key in objects.keys():
+            if key not in self.objects:
+                print(f"Missing parameter: {key} in session file: {self.file_path}")
+                return False
         return True
 
 

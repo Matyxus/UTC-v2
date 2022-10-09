@@ -10,13 +10,27 @@ class Route(Figure, XmlObject):
 
     _counter: int = 0  # Variable serving to count number of class instances (to assign id's to routes)
 
-    def __init__(self, edges: List[Edge]):
+    def __init__(self, edges: List[Edge], route_id: int = None):
+        """
+        :param edges: list of edges forming route
+        :param route_id: optional argument, if route is loaded from file
+        value should be set, otherwise None
+        """
         Figure.__init__(self, color=Colors.EDGE_COLOR)
         XmlObject.__init__(self, tag="route")
         self.edge_list: List[Edge] = edges
         self.attributes["edges"] = ""
-        self.attributes["id"] = f"r{Route._counter}"
+        self.attributes["id"] = self.set_id(route_id)
         Route._counter += 1
+
+    def set_id(self, route_id: int = None) -> str:
+        """
+        :param route_id: to be et
+        :return:
+        """
+        if route_id is None:
+            return f"r{Route._counter}"
+        return f"r{route_id}"
 
     def plot(self, axes, color: str = "") -> None:
         """
@@ -36,7 +50,7 @@ class Route(Figure, XmlObject):
         distance: float = 0
         for edge in self.edge_list:
             distance += edge.get_length()
-        return distance, self.get_destination()
+        return round(distance, 2), self.get_destination()
 
     # ---------------------------- Getters ----------------------------
 

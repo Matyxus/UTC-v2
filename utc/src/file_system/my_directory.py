@@ -22,6 +22,9 @@ class MyDirectory:
         try:
             mkdir(dir_path)
         except OSError as e:
+            # Already exists
+            if isinstance(e, FileExistsError):
+                return True
             print(f"Unable to create directory: {dir_path}, got error: {e}")
             return False
         return True
@@ -59,15 +62,19 @@ class MyDirectory:
         return False
 
     @staticmethod
-    def list_directory(dir_path: str) -> Optional[List[str]]:
+    def list_directory(dir_path: str, keep_extension: bool = True) -> Optional[List[str]]:
         """
         :param dir_path: of directory to be checked listed
+        :param keep_extension: if extension of files should be kept (true by default)
         :return: list of files in directory (with extension), None
         if directory does not exist
         """
         if not MyDirectory.dir_exist(dir_path, message=False):
             return None
-        return listdir(dir_path)
+        ret_val: List[str] = listdir(dir_path)
+        if not keep_extension:
+            return [MyFile.get_file_name(file_name) for file_name in ret_val]
+        return ret_val
 
     @staticmethod
     def group_files(files: List[str], group_by: str = "extension") -> Optional[Dict[str, List[str]]]:

@@ -19,12 +19,16 @@ class TraciOptions:
 
     # -------------------------- Getters --------------------------
 
-    def get_all(self, scenario_path: str) -> List[str]:
+    def get_all(self, scenario_name: str, scenario_folder: str) -> List[str]:
         """
-        :param scenario_path: absolute path to scenario
+        :param scenario_name: name of config file
+        :param scenario_folder: name of scenario folder
         :return: all options to run traci
         """
-        return self.get_options(scenario_path) + self.get_statistics(MyFile.get_file_name(scenario_path))
+        return (
+                self.get_options(scenario_name, scenario_folder) +
+                self.get_statistics(scenario_name, scenario_folder)
+        )
 
     # noinspection PyMethodMayBeStatic
     def get_display(self, display: bool):
@@ -34,19 +38,21 @@ class TraciOptions:
         """
         return checkBinary("sumo-gui") if display else checkBinary("sumo")
 
-    def get_options(self, scenario_path: str) -> List[str]:
+    def get_options(self, scenario_name: str, scenario_folder: str) -> List[str]:
         """
-        :param scenario_path: absolute path to scenario
+       :param scenario_name: name of scenario
+        :param scenario_folder: name of scenario folder
         :return: list containing main option to run scenario using traci
         """
-        return self._options + [scenario_path]
+        return self._options + [FilePaths.SCENARIO_CONFIG.format(scenario_folder, scenario_name)]
 
-    def get_statistics(self, scenario_name: str) -> List[str]:
+    def get_statistics(self, scenario_name: str, scenario_folder: str) -> List[str]:
         """
         :param scenario_name: name of scenario
+        :param scenario_folder: name of scenario folder
         :return: list containing commands for traci to generate statistics file
         """
-        return self._statistics + [FilePaths.SCENARIO_STATISTICS.format(scenario_name)]
+        return self._statistics + [FilePaths.SCENARIO_STATISTICS.format(scenario_folder, scenario_name)]
 
 
 

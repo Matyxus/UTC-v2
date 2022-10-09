@@ -127,6 +127,6 @@ class ProbabilityFile(MyFile):
 
     def get_known_path(self, file_name: str) -> str:
         # Probability files for networks
-        if self.file_exists(FilePaths.MAPS_PROB.format(file_name), message=False):
-            return FilePaths.MAPS_PROB.format(file_name)
+        if self.file_exists(FilePaths.MAP_PROB.format(file_name), message=False):
+            return FilePaths.MAP_PROB.format(file_name)
         return file_name  # No default path

@@ -1,9 +1,10 @@
 from utc.src.graph.components import Route, Graph
 from utc.src.plan_qd.metrics.metric import Metric
-from typing import List, Dict, Tuple, Iterator, Optional
+from utc.src.utils import check_process_count
+from typing import List, Dict, Tuple, Optional, Union, Any
 import numpy as np
 from sklearn.cluster import DBSCAN
-import matplotlib.pyplot as plt
+from multiprocessing import Pool
 
 
 class SimilarityMetric(Metric):
@@ -16,69 +17,130 @@ class SimilarityMetric(Metric):
         super().__init__("SimilarityMetric")
 
     def calculate(
-            self, routes: List[Route], graph: Graph,
+            self, routes: List[Route], graph: Graph = None,
             eps: float = 0.26, min_samples: int = 4,
             sort_by: str = "", plot: bool = False,
             sim_matrix: np.array = None,
+            reduced_dataset=None,
+            k: Union[int, float, None] = None,
             *args, **kwargs
-            ) -> None:
+            ) -> Optional[List[int]]:
         """
         :param routes: to be ranked by algorithm
-        :param graph: from which routes were extracted
+        :param graph: from which routes were extracted (default None)
         :param eps: minimal similarity between two routes for them to be added into same cluster
         :param min_samples: minimal amount of routes similar enough to be considered cluster
         :param sort_by: type of sort
         :param plot: if 'k' best routes should be shown
         :param sim_matrix: pre-computed similarity matrix
+        :param reduced_dataset: pre-compute result of DBSCAN
+        :param k: number of best routes to be picked, if None
+        only one best per cluster gets picked
         :param args: additional args
         :param kwargs: additional args
-        :return: None
+        :return: list of sorted route indexes, None if error occurred
         """
-        # Compare based on edge id's using jaccard similarity, (with similarity boundary of 75% or higher)
-        print(f"Computing similarity metric, received matrix: {sim_matrix is not None}")
-        self.score.clear()
-        similarity_matrix: Optional[np.array] = (
-            self.create_jaccard_matrix(routes) if sim_matrix is None else sim_matrix
-        )
-        print(f"Finished computing similarity matrix")
-        if similarity_matrix is None:
+        # Can be pre-computed
+        if sim_matrix is None:
+            sim_matrix = self.create_jaccard_matrix(routes)
+        # Check matrix
+        if sim_matrix is None:
             print(f"Cannot continue with DBSCAN, error at creating similarity matrix")
-            self.score = [i for i in range(len(routes))]
-            return
-        print(f"Running dbscan")
-        reduced_dataset = DBSCAN(metric='precomputed', eps=eps, min_samples=min_samples).fit(
-            self.get_jaccard_distance(similarity_matrix)
-        )
+            return None
+        # Can be pre-computed
         if reduced_dataset is None:
-            print("Error in DBSCAN")
-            return
-        print(f"Creating clusters")
-        temp_clusters: Dict[int, List[int]] = {
-            # cluster_index : [route_index (relative to inputted routes)]
-        }
-        # Create clusters, assign routes to them
-        for index, label in enumerate(reduced_dataset.labels_):
-            if label not in temp_clusters:
-                temp_clusters[label] = []
-            temp_clusters[label].append(index)
-        print(f"Sorting by: {sort_by}")
+            print(f"Running DBSCAN")
+            reduced_dataset = self.run_dbscan(sim_matrix, eps, min_samples)
+        # Check data set
+        if reduced_dataset is None:
+            print("Output of dbscan is of type 'None', cannot continue !")
+            return None
         # ----------------------- Sort -----------------------
-        if sort_by in ["average_similarity", "average_dissimilarity"]:
-            self.average_similarity_sort(similarity_matrix, temp_clusters, sort_by)
-        elif sort_by in ["maximal_similarity", "minimal_similarity"]:
-            self.maximal_similarity_sort(similarity_matrix, temp_clusters, sort_by)
-        # Plot
-        if plot:
-            self.plot_ranking(routes, graph)
+        return self.pick_best(sim_matrix, self.cluster_routes(reduced_dataset), sort_by, self.convert_k(k, len(routes)))
+
+    # noinspection PyMethodMayBeStatic
+    def run_dbscan(
+            self, similarity_matrix: np.array,
+            eps: float = 0.26, min_samples: int = 4
+            ) -> Optional[Any]:
+        """
+        :param similarity_matrix: similarity matrix of routes
+        :param eps: minimal similarity between two routes for them to be added into same cluster
+        :param min_samples: minimal amount of routes similar enough to be considered cluster
+        :return: list of labels, None if arguments are invalid
+        """
+        if similarity_matrix is None:
+            print(f"Invalid similarity matrix and/or routes received, cannot run DBSCAN!")
+            return None
+        elif similarity_matrix.shape[0] != similarity_matrix.shape[1]:
+            print(f"Expected similarity matrix to be of the same size, got: {similarity_matrix.shape} !")
+            return None
+        return (
+            DBSCAN(metric='precomputed', eps=eps, min_samples=min_samples).fit(
+                self.get_jaccard_distance(similarity_matrix)
+            )
+        )
 
     # -------------------------------------------- Sort --------------------------------------------
 
-    def average_similarity_sort(self, sim_matrix: np.array, clusters: Dict[int, List[int]], sort_type: str) -> None:
+    def pick_best(
+            self, sim_matrix: np.array, clusters: Dict[int, List[int]],
+            sort_type: str, k: int = None
+            ) -> List[int]:
         """
+        Picks best routes depending on k
+
+        :param sim_matrix: similarity matrix of routes
+        :param clusters: clusters made from routes by DBSCAN
+        :param sort_type: one of: 'average_similarity', 'average_dissimilarity',
+        'shortest_path', 'minimal_similarity', 'maximal_dissimilarity'
+        :param k: number of best routes to be picked, if None
+        only one best per cluster gets picked
+        :return: list of routed indexes
+        """
+        print(f"Sorting cluster routes by '{sort_type}'")
+        sorted_clusters: List[List[int]] = [
+            # position of inner list acst as cluster id (-1 is on position 0, 0 on 1st, etc..)
+            # values are route indexes (sorted)
+        ]
+        if sort_type in {"average_similarity", "average_dissimilarity"}:
+            sorted_clusters = self.average_similarity_sort(sim_matrix, clusters, sort_type)
+        elif sort_type in {"minimal_similarity", "maximal_similarity"}:
+            sorted_clusters = self.maximal_similarity_sort(sim_matrix, clusters, sort_type)
+        elif sort_type in {"shortest_length"}:
+            sorted_clusters = self.length_sort(clusters)
+        print(f"Sorting routes to final score")
+        # Pick only one route (best) per cluster
+        if k is None:
+            return [route_indexes[0] for route_indexes in sorted_clusters]
+        # If we want to pick all routes, pick best each iteration in one cluster,
+        # until all are empty (this makes it so, that all clusters routes are represented)
+        ret_val: List[int] = []
+        index: int = 0
+        while sorted_clusters:
+            if sorted_clusters[index]:  # Pop route index from cluster
+                ret_val.append(sorted_clusters[index].pop(0))
+            else:  # Empty cluster, pop it
+                sorted_clusters.pop(index)
+            index += 1
+            if index >= len(sorted_clusters):
+                index = 0
+        print(f"Finished sorting routes")
+        return ret_val[0:min(len(ret_val), k)]
+
+    # noinspection PyMethodMayBeStatic
+    def average_similarity_sort(
+            self, sim_matrix: np.array,
+            clusters: Dict[int, List[int]], sort_type: str
+            ) -> List[List[int]]:
+        """
+        Sorts routes based on intra-cluster average similarity,
+        sorts clusters based on their routes averages
+
         :param sim_matrix: similarity matrix of routes
         :param clusters: clusters made from routes by DBSCAN
         :param sort_type: either 'average_similarity' or 'average_dissimilarity'
-        :return: None
+        :return: Sorted list of clusters containing indexes of their routes (also sorted)
         """
         similarity: bool = ("average_similarity" == sort_type)
         new_clusters: Dict[int, Tuple[float, List[Tuple[float, int]]]] = {
@@ -86,7 +148,6 @@ class SimilarityMetric(Metric):
             # routes, [(average_similarity of this route, route index), ...]),
             # ...
         }
-        print(f"Sorting cluster routes by '{sort_type}'")
         # Calculate avg. similarity of routes in clusters and avg. cluster similarity
         for cluster_id, routes_indexes in clusters.items():
             # For each route calculate its similarity compared to other routes in the same cluster
@@ -107,57 +168,50 @@ class SimilarityMetric(Metric):
                 sorted(average_similarities, key=lambda tup: tup[0], reverse=similarity)
             )
         # Sort clusters by average similarity (in reverse if dissimilarity)
-        print(f"Sorting clusters by '{sort_type}'")
         sorted_clusters_ids: list = sorted(
             list(new_clusters.items()), key=lambda tup: tup[1], reverse=similarity
         )
-        # Rank routes
-        sorted_clusters_ids: List[List[Tuple[float, int]]] = [cluster[1][1] for cluster in sorted_clusters_ids]
-        print(f"Sorting routes to final score")
-        index: int = 0
-        while sorted_clusters_ids:
-            if sorted_clusters_ids[index]:  # Pop route index from cluster
-                cluster = sorted_clusters_ids[index].pop(0)
-                self.score.append(cluster[1])
-            else:  # Empty cluster, pop it
-                sorted_clusters_ids.pop(index)
-            index += 1
-            if index >= len(sorted_clusters_ids):
-                index = 0
-        print(f"Finished sorting routes")
+        # Return sorted routes
+        return [[tup[1] for tup in lst] for lst in [cluster[1][1] for cluster in sorted_clusters_ids]]
 
-    def maximal_similarity_sort(self, sim_matrix: np.array, clusters: Dict[int, List[int]], sort_type: str) -> None:
+    # noinspection PyMethodMayBeStatic
+    def maximal_similarity_sort(
+            self, sim_matrix: np.array,
+            clusters: Dict[int, List[int]], sort_type: str
+            ) -> List[List[int]]:
         """
         Ranks routes in cluster based on average similarity to all other cluster routes
 
         :param sim_matrix: similarity matrix of routes
         :param clusters: clusters made from routes by DBSCAN
-        :param sort_type: either 'minimal_similarity' or 'maximal_dissimilarity'
-        :return:
+        :param sort_type: either 'minimal_similarity' or 'maximal_similarity'
+        :return: Sorted list of clusters containing indexes of their routes (also sorted)
         """
-        ranked_routes: List[List[Tuple[int, float]]] = [[] for _ in clusters.keys()]
-        # ranked_routes[cluster] -> [(route_index, similarity compared to other cluster routes), ..]
-        print(f"Sorting cluster routes by '{sort_type}'")
+        ranked_routes: List[List[Tuple[float, int]]] = [[] for _ in clusters.keys()]
+        # ranked_routes[cluster] -> [(similarity compared to other cluster routes, route_index), ..]
         routes_count: int = sim_matrix.shape[0]
         for cluster, routes in clusters.items():
             for route in routes:
                 all_sim: float = sim_matrix[route].sum()
                 same_sim: float = sim_matrix[route][routes].sum()
-                ranked_routes[cluster].append((route, round((all_sim-same_sim) / routes_count, 3)))
-            ranked_routes[cluster].sort(key=lambda tup: tup[1], reverse=sort_type == "maximal_similarity")
-        # Rank routes
-        print(f"Sorting cluster routes by '{sort_type}'")
-        index: int = 0
-        while ranked_routes:
-            if ranked_routes[index]:  # Pop route index from cluster
-                cluster = ranked_routes[index].pop(0)
-                self.score.append(cluster[0])
-            else:  # Empty cluster, pop it
-                ranked_routes.pop(index)
-            index += 1
-            if index >= len(ranked_routes):
-                index = 0
-        print(f"Finished sorting routes")
+                ranked_routes[cluster].append((round((all_sim-same_sim) / routes_count, 3), route))
+            ranked_routes[cluster].sort(key=lambda tup: tup[0], reverse=(sort_type == "maximal_similarity"))
+        # Return sorted routes
+        return [[tup[1] for tup in cluster] for cluster in ranked_routes]
+
+    # noinspection PyMethodMayBeStatic
+    def length_sort(
+            self, clusters: Dict[int, List[int]],
+            ) -> List[List[int]]:
+        """
+        Sorts routes from clusters based on shortest length inside cluster,
+        since we used TopK_A* to create routes, they are already sorted
+
+        :param clusters: clusters made from routes by DBSCAN
+        :return: Routes sorted from clusters by length
+        """
+        # Return sorted routes
+        return [cluster_routes for cluster_routes in clusters.values()]
 
     # -------------------------------------------- Jaccard --------------------------------------------
 
@@ -197,25 +251,87 @@ class SimilarityMetric(Metric):
         print("Finished computing Jaccard similarity matrix")
         return jaccard_matrix + jaccard_matrix.T + np.identity(length)
 
+    def create_jaccard_matrix_parallel(self, routes: List[Route], processes: int = 1) -> Optional[np.array]:
+        """
+        :param routes: list of routes
+        :param processes: number of processes to be run on matrix creation
+        (advantageous for larger amount of routes)
+        :return: array containing similarity between each route (2D symmetric matrix),
+        None if number of routes is less than '2'
+        """
+        print(f"Computing Jaccard similarity matrix with {processes} processes")
+        # This has to be done to pickle 'create_matrix_row', multiprocessing throws error otherwise
+        global create_matrix_row
+        # -------------- Check args --------------
+        length: int = len(routes)
+        if length < 2:
+            print("Cannot create similarity matrix, length of routes list must be at least 2")
+            return None
+        elif not check_process_count(processes):
+            print(f"Limiting processes to 1 from: {processes}")
+            processes = 1
+        elif processes > 1 and len(routes) < 500:
+            print(f"Limiting threads: '{processes}' to 1, because amount of routes is: {len(routes)} < 500")
+            processes = 1
+
+        # Single thread
+        if processes == 1:
+            print(f"Computing matrix on single process")
+            if "create_matrix_row" in globals():
+                del globals()['create_matrix_row']
+            return self.create_jaccard_matrix(routes)
+
+        def create_matrix_row(row: int, size: int) -> List[float]:
+            """
+            Creates row for similarity matrix, used
+            for parallel processing
+
+            :param row: index of matrix row
+            :param size: size of matrix
+            :return: matrix row of similarity values
+            """
+            return [
+                self.jaccard_similarity(routes[row].get_edge_ids(as_int=True), routes[col].get_edge_ids(as_int=True))
+                for col in range(row+1, size)
+            ]
+
+        # Create pool
+        print(f"Starting process pool with: {processes} processes")
+        pool: Pool = Pool(processes=processes)
+        # -1, since we want to skip diagonal (route has similarity of "1" to itself)
+        results = [pool.apply_async(create_matrix_row, [row, length]) for row in range(length-1)]
+        pool.close()
+        pool.join()
+        # Generate matrix
+        jaccard_matrix: np.array = np.zeros([length, length])
+        for idx in range(len(results)):
+            jaccard_matrix[idx][idx + 1:length] = results.pop(0).get()
+        if "create_matrix_row" in globals():
+            del globals()['create_matrix_row']
+        return jaccard_matrix + jaccard_matrix.T + np.identity(length)
+
     # -------------------------------------------- Utils --------------------------------------------
 
-    def pretty_print(self, similarity_matrix: np.array):
-        for row in similarity_matrix:
-            for col in row:
-                print("{:8.3f}".format(col).lstrip(), end="  ")
-            print("")
-
     def plot_ranking(self, routes: List[Route], graph: Graph, *args, **kwargs) -> None:
-        fig, ax = graph.display.default_plot()
-        for index in self.get_score(4):
-            route = routes[index]
-            ax.clear()
-            graph.display.plot_default_graph(ax)
-            route.plot(ax, color="blue")
-            graph.display.add_label("_", "blue", f"Route: {index}")
-            graph.display.make_legend(1)
-            plt.tight_layout()
-            fig.canvas.draw()
-            plt.pause(0.1)
-        graph.display.show_plot()
+        pass
+
+    # noinspection PyMethodMayBeStatic
+    def cluster_routes(self, labels) -> Optional[Dict[int, List[int]]]:
+        """
+        :param labels: computed by DBSCAN
+        :return: mapping of cluster id to routes indexes, None if
+        error occurred
+        """
+        if labels is None:
+            print(f"Cannot cluster routes from labels of type 'None'")
+            return None
+        temp_clusters: Dict[int, List[int]] = {
+            # cluster_index : [route_index (relative to inputted routes)]
+        }
+        # Create clusters, assign routes to them
+        for index, label in enumerate(labels.labels_):
+            if label not in temp_clusters:
+                temp_clusters[label] = []
+            temp_clusters[label].append(index)
+        return temp_clusters
 

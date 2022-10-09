@@ -8,11 +8,13 @@ literature
 pyvenv.cfg
 
 # Compiled "osmfilter.c"
-utc/data/osm_filter/osmfilter
+/utc/data/osm_filter/osmfilter
 
 # Planners (Cerberus, Merwin)
 /utc/data/planners
 
+# Scenarios
+/utc/data/scenarios
 
 # File pointer
 *.Identifier

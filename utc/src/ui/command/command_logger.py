@@ -1,7 +1,7 @@
 from utc.src.ui.command.command_parser import CommandParser
 from utc.src.file_system import InfoFile
 from functools import wraps
-from typing import List, Dict, Tuple, Set, Optional, Any
+from typing import List, Dict, Tuple, Set, Optional, Union, Any, Callable
 
 
 class CommandLogger:
@@ -10,15 +10,41 @@ class CommandLogger:
     """
     def __init__(self, log_commands: bool = False):
         self.logging_enabled: bool = log_commands
-        self.commands: Dict[str, List[str]] = {
-            # command_name: [arg1, ...]
-        }
-        self.commands_order: List[str] = []  # List of commands names (in which order they were used)
+        # List of commands log (in order they were recorded)
+        self.commands_log: List[CommandLogger.CommandLog] = []
 
-    def add_logg(self, command_name: str, command_args: str, message: bool = True) -> None:
+    class CommandLog:
+        """
+        Class representing single log of command call, provides utility methods
+        """
+        def __init__(self, name: str, args: Union[str, Dict[str, Any]]):
+            """
+            :param name:
+            :param args:
+            """
+            self.name: str = name
+            self.args: Union[str, Dict[str, Any]] = args
+
+        def get_args_text(self) -> str:
+            """
+            :return: arguments format (arg1="value1" arg2="value2", ..)
+            """
+            if isinstance(self.args, str):
+                return self.args
+            return " ".join(f'{arg_name}="{arg_value}"' for arg_name, arg_value in self.args.items())
+
+        def get_args_dict(self) -> Optional[Dict[str, Any]]:
+            """
+            :return: mapping of argument name to its value
+            """
+            if isinstance(self.args, dict):
+                return self.args
+            return CommandParser.parse_args_text(self.args)
+
+    def add_logg(self, command_name: str, command_args: Union[str, Dict[str, Any]], message: bool = True) -> None:
         """
         :param command_name: name of command
-        :param command_args: arguments of command
+        :param command_args: arguments of command (either in string format or mapping)
         :param message: if message about logging should be printed
         :return: None
         """
@@ -27,71 +53,38 @@ class CommandLogger:
             return
         if message:
             print(f"LOGGING: '{command_name}' -> '{command_args}'")
-        if command_name not in self.commands:
-            self.commands[command_name] = []
-        self.commands[command_name].append(command_args)
-        self.commands_order.append(command_name)
+        self.commands_log.append(CommandLogger.CommandLog(command_name, command_args))
 
-    def add_comment(self, comment: str) -> None:
-        """
-        :param comment: adds comment to file (starts with ';')
-        :return: None
-        """
-        if ";" not in self.commands:
-            self.commands[";"] = []
-        self.commands[";"].append(comment)
-        self.commands_order.append(";")
-
-    def clear_log(self) -> None:
-        """
-        Clears all entries of saved commands and their arguments
-
-        :return: None
-        """
-        self.commands.clear()
-        self.commands_order.clear()
-
-    def get_ordered_commands(self) -> List[Tuple[str, str]]:
-        """
-        :return: list of tuples (command name, arguments),
-        sorted by their recorded time (order of use)
-        """
-        ret_val: List[Tuple[str, str]] = []
-        if not self.commands_order:
-            return ret_val
-        # Mapping of command name to index (of current argument)
-        indexes: Dict[str, int] = {command_name: 0 for command_name in self.commands.keys()}
-        for command_name in self.commands_order:
-            ret_val.append((command_name, self.commands[command_name][indexes[command_name]]))
-            indexes[command_name] += 1
-        return ret_val
-
-    def save_log(self, file_path: str) -> bool:
+    def save_log(self, file_path: str, commands: List[Tuple[str, str]] = None) -> bool:
         """
         Creates ".info" file at given file_path containing
         ordered commands and their arguments
 
         :param file_path: in which InfoFile will be created
+        :param commands: list of (command name, command args as text) which is to be saved,
+        if None, whole command log is used
         :return: true on success, false otherwise
         """
         if not self.logging_enabled:
             print(f"Cannot save logged commands, into: '{file_path}', logging is not enabled!")
             return False
-        info_file: InfoFile = InfoFile(file_path)
-        return info_file.save(commands=self.get_ordered_commands())
+        elif commands is None:
+            commands = self.get_commands_pairs()
+        return InfoFile("").save(file_path=file_path, commands=commands)
 
-    def log_command(function: callable, logger: 'CommandLogger' = None) -> Any:
+    # ------------------------------------------ Wrappers ------------------------------------------
+
+    def log_command(function: Callable, logger: 'CommandLogger' = None) -> Any:
         """
         Decorator for function to log their command names and arguments in CommandLogger,
         methods should be called [method_name]_command,
         can be used as decorator only by subclasses of logger
 
-        :param function: method
+        :param function: method being called
         :param logger: class to which the logs will be writen to, default None,
         (only added if method to be logged is not present in subclass of UserInterface)
         :return: return value of function
         """
-        # noinspection PyTypeChecker
         @wraps(function)
         def wrapper(*args, **kwargs):
             self: Optional[CommandLogger] = None
@@ -118,14 +111,13 @@ class CommandLogger:
                 self.add_logg(command_name, formatted_args.format(*arguments))
             else:
                 print(f"Cannot log method: '{function.__name__}' into logger of type: 'None'!")
-            # noinspection PyCallingNonCallable
             return function(*args, **kwargs)
         # This line is done so that PyCharm shows hints
         # on arguments methods not on decorator
         wrapper: function
         return wrapper
 
-    def set_logger(self, target: object, methods: List[callable]) -> None:
+    def set_logger(self, target: object, methods: List[Callable]) -> None:
         """
         Sets self as logging class to given methods of given class
 
@@ -141,3 +133,34 @@ class CommandLogger:
                 print(f"Found method: {method.__name__}, setting logger")
                 setattr(target, method.__name__, CommandLogger.log_command(method, self))
                 print(f"Done setting logger")
+
+    # ------------------------------------------ Utils ------------------------------------------
+
+    def get_command_log(self, command_name: str) -> List['CommandLogger.CommandLog']:
+        """
+        :param command_name: to be found
+        :return: list of CommandLog classes, empty if found none
+        """
+        return [command_log for command_log in self.commands_log if command_log.name == command_name]
+
+    def add_comment(self, comment: str) -> None:
+        """
+        :param comment: adds comment to file, name of command is set to ";Comment"
+        :return: None
+        """
+        self.add_logg(";Comment", comment)
+
+    def clear_log(self) -> None:
+        """
+        Clears all entries of saved commands and their arguments
+
+        :return: None
+        """
+        self.commands_log.clear()
+
+    def get_commands_pairs(self) -> List[Tuple[str, str]]:
+        """
+        :return: list of tuples (command name, arguments),
+        sorted by their recorded time (order of use)
+        """
+        return [(command_log.name, command_log.get_args_text()) for command_log in self.commands_log]

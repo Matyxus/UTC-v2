@@ -1,0 +1,23 @@
+{
+  "pddl_params": {
+    "timeout": 30,
+    "window": 20,
+    "planner": "Merwin",
+    "domain": "utc"
+  },
+  "scenario_name": "test",
+  "duration": 300,
+  "seed": 2,
+  "num_scenario": 1,
+  "probability_file": "New_York",
+  "network": "New_York",
+  "num_cpus": 1,
+  "num_processes": 3,
+  "num_threads": 4,
+  "time_limit": null,
+  "metrics": ["similarity_metric"],
+  "k": null,
+  "flows": ["random_flow", "exponential_flow", "uniform_flow"],
+  "flow_count": 3,
+  "c": 1.15
+}

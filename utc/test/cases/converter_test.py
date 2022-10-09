@@ -28,9 +28,9 @@ class ConverterTest(unittest.TestCase):
                 "using command: 'gcc osmfilter.c -O3 -o osmfilter'"
             )
         # Check if "example.osm" exists
-        elif not file_exists(PATH.ORIGINAL_OSM_MAPS.format("example"), message=False):
-            raise FileNotFoundError(f"File: {PATH.ORIGINAL_OSM_MAPS.format('example')} does not exist!")
+        elif not file_exists(PATH.ORIGINAL_OSM_MAP.format("example"), message=False):
+            raise FileNotFoundError(f"File: {PATH.ORIGINAL_OSM_MAP.format('example')} does not exist!")
         temp.convert("example")
         # Check if "_filtered.osm" and ".net.xml" files got generated
-        assert (file_exists(PATH.FILTERED_OSM_MAPS.format("example")))
-        assert (file_exists(PATH.NETWORK_SUMO_MAPS.format("example")))
+        assert (file_exists(PATH.FILTERED_OSM_MAP.format("example")))
+        assert (file_exists(PATH.NETWORK_SUMO_MAP.format("example")))

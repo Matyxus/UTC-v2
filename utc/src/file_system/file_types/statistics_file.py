@@ -79,9 +79,6 @@ class StatisticsFile(XmlFile):
         return self.root.find("vehicleTripStatistics").attrib
 
     def get_known_path(self, file_name: str) -> str:
-        # Search  uts/data/scenarios/simulation/statistics
-        if self.file_exists(FilePaths.SCENARIO_STATISTICS.format(file_name), message=False):
-            return FilePaths.SCENARIO_STATISTICS.format(file_name)
         # Does not exist, return original value
         return file_name
 

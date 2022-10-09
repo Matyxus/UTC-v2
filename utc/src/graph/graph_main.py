@@ -1,8 +1,9 @@
 from typing import Dict, Set
 from utc.src.graph.components import Skeleton, Graph, Route
 from utc.src.ui import UserInterface, Command
-from utc.src.file_system import FilePaths
-from typing import List, Optional
+from utc.src.file_system import MyFile, FilePaths
+from utc.src.file_system.directory_types import ScenarioDir
+from typing import List, Tuple, Optional
 
 
 class GraphMain(UserInterface):
@@ -113,29 +114,46 @@ class GraphMain(UserInterface):
         print(f"Finished merging graphs: {graph_a} with {graph_b}, created graph: {graph_name}")
 
     @UserInterface.log_command
-    def save_graph_command(self, graph_name: str, file_name: str) -> None:
+    def save_graph_command(self, graph_name: str, file_name: str, scenario_name: str = None) -> bool:
         """
-        Saves graph into /Maps/sumo/file_name.net.xml
+        Saves graph into utc/data/maps/osm or, if given scenario_name
+        is valid, utc/data/scenarios/scenario_name/maps/networks
 
         :param graph_name: to be saved
         :param file_name: name of file containing new road network
-        :return: None
+        :param scenario_name: name of scenario folder this graph belongs to
+        :return: true on success, false otherwise
         """
         if not self.graph_exists(graph_name):
-            return
-        path: str = FilePaths.NETWORK_SUMO_MAPS.format(file_name)
+            return False
+        # Default maps directory
+        network_path: str = FilePaths.MAP_SUMO.format(file_name)
+        info_path: str = FilePaths.MAP_INFO.format(file_name)
+        # Save network to specific scenario
+        if scenario_name is not None:
+            scenario_dir: ScenarioDir = ScenarioDir(scenario_name)
+            if not scenario_dir.dir_exist(scenario_dir.path):
+                return False
+            elif not scenario_dir.map_dir.initialize_dir_structure():
+                return False
+            network_path = FilePaths.SCENARIO_MAP.format(scenario_name, file_name)
+            info_path = FilePaths.SCENARIO_MAP_INFO.format(scenario_name, file_name)
         graph: Skeleton = self.graphs[graph_name]
         graph.validate_graph()
-        command: str = f"netconvert --sumo-net-file {FilePaths.NETWORK_SUMO_MAPS.format(graph.map_name)} "
+        command: str = f"netconvert --sumo-net-file {FilePaths.MAP_SUMO.format(graph.map_name)} "
         edges: Set[str] = set()
         for route in graph.routes.values():
             for edge in route.edge_list:
                 edges.add(edge.attributes["id"])
-        command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {path}"
-        self.call_shell(command)
+        command += f"--keep-edges.explicit \"{', '.join(edges)}\" -o {network_path}"
+        success, ret_val = self.call_shell(command, message=False)
+        # File was not created
+        if not success or not MyFile.file_exists(network_path):
+            return False
         # Save info file if logging is enabled
         if self.logging_enabled:
-            self.save_log(FilePaths.MAPS_INFO.format(file_name))
+            self.save_log(info_path, commands=self.reconstruct_graph(graph_name))
+        return True
 
     # ----------- Not logged -----------
 
@@ -181,6 +199,56 @@ class GraphMain(UserInterface):
                 print(f"Graph: '{graph_name}' does not exist!")
             return False
         return True
+
+    def reconstruct_graph(self, graph_name: str) -> Optional[List[Tuple[str, str]]]:
+        """
+        :param graph_name: name of graph to be reconstructed
+        :return: all necessary command names and their arguments,
+        about how given graph was constructed
+        """
+        if not self.logging_enabled:
+            print(f"Logging is not enabled, cannot reconstruct graph: {graph_name}")
+            return None
+        elif not self.commands_log:
+            print(f"Command log is empty!")
+            return None
+        elif not self.commands_log[-1].name == "save_graph":
+            print(f"Expected last command to be 'save_graph' !")
+            return None
+
+        def recursive_search(g_name: str, index: int) -> List[Tuple[str, str]]:
+            """
+            :param g_name: name of graph which is currently being reconstructed
+            :param index: current command index
+            :return: list of commands used to create graph
+            """
+            if index < 0:
+                return []
+            command_log = self.commands_log[index]
+            command_args: Dict[str, str] = command_log.get_args_dict()
+            ret_val: List[Tuple[str, str]] = [(command_log.name, command_log.get_args_text())]
+            if command_log.name == "subgraph" and g_name in command_args["subgraph_name"]:
+                # Return the command and search how "network" was created (from which current graph originated)
+                return ret_val + recursive_search(command_args["graph_name"], index-1)
+            elif command_log.name == "merge" and g_name in command_args["graph_name"]:
+                return (  # Search subgraph\s from which current graph was merged
+                        ret_val + recursive_search(command_args["graph_a"], index-1) +
+                        recursive_search(command_args["graph_b"], index-1)
+                )
+            elif command_log.name == "similarity_metric" and g_name in command_args["new_subgraph"]:
+                # Search original subgraph on which metric was applied on
+                return ret_val + recursive_search(command_args["subgraph"], index-1)
+            elif command_log.name == "load_graph" and g_name in command_args["map_name"]:
+                return ret_val  # Graph was loaded, end of search
+            # Else look for other commands
+            return recursive_search(g_name, index-1)
+        # Star recursive search
+        save_log = self.commands_log[-1]
+        save_args: Dict[str, str] = save_log.get_args_dict()
+        return (
+                recursive_search(save_args["graph_name"], len(self.commands_log)-2)[::-1] +
+                [(save_log.name, save_log.get_args_text())]
+        )
 
 
 # Program start

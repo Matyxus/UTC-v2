@@ -10,7 +10,6 @@ class ShortestPath(GraphModule):
 
     def __init__(self, skeleton: Skeleton = None):
         super().__init__(skeleton)
-        print("Created 'ShortestPath' class")
 
     # -------------------------------------- Shortest path --------------------------------------
 
@@ -55,8 +54,8 @@ class ShortestPath(GraphModule):
                 # Found other path (satisfying path_length < c * shortest_path_length), record it
                 assert (length <= limit)
                 other_routes.append(self.skeleton.construct_route(path))
-                if len(other_routes) > 1000:
-                    print(f"Reach limit of 1000 other routes found, stopping search ...")
+                if len(other_routes) > 9999:
+                    print(f"Reach limit of 10000 routes found, stopping search ...")
                     break
                 continue
             for route in self.skeleton.junctions[current_junction_id].travel(in_route):
@@ -93,7 +92,7 @@ class ShortestPath(GraphModule):
         :param target_junction_id: goal
         :return: queue containing unexplored junctions, shortest route (None if it could not be found)
         """
-        print(f"Finding shortest route from: {start_junction_id}, to: {target_junction_id} using A* algorithm")
+        # print(f"Finding shortest route from: {start_junction_id}, to: {target_junction_id} using A* algorithm")
         # -------------------------- Init --------------------------
         destination_pos: Tuple[float, float] = self.skeleton.junctions[target_junction_id].get_position()
         # priority, distance, in_route, path (list of visited junctions)
@@ -123,7 +122,7 @@ class ShortestPath(GraphModule):
                         (tentative_g_score + self.coord_distance(destination_pos, pos)),
                         tentative_g_score, route, path + [neigh_junction_id]
                     ))
-        print(f"Finished finding shortest route: {shortest_route} ")
+        # print(f"Finished finding shortest route: {shortest_route} ")
         return queue, shortest_route
 
     def dijkstra(self, start_junction_id: str, target_junction_id: str = "") -> Optional[Route]:

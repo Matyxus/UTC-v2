@@ -7,7 +7,6 @@ class Skeleton:
     """ Skeleton of Graph, holds junctions, edges, routes ... """
 
     def __init__(self):
-        print("Created 'Skeleton' class")
         self.junctions: Dict[str, Junction] = {}
         self.edges: Dict[str, Edge] = {}
         self.routes: Dict[str, Route] = {}

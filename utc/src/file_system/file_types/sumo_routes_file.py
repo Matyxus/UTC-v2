@@ -47,7 +47,6 @@ class SumoRoutesFile(XmlFile):
         :param end_time: latest vehicle arrival (without)
         :return: Vehicle dictionary mapping vehicle id to initial and ending junctions of its route
         """
-        print("Parsing vehicles")
         # Lower precision
         start_time = round(start_time, 3)
         end_time = round(end_time, 3)
@@ -101,12 +100,7 @@ class SumoRoutesFile(XmlFile):
         return True
 
     def get_known_path(self, file_name: str) -> str:
-        # Quick check
-        if not file_name:
-            return file_name
-        # Search  uts/data/scenarios/routes
-        if self.file_exists(FilePaths.SCENARIO_ROUTES.format(file_name), message=False):
-            return FilePaths.SCENARIO_ROUTES.format(file_name)
+        # Does not exist, return original
         return file_name
 
 

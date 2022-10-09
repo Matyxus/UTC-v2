@@ -1,4 +1,0 @@
-initialize scenario="12_50_21_Dejvice" new_scenario="12_50_21_Dejvice_similarity_maximal_similarity_planned" network="12_50_21_Dejvice_similarity_maximal_similarity_sg"
-generate_problems domain="utc" window="20"
-generate_results planner="Merwin" domain="utc" timeout="30" thread_count="2"
-generate_scenario keep_files="True"

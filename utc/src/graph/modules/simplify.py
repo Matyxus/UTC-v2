@@ -10,7 +10,6 @@ class Simplify(GraphModule):
 
     def __init__(self, skeleton: Skeleton = None):
         super().__init__(skeleton)
-        print("Created 'Simplify' class")
 
     def simplify_graph(self, plot: Display = None) -> None:
         """

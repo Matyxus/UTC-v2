@@ -125,5 +125,3 @@ class MyInput(InputUtils):
         """
         mode: int = fstat(stdin.fileno()).st_mode
         return S_ISREG(mode)
-
-

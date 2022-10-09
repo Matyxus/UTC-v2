@@ -2,7 +2,7 @@ from utc.src.graph.components import Junction, Edge, Route
 from utc.src.graph.utils import Colors
 from utc.src.graph.modules.graph_module import GraphModule
 from utc.src.graph.components import Skeleton
-from utc.src.file_system import SumoNetworkFile
+from utc.src.file_system import SumoNetworkFile, FilePaths
 from typing import Dict, List, Optional
 
 
@@ -11,21 +11,22 @@ class Loader(GraphModule):
 
     def __init__(self, skeleton: Skeleton = None):
         super().__init__(skeleton)
-        print("Created 'Loader' class")
         self.network_file: Optional[SumoNetworkFile] = None
         # Mapping edges to their respective routes
         self.edge_to_route: Dict[str, Route] = {}
 
-    def load_map(self, network: str) -> bool:
+    def load_map(self, network_path: str) -> bool:
         """
-        :param network: name of map to be loaded
+        :param network_path: path to network file (default is
+        /data/maps/osm)
         :return: true on success, false otherwise
         """
-        network_name = SumoNetworkFile.get_file_name(network)
         if self.skeleton is None:
             print("Skeleton must not be of type: 'None' before loading map!")
             return False
-        self.network_file = SumoNetworkFile(network_name)
+        elif not SumoNetworkFile.file_exists(network_path, message=False):
+            network_path = FilePaths.MAP_SUMO.format(SumoNetworkFile.get_file_name(network_path))
+        self.network_file = SumoNetworkFile(network_path)
         # File does not exist
         if not self.network_file.file_exists(self.network_file):
             return False
@@ -33,7 +34,7 @@ class Loader(GraphModule):
         self.load_edges()
         self.skeleton.roundabouts = self.load_roundabouts()
         self.edge_to_route.clear()
-        self.skeleton.map_name = network_name
+        self.skeleton.map_name = SumoNetworkFile.get_file_name(network_path)
         print("Finished loading road network")
         return True
 
@@ -147,7 +148,7 @@ class Loader(GraphModule):
         """
         if edge.attributes["id"] in self.edge_to_route:
             return self.edge_to_route[edge.attributes["id"]]
-        ret_val: Route = Route([edge])
+        ret_val: Route = Route([edge], int(edge.attributes["id"]))
         self.skeleton.add_route(ret_val)
         self.edge_to_route[edge.attributes["id"]] = ret_val
         return ret_val

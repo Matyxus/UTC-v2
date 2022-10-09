@@ -43,7 +43,6 @@ class MyFile:
             return
         try:
             # File does not exist, try to load from name (class specific)
-            # e.g. SumoRoutesFile class will look into /utc/data/scenarios/routes
             self.file_path = self.get_known_path(self.get_file_name(file_path))
             if not self.file_exists(self.file_path, message=False):
                 self.file_path = file_path  # Assuming new file name
@@ -60,6 +59,14 @@ class MyFile:
         raise NotImplementedError("Method 'save' must be defined by subclasses of MyFile!")
 
     # ------------------------------------------- Utils -------------------------------------------
+
+    def reload(self) -> None:
+        """
+        Loads file again from the set path
+
+        :return: None
+        """
+        self.load(self.file_path)
 
     def set_mode(self, mode: str) -> None:
         """
@@ -183,7 +190,7 @@ class MyFile:
         except OSError as e:
             print(f"During deletion of file: '{file_path}', error occurred: '{e}'")
             return False
-        print(f"Successfully deleted file: '{file_path}'")
+        # print(f"Successfully deleted file: '{file_path}'")
         return True
 
     @staticmethod

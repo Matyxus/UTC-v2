@@ -67,7 +67,7 @@ class CommandParser:
                 print(f"Expected '=' between argument name and value, got: {arg}")
                 continue
             arg = arg.split("=")
-            if not arg or len(arg) != 2:
+            if len(arg) != 2:
                 print(f"Invalid argument name, value pair: {arg}")
                 continue
             ret_val[arg[0]] = arg[1]

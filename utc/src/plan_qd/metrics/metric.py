@@ -11,34 +11,46 @@ class Metric:
         """
         :param metric_name: name of metric
         """
-        # Sorted routes id's (ranked by algorithm)
-        self.score: List[int] = []
         self.name = metric_name
         print(f"Initializing metric: '{self.name}' class")
 
-    def get_score(self, k: Union[int, float]) -> Optional[List[int]]:
+    # noinspection PyMethodMayBeStatic
+    def convert_k(self, k: Union[int, float, None], num_routes: int) -> Optional[int]:
         """
         :param k: number of best routes to pick (if float, used as percentage)
-        :return: list of route indexes to be picked
+        :param num_routes: number of given routes to metric
+        :return: k representation as int if it is not None, None otherwise
+        :raises ValueError if k is incorrect
         """
-        if isinstance(k, float) and not k.is_integer():
+        if k is None:
+            return None
+        elif isinstance(k, float) and not k.is_integer():
             if not (0 < k <= 1):
-                print(f"Expected float parameter 'k' to be between 0 and 1, got: '{k}' !")
-                return None
-            return self.score[0: max(int(len(self.score) * k), 1)]
-        elif k > len(self.score):
-            print(f"Received 'k': '{k}', which is greater than number of ordered routes: '{len(self.score)}'")
-        k = int(k)
-        return self.score[0:min(int(k), len(self.score))]
+                raise ValueError(f"Expected float parameter 'k' to be between 0 and 1, got: '{k}' !")
+            return max(int(num_routes * k), 1)
+        else:  # k is int
+            k: int = int(k)
+            if k > num_routes:
+                print(f"Received 'k': '{k}', which is greater than number of ordered routes: '{num_routes}'")
+                return num_routes
+            elif k < 1:
+                raise ValueError(f"Expected integer parameter 'k' to higher than 0 got: '{k}' !")
+            return k
 
-    def calculate(self, routes: List[Route], graph: Graph, plot: bool = False, *args, **kwargs) -> None:
+    def calculate(
+            self, routes: List[Route], graph: Graph,
+            plot: bool = False, k: Union[int, float, None] = None,
+            *args, **kwargs
+            ) -> Optional[List[int]]:
         """
         :param routes: list of routes to rank
         :param graph: to which routes belong
         :param plot: bool, if metric ordering should be plotted, default false
+        :param k: number of best routes to be picked, if None
+        only one best per cluster gets picked
         :param args: additional args
         :param kwargs: additional args
-        :return: None
+        :return: list of sorted route indexes, None if error occurred
         """
         raise NotImplementedError("Method 'calculate' must be implemented by children of Metric!")
 
@@ -55,12 +67,3 @@ class Metric:
         :return: None
         """
         raise NotImplementedError("Error: method 'plot_ranking' must be implemented by children of Metric class!")
-
-    def clear(self) -> None:
-        """
-        Clears the previously created score
-
-        :return: None
-        """
-        self.score.clear()
-

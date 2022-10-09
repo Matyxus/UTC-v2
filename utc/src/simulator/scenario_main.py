@@ -1,6 +1,6 @@
 from utc.src.ui import UserInterface, Command
-from utc.src.file_system import MyFile, MyDirectory, FilePaths, InfoFile, SumoConfigFile
-from utc.src.simulator.scenario import Scenario
+from utc.src.file_system import MyFile, MyDirectory, FilePaths, DirPaths, SumoConfigFile
+from utc.src.simulator.scenario import ScenarioGenerator
 from utc.src.utils import TraciOptions
 from typing import List, Optional
 import traci
@@ -11,7 +11,7 @@ class ScenarioMain(UserInterface):
 
     def __init__(self, log_commands: bool = True):
         super().__init__("scenario", log_commands)
-        self.scenario: Optional[Scenario] = None
+        self.scenario_generator: Optional[ScenarioGenerator] = None
 
     # ---------------------------------- Commands ----------------------------------
 
@@ -19,8 +19,7 @@ class ScenarioMain(UserInterface):
         super().initialize_commands()
         self.user_input.add_command([
             Command("generate_scenario", self.generate_scenario_command),
-            Command("launch_scenario", self.launch_scenario_command),
-            Command("delete_scenario", self.delete_scenario_command)
+            Command("launch_scenario", self.launch_scenario_command)
         ])
 
     @UserInterface.log_command
@@ -34,31 +33,31 @@ class ScenarioMain(UserInterface):
         :param network_name: name of network on which simulation will be displayed
         :return: None
         """
-        if not MyFile.file_exists(FilePaths.NETWORK_SUMO_MAPS.format(network_name)):
+        if not MyFile.file_exists(FilePaths.MAP_SUMO.format(network_name)):
             return
-        elif MyFile.file_exists(FilePaths.SCENARIO_SIM_GENERATED.format(scenario_name), message=False):
+        elif MyDirectory.dir_exist(DirPaths.SCENARIO.format(scenario_name), message=False):
             print(
                 f"Scenario named: {scenario_name} already exists in:"
-                f" {FilePaths.SCENARIO_SIM_GENERATED.format(scenario_name)}, choose different name!"
+                f" {DirPaths.SCENARIO.format(scenario_name)}, choose different name!"
             )
             return
         # Scenario
-        self.scenario = Scenario(scenario_name, network_name)
+        self.scenario_generator = ScenarioGenerator(scenario_name, network_name)
         # Add vehicle flow methods to logging
-        for cls, methods in self.scenario.vehicle_factory.get_methods():
-            if self.logging_enabled:
+        if self.logging_enabled:
+            for cls, methods in self.scenario_generator.vehicle_factory.get_methods():
                 self.set_logger(cls, list(methods.values()))
         # Add new commands for user input
         if self.user_input is not None:
             # Add new commands
             # ! flows needs to be added separately from logging loop (new pointers) !
-            for cls, methods in self.scenario.vehicle_factory.get_methods():
+            for cls, methods in self.scenario_generator.vehicle_factory.get_methods():
                 self.user_input.add_command([
                     Command(command_name, method) for command_name, method in methods.items()
                 ])
             self.user_input.add_command([
                 Command("save_scenario", self.save_scenario_command),
-                Command("plot", self.scenario.graph.display.plot)
+                Command("plot", self.scenario_generator.graph.display.plot)
             ])
 
     # noinspection PyMethodMayBeStatic
@@ -100,41 +99,6 @@ class ScenarioMain(UserInterface):
             else:
                 print(f"Error occurred: {e}")
 
-    # noinspection PyMethodMayBeStatic
-    def delete_scenario_command(self, scenario_name: str) -> None:
-        """
-        Deletes scenario and associated files (pddl, routes, info)
-
-        :param scenario_name: name of scenario
-        :return: None
-        """
-        print(f"Proceeding to delete scenario: '{scenario_name}' and associated files")
-        scenario_path: str = SumoConfigFile(scenario_name).file_path
-        if not MyFile.file_exists(scenario_path):
-            return
-        # ---------------------------------- Files ----------------------------------
-        # Delete ".sumocfg" file
-        if not MyFile.delete_file(scenario_path):
-            return
-        # Delete ".rou.xml" file
-        route_paths: str = FilePaths.SCENARIO_ROUTES.format(scenario_name)
-        if not MyFile.delete_file(route_paths):
-            return
-        # Delete ".info" file
-        info_path: str = InfoFile(scenario_name).file_path
-        if not MyFile.delete_file(info_path):
-            return
-        # ---------------------------------- Folders ----------------------------------
-        # Delete pddl problems folder (with files)
-        pddl_problems: str = FilePaths.PDDL_PROBLEMS + "/" + scenario_name
-        if not MyDirectory.delete_directory(pddl_problems, False):
-            return
-        # Delete pddl results folder (with files)
-        pddl_results: str = FilePaths.PDDL_RESULTS + "/" + scenario_name
-        if not MyDirectory.delete_directory(pddl_results, False):
-            return
-        print(f"Successfully deleted scenario: '{scenario_name}' and associated files")
-
     @UserInterface.log_command
     def save_scenario_command(self) -> None:
         """
@@ -146,13 +110,18 @@ class ScenarioMain(UserInterface):
         :return: None
         """
         # Save scenario
-        self.scenario.save()
-        # Save info file
-        if self.logging_enabled:
-            self.save_log(FilePaths.SCENARIO_SIM_INFO.format(self.scenario.name))
-            self.clear_log()
+        if self.scenario_generator.save():
+            # Save info file
+            if self.logging_enabled:
+                self.save_log(
+                    FilePaths.SCENARIO_INFO.format(
+                        self.scenario_generator.scenario.name,
+                        self.scenario_generator.scenario.name
+                    )
+                )
+        self.clear_log()
         # Reset
-        self.scenario = None
+        self.scenario_generator = None
         if self.user_input is not None:
             # Remove commands enabled only after generating scenario
             self.user_input.remove_command(

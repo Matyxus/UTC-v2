@@ -20,7 +20,8 @@ class SumoConfigFile(XmlFile):
         """
         super().__init__(file_path, extension=FileExtension.SUMO_CONFIG)
         # Relative paths (so that simulation can be run on any OS)
-        self.relative_network_path: str = "../../../maps/sumo/{0}.net.xml"
+        self.relative_network_path: str = "../../../../maps/sumo/{0}.net.xml"  # Maps made from osm or by user
+        self.relative_scenario_network_path: str = "../../maps/{0}.net.xml"  # Maps made by session
         self.relative_routes_path: str = "../../routes/{0}.rou.xml"
 
     def save(self, file_path: str = "default") -> bool:
@@ -33,19 +34,17 @@ class SumoConfigFile(XmlFile):
 
     # ------------------------------------------ Setters ------------------------------------------
 
-    def set_network_name(self, network_name: str) -> None:
+    def set_network_name(self, network_name: str, scenario_network: bool = False) -> None:
         """
-        :param network_name: sumo road network (.net.xml)
+        :param network_name: sumo road network name ('.net.xml')
+        :param scenario_network: true if network files is located in scenario folder
+        (relative path to it will be used), otherwise relative path to data/maps/osm will be used
         :return: None
         """
-        network_name = self.get_file_name(network_name)
-        if not self.file_exists(FilePaths.NETWORK_SUMO_MAPS.format(network_name), message=False):
-            print(
-                f"Cannot set network: {network_name} to SumoConfigFile, file:"
-                f" {FilePaths.NETWORK_SUMO_MAPS.format(network_name)} does not exist!"
-            )
-            return
-        self.root.find("input").find("net-file").attrib["value"] = self.relative_network_path.format(network_name)
+        path: str = self.relative_network_path
+        if scenario_network:
+            path = self.relative_scenario_network_path
+        self.root.find("input").find("net-file").attrib["value"] = path.format(network_name)
 
     def set_routes_file(self, routes_name: str) -> None:
         """
@@ -53,7 +52,7 @@ class SumoConfigFile(XmlFile):
         :return: None
         """
         self.root.find("input").find("route-files").attrib["value"] = self.relative_routes_path.format(
-            self.get_file_name(routes_name)
+            routes_name
         )
 
     # ------------------------------------------ Getters ------------------------------------------
@@ -78,20 +77,6 @@ class SumoConfigFile(XmlFile):
             return SumoRoutesFile(routes_name)
         return routes_name
 
-    def get_problem_files(self) -> Optional[List[str]]:
-        """
-        :return: names (with extension) of pddl problem files
-        (corresponding to this scenario), None if directory does not exist
-        """
-        return MyDirectory.list_directory(FilePaths.PDDL_PROBLEMS + f"/{self.get_file_name(self)}")
-
-    def get_result_files(self) -> Optional[List[str]]:
-        """
-        :return: names of pddl result files (that generated this SumoConfig file),
-        None if directory does not exist
-        """
-        return MyDirectory.list_directory(FilePaths.PDDL_RESULTS + f"/{self.get_file_name(self)}")
-
     # ------------------------------------------ Utils ------------------------------------------
 
     def check_file(self) -> bool:
@@ -106,9 +91,10 @@ class SumoConfigFile(XmlFile):
         elif self.root.find("input") is None:
             print(f"Unable to find xml element <input> in file: '{self.file_path}' !")
             return False
+        """
         # Check elements in "input"
         required_elements: List[Tuple[str, str]] = [
-            ("net-file", FilePaths.NETWORK_SUMO_MAPS), ("route-files", FilePaths.SCENARIO_ROUTES)
+            ("net-file", FilePaths.NETWORK_SUMO_MAP), ("route-files", FilePaths.SCENARIO_ROUTES)
         ]
         for required_element in required_elements:
             if self.root.find("input").find(required_element[0]) is None:
@@ -129,14 +115,9 @@ class SumoConfigFile(XmlFile):
                         f"'{required_element[1].format(file_name)}' !"
                     )
                     return False
+        """
         return True
 
     def get_known_path(self, file_name: str) -> str:
-        # Search  utc/data/scenarios/simulation/generated
-        if self.file_exists(FilePaths.SCENARIO_SIM_GENERATED.format(file_name), message=False):
-            return FilePaths.SCENARIO_SIM_GENERATED.format(file_name)
-        # Search utc/data/scenarios/simulation/planned
-        elif self.file_exists(FilePaths.SCENARIO_SIM_PLANNED.format(file_name), message=False):
-            return FilePaths.SCENARIO_SIM_PLANNED.format(file_name)
         # Does not exist, return original value
         return file_name
