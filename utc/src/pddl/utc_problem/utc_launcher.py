@@ -39,6 +39,7 @@ class UtcLauncher(PddlLauncher):
         # Initialize PddlProblem
         self.pddl_problem = UtcProblem()
         self.pddl_problem.pddl_network.process_graph(self.graph.skeleton)
+        self.pddl_problem.set_domain(domain)
         # Start generating problem files
         last_vehicle_depart: float = self.scenario.routes_file.get_end_time()
         interval: int = max(int(round(last_vehicle_depart / window)), 1)

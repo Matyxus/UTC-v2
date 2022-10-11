@@ -1,18 +1,27 @@
 from typing import Dict, Set, List, Optional, Union
 from utc.src.graph.components import Route, Edge, Junction
+from utc.src.graph.components.skeleton_types import SkeletonType
 from copy import deepcopy
 
 
 class Skeleton:
-    """ Skeleton of Graph, holds junctions, edges, routes ... """
+    """ Skeleton of Graph, holds its type, junctions, edges, routes ... """
 
-    def __init__(self):
+    def __init__(self, name: str = "", graph_type: SkeletonType = None):
+        """
+        :param name: of skeleton (default none)
+        :param graph_type: of skeleton (default none)
+        """
+        # Type of skeleton
+        self.type: SkeletonType = graph_type if graph_type is not None else SkeletonType(name)
+        # Components of skeleton
         self.junctions: Dict[str, Junction] = {}
         self.edges: Dict[str, Edge] = {}
         self.routes: Dict[str, Route] = {}
         self.starting_junctions: Set[str] = set()
         self.ending_junctions: Set[str] = set()
         self.roundabouts: List[List[str]] = []
+        # Original map from which skeleton was made (can be subgraph)
         self.map_name: str = ""
 
     def validate_graph(self) -> None:
@@ -125,7 +134,7 @@ class Skeleton:
         if len(junction_list) == 0:
             return None
         ret_val: Route = Route([])
-        in_route: Route = None
+        in_route: Optional[Route] = None
         for i in range(0, len(junction_list)-1):
             # Also sets self.route as current one
             follow_route: Route = self.find_route(junction_list[i], junction_list[i+1], from_route=in_route)
@@ -156,6 +165,19 @@ class Skeleton:
             ret_val += round(edge.get_length())
         return ret_val
 
+    def set_name(self, name: str) -> None:
+        """
+        :param name: of skeleton to be set
+        :return: None
+        """
+        self.type.name = name
+
+    def get_name(self) -> str:
+        """
+        :return: name of subgraph
+        """
+        return self.type.name
+
     def load(self, other: 'Skeleton') -> bool:
         """
         Loads skeleton from another skeleton class
@@ -172,5 +194,6 @@ class Skeleton:
         self.starting_junctions = deepcopy(other.starting_junctions)
         self.ending_junctions = deepcopy(other.ending_junctions)
         self.roundabouts = deepcopy(other.roundabouts)
+        self.type = deepcopy(other.type)
         self.map_name = deepcopy(other.map_name)
         return True

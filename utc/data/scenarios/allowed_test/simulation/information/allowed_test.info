@@ -1,0 +1,4 @@
+generate_scenario scenario_name="allowed_test" network_name="Chodov"
+uniform_flow from_junction_id="13" to_junction_id="9" vehicle_count="10" start_time="0" end_time="120"
+uniform_flow from_junction_id="9" to_junction_id="14" vehicle_count="10" start_time="0" end_time="120"
+save_scenario 

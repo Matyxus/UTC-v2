@@ -1,5 +1,6 @@
 from utc.src.pddl.pddl_problem import PddlNetwork
-from utc.src.graph.components import Skeleton, Route
+from utc.src.graph.components import Graph, Skeleton, Route
+from utc.src.graph.components.skeleton_types import MergedType
 from typing import List, Dict
 
 
@@ -49,6 +50,7 @@ class UtcNetwork(PddlNetwork):
         :return: None
         """
         super().process_graph(skeleton)
+        self.add_allowed_precondition(skeleton)
         # Add capacity, cost ..
         #  --------------- Extend network ---------------
         # Add predicates: 'length', 'use', 'cap', 'using', 'light, medium, heavy'
@@ -71,6 +73,36 @@ class UtcNetwork(PddlNetwork):
         self.add_object(self.use_object_group, self.use_object.format(self.max_capacity))
 
     # ---------------------------------------- Utils ----------------------------------------
+
+    def add_allowed_precondition(self, skeleton: Skeleton) -> None:
+        """
+        Adds allowed predicate determining if road can be used on a way to destination
+
+        :param skeleton: of road network
+        :return: None
+        """
+        if not isinstance(skeleton.type, MergedType):
+            print(f"Graph: {skeleton.get_name()} is missing merges, allowed predicate will not be added")
+            return
+        allowed_object: str = "(allowed {0} j{1})"
+        graph: Graph = Graph(skeleton)
+        for attributes in skeleton.type.get_subgraphs():
+            fig, ax = graph.display.default_plot()
+            edges = set(attributes["edges"].split(","))
+            if not edges:
+                print(f"Found empty edges for subgraph: {attributes['id']} in graph: {skeleton.get_name()}")
+                continue
+            # Find destination among edges
+            destination: str = attributes["to_junction"]
+            # Find routes which can be used to reach destination
+            for route_id, route in skeleton.routes.items():
+                route_edges = set(route.get_edge_ids())
+                if len(route_edges & edges) == len(route_edges):
+                    graph.skeleton.routes[route_id].plot(ax, "blue")
+                    self.add_init_state(allowed_object.format(route_id, destination))
+            graph.display.add_label("_", "blue", f"Graph: {attributes['id']} routes")
+            graph.display.make_legend(1)
+            graph.display.show_plot()
 
     def calculate_thresholds(self, capacity: int, route_id: str) -> List[str]:
         """

@@ -1,5 +1,6 @@
 from utc.src.graph.modules.graph_module import GraphModule
 from utc.src.graph.components import Skeleton, Route
+from utc.src.graph.components.skeleton_types import SubgraphType, MergedType
 from utc.src.graph.modules.display import Display, plt
 from typing import List, Set, Optional
 from copy import deepcopy
@@ -15,7 +16,9 @@ class SubGraph(GraphModule):
         """
         Creates sub-graph from this graph.
 
-        :param routes: List of routes from which sub-graph will be created
+        :param routes: List of routes from which sub-graph will be created,
+        it is assumed that routes were created by TopKA*, therefore all start
+        and end at the same junction
         :return: Skeleton (sub-graph), None if routes are empty
         """
         assert (self.skeleton is not None)
@@ -34,6 +37,13 @@ class SubGraph(GraphModule):
             sub_graph.remove_edge(edge_id)
         for junction_id in (self.skeleton.junctions.keys() ^ junctions):
             sub_graph.remove_junction(junction_id)
+        # Change graph type
+        sub_graph.type = SubgraphType(
+            self.skeleton.get_name(),
+            routes[0].get_start(),
+            routes[0].get_destination(),
+            ",".join(edges)
+        )
         return sub_graph
 
     def merge(self, other: Skeleton, display: Display = None) -> Optional[Skeleton]:
@@ -51,6 +61,11 @@ class SubGraph(GraphModule):
         print("Merging with another graph")
         new_graph: Skeleton = Skeleton()
         new_graph.load(self.skeleton)  # Copy graph A
+        # If already is MergedType, only add other
+        if isinstance(new_graph.type, MergedType):
+            new_graph.type.merged_from.append(other.type)
+        else:  # Create new MergedType (add itself and another graf)
+            new_graph.type = MergedType(self.skeleton.get_name(), [self.skeleton.type, other.type])
         # ------------------------ Plot -----------------------
         colors: List[str] = ["mediumblue", "gold", "darkmagenta"]
         if display is not None:  # Plot both graphs next to each other (differently colored)

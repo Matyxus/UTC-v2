@@ -1,13 +1,13 @@
 {
   "pddl_params": {
-    "timeout": 60,
+    "timeout": 40,
     "window": 30,
     "planner": "Merwin",
-    "domain": "utc"
+    "domain": "utc_allowed"
   },
   "scenario_name": "sydney",
-  "duration": 600,
-  "seed": 29,
+  "duration": 120,
+  "seed": 30,
   "num_scenarios": 1,
   "probability_file": "Sydney",
   "network": "Sydney",
@@ -25,5 +25,5 @@
   "k": null,
   "flows": ["random_flow", "exponential_flow", "uniform_flow"],
   "flow_count": 4,
-  "c": 1.2
+  "c": 1.3
 }

@@ -1,0 +1,4 @@
+initialize new_scenario="19_59_48_sydney_default_planned" scenario="19_59_48_sydney" network="19_59_48_sydney_default_sg"
+generate_problems domain="utc" window="30"
+generate_results planner="Merwin" domain="utc" timeout="60" processes="4"
+generate_scenario generate_best="True" keep_files="True"

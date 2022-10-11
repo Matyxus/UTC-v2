@@ -1,0 +1,17 @@
+name,junctions,edges,length
+New_York,212,455,51820
+default_sg,139,298,26952
+similarity_average_dissimilarity_sg,123,251,22716
+similarity_average_similarity_sg,121,236,21105
+similarity_maximal_similarity_sg,118,217,19807
+similarity_minimal_similarity_sg,129,254,23140
+similarity_shortest_length_sg,119,227,20582
+name,total_results,initial_results,problem_count
+21_31_49_new_york_similarity_shortest_length_planned,0,0,20
+21_31_49_new_york_similarity_maximal_similarity_planned,0,0,20
+21_31_49_new_york_similarity_average_similarity_planned,0,0,20
+21_31_49_new_york_default_planned,0,0,20
+21_31_49_new_york_similarity_average_dissimilarity_planned,0,0,20
+21_31_49_new_york_similarity_minimal_similarity_planned,0,0,20
+name,routeLength,speed,duration,waitingTime,timeLoss,departDelay,departDelayWaiting,totalTravelTime,totalDepartDelay
+21_31_49_new_york,1924.98,1.47,3090.25,2614.43,2976.60,1179.90,-1.00,2982087.00,1138607.00

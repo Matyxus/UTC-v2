@@ -1,0 +1,6 @@
+generate_scenario scenario_name="09_13_19_sydney" network_name="Sydney"
+uniform_flow from_junction_id="77" to_junction_id="357" vehicle_count="128" start_time="0" end_time="600"
+uniform_flow from_junction_id="315" to_junction_id="241" vehicle_count="161" start_time="0" end_time="600"
+random_flow from_junction_id="316" to_junction_id="241" minimal="4" maximal="5" period="20" start_time="0" end_time="600"
+uniform_flow from_junction_id="388" to_junction_id="87" vehicle_count="93" start_time="0" end_time="600"
+save_scenario 

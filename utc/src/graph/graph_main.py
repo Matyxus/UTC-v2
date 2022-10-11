@@ -1,7 +1,8 @@
 from typing import Dict, Set
 from utc.src.graph.components import Skeleton, Graph, Route
+from utc.src.graph.components.skeleton_types import MergedType
 from utc.src.ui import UserInterface, Command
-from utc.src.file_system import MyFile, FilePaths
+from utc.src.file_system import MyFile, FilePaths, SumoNetworkFile
 from utc.src.file_system.directory_types import ScenarioDir
 from typing import List, Tuple, Optional
 
@@ -86,6 +87,7 @@ class GraphMain(UserInterface):
         if sub_graph is None:
             print("Could not create subgraph")
             return None
+        sub_graph.set_name(subgraph_name)
         self.graphs[subgraph_name] = sub_graph
         print(f"Finished creating sub-graph: {subgraph_name}")
         return routes
@@ -110,8 +112,10 @@ class GraphMain(UserInterface):
         if new_graph is None:
             print("Could not merge graphs")
             return
+        new_graph.set_name(graph_name)
         self.graphs[graph_name] = new_graph
         print(f"Finished merging graphs: {graph_a} with {graph_b}, created graph: {graph_name}")
+
 
     @UserInterface.log_command
     def save_graph_command(self, graph_name: str, file_name: str, scenario_name: str = None) -> bool:
@@ -150,6 +154,11 @@ class GraphMain(UserInterface):
         # File was not created
         if not success or not MyFile.file_exists(network_path):
             return False
+        # Add subgraphs if there were any to network file
+        if isinstance(graph.type, MergedType):
+            network_file: SumoNetworkFile = SumoNetworkFile(network_path)
+            network_file.insert_subgraphs(graph.type.get_subgraphs())
+            network_file.save()
         # Save info file if logging is enabled
         if self.logging_enabled:
             self.save_log(info_path, commands=self.reconstruct_graph(graph_name))

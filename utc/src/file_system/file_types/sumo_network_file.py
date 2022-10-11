@@ -1,7 +1,7 @@
 from utc.src.file_system.file_types.xml_file import XmlFile
 from xml.etree.ElementTree import Element
-from utc.src.file_system.file_constants import FileExtension, FilePaths
-from typing import Iterator, Optional
+from utc.src.file_system.file_constants import FileExtension
+from typing import Iterator, Dict, List, Optional
 
 
 class SumoNetworkFile(XmlFile):
@@ -76,7 +76,42 @@ class SumoNetworkFile(XmlFile):
         # Find all xml elements named "roundabout"
         yield from self.root.findall("roundabout")  # No need to check for internal
 
+    def get_subgraphs(self) -> Optional[Iterator[Element]]:
+        """
+        :return: generator of Subgraph xml elements, none if file is not loaded or
+        subgraphs xml element does not exist
+        """
+        # File is not loaded
+        if not self.is_loaded():
+            print(f"Xml file of sumo road network is not loaded, cannot return edges!")
+            return None
+        subgraphs = self.root.findall("subgraphs")
+        if not subgraphs:
+            return None
+        yield from list(subgraphs[0].iter(tag="subgraph"))
+
     # ------------------------------------------ Utils  ------------------------------------------
+
+    def insert_subgraphs(self, subgraphs: List[Dict[str, str]]) -> None:
+        """
+        :param subgraphs:
+        :return:
+        """
+        if not self.is_loaded():
+            print(f"File is not loaded, cannot insert subgraphs!")
+            return
+        elif not subgraphs:
+            return
+        temp: Element = Element("subgraphs")
+        # Used existing element to append new subgraphs
+        if len(self.root.findall("subgraphs")) != 0:
+            temp = self.root.findall("subgraphs")[0]
+        # Append new subgraphs
+        for attributes in subgraphs:
+            temp.append(Element("subgraph", attributes))
+        # Add element to tree if it does not exists
+        if len(self.root.findall("subgraphs")) == 0:
+            self.root.insert(1, temp)
 
     def get_known_path(self, file_name: str) -> str:
         return file_name

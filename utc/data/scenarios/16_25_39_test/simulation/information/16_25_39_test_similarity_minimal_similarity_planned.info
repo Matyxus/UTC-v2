@@ -1,0 +1,4 @@
+initialize new_scenario="16_25_39_test_similarity_minimal_similarity_planned" scenario="16_25_39_test" network="16_25_39_test_similarity_minimal_similarity_sg"
+generate_problems domain="utc" window="20"
+generate_results planner="Merwin" domain="utc" timeout="45" thread_count="3"
+generate_scenario keep_files="True"

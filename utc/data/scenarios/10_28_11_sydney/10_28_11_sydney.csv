@@ -1,0 +1,17 @@
+name,junctions,edges,length
+Sydney,441,1061,106541
+default_sg,267,515,49965
+similarity_average_dissimilarity_sg,231,342,33519
+similarity_average_similarity_sg,227,309,29550
+similarity_maximal_similarity_sg,219,301,29250
+similarity_minimal_similarity_sg,237,357,33894
+similarity_shortest_length_sg,217,295,27787
+name,total_results,initial_results,problem_count
+10_28_11_sydney_similarity_average_dissimilarity_planned,0,0,20
+10_28_11_sydney_similarity_minimal_similarity_planned,0,0,20
+10_28_11_sydney_similarity_shortest_length_planned,0,0,20
+10_28_11_sydney_default_planned,0,0,20
+10_28_11_sydney_similarity_maximal_similarity_planned,0,0,20
+10_28_11_sydney_similarity_average_similarity_planned,0,0,20
+name,routeLength,speed,duration,waitingTime,timeLoss,departDelay,departDelayWaiting,totalTravelTime,totalDepartDelay
+10_28_11_sydney,3092.82,5.03,739.72,363.66,537.75,294.04,-1.00,575503.00,228764.00

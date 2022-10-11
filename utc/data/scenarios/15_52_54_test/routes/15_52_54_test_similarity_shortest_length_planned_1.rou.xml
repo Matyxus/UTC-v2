@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<routes>
+	<vType accel="3.0" decel="6.0" id="CarDefault" length="5.0" minGap="2.5" maxSpeed="50.0" sigma="0.5" />
+	<route id="sr1067" edges="488 975 976 743 744 745 741 742 430 210 12 11 341 627 628 967 968 957 958 511 512 513 890 891 766 1018 1019 1020 1021 1022 898 961 1017 960 706" fromJunction="357" toJunction="248" />
+	<route id="r5367" edges="954 658 659 910 494 417 416 148 147 146 145 144 1030 1031 1032 336 433 69 617 621 988 209 831 832" fromJunction="77" toJunction="241" />
+	<route id="r5369" edges="280 279 714 500 262 311 345 332 331 56 55 54 53 52 558 771 772 563 14 1026 1027 446 445 447 758 759 760" fromJunction="316" toJunction="87" />
+	<route id="sr1065" edges="280 65 945 946 943 944 811 928 929 930 935 426 425 424 423 400 399 404 403 82 585 111 563 14 1026 1027 446 445 447 758 759 760" fromJunction="316" toJunction="87" />
+	<route id="r5368" edges="488 975 976 743 744 745 741 608 763 371 335 253 252 269 268 267 107 92 375 885 866 867 706" fromJunction="357" toJunction="248" />
+	<route id="sr1068" edges="954 658 659 910 494 417 416 148 147 146 145 144 1030 1031 1032 336 433 837 889 538 1010 831 832" fromJunction="77" toJunction="241" />
+	<vehicle id="v0" depart="0.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v21" depart="0.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v55" depart="0.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v1" depart="6.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v22" depart="10.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v56" depart="10.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v2" depart="12.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v3" depart="18.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v23" depart="20.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v57" depart="20.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v4" depart="24.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v60" depart="25" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v5" depart="30.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v24" depart="30.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v58" depart="30.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v61" depart="30" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v26" depart="31" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v6" depart="36.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v25" depart="40.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v27" depart="40.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v59" depart="40.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v62" depart="40.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v7" depart="42.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v28" depart="45.71" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v63" depart="45.71" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v8" depart="48.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v29" depart="51.43" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v64" depart="51.43" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v9" depart="54.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v30" depart="57.14" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v65" depart="57.14" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v10" depart="60.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v31" depart="62.86" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v66" depart="62.86" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v36" depart="63" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v35" depart="65" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v11" depart="66.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v32" depart="68.57" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v67" depart="68.57" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v37" depart="70" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v12" depart="72.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v33" depart="74.29" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v68" depart="74.29" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v70" depart="75" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v71" depart="75" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v13" depart="78.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v34" depart="80.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v38" depart="80.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v69" depart="80.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v72" depart="80.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v39" depart="83.33" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v73" depart="83.33" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v14" depart="84.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v40" depart="86.67" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v74" depart="86.67" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v15" depart="90.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v41" depart="90.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v75" depart="90.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v42" depart="93.33" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v76" depart="93.33" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v16" depart="96.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v43" depart="96.67" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v77" depart="96.67" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v44" depart="100.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v78" depart="100.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v17" depart="102.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v45" depart="103.33" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v79" depart="103.33" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v53" depart="104" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v52" depart="105" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v86" depart="105" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v46" depart="106.67" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v80" depart="106.67" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v18" depart="108.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v85" depart="108" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v47" depart="110.0" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v81" depart="110.0" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v48" depart="113.33" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v82" depart="113.33" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v19" depart="114.0" route="r5369" type="CarDefault" departLane="random" />
+	<vehicle id="v87" depart="115" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v51" depart="116" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v49" depart="116.67" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v83" depart="116.67" route="r5367" type="CarDefault" departLane="random" />
+	<vehicle id="v54" depart="119" route="r5368" type="CarDefault" departLane="random" />
+	<vehicle id="v20" depart="120.0" route="sr1065" type="CarDefault" departLane="random" />
+	<vehicle id="v50" depart="120.0" route="sr1067" type="CarDefault" departLane="random" />
+	<vehicle id="v84" depart="120.0" route="sr1068" type="CarDefault" departLane="random" />
+</routes>

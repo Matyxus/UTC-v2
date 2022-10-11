@@ -1,0 +1,4 @@
+initialize new_scenario="10_28_11_sydney_similarity_average_similarity_planned" scenario="10_28_11_sydney" network="10_28_11_sydney_similarity_average_similarity_sg"
+generate_problems domain="utc_allowed" window="30"
+generate_results planner="Merwin" domain="utc_allowed" timeout="40" processes="4"
+generate_scenario generate_best="True" keep_files="True"

@@ -149,6 +149,7 @@ class PlanQDLauncher(GraphMain):
         if sub_graph is None:
             print("Could not create subgraph")
             return False
+        sub_graph.set_name(new_subgraph)
         self.graphs[new_subgraph] = sub_graph
         print(f"Finished creating sub-graph: {new_subgraph}")
         return True

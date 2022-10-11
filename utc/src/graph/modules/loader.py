@@ -2,6 +2,7 @@ from utc.src.graph.components import Junction, Edge, Route
 from utc.src.graph.utils import Colors
 from utc.src.graph.modules.graph_module import GraphModule
 from utc.src.graph.components import Skeleton
+from utc.src.graph.components.skeleton_types import MergedType, NetworkType, SubgraphType
 from utc.src.file_system import SumoNetworkFile, FilePaths
 from typing import Dict, List, Optional
 
@@ -30,23 +31,45 @@ class Loader(GraphModule):
         # File does not exist
         if not self.network_file.file_exists(self.network_file):
             return False
+        self.skeleton.type = NetworkType(SumoNetworkFile.get_file_name(network_path), network_path)
         self.load_junctions()
         self.load_edges()
+        self.load_subgraphs()
         self.skeleton.roundabouts = self.load_roundabouts()
         self.edge_to_route.clear()
         self.skeleton.map_name = SumoNetworkFile.get_file_name(network_path)
         print("Finished loading road network")
+        # Clear
+        self.network_file = None
+        self.edge_to_route.clear()
         return True
 
     def load_junctions(self) -> None:
         """
-        Loads junctions from .net.xml
+        Loads junctions from '.net.xml' file
 
         :return: None
         """
         print("Loading & creating junctions")
         for xml_junction in self.network_file.get_junctions():
             self.skeleton.junctions[xml_junction.attrib["id"]] = Junction(xml_junction.attrib)
+        print("Finished loading & creating junctions")
+
+    def load_subgraphs(self) -> None:
+        """
+        Loads subgraphs from '.net.xml' file
+
+        :return: None
+        """
+        print("Loading & creating junctions")
+        sub_graphs = self.network_file.get_subgraphs()
+        if sub_graphs is None:
+            return
+        # Change type of skeleton
+        self.skeleton.type = MergedType(
+            self.skeleton.get_name(),
+            [SubgraphType(*sub_graph.attrib.values()) for sub_graph in sub_graphs]
+        )
         print("Finished loading & creating junctions")
 
     def load_edges(self) -> None:

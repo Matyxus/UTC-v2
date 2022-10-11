@@ -1,0 +1,4 @@
+initialize new_scenario="21_31_49_new_york_similarity_maximal_similarity_planned" scenario="21_31_49_new_york" network="21_31_49_new_york_similarity_maximal_similarity_sg"
+generate_problems domain="utc" window="30"
+generate_results planner="Merwin" domain="utc" timeout="60" processes="5"
+generate_scenario generate_best="True" keep_files="True"

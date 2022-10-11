@@ -14,7 +14,7 @@ pyvenv.cfg
 /utc/data/planners
 
 # Scenarios
-/utc/data/scenarios
+# /utc/data/scenarios
 
 # File pointer
 *.Identifier
