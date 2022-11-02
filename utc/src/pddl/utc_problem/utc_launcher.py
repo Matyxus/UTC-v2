@@ -68,7 +68,7 @@ class UtcLauncher(PddlLauncher):
                 return
             # Reset cars
             self.pddl_problem.pddl_vehicle.clear()
-            print(f"Finished generating '{i+1}/{interval}' problem file: '{self.pddl_problem.problem_name}'")
+            print(f"Finished generating '{i+1}/{interval}' problem file")
             start_time = end_time
             end_time += window
         # Discard class
@@ -101,7 +101,7 @@ class UtcLauncher(PddlLauncher):
             if result_count >= len(problem_files):
                 print(f"Result directory has more or equal to number of files in problem directory, exiting ..")
                 return False
-        print(f"Generating '{len(problem_files) - result_count}' pddl result files from: '{problem_files}'")
+        print(f"Generating '{len(problem_files) - result_count}' pddl result files")
         print(f"ETA: {round((len(problem_files) * timeout) / (60 * processes), 1)} minutes")
         if processes > 1:
             # Create pool
@@ -156,18 +156,16 @@ class UtcLauncher(PddlLauncher):
             FilePaths.PDDL_RESULT.format(self.scenario.scenario_folder, self.scenario.name, result_name)
         )
         # ------------------- Generate -------------------
-        # if self.logging_enabled:
-        #     self.add_comment(f"Planning {result_name} at {datetime.now()}")
         success, output = self.call_shell(planner_call, timeout, message=False, working_dir=out_dir.path)
         # If file was not generated, return (possibly low timeout)
         if not success:
             print(f"Error at generating result file: '{result_name}', try to increase timeout: '{timeout}'")
             return False
-        elif not (MyFile.file_exists(planner_call[3], message=False) or
-                  MyFile.file_exists(planner_call[3] + ".1", message=False)):
-            print(f"Unable to generate result file: '{result_name}', not enough time, increase timeout: '{timeout}'")
-            return False
-        print(f"Finished generating result file: {result_name}")
+        # elif not (MyFile.file_exists(planner_call[3], message=False) or
+        #          MyFile.file_exists(planner_call[3] + ".1", message=False)):
+        #    print(f"Unable to generate result file: '{result_name}', not enough time, increase timeout: '{timeout}'")
+        #    return False
+        print(f"Finished generating result file: '{result_name}'")
         return True
 
     @PddlLauncher.log_command

@@ -6,8 +6,9 @@ import numpy as np
 class VehicleFlows(VehicleGenerator):
     """ Class serving for generating vehicles """
 
-    def __init__(self, graph: Graph = None):
+    def __init__(self, graph: Graph = None, seed: int = 1):
         super().__init__(graph)
+        np.random.seed(seed)
         # Type of flow mapped to expected value (number of seconds) per vehicle send
         self.flow_types: Dict[str, int] = {
             "light":  7,
@@ -51,27 +52,40 @@ class VehicleFlows(VehicleGenerator):
 
     def uniform_flow(
             self, from_junction_id: str, to_junction_id: str,
-            vehicle_count: int, start_time: int, end_time: int
+            vehicle_count: int, start_time: int, end_time: int,
+            fluctuation: float = 0
             ) -> None:
         """
         :param from_junction_id: starting junction of cars
         :param to_junction_id: destination junction of cars
-        :param vehicle_count: number of vehicles (equally spaced)
+        :param vehicle_count: number of vehicles (equally spaced), might not be precise if
+        fluctuation is used (on average it is)
         :param start_time: of flow (seconds)
         :param end_time: of flow (seconds)
+        :param fluctuation: of flow (value between 0 & 1, taken as percentage)
         :return: None
         """
         # Check args
         if not self.check_args(from_junction_id, to_junction_id, vehicle_count, start_time, end_time):
             return
+        elif fluctuation < 0 or fluctuation > 1:
+            print(f"Fluctuation parameter must be value between 0 and 1, got: {fluctuation} !")
+            return
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         print("Generating uniform flow...")
+        # Add fluctuation
+        if fluctuation > 0:
+            periods: int = (end_time - start_time) // 20
+            fluctuating_vehicles: int = int(vehicle_count - vehicle_count * fluctuation) * 2
+            vehicle_interval: Tuple[int, int] = (0, max(fluctuating_vehicles // periods, 1))
+            vehicle_count = vehicle_count * fluctuation
+            self.generators.append(self.generate_random_flow(vehicle_interval, 20, route_id, (start_time, end_time)))
         self.generators.append(self.generate_uniform_flow((start_time, end_time), route_id, vehicle_count))
 
     def exponential_flow(
             self, from_junction_id: str, to_junction_id: str,
             start_time: int, end_time: int,
-            mode: str = "random"
+            mode: str = "random", increase: float = 1
             ) -> None:
         """
         Generates flow depending on parameter 'flow_type',
@@ -84,6 +98,8 @@ class VehicleFlows(VehicleGenerator):
         :param start_time: of flow (seconds)
         :param end_time: of flow (seconds)
         :param mode: 'random' or 'uniform'
+        :param increase: rate of increase of flow -> till achieving maximum capacity
+        (increases number of vehicles), must be higher than 0, default 1 (no increase)
         :return: None
         """
         # ---------------------- Checks ----------------------
@@ -93,11 +109,14 @@ class VehicleFlows(VehicleGenerator):
             print(f"Expected parameter mode to be one of: (random, uniform), got: {mode} !")
             return
         elif (end_time - start_time) < 120:
-            print(f"Duration of exponential flow has to be at least 120 seconds (2minutes), got: {end_time-start_time}")
+            print(f"Duration of exponential flow has to be at least 120 seconds, got: {end_time-start_time}")
+            return
+        elif increase < 0:
+            print(f"Parameter increase has to be higher than 1, got: {increase}")
             return
         route_id: str = self.get_path(from_junction_id, to_junction_id)
         print("Generating exponential flow...")
-        self.generators.append(self.generate_exponential_flow((start_time, end_time), route_id))
+        self.generators.append(self.generate_exponential_flow((start_time, end_time), route_id, increase))
 
     # -------------------------------------------- Generators --------------------------------------------
 
@@ -135,10 +154,15 @@ class VehicleFlows(VehicleGenerator):
         for depart_time in np.linspace(time_interval[0], time_interval[1], vehicle_count):
             yield Vehicle(round(depart_time, 2), route_id)
 
-    def generate_exponential_flow(self, time_interval: Tuple[int, int], route_id: str) -> Iterator[Vehicle]:
+    def generate_exponential_flow(
+            self, time_interval: Tuple[int, int],
+            route_id: str, increase: float
+            ) -> Iterator[Vehicle]:
         """
-        :param time_interval:
-        :param route_id:
+        :param time_interval: of vehicles arrival time (start_time, end_time)
+        :param route_id: id of route that cars will use
+        :param increase: rate of increase of flow (direct multiplier for number of vehicles),
+        must be higher than 0, if equal to 1 -> no increase (default)
         :return:
         """
         duration: int = time_interval[1] - time_interval[0]

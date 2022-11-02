@@ -10,7 +10,7 @@ pyvenv.cfg
 # Compiled "osmfilter.c"
 /utc/data/osm_filter/osmfilter
 
-# Planners (Cerberus, Merwin)
+# Planners (Mercury, Merwin)
 /utc/data/planners
 
 # Scenarios

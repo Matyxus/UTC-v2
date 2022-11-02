@@ -85,9 +85,9 @@ class UtcNetwork(PddlNetwork):
             print(f"Graph: {skeleton.get_name()} is missing merges, allowed predicate will not be added")
             return
         allowed_object: str = "(allowed {0} j{1})"
-        graph: Graph = Graph(skeleton)
+        # graph: Graph = Graph(skeleton)
         for attributes in skeleton.type.get_subgraphs():
-            fig, ax = graph.display.default_plot()
+            # fig, ax = graph.display.default_plot()
             edges = set(attributes["edges"].split(","))
             if not edges:
                 print(f"Found empty edges for subgraph: {attributes['id']} in graph: {skeleton.get_name()}")
@@ -98,11 +98,11 @@ class UtcNetwork(PddlNetwork):
             for route_id, route in skeleton.routes.items():
                 route_edges = set(route.get_edge_ids())
                 if len(route_edges & edges) == len(route_edges):
-                    graph.skeleton.routes[route_id].plot(ax, "blue")
+                    # graph.skeleton.routes[route_id].plot(ax, "blue")
                     self.add_init_state(allowed_object.format(route_id, destination))
-            graph.display.add_label("_", "blue", f"Graph: {attributes['id']} routes")
-            graph.display.make_legend(1)
-            graph.display.show_plot()
+            # graph.display.add_label("_", "blue", f"Graph: {attributes['id']} routes")
+            # graph.display.make_legend(1)
+            # graph.display.show_plot()
 
     def calculate_thresholds(self, capacity: int, route_id: str) -> List[str]:
         """
