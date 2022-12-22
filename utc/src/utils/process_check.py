@@ -29,8 +29,16 @@ def check_process_count(processes: int) -> bool:
     return True
 
 
+def get_max_processes() -> int:
+    """
+    :return: maximal amount of process that can be run at the same time
+    """
+    return psutil.cpu_count(logical=False)
+
+
 # For resting purposes
 if __name__ == "__main__":
     print(psutil.cpu_count())
     print(psutil.cpu_count(logical=False))
+    print(get_max_processes())
 

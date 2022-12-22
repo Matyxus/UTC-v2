@@ -2,7 +2,6 @@ from utc.src.simulator.vehicle.generators import VehicleGenerator, VehicleFlows,
 from utc.src.simulator.vehicle.factory.bst import BST
 from utc.src.graph.components import Graph
 from xml.etree.ElementTree import Element
-from numpy.random import seed
 from typing import Dict, List, Tuple
 
 
@@ -16,9 +15,6 @@ class VehicleFactory(VehicleGenerator):
     def __init__(self, graph: Graph):
         super().__init__(graph)
         print("Initialized VehicleFactory")
-        # Random
-        self.SEED: int = 42
-        seed(self.SEED)
         # Vehicle generators
         self.vehicle_flows: VehicleFlows = VehicleFlows()
         self.vehicle_trips: VehicleTrips = VehicleTrips()

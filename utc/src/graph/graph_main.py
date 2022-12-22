@@ -116,7 +116,6 @@ class GraphMain(UserInterface):
         self.graphs[graph_name] = new_graph
         print(f"Finished merging graphs: {graph_a} with {graph_b}, created graph: {graph_name}")
 
-
     @UserInterface.log_command
     def save_graph_command(self, graph_name: str, file_name: str, scenario_name: str = None) -> bool:
         """
@@ -224,40 +223,37 @@ class GraphMain(UserInterface):
         elif not self.commands_log[-1].name == "save_graph":
             print(f"Expected last command to be 'save_graph' !")
             return None
-
-        def recursive_search(g_name: str, index: int) -> List[Tuple[str, str]]:
-            """
-            :param g_name: name of graph which is currently being reconstructed
-            :param index: current command index
-            :return: list of commands used to create graph
-            """
-            if index < 0:
-                return []
+        ret_val: List[Tuple[str, str]] = []
+        searching_for: Set[str] = {graph_name}
+        index: int = len(self.commands_log)-2
+        while len(searching_for) != 0 and index > -1:
+            # Extract log
             command_log = self.commands_log[index]
             command_args: Dict[str, str] = command_log.get_args_dict()
-            ret_val: List[Tuple[str, str]] = [(command_log.name, command_log.get_args_text())]
-            if command_log.name == "subgraph" and g_name in command_args["subgraph_name"]:
+            current: Tuple[str, str] = (command_log.name, command_log.get_args_text())
+            # Check command name
+            if command_log.name == "subgraph" and command_args["subgraph_name"] in searching_for:
                 # Return the command and search how "network" was created (from which current graph originated)
-                return ret_val + recursive_search(command_args["graph_name"], index-1)
-            elif command_log.name == "merge" and g_name in command_args["graph_name"]:
-                return (  # Search subgraph\s from which current graph was merged
-                        ret_val + recursive_search(command_args["graph_a"], index-1) +
-                        recursive_search(command_args["graph_b"], index-1)
-                )
-            elif command_log.name == "similarity_metric" and g_name in command_args["new_subgraph"]:
+                searching_for.remove(command_args["subgraph_name"])
+                searching_for.add(command_args["graph_name"])
+                ret_val.append(current)
+            elif command_log.name == "merge" and command_args["graph_name"] in searching_for:
+                searching_for.remove(command_args["graph_name"])
+                # Search subgraph\s from which current graph was merged
+                searching_for.add(command_args["graph_a"])
+                searching_for.add(command_args["graph_b"])
+                ret_val.append(current)
+            elif command_log.name == "similarity_metric" and command_args["new_subgraph"] in searching_for:
+                searching_for.remove(command_args["new_subgraph"])
                 # Search original subgraph on which metric was applied on
-                return ret_val + recursive_search(command_args["subgraph"], index-1)
-            elif command_log.name == "load_graph" and g_name in command_args["map_name"]:
-                return ret_val  # Graph was loaded, end of search
-            # Else look for other commands
-            return recursive_search(g_name, index-1)
-        # Star recursive search
-        save_log = self.commands_log[-1]
-        save_args: Dict[str, str] = save_log.get_args_dict()
-        return (
-                recursive_search(save_args["graph_name"], len(self.commands_log)-2)[::-1] +
-                [(save_log.name, save_log.get_args_text())]
-        )
+                searching_for.add(command_args["subgraph"])
+                ret_val.append(current)
+            elif command_log.name == "load_graph" and command_args["map_name"] in searching_for:
+                searching_for.remove(command_args["map_name"])
+                ret_val.append(current)  # Graph was loaded, end of search
+            index -= 1
+        save_log = self.commands_log[-1]  # Add 'save_command'
+        return ret_val[::-1] + [(save_log.name, save_log.get_args_text())]
 
 
 # Program start

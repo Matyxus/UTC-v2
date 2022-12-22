@@ -143,12 +143,14 @@ class PLANNERS:
     Class defining planner calls as format string (expected
     arguments are "domain_file.pddl" "problem_file.pddl" "result_file.pddl")
     """
-    CERBERUS: str = ("python3 " + DirPaths.PDDL_PLANNERS.format("Cerberus/plan.py") + " {0} {1} {2}")
     MERWIN: str = (DirPaths.PDDL_PLANNERS.format("Merwin/plan") + " {0} {1} {2}")
+    MERCURY: str = (DirPaths.PDDL_PLANNERS.format("Mercury/plan-utc") + " {0} {1} {2}")
 
     @staticmethod
     def get_planner(planner_name: str) -> str:
         """
+        Expecting the input of planner to be domain file, problem file, result file (name)
+
         :param planner_name: name of planner
         :return: format string for shell/cmd command of planner, empty if planner does not exist
         """

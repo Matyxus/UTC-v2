@@ -1,18 +1,18 @@
 {
   "pddl_params": {
-    "timeout": 60,
+    "timeout": 25,
     "window": 30,
-    "planner": "Merwin",
-    "domain": "utc"
+    "planner": "Mercury",
+    "domain": "utc_allowed"
   },
-  "scenario_name": "new_york",
-  "duration": 600,
-  "seed": 45,
+  "scenario_name": "new_york_increasing",
+  "duration": 3600,
+  "seed": 205,
   "num_scenarios": 1,
   "probability_file": "New_York",
   "network": "New_York",
   "num_cpus": 1,
-  "num_processes": 5,
+  "num_processes": 4,
   "num_threads": 3,
   "time_limit": null,
   "metrics": {
@@ -23,7 +23,7 @@
     ]
   },
   "k": null,
-  "flows": ["random_flow", "exponential_flow", "uniform_flow"],
+  "flows": ["exponential_flow"],
   "flow_count": 4,
-  "c": 1.35
+  "c": 1.3
 }

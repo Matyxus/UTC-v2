@@ -1,3 +1,0 @@
-initialize new_scenario="13_48_33_test_default_planned" scenario="13_48_33_test" network="13_48_33_test_default_sg"
-generate_results planner="Merwin" domain="utc" timeout="120" thread_count="3"
-generate_scenario keep_files="True"

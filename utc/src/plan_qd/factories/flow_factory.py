@@ -1,6 +1,8 @@
-from utc.src.graph.components import Skeleton, Graph, Route
+from utc.src.graph.components import Graph, Route
 from utc.src.file_system import ProbabilityFile
+from numpy import arange
 from numpy.random import choice, seed
+from random import sample
 from typing import Dict, Tuple, List, Set, Optional, Any
 
 
@@ -25,13 +27,12 @@ class FlowFactory:
         )
         # Probability matrix of flows
         self.prob_matrix: Dict[str, Dict[str, int]] = prob_file.probability_matrix
-        self.flow_range: Tuple[int, int] = (2, 6)  # Min, Max amount of flows
         self.junctions: Set[str] = set()  # Junctions of currently selected flows
         self.routes: Dict[str, Dict[str, Route]] = {
             # from_junction : {to_junction : Route, ...}, ..
         }
         # Maximal amount of tries to choose destination junction
-        self.max_tries: int = 20
+        self.max_tries: int = 50
 
     def generate_flows(self, start_time: int, end_time: int, amount: int = 0) -> List[Tuple[str, List[Any]]]:
         """
@@ -43,8 +44,8 @@ class FlowFactory:
         """
         if not self.check_prob_matrix():
             return []
-        elif amount < 0:
-            print(f"Amount has to be at least '0', got: '{amount}'")
+        elif amount <= 0:
+            print(f"Parameter amount has to be at least '1', got: '{amount}'")
             return []
 
         def generate_flow(path: Tuple[str, str], time_interval: Tuple[int, int]) -> Tuple[str, List[Any]]:
@@ -59,15 +60,14 @@ class FlowFactory:
                 args = [*path, *sorted(choice(range(0, 15), size=2)), 20, *time_interval]
             elif flow_name == "uniform_flow":
                 duration: int = end_time-start_time
-                args = [*path, choice(range(duration//7, duration//3)), *time_interval]
+                args = [
+                    *path, choice(range(duration//5, duration//3)),
+                    *time_interval, round(choice(arange(0.05, 0.2, 0.05)), 2)
+                ]
             elif flow_name == "exponential_flow":
-                args = [*path, *time_interval, "random"]
+                args = [*path, *time_interval, round(choice(arange(0.75, 1.5, 0.1)), 2)]
             return flow_name, args
 
-        # Random assigned
-        if amount == 0:
-            amount = choice(range(*self.flow_range))
-            print(f"Chose random number of flows: {amount}")
         ret_val: List[Tuple[str, List[Any]]] = []
         print(f"Generating {amount} flows")
         for route in self.generate_paths(amount):
@@ -95,6 +95,7 @@ class FlowFactory:
         # ------------- Init -------------
         routes: List[Route] = []
         starting_junctions: List[str] = list(self.prob_matrix.keys())
+        print(f"Starting junctions: {starting_junctions}")
         probabilities: Dict[str, List[float]] = {
             # from_junction : [chance to pick, .... ]
         }
@@ -113,9 +114,9 @@ class FlowFactory:
             """
             route: Optional[Route] = None
             # Choose random starting junction (try only certain amount of times
-            for starting_junction in choice(starting_junctions, size=self.max_tries):
+            for starting_junction in sample(starting_junctions, len(starting_junctions)):
                 # print(f"Starting search from: {starting_junction}")
-                # Flow already exists from this junction
+                # Already explored
                 if starting_junction in self.routes:
                     continue
                 self.routes[starting_junction] = {}
@@ -130,7 +131,7 @@ class FlowFactory:
                     self.routes[starting_junction][to_junction] = route
                     # No path or no "conflict" found between junctions of previous flows, search again
                     if route is None or not (set(route.get_junctions()) & discovered):
-                        # print(f"Route is 'None': {route is None}")
+                        print(f"Route is 'None': {route is None}")
                         continue
                     return route
             return route
@@ -183,15 +184,4 @@ class FlowFactory:
                     )
                     return False
         return True
-
-
-# For testing purposes
-if __name__ == "__main__":
-    graph: Graph = Graph(Skeleton())
-    graph.loader.load_map("Dejvice")
-    graph.simplify.simplify_graph()
-    temp: FlowFactory = FlowFactory(graph, ProbabilityFile("dejvice"))
-    for flow_name, flow_args in temp.generate_flows(0, 300, amount=4):
-        print(flow_name, flow_args)
-
 

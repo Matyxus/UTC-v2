@@ -98,7 +98,6 @@ class PlanQDLauncher(GraphMain):
             sub_graph_name: str = f"{sort_by}_0"
             # Merge
             for i in range(1, len(self.subgraph_routes)):
-                print()
                 self.merge_command(sub_graph_name, sub_graph_name, f"{sort_by}_{i}")
             # Save
             self.save_graph_command(sub_graph_name, curr_file_name, scenario_name=scenario_name)
@@ -136,7 +135,8 @@ class PlanQDLauncher(GraphMain):
             print(f"Missing subgraph: {subgraph} logged in subgraph routes!")
             return False
         ranking: List[int] = self.similarity_metric.calculate(
-            self.subgraph_routes[subgraph],
+            self.subgraph_routes[subgraph], eps=eps,
+            min_samples=min_samples,
             sort_by=sort_by, sim_matrix=self.similarity_matrix,
             reduced_dataset=self.reduced_dataset, k=k
         )

@@ -73,8 +73,8 @@ class VehicleGenerator:
         raise NotImplementedError("Method: 'get_methods' must be implemented by children of VehicleGenerator !")
 
     def check_args(
-            self, from_junction_id: str = "", to_junction_id: str = "", amount: int = 1,
-            start_time: float = 0, end_time: float = 1
+            self, from_junction_id: str = "", to_junction_id: str = "",
+            amount: int = 1, start_time: float = 0, end_time: float = 1
             ) -> bool:
         """
         :param from_junction_id:

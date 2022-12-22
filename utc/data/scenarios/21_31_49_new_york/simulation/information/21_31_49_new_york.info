@@ -1,7 +1,0 @@
-generate_scenario scenario_name="21_31_49_new_york" network_name="New_York"
-uniform_flow from_junction_id="42" to_junction_id="154" vehicle_count="189" start_time="0" end_time="600"
-random_flow from_junction_id="11" to_junction_id="127" minimal="1" maximal="9" period="20" start_time="0" end_time="600"
-uniform_flow from_junction_id="127" to_junction_id="11" vehicle_count="129" start_time="0" end_time="600"
-random_flow from_junction_id="154" to_junction_id="42" minimal="9" maximal="14" period="20" start_time="0" end_time="600"
-exponential_flow from_junction_id="132" to_junction_id="154" start_time="0" end_time="600" mode="random"
-save_scenario 

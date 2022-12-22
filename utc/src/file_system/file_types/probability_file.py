@@ -53,8 +53,7 @@ class ProbabilityFile(MyFile):
 
     def read_file(self) -> Optional[Dict[str, Dict[str, int]]]:
         """
-        :return: Probability matrix read from file, None
-        if error occurred
+        :return: Probability matrix read from file, None if error occurred
         """
         lines: List[str] = []
         # Read file
@@ -64,7 +63,7 @@ class ProbabilityFile(MyFile):
                 print(f"File '{self.file_path}' does not exist!")
                 self.mode = "w+"
                 return None
-            lines = probability_file.readlines()
+            lines = probability_file.read().splitlines()
         self.mode = "w+"
         # Process file
         if not lines:

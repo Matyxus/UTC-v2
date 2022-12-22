@@ -1,5 +1,0 @@
-generate_scenario scenario_name="18_16_28_sydney" network_name="Sydney"
-random_flow from_junction_id="241" to_junction_id="248" minimal="3" maximal="8" period="20" start_time="0" end_time="120"
-random_flow from_junction_id="315" to_junction_id="241" minimal="7" maximal="11" period="20" start_time="0" end_time="120"
-exponential_flow from_junction_id="292" to_junction_id="315" start_time="0" end_time="120" mode="random"
-save_scenario 

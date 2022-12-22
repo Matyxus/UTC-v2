@@ -1,6 +1,0 @@
-generate_scenario scenario_name="19_59_48_sydney" network_name="Sydney"
-exponential_flow from_junction_id="241" to_junction_id="316" start_time="0" end_time="600" mode="random"
-uniform_flow from_junction_id="77" to_junction_id="316" vehicle_count="186" start_time="0" end_time="600"
-random_flow from_junction_id="292" to_junction_id="87" minimal="2" maximal="12" period="20" start_time="0" end_time="600"
-exponential_flow from_junction_id="315" to_junction_id="357" start_time="0" end_time="600" mode="random"
-save_scenario 

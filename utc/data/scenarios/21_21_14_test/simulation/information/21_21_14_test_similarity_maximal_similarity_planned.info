@@ -1,4 +1,0 @@
-initialize new_scenario="21_21_14_test_similarity_maximal_similarity_planned" scenario="21_21_14_test" network="21_21_14_test_similarity_maximal_similarity_sg"
-generate_problems domain="utc" window="20"
-generate_results planner="Merwin" domain="utc" timeout="30" thread_count="3"
-generate_scenario keep_files="True"

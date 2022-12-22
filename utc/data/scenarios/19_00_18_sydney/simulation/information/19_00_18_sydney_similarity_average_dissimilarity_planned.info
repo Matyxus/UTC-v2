@@ -1,4 +1,0 @@
-initialize new_scenario="19_00_18_sydney_similarity_average_dissimilarity_planned" scenario="19_00_18_sydney" network="19_00_18_sydney_similarity_average_dissimilarity_sg"
-generate_problems domain="utc" window="30"
-generate_results planner="Merwin" domain="utc" timeout="60" processes="4"
-generate_scenario generate_best="True" keep_files="True"

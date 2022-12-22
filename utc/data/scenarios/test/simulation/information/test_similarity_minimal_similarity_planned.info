@@ -1,4 +1,0 @@
-initialize new_scenario="test_similarity_minimal_similarity_planned" scenario="test" network="test_similarity_minimal_similarity_sg"
-generate_problems domain="utc" window="30"
-generate_results planner="Merwin" domain="utc" timeout="15" processes="4"
-generate_scenario generate_best="True" keep_files="True"

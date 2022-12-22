@@ -1,5 +1,6 @@
 from utc.src.file_system import FilePaths
 from utc.src.plan_qd.parameters.parameter import Parameter
+from utc.src.utils.process_check import get_max_processes
 from typing import List, Dict, Union
 
 
@@ -17,9 +18,11 @@ class SessionParameters(Parameter):
 
     def get_process_count(self) -> int:
         """
-        :return: the maximal number of processes to be run
+        :return: the number of processes to be run
         in parallel at the same time
         """
+        if isinstance(self.objects["num_processes"], str) and self.objects["num_processes"] == "max":
+            return get_max_processes()
         return self.objects["num_processes"]
 
     def get_thread_count(self) -> int:

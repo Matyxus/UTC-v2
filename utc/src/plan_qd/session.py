@@ -7,13 +7,13 @@ from utc.src.plan_qd.parameters import SessionParameters
 from utc.src.plan_qd.factories import FlowFactory
 from utc.src.file_system import (
     InfoFile, FilePaths, MyFile, SumoConfigFile,
-    ProbabilityFile, StatisticsFile,
+    ProbabilityFile, StatisticsFile, SumoRoutesFile,
     MyDirectory, DirPaths, DefaultDir, ScenarioDir
 )
 from utc.src.utils import TraciOptions
 from datetime import datetime
 from pandas import DataFrame
-from typing import Dict, List, Tuple, Set, Optional
+from typing import Dict, List, Tuple, Optional
 from numpy import array_equal
 
 
@@ -26,7 +26,6 @@ class Session:
     def __init__(self):
         self.parameters: Optional[SessionParameters] = None
         self.scenario_dir: Optional[ScenarioDir] = None
-        self.default_subgraph: str = ""
 
     def load_parameters(self, parameters_file: SessionParameters) -> bool:
         """
@@ -155,13 +154,13 @@ class Session:
             # Unable to generate default sub-graph
             if ret_val is None:
                 return False
-        self.default_subgraph = scenario_name + "_default_sg"
-        print(f"Successfully generated default subgraph: {self.default_subgraph}")
+        default_subgraph = scenario_name + "_default_sg"
+        print(f"Successfully generated default subgraph: {default_subgraph}")
         # Create subgraph for metric
         if "similarity_metric" in self.parameters.get_metrics():
             ret = graph_main.similarity_factory(
                 self.parameters.get_metrics()["similarity_metric"], self.scenario_dir.name,
-                self.default_subgraph, self.parameters.get_k_parameter(),
+                default_subgraph, self.parameters.get_k_parameter(),
                 self.parameters.get_process_count()
             )
             if ret is None:
@@ -175,8 +174,8 @@ class Session:
         for i in range(1, len(paths)):
             graph_main.merge_command("sg0", f"sg0", f"sg{i}")
         # Save
-        graph_main.save_graph_command("sg0", self.default_subgraph, scenario_name=self.scenario_dir.name)
-        return MyFile.file_exists(FilePaths.SCENARIO_MAP.format(scenario_name, self.default_subgraph))
+        graph_main.save_graph_command("sg0", default_subgraph, scenario_name=self.scenario_dir.name)
+        return MyFile.file_exists(FilePaths.SCENARIO_MAP.format(scenario_name, default_subgraph))
 
     def generate_plans(self, scenario_name: str = "") -> bool:
         """
@@ -198,7 +197,7 @@ class Session:
         )
         pddl_parameters: dict = self.parameters.get_pddl_parameters()
         utc_launcher: UtcLauncher = UtcLauncher()
-        for sub_graph in sub_graphs:
+        for index, sub_graph in enumerate(sub_graphs):
             if not sub_graph.endswith("_sg"):
                 print(f"Invalid subgraph: {sub_graph}, does not end with '_sg'")
                 continue
@@ -210,6 +209,7 @@ class Session:
                 pddl_parameters["timeout"], self.parameters.get_process_count()
             )
             utc_launcher.generate_scenario_command()
+            print(f"Finished planning on subgraph: {sub_graphs}, {index+1}/{len(sub_graphs)}")
         return True
 
     def generate_report(self, scenario_name: str) -> None:
@@ -228,7 +228,6 @@ class Session:
         if not sub_graphs:
             print(f"Networks folder is empty!")
             return
-        print(f"Sub-graphs related to scenario: {sub_graphs}")
         data: Dict[str, List[str]] = {
             "name": [],
             "junctions": [],
@@ -263,12 +262,10 @@ class Session:
         for plan_dir in plan_dirs:
             print(f"Parsing result files of dir: {plan_dir.name}")
             data["name"].append(plan_dir.name)
-            plan_files: List[str] = plan_dir.get_files(extension=True)
+            plan_files: List[str] = plan_dir.get_files()
             data["total_results"].append(str(len(plan_files)))
-            # ".1" initial result files
-            data["initial_results"].append(
-                str(len([plan_name for plan_name in plan_files if ".1" in plan_name]))
-            )
+            # initial result files
+            data["initial_results"].append(str(len(set(plan_files))))
             data["problem_count"].append(
                 str(len(self.scenario_dir.problems_dir.get_sub_dir(plan_dir.name).get_files()))
             )
@@ -276,37 +273,82 @@ class Session:
             # edit_time: str = datetime.fromtimestamp(val).strftime('%Y-%m-%d %H:%M:%S')
         plans_stats: DataFrame = DataFrame(data)
         print(f"Finished creating plans comparison")
-        # Construct information about vehicles
+        # ------------------------  Construct information about vehicles ------------------------
+        print(f"Generating vehicles comparison")
+        data: Dict[str, List[str]] = {
+            "flow_name": [],
+            "from": [],
+            "to": [],
+            "duration": [],
+            "per_minute": [],
+            "total": []
+        }
+        commands_order, commands = InfoFile(FilePaths.SCENARIO_INFO.format(scenario_name, scenario_name)).load_data()
+        # Count how many vehicles use each rout
+        sumo_routes: SumoRoutesFile = SumoRoutesFile(FilePaths.SCENARIO_ROUTES.format(scenario_name, scenario_name))
+        routes: Dict[str, dict] = {}
+        for route in sumo_routes.root.findall("route"):
+            routes[route.attrib["id"]] = {
+                "from": route.attrib["fromJunction"],
+                "to": route.attrib["toJunction"],
+                "count": 0
+            }
+        for vehicle in sumo_routes.root.findall("vehicle"):
+            if vehicle.attrib["route"] in routes:
+                routes[vehicle.attrib["route"]]["count"] += 1
+        # Get flow paths
+        for command_name, command_args in commands.items():
+            if "flow" not in command_name:
+                continue
+            # Multiple same named flows
+            for flow_args in command_args:
+                data["flow_name"].append(command_name)
+                args_mapping: Dict[str, str] = CommandParser.parse_args_text(flow_args)
+                data["from"].append(args_mapping["from_junction_id"])
+                data["to"].append(args_mapping["to_junction_id"])
+                data["duration"].append(str(int(args_mapping["end_time"]) - int(args_mapping["start_time"])))
+                for route, route_attrib in routes.items():
+                    if route_attrib["from"] == data["from"][-1] and route_attrib["to"] == data["to"][-1]:
+                        data["total"].append(str(route_attrib["count"]))
+                        data["per_minute"].append(
+                            str(round(route_attrib["count"] / round(int(data["duration"][-1]) / 60, 2), 1))
+                        )
+                        break
+        vehicles_stats: DataFrame = DataFrame(data)
+        print(f"Finished creating plans comparison")
         # ------------------------  Construct scenario statistics comparison ------------------------
-        scenarios: List[str] = self.scenario_dir.simulation_dir.config_dir.get_files(extension=True, full_path=True)
-        # Generate statistics
+        scenarios: List[str] = sorted(
+            self.scenario_dir.simulation_dir.config_dir.get_files(extension=True, full_path=True)
+        )
+        # Generate statistics and record vehicle statistics
         traci_options: TraciOptions = TraciOptions()
         print(f"Generating statistics for scenarios")
-        for scenario_path in scenarios:
-            scenario_path = MyFile.get_file_name(scenario_path)
-            command: str = "sumo " + " ".join(traci_options.get_all(scenario_path, scenario_name))
-            UtcLauncher.call_shell(command, message=False)
-        print(f"Finished generating statistics")
-        # Compare statistics
-        print(f"Comparing vehicle statistics")
         data: Dict[str, List[str]] = {
             "name": []
         }
-        for scenario in sorted(scenarios):
-            scenario = MyFile.get_file_name(scenario)
+        for scenario_path in scenarios:
+            scenario_path = MyFile.get_file_name(scenario_path)
+            command: str = "sumo " + " ".join(traci_options.get_all(scenario_path, scenario_name))
+            success, _ = UtcLauncher.call_shell(command, message=False)
+            if not success:
+                print(f"Error at generating statistics for scenario: {scenario_path}")
+                continue
             statistic_file: StatisticsFile = StatisticsFile(
-                FilePaths.SCENARIO_STATISTICS.format(scenario_name, scenario)
+                FilePaths.SCENARIO_STATISTICS.format(scenario_name, scenario_path)
             )
-            if scenario != scenario_name:
-                scenario = scenario.replace(scenario_name + "_", "")
-            data["name"].append(scenario)
+            if not statistic_file.is_loaded():
+                continue
+            if scenario_path != scenario_name:
+                scenario_path = scenario_path.replace(scenario_name + "_", "")
+            data["name"].append(scenario_path)
             for key, value in statistic_file.get_vehicle_stats().items():
                 if key not in data:
                     data[key] = []
                 data[key].append(value)
         scenario_stats: DataFrame = DataFrame(data)
-        print(f"Finished comparing vehicle statistics")
+        print(f"Finished generating statistics")
         graphs_stats.to_csv(FilePaths.SCENARIO_COMPARISON.format(scenario_name, scenario_name), index=False)
+        vehicles_stats.to_csv(FilePaths.SCENARIO_COMPARISON.format(scenario_name, scenario_name), index=False, mode="a")
         plans_stats.to_csv(FilePaths.SCENARIO_COMPARISON.format(scenario_name, scenario_name), index=False, mode="a")
         scenario_stats.to_csv(FilePaths.SCENARIO_COMPARISON.format(scenario_name, scenario_name), index=False, mode="a")
 
@@ -361,6 +403,6 @@ class Session:
 
 if __name__ == "__main__":
     session: Session = Session()
-    session.start_generating(SessionParameters("sydney_session"))
+    session.start_generating(SessionParameters("sydney_session_static"))
 
 

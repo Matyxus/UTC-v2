@@ -5,11 +5,11 @@
     "planner": "Mercury",
     "domain": "utc_allowed"
   },
-  "scenario_name": "sydney_increasing",
+  "scenario_name": "sydney_static",
   "duration": 3600,
-  "seed": 466,
+  "seed": 510,
   "num_scenarios": 1,
-  "probability_file": "Sydney",
+  "probability_file": "Sydney_static",
   "network": "Sydney",
   "num_cpus": 1,
   "num_processes": 4,
@@ -17,13 +17,11 @@
   "time_limit": null,
   "metrics": {
     "similarity_metric": [
-      "average_similarity", "average_dissimilarity",
-      "maximal_similarity", "minimal_similarity",
-      "shortest_length"
+      "average_similarity", "minimal_similarity", "shortest_length"
     ]
   },
   "k": null,
-  "flows": ["exponential_flow"],
+  "flows": ["exponential_flow", "uniform_flow"],
   "flow_count": 4,
   "c": 1.3
 }
