@@ -1,0 +1,4 @@
+initialize new_scenario="11_47_11_new_york_static_default_planned" scenario="11_47_11_new_york_static" network="11_47_11_new_york_static_default_sg"
+generate_problems domain="utc_allowed" window="30"
+generate_results planner="Mercury" domain="utc_allowed" timeout="25" processes="4"
+generate_scenario generate_best="True" keep_files="True"

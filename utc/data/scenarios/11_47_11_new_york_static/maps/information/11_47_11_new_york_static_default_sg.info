@@ -1,0 +1,7 @@
+load_graph map_name="New_York"
+subgraph subgraph_name="sg0" graph_name="New_York" from_junction="127" to_junction="117" c="1.3" plot="False"
+subgraph subgraph_name="sg1" graph_name="New_York" from_junction="154" to_junction="42" c="1.3" plot="False"
+subgraph subgraph_name="sg2" graph_name="New_York" from_junction="42" to_junction="11" c="1.3" plot="False"
+merge graph_name="sg0" graph_a="sg0" graph_b="sg1" plot="False"
+merge graph_name="sg0" graph_a="sg0" graph_b="sg2" plot="False"
+save_graph graph_name="sg0" file_name="11_47_11_new_york_static_default_sg" scenario_name="11_47_11_new_york_static"

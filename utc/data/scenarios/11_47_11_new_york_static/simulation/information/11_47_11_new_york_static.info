@@ -1,0 +1,5 @@
+generate_scenario scenario_name="11_47_11_new_york_static" network_name="New_York"
+uniform_flow from_junction_id="127" to_junction_id="117" vehicle_count="1034" start_time="0" end_time="3600" fluctuation="0.1"
+exponential_flow from_junction_id="154" to_junction_id="42" start_time="0" end_time="3600" increase="1.05"
+exponential_flow from_junction_id="42" to_junction_id="11" start_time="0" end_time="3600" increase="1.05"
+save_scenario 

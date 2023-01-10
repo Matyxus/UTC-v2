@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+	<input>
+		<net-file value="../../../../maps/sumo/New_York.net.xml" />
+		<route-files value="../../routes/11_47_11_new_york_static_default_planned_1.rou.xml" />
+	</input>
+	<time>
+		<begin value="0" />
+		<end value="300000" />
+	</time>
+	<processing>
+		<time-to-teleport value="-1" />
+	</processing>
+	<additional>
+    </additional>
+</configuration>

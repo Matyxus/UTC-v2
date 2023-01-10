@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2022-12-27 11:59:45 by Eclipse SUMO sumo Version 1.12.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="/home/svadlmat/UTC/utc/data/scenarios/11_47_11_new_york_static/simulation/config/../../../../maps/sumo/New_York.net.xml"/>
+        <route-files value="/home/svadlmat/UTC/utc/data/scenarios/11_47_11_new_york_static/simulation/config/../../routes/11_47_11_new_york_static.rou.xml"/>
+    </input>
+
+    <output>
+        <statistic-output value="/home/svadlmat/UTC/utc/data/scenarios/11_47_11_new_york_static/simulation/statistics/11_47_11_new_york_static.stat.xml"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="300000"/>
+    </time>
+
+    <processing>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <verbose value="true"/>
+        <duration-log.statistics value="true"/>
+    </report>
+
+</configuration>
+-->
+
+<statistics xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/statistic_file.xsd">
+    <vehicles loaded="2991" inserted="2991" running="0" waiting="0"/>
+    <teleports total="0" jam="0" yield="0" wrongLane="0"/>
+    <safety collisions="0" emergencyStops="0"/>
+    <persons loaded="0" running="0" jammed="0"/>
+    <vehicleTripStatistics routeLength="2177.76" speed="1.29" duration="3922.23" waitingTime="3346.20" timeLoss="3806.42" departDelay="15005.20" departDelayWaiting="-1.00" totalTravelTime="11731404.00" totalDepartDelay="44880558.00"/>
+    <pedestrianStatistics number="0" routeLength="0.00" duration="0.00" timeLoss="0.00"/>
+    <rideStatistics number="0"/>
+    <transportStatistics number="0"/>
+</statistics>
