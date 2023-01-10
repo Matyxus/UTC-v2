@@ -59,8 +59,10 @@ class GraphMain(UserInterface):
         """
         if not self.graph_exists(graph_name):
             return
+        print(f"Junctions before simplify: {len(self.graphs[graph_name].junctions.keys())}")
         self.graph.set_skeleton(self.graphs[graph_name])
         self.graph.simplify.simplify_graph(self.graph.display if plot else None)
+        print(f"Junctions after simplify: {len(self.graphs[graph_name].junctions.keys())}")
 
     @UserInterface.log_command
     def subgraph_command(

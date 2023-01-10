@@ -34,8 +34,7 @@ class UserInterface(CommandLogger):
         print("Starting program, for help type: 'help'")
         print(
             "Input command arguments between \"quotes\"\n"
-            "separated by space (arguments with values are optional)\n"
-            "pressing 'esc' on keyboard cancels argument input."
+            "separated by space (arguments with values are optional)."
         )
         self.initialize_input()
         # Main loop

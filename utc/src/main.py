@@ -21,12 +21,6 @@ class Main(UserInterface):
             "scenario": ScenarioMain()
         }
 
-    def record(self, command_name: str, command_args: str) -> None:
-        # Record to correct info file
-        for ui in self.ui_classes.values():
-            if ui.info_file is not None:
-                ui.info_file.record_command(command_name, command_args)
-
     def initialize_input(self) -> None:
         """
         Initializes commands from other subclasses of

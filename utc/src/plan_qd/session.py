@@ -70,6 +70,7 @@ class Session:
             self.generate_report(self.scenario_dir.name)
             print(f"Finished scenario: {i+1}/{self.parameters.get_scenario_count()}!")
             finished_scenarios.append(self.scenario_dir.name)
+            self.parameters.objects["seed"] += 1
         end = datetime.now()
         print(f"Finished generating scenarios, at: {end}, time taken: {end-now}")
         print(f"Generated: {len(finished_scenarios)}/{self.parameters.get_scenario_count()} scenarios")
@@ -402,7 +403,9 @@ class Session:
 
 
 if __name__ == "__main__":
+    import sys
+    sys.setrecursionlimit(10000)
     session: Session = Session()
-    session.start_generating(SessionParameters("sydney_session_static"))
+    session.start_generating(SessionParameters("dejvice_session"))
 
 

@@ -1,24 +1,23 @@
 {
   "pddl_params": {
-    "planner": "Merwin",
-    "timeout": 30,
-    "domain": "utc",
-    "window": 20
+    "timeout": 25,
+    "window": 30,
+    "planner": "Mercury",
+    "domain": "utc_allowed"
   },
-  "scenario_name": "default",
-  "duration": 120,
-  "seed": 42,
-  "num_scenario": 1,
+  "scenario_name": "dejvice",
+  "duration": 3600,
+  "seed": 800,
+  "num_scenarios": 4,
   "probability_file": "Dejvice",
   "network": "Dejvice",
   "num_cpus": 1,
-  "num_threads": 2,
+  "num_processes": 4,
+  "num_threads": 3,
   "time_limit": null,
-  "run_mode": "sequential",
-  "save_folder": "default",
-  "metrics": ["bottleneck_metric", "similarity_metric"],
-  "k": [10],
-  "flows": "all",
+  "k": 3000,
+  "flows": ["exponential_flow", "uniform_flow"],
+  "metrics": {},
   "flow_count": 4,
-  "c": 1.35
+  "c": 1.4
 }

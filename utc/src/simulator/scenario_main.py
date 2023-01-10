@@ -134,4 +134,3 @@ class ScenarioMain(UserInterface):
 if __name__ == "__main__":
     scenario_launcher: ScenarioMain = ScenarioMain()
     scenario_launcher.run()
-

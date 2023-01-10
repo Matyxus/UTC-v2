@@ -54,8 +54,8 @@ class ShortestPath(GraphModule):
                 # Found other path (satisfying path_length < c * shortest_path_length), record it
                 assert (length <= limit)
                 other_routes.append(self.skeleton.construct_route(path))
-                if len(other_routes) > 9999:
-                    print(f"Reach limit of 10000 routes found, stopping search ...")
+                if len(other_routes) > 2999:
+                    print(f"Reach limit of 5000 routes found, stopping search ...")
                     break
                 continue
             for route in self.skeleton.junctions[current_junction_id].travel(in_route):
