@@ -1,7 +1,7 @@
 from utc.src.graph.components.parts.figure import Figure
 from utc.src.utils.xml_object import XmlObject
 from utc.src.graph.utils import Attributes, Colors
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 
 
 class Edge(Figure, XmlObject):
@@ -15,7 +15,9 @@ class Edge(Figure, XmlObject):
             self.attributes.update({key: value}) for key, value in attributes.items()
             if key in Attributes.EDGE_ATTRIBUTES
         ]
-        self.lanes: dict = {}
+        self.lanes: Dict[str, Dict[str, str]] = {
+            # lane_id : {attrib_name : attrib_value, ..}
+        }
         self.LINE_WIDTH: float = 1  # Thickness of displayed line
 
     def add_lane(self, lane: dict) -> None:

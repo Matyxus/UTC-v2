@@ -1,5 +1,6 @@
 from utc.src.file_system import MyFile, FilePaths, DirPaths, MyDirectory
 from utc.src.ui import UserInterface, Command
+from utc.src.utils.options import NetConvertOptions
 from typing import Set
 
 
@@ -95,19 +96,8 @@ class Converter(UserInterface):
 		if MyFile.file_exists(net_file_path, message=False):
 			print(f"Network file of: {map_name} already exists")
 			return True
-		command: str = "netconvert --osm "
-		command += file_path
-		# Net convert arguments
-		command += (
-			# Remove geometry of buildings etc, guess highway ramps, guess roundabouts, join close junctions
-			" --geometry.remove --ramps.guess --roundabouts.guess --junctions.join"  
-			# Removes lone edges, keeps biggest component of network graph
-			" --remove-edges.isolated --keep-edges.components 1" 
-			" --numerical-ids.node-start 0"  # Junction id's will be numerical, starting from 0 to n
-			" --numerical-ids.edge-start 0"  # Edge id's will be numerical, starting from 0 to n
-		)
-		command += (" -o " + net_file_path)
-		success, output = self.call_shell(command)
+		net_convert: NetConvertOptions = NetConvertOptions()
+		success = net_convert.convert_network(file_path, net_file_path)
 		if success:
 			print(f"Done creating network file: '{map_name}, saved in: {net_file_path}")
 		return success

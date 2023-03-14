@@ -1,7 +1,7 @@
 from utc.src.file_system.file_types.xml_file import XmlFile
 from xml.etree.ElementTree import Element
 from utc.src.file_system.file_constants import FileExtension
-from typing import Iterator, Dict, List, Optional
+from typing import Iterator, Dict, List, Tuple, Optional
 
 
 class SumoNetworkFile(XmlFile):
@@ -63,6 +63,28 @@ class SumoNetworkFile(XmlFile):
             # Filter internal edges
             if not ("function" in edge.attrib):
                 yield edge
+
+    def get_component_interval(self, component_type: str) -> Optional[Tuple[int, int]]:
+        """
+        :param component_type: either edge or junction
+        :return: starting and ending index of non-internal objects in root (indexed as list)
+        """
+        if component_type not in {"edge", "junction"}:
+            return None
+        first_index: int = -1
+        last_index: int = 0
+        # Find first index
+        for index, child in enumerate(self.root[:]):
+            # Find the correct type and filter out internal objects
+            if child.tag == component_type and child.attrib["id"][0] != ":":
+                first_index = index
+                break
+        # Find last index
+        for index, child in enumerate(self.root[first_index:]):
+            if child.tag != component_type or child.attrib["id"][0] == ":":
+                last_index = index + first_index - 1
+                break
+        return first_index, last_index
 
     def get_roundabouts(self) -> Optional[Iterator[Element]]:
         """

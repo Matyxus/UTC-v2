@@ -38,9 +38,9 @@ class XmlFile(MyFile):
             print(f"Expected default extension: '{self.extension}', got: '{file_path}' !")
             return False
         try:
-            tree = ET.ElementTree(self.root)
-            ET.indent(tree, space="\t", level=0)  # Et.indent is Python3.9 !
-            tree.write(file_path, encoding="utf-8", xml_declaration=True)
+            # tree = ET.ElementTree(self.tree)
+            ET.indent(self.tree, space="\t", level=0)  # Et.indent is Python3.9 !
+            self.tree.write(file_path, encoding="utf-8", xml_declaration=True)
         except OSError as e:
             print(f"Unable to save xml file: '{file_path}', got error: {e} !")
             return False
